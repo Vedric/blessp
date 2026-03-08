@@ -49,6 +49,26 @@ function generateToken($length = 64) {
     return bin2hex(random_bytes($length/2));
 }
 
+function getPaginationParams(): array {
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    $perPage = min(100, max(1, (int)($_GET['perPage'] ?? 20)));
+    $offset = ($page - 1) * $perPage;
+    return ['page' => $page, 'perPage' => $perPage, 'offset' => $offset];
+}
+
+function paginatedResponse(array $data, int $totalItems, array $pagination): void {
+    $totalPages = (int)ceil($totalItems / $pagination['perPage']);
+    jsonResponse([
+        'data' => $data,
+        'pagination' => [
+            'page' => $pagination['page'],
+            'perPage' => $pagination['perPage'],
+            'totalItems' => $totalItems,
+            'totalPages' => $totalPages,
+        ]
+    ]);
+}
+
 function setSessionCookie($C, $token) {
     // setcookie signature: name, value, expires, path, domain, secure, httponly
     $expires = time() + $C['session_lifetime_seconds'];
@@ -395,18 +415,36 @@ function checkout($CONFIG){
 
 function getProducts($cfg){
     $pdo = getPDO($cfg);
-    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category, p.active FROM products as p ORDER BY p.id;');
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM products');
+    $stmt->execute();
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category, p.active FROM products as p ORDER BY p.id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
     $stmt->execute();
     $products = $stmt->fetchAll();
-    jsonResponse(['products' => $products]);
+
+    paginatedResponse($products, $total, $pg);
 }
 
 function getActiveProducts($CONFIG){
     $pdo = getPDO($CONFIG);
-    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category FROM products as p WHERE p.active IS TRUE ORDER BY p.id;');
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM products WHERE active IS TRUE');
+    $stmt->execute();
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category FROM products as p WHERE p.active IS TRUE ORDER BY p.id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
     $stmt->execute();
     $products = $stmt->fetchAll();
-    jsonResponse(['products' => $products]);
+
+    paginatedResponse($products, $total, $pg);
 }
 
 function getProduct($CONFIG){
@@ -513,11 +551,21 @@ function getOrders($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
     if (!$user || !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
     $pdo = getPDO($CONFIG);
+    $pg = getPaginationParams();
     $status = 'PAYED';
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id;');
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE status = :status');
     $stmt->execute([':status' => $status]);
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':status', $status);
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
+    $stmt->execute();
     $orders = $stmt->fetchAll();
-    jsonResponse($orders);
+
+    paginatedResponse($orders, $total, $pg);
 }
 
 function getUserOrders($CONFIG){
@@ -525,8 +573,17 @@ function getUserOrders($CONFIG){
     if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
     $userId = $user['id'];
     $pdo = getPDO($CONFIG);
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY id;');
-    $stmt->execute([':user_id'=>$userId]);
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE user_id = :user_id');
+    $stmt->execute([':user_id' => $userId]);
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':user_id', $userId);
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
+    $stmt->execute();
     $orders = $stmt->fetchAll();
     $userOrders = [];
 
@@ -562,7 +619,7 @@ function getUserOrders($CONFIG){
         $order = new Order($orderInfos, $customer, $orderItems);
         $userOrders[] = $order;
     }
-    jsonResponse($userOrders);
+    paginatedResponse($userOrders, $total, $pg);
 }
 
 function getOrder($CONFIG){

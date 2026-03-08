@@ -63,6 +63,6 @@ var params = getParams();
 const category = params.get("cat");
 
 $.getJSON("/api.php/active_products",function(json){
-    const articles = json.products;
+    const articles = json.data;
     displayArticles(articles, category);
 })
