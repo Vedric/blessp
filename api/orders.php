@@ -5,8 +5,13 @@ include "./helper.php";
 
 include "./orders_fctn.php";
 
+// Enforce CSRF on all POST requests
+if ($method === 'POST') {
+    csrfProtect();
+}
+
 try{
-    
+
     if($method == 'GET' && $path == '/orders'){
         getOrders($CONFIG);
     }

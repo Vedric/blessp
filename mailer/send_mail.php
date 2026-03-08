@@ -17,7 +17,8 @@ include './SMTP.php';
 // require 'src/SMTP.php';
 include '../config.php';
 include '../authent.php';
-                
+include_once __DIR__ . '/../csrf.php';
+
 $config = getConfig();
 $loggedUser = getAuthenticatedUser($config);
 
@@ -32,6 +33,7 @@ function getJsonInput() {
 
 
 if($method=='POST' && $loggedUser){
+    csrfProtect();
     $data = getJsonInput();
     sendMail($data);
     

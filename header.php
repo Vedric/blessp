@@ -1,10 +1,12 @@
     <?php
-        
+        include_once __DIR__ . '/csrf.php';
         $loggedUser = getAuthenticatedUser($config);
     ?>
+    <?php echo csrfMetaTag(); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
+    <script src="/js/csrf.js"></script>
     <div class="header">
         <div id="left" class="hLeft"><span></span></div>
         <div id="brand" class="hBrand"><span></span></div>

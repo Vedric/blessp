@@ -35,6 +35,11 @@ $CONFIG = getConfig();
 include_once __DIR__ . '/rate_limit.php';
 
 // -----------------------------
+// CSRF protection
+// -----------------------------
+include_once __DIR__ . '/csrf.php';
+
+// -----------------------------
 // Security headers
 // -----------------------------
 header('X-Content-Type-Options: nosniff');
@@ -649,9 +654,21 @@ function getOrder($CONFIG){
     
 }
 
+// Enforce CSRF on state-changing requests (login and register are exempt
+// because the user has no session yet at those endpoints)
+$csrfExemptPaths = ['/login', '/register'];
+if ($method === 'POST' && !in_array($path, $csrfExemptPaths, true)) {
+    csrfProtect();
+}
+
+// Provide a GET endpoint so the frontend can fetch a fresh CSRF token
+if ($method === 'GET' && $path === '/csrf_token') {
+    jsonResponse(['csrf_token' => csrfGetToken()]);
+}
+
 try {
-    
-    
+
+
     // CART: all require authentication
     /*if (preg_match('#^/cart/items(?:/([^/]+))?$#', $path, $m)) {
         $user = getAuthenticatedUser($CONFIG);
