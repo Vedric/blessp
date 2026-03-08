@@ -25,22 +25,32 @@ function getOrder($CONFIG){
     $stmt = $pdo->prepare('SELECT * FROM order_items WHERE order_id = :order_num;');
     $stmt->execute([':order_num' => $order_num]);
     $items = $stmt->fetchAll();
+    // Batch-fetch all referenced products in a single query
+    $productIds = [];
+    foreach ($items as $item) {
+        $productIds[(int)substr($item['product_key'], 0, 5)] = true;
+    }
+    $products = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $products[(int)$p['id']] = $p;
+        }
+    }
+
     $orderItems = [];
-    foreach($items as $item){
+    foreach ($items as $item) {
         $productKey = $item['product_key'];
-        $productId = (int)substr($productKey,0,5);
-
-        $stmt = $pdo->prepare('SELECT * FROM products WHERE id = :productId;');
-        $stmt->execute([':productId' => $productId]);
-        $product = $stmt->fetch();
-
+        $product = $products[(int)substr($productKey, 0, 5)] ?? null;
         if (!$product) continue;
 
         $orderItem = new OrderItem(
             $product['name'],
             $productKey,
-            str_replace("0","",substr($productKey,5,3)),
-            substr($productKey,8,3),
+            str_replace("0", "", substr($productKey, 5, 3)),
+            substr($productKey, 8, 3),
             $item['quantity'],
             $item['unit_price_cents'],
             $product['picture']
@@ -91,29 +101,51 @@ function getUserOrders($CONFIG){
     $stmt->execute();
     $orders = $stmt->fetchAll();
     $userOrders = [];
-
     $customer = ['firstname' => $user['firstname'], 'lastname' => $user['lastname']];
 
-    foreach($orders as $orderInfos){
-        $stmt = $pdo->prepare('SELECT * FROM order_items WHERE order_id = :order_num;');
-        $stmt->execute([':order_num' => $orderInfos['id']]);
-        $items = $stmt->fetchAll();
+    // Batch-fetch all order items for the current page of orders
+    $orderIds = array_column($orders, 'id');
+    $allItems = [];
+    if (!empty($orderIds)) {
+        $ph = implode(',', array_fill(0, count($orderIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM order_items WHERE order_id IN ({$ph})");
+        $stmt->execute($orderIds);
+        $allItems = $stmt->fetchAll();
+    }
+
+    // Batch-fetch all referenced products
+    $productIds = [];
+    foreach ($allItems as $item) {
+        $productIds[(int)substr($item['product_key'], 0, 5)] = true;
+    }
+    $products = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $products[(int)$p['id']] = $p;
+        }
+    }
+
+    // Group items by order_id for efficient lookup
+    $itemsByOrder = [];
+    foreach ($allItems as $item) {
+        $itemsByOrder[(int)$item['order_id']][] = $item;
+    }
+
+    foreach ($orders as $orderInfos) {
         $orderItems = [];
-        foreach($items as $item){
+        foreach ($itemsByOrder[(int)$orderInfos['id']] ?? [] as $item) {
             $productKey = $item['product_key'];
-            $productId = (int)substr($productKey,0,5);
-
-            $stmt = $pdo->prepare('SELECT * FROM products WHERE id = :productId;');
-            $stmt->execute([':productId' => $productId]);
-            $product = $stmt->fetch();
-
+            $product = $products[(int)substr($productKey, 0, 5)] ?? null;
             if (!$product) continue;
 
             $orderItem = new OrderItem(
                 $product['name'],
                 $productKey,
-                str_replace("0","",substr($productKey,5,3)),
-                substr($productKey,8,3),
+                str_replace("0", "", substr($productKey, 5, 3)),
+                substr($productKey, 8, 3),
                 $item['quantity'],
                 $item['unit_price_cents'],
                 $product['picture']
@@ -179,20 +211,33 @@ function savePayedOrder($CONFIG){
 
     $orderId = $pdo->lastInsertId();
 
+    // Batch-fetch all product prices in a single query
     $items = $data['items'] ?? [];
+    $validItems = [];
+    $productIds = [];
     foreach ($items as $item) {
         if (isset($item['product'], $item['quantity'])) {
-            $productKey = $item['product'];
-            $productId = (int)substr($productKey,0,5);
-            $stmt = $pdo->prepare('SELECT price FROM products WHERE id = :productId');
-            $stmt->execute([':productId' => $productId]);
-            $productPrice = $stmt->fetch();
-
-            if (!$productPrice) continue;
-
-            $stmt = $pdo->prepare('INSERT INTO order_items(order_id, product_key, quantity, unit_price_cents) VALUES (:order_id, :product_key, :quantity, :price)');
-            $stmt->execute([':order_id' => $orderId, ':product_key' => $item['product'], ':quantity' => $item['quantity'], ':price' => $productPrice['price']]);
+            $productIds[(int)substr($item['product'], 0, 5)] = true;
+            $validItems[] = $item;
         }
+    }
+    $productPrices = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT id, price FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $productPrices[(int)$p['id']] = $p['price'];
+        }
+    }
+
+    $insertStmt = $pdo->prepare('INSERT INTO order_items(order_id, product_key, quantity, unit_price_cents) VALUES (:order_id, :product_key, :quantity, :price)');
+    foreach ($validItems as $item) {
+        $productKey = $item['product'];
+        $price = $productPrices[(int)substr($productKey, 0, 5)] ?? null;
+        if ($price === null) continue;
+
+        $insertStmt->execute([':order_id' => $orderId, ':product_key' => $productKey, ':quantity' => $item['quantity'], ':price' => $price]);
     }
 
     jsonResponse(['ok' => true, 'order_id' => (int)$orderId, 'user'=>$user]);

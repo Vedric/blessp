@@ -12,6 +12,7 @@ parameters:
         - api/products_fctn.php
         - api/orders_fctn.php
         - api/address_fctn.php
+        - logger.php
     excludePaths:
         - vendor
         - mailer
