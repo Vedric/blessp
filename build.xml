@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="shop" basedir="./">
+    <description>Bless-P</description>
+    <property name="src.dir" value="./"/>
+    <property environment="env"/>
+    <property name="remote.user" value="${env.DEPLOY_USER}"/>
+    <property name="remote.host" value="${env.DEPLOY_HOST}"/>
+    <property name="remote.password" value="${env.DEPLOY_PASSWORD}"/>
+    <property name="file.version.before" value="1.0.200"/>
+    <property name="file.version.goal" value="1.0.201"/>
+    <target name="update_version">
+        <replace dir="./" token="?v=${file.version.before}" value="?v=${file.version.goal}">
+            <include name="**/*.php"/>
+            <include name="**/*.js"/>
+        </replace>
+    </target>
+    <target name="local" depends="update_version">
+        <copy toDir="Z:/var/www/html/blessp/">
+            <fileset dir="./" includes="**/*.js"/>
+            <fileset dir="./" includes="**/*.html"/>
+            <fileset dir="./" includes="**/*.php"/>
+            <fileset dir="./" includes="**/*.css"/>
+            <fileset dir="./" includes="**/*.js"/>
+            <fileset dir="./" includes="**/*.jpg"/>
+            <fileset dir="./" includes="**/*.jpeg"/>
+            <fileset dir="./" includes="**/*.png"/>
+            <fileset dir="./" includes="**/*.svg"/>
+            <fileset dir="./" includes="**/*.mp4"/>
+        </copy>
+    </target>
+</project>

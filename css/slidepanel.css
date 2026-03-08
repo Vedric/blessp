@@ -1,0 +1,179 @@
+:root{
+      --panel-width:500px;
+      --transition:350ms;
+      --overlay-bg: rgba(0,0,0,0.35);
+    }
+
+    html,body{
+        height:100%;
+        margin:0;
+        font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+
+    #sidePanel{
+        color:rgba(0,0,0,0.7);
+    }
+
+    /* Contenu principal */
+    .page{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:1rem;
+      padding:2rem;
+      box-sizing:border-box;
+    }
+
+    /*button{cursor:pointer;padding:.6rem 1rem;border-radius:6px;border:1px solid #222;background:transparent}*/
+
+    /* Overlay (fond sombre quand panneau ouvert) */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:var(--overlay-bg);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity var(--transition) ease;
+      z-index:900; /* sous le panneau */
+    }
+    .overlay.visible{opacity:1;pointer-events:auto}
+
+    /* Panneau coulissant fixé à droite, hauteur 100% */
+    .panel{
+      position:fixed;
+      top:0;
+      right:0;
+      height:95%; /* prend 100% de la fenêtre */
+      width:var(--panel-width);
+      max-width:100%;
+      background:linear-gradient(180deg,#fff,#f7f7f7);
+      box-shadow: -12px 0 30px rgba(0,0,0,0.15);
+      transform:translateX(100%); /* caché hors-écran à droite */
+      transition:transform var(--transition) cubic-bezier(.2,.9,.3,1);
+      z-index:1000;
+      display:flex;
+      flex-direction:column;
+      box-sizing:border-box;
+      padding:1rem;
+    }
+
+    /* Quand visible, on ramène le panneau vers la gauche (translateX(0)) */
+    .panel.open{
+      transform:translateX(0);
+    }
+
+    /* En-tête du panneau */
+    .panel-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.5rem;
+      border-bottom:1px solid rgba(0,0,0,0.06);
+      padding-bottom:.5rem;
+    }
+
+    .panel-content{
+      padding-top:1rem;
+      overflow:auto;
+      flex:1 1 auto;
+    }
+
+    .close-btn{
+      background:transparent;border:0;padding:.4rem .6rem;border-radius:6px;cursor:pointer;font-weight:600
+    }
+
+    /* gestion responsive: si l'écran est plus étroit que 520px, le panneau prendra 100% largeur */
+    @media (max-width:520px){
+      :root{--panel-width:100vw}
+    }
+
+    #cartContent{
+      text-align: left;
+    }
+
+    div.cartItem{
+      display:flex;
+      border-bottom: 1px solid silver;
+      margin:10px;
+    }
+
+    div.itemInfos{
+      width: -webkit-fill-available;
+    }
+
+    div.itemInfosL1{
+      display:flex;
+    }
+
+    div.itemInfosL2{
+      margin-top: 10px;
+      display:flex;
+    }
+
+    div.itemName{
+      margin-left: 10px;
+      font-weight: bold;
+      width:70%;
+    }
+
+    div.itemPrice{
+      text-align: right;
+      font-weight: bold;
+      width:30%;
+    }
+
+    div.itemSize{
+      margin-left:10px;
+      width: 40%;
+    }
+
+    div.itemColor{
+      width: 30%;
+    }
+
+    div.itemQty{
+      text-align: right;
+      width: 30%;
+    }
+
+    div.linePrice{
+      width:100%;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    #cartTotal div{
+      margin-top: 10px;
+      display:flex;
+      font-size: 1.2rem;
+      
+    }
+
+    #cartTotal div div.label{
+      width: 70%;
+    }
+
+    #cartTotal div div.price{
+      width: 30%;
+      text-align: right;
+      display:block;
+    }
+
+    div.checkoutDiv{
+      margin-top:10px;
+    }
+
+    button.checkout{
+      border: 1px solid black;
+      width:100%;
+      height:50px;
+      cursor:pointer;
+      color: white;
+      background-color: #000000;
+      border-radius: 0px;
+      font-size: 1.2rem;
+    }
+
+    button.checkout:hover{
+      background-color: #363535;
+    }
