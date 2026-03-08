@@ -2,7 +2,7 @@
 
 A streetwear e-commerce platform built with PHP 8.2 and PostgreSQL.
 
-Blessp is a full-featured online store offering product browsing, cart management, secure checkout with PayPal, order tracking, and an admin panel for product and order management.
+Blessp is a full-featured online store offering product browsing, cart management, secure checkout with Stripe and PayPal, order tracking, and an admin panel for product and order management.
 
 ## Tech Stack
 
@@ -11,7 +11,7 @@ Blessp is a full-featured online store offering product browsing, cart managemen
 | Backend | PHP 8.2+ (vanilla, no framework) |
 | Database | PostgreSQL 16 |
 | Frontend | HTML, CSS, JavaScript |
-| Payments | PayPal SDK |
+| Payments | Stripe (primary), PayPal (alternative) |
 | Email | PHPMailer |
 | CI/CD | GitHub Actions |
 
@@ -55,7 +55,10 @@ psql -d blessp -f migrations/001_add_indexes.sql
 | `DB_USER` | Database user | `postgres` |
 | `DB_PASS` | Database password | (empty) |
 | `COOKIE_SECURE` | Secure flag on session cookies | `false` |
-| `PAYPAL_CLIENT_ID` | PayPal client ID for payments | (required for checkout) |
+| `STRIPE_PUBLISHABLE_KEY` | Stripe publishable key (frontend) | (required for Stripe) |
+| `STRIPE_SECRET_KEY` | Stripe secret key (backend only) | (required for Stripe) |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret | (required for webhooks) |
+| `PAYPAL_CLIENT_ID` | PayPal client ID for payments | (required for PayPal) |
 | `SMTP_HOST` | SMTP server for transactional emails | — |
 | `SMTP_PORT` | SMTP port | `587` |
 | `SMTP_USER` | SMTP username | — |
@@ -75,7 +78,8 @@ blessp/
 │   ├── orders.php          # Order route dispatcher
 │   ├── orders_fctn.php     # Order business logic
 │   ├── address.php         # Address route dispatcher
-│   └── address_fctn.php    # Address business logic
+│   ├── address_fctn.php    # Address business logic
+│   └── stripe.php          # Stripe payment router (PaymentIntent, webhook)
 ├── admin/                  # Admin panel (product and order management)
 ├── css/                    # Stylesheets
 ├── js/                     # Client-side JavaScript
@@ -97,6 +101,7 @@ blessp/
 ├── csrf.php                # CSRF token generation and validation
 ├── rate_limit.php          # IP-based rate limiting
 ├── logger.php              # Structured JSON logger with redaction
+├── stripe_helper.php       # Stripe PaymentIntent creation and webhook verification
 ├── authent.php             # Authentication endpoint handlers
 ├── order.php               # Order domain class (Shop\Order)
 ├── order_item.php          # OrderItem domain class (Shop\OrderItem)

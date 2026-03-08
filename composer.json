@@ -17,5 +17,8 @@
         "allow-plugins": {
             "phpstan/extension-installer": true
         }
+    },
+    "require": {
+        "stripe/stripe-php": "^19.4"
     }
 }

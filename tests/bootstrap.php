@@ -33,6 +33,9 @@ require_once PROJECT_ROOT . '/api_helper.php';
 // Load structured logger
 require_once PROJECT_ROOT . '/logger.php';
 
+// Load Stripe helpers
+require_once PROJECT_ROOT . '/stripe_helper.php';
+
 // Load pagination helpers from api/helper.php
 // These use function_exists() guards, so only new ones are defined
 require_once PROJECT_ROOT . '/api/helper.php';

@@ -411,3 +411,50 @@ Create an order from the current cart.
 **Auth required:** Yes
 
 **Response:** `{ "ok": true, "order_id": 123 }`
+
+---
+
+## Stripe Payment Endpoints
+
+Router: `/api/stripe.php`
+
+### POST /create_payment_intent
+
+Create a Stripe PaymentIntent for the checkout amount. The secret key is never exposed to the frontend.
+
+**Auth required:** Yes | **CSRF required:** Yes
+
+**Request body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `amount` | float | yes | Total in dollars (e.g. 59.99) |
+| `currency` | string | no | ISO currency code, default `cad`. Allowed: `cad`, `usd`, `eur` |
+| `nonce` | string | yes | Client-generated unique string for idempotency (max 128 chars) |
+
+**Responses:**
+
+| Status | Body |
+|--------|------|
+| 200 | `{ "clientSecret": "pi_..._secret_...", "paymentIntentId": "pi_..." }` |
+| 400 | `{ "error": "invalid_input", "message": "..." }` |
+| 401 | `{ "error": "unauthenticated", "message": "..." }` |
+
+The `clientSecret` is passed to Stripe.js on the frontend to confirm the payment.
+
+### POST /webhook
+
+Handle Stripe webhook events. Uses signature verification instead of session auth.
+
+**Auth required:** No (verified via `Stripe-Signature` header)
+
+**Handled events:**
+
+| Event | Action |
+|-------|--------|
+| `payment_intent.succeeded` | Updates order status to `PAYED` |
+| `payment_intent.payment_failed` | Logs the failure for monitoring |
+
+**Response:** `{ "received": true }`
+
+Configure the webhook URL in the Stripe Dashboard: `https://your-domain.com/api/stripe.php/webhook`

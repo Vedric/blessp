@@ -13,6 +13,7 @@ parameters:
         - api/orders_fctn.php
         - api/address_fctn.php
         - logger.php
+        - stripe_helper.php
     excludePaths:
         - vendor
         - mailer
