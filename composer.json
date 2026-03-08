@@ -1,0 +1,24 @@
+{
+    "name": "blessp/shop",
+    "description": "BLE$$ P e-commerce platform",
+    "type": "project",
+    "license": "proprietary",
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "phpstan/phpstan": "^1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shop\\": "./"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "require": {
+        "stripe/stripe-php": "^19.4"
+    }
+}

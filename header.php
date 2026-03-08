@@ -1,10 +1,25 @@
     <?php
-        
+        include_once __DIR__ . '/csrf.php';
         $loggedUser = getAuthenticatedUser($config);
     ?>
+    <?php echo csrfMetaTag(); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
+    <script src="/js/csrf.js"></script>
+    <script src="/js/toast.js"></script>
+    <script>
+    function togglePassword(fieldId, btn){
+        var field = document.getElementById(fieldId);
+        if(field.type === 'password'){
+            field.type = 'text';
+            btn.textContent = 'Hide';
+        } else {
+            field.type = 'password';
+            btn.textContent = 'Show';
+        }
+    }
+    </script>
     <div class="header">
         <div id="left" class="hLeft"><span></span></div>
         <div id="brand" class="hBrand"><span></span></div>
@@ -28,7 +43,7 @@
             
             if($loggedUser){
         
-            echo '<div id="hSignUser" class="hSignUser collapsed">'.$loggedUser['firstname']." ".$loggedUser['lastname'].'</div>';
+            echo '<div id="hSignUser" class="hSignUser collapsed">'.htmlspecialchars($loggedUser['firstname'], ENT_QUOTES, 'UTF-8')." ".htmlspecialchars($loggedUser['lastname'], ENT_QUOTES, 'UTF-8').'</div>';
             echo '<div style="display.none;" id="userMenu" class="dropDown">';
             echo '<ul>';
             echo '<li><a href="/profile/orders_histo.php">My orders</a></li>';

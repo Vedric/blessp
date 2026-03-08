@@ -4,30 +4,33 @@ use Shop\OrderItem;
 include 'order.php';
 include 'order_item.php';
 include './config.php';
-//include 'api_helper.php';
-
-
-// api-php-user-cart.php
-// Minimal REST API in plain PHP to manage users + 48h persistent session + shopping cart
-// Requirements: PHP 7.4+, PDO extension, HTTPS in production
-
-// -----------------------------
-// Configuration
-// -----------------------------
-
-// $CONFIG = [
-//     'db_dsn' => 'pgsql:host=127.0.0.1;port=5432;dbname=blessp',
-//     'db_user' => 'postgres',
-//     'db_pass' => 'postgres',
-//     'cookie_name' => 'session_token',
-//     'session_lifetime_seconds' => 48 * 3600, // 48 hours
-//     'cookie_path' => '/',
-//     'cookie_secure' => false, // set to true in production (requires HTTPS)
-//     'cookie_httponly' => true,
-//     'cookie_samesite' => 'Strict',
-// ];
+include_once './authent.php';
 
 $CONFIG = getConfig();
+
+// -----------------------------
+// Rate limiting
+// -----------------------------
+include_once __DIR__ . '/rate_limit.php';
+
+// -----------------------------
+// CSRF protection
+// -----------------------------
+include_once __DIR__ . '/csrf.php';
+
+// -----------------------------
+// Structured logger
+// -----------------------------
+include_once __DIR__ . '/logger.php';
+
+// -----------------------------
+// Security headers
+// -----------------------------
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 0');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
 
 // -----------------------------
 // Helpers
@@ -38,16 +41,6 @@ function jsonResponse($data, $status = 200) {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
     exit;
-}
-
-function getPDO($C) {
-    static $pdo = null;
-    if ($pdo) return $pdo;
-    $pdo = new PDO($C['db_dsn'], $C['db_user'], $C['db_pass'], [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
-    return $pdo;
 }
 
 function getJsonInput() {
@@ -61,15 +54,24 @@ function generateToken($length = 64) {
     return bin2hex(random_bytes($length/2));
 }
 
-// Authentication: read session token from cookie and validate
-function getAuthenticatedUser($C) {
-    if (empty($_COOKIE[$C['cookie_name']])) return null;
-    $token = $_COOKIE[$C['cookie_name']];
-    $pdo = getPDO($C);
-    $stmt = $pdo->prepare("SELECT s.user_id, u.email, u.id as id FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = :token AND s.expires_at > NOW() LIMIT 1");
-    $stmt->execute([':token' => $token]);
-    $user = $stmt->fetch();
-    return $user ?: null;
+function getPaginationParams(): array {
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    $perPage = min(100, max(1, (int)($_GET['perPage'] ?? 20)));
+    $offset = ($page - 1) * $perPage;
+    return ['page' => $page, 'perPage' => $perPage, 'offset' => $offset];
+}
+
+function paginatedResponse(array $data, int $totalItems, array $pagination): void {
+    $totalPages = (int)ceil($totalItems / $pagination['perPage']);
+    jsonResponse([
+        'data' => $data,
+        'pagination' => [
+            'page' => $pagination['page'],
+            'perPage' => $pagination['perPage'],
+            'totalItems' => $totalItems,
+            'totalPages' => $totalPages,
+        ]
+    ]);
 }
 
 function setSessionCookie($C, $token) {
@@ -116,52 +118,96 @@ if ($scriptName !== '/' && strpos($path, $scriptName) === 0) {
 }
 $path = '/' . trim($path, '/');
 
-// Route mapping (simple)
-// POST /register
-// POST /login
-// POST /logout
-// GET  /me
-// POST /cart/items   {product_id, quantity}
-// GET  /cart/items
-// PUT  /cart/items/{product_id} {quantity}
-// DELETE /cart/items/{product_id}
-// POST /checkout
-
 function register($CONFIG){
+    // Rate limit: 5 registration attempts per IP per 15 minutes
+    rateLimitCheck('register', 5, 900);
+
     $data = getJsonInput();
-    if (empty($data['email']) || empty($data['password'])) {
-        jsonResponse(['error' => 'email and password required'], 400);
+    $errors = [];
+
+    $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? '';
+    $firstname = trim($data['firstname'] ?? '');
+    $lastname = trim($data['lastname'] ?? '');
+
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'A valid email address is required.';
     }
+    if (mb_strlen($email) > 254) {
+        $errors['email'] = 'Email must not exceed 254 characters.';
+    }
+    if (empty($password) || mb_strlen($password) < 8) {
+        $errors['password'] = 'Password must be at least 8 characters.';
+    }
+    if (mb_strlen($password) > 128) {
+        $errors['password'] = 'Password must not exceed 128 characters.';
+    }
+    if (empty($firstname) || mb_strlen($firstname) > 100) {
+        $errors['firstname'] = 'First name is required (max 100 characters).';
+    }
+    if (empty($lastname) || mb_strlen($lastname) > 100) {
+        $errors['lastname'] = 'Last name is required (max 100 characters).';
+    }
+
+    if (!empty($errors)) {
+        jsonResponse(['error' => 'validation_error', 'fields' => $errors], 422);
+    }
+
+    $email = mb_strtolower($email);
+
     $pdo = getPDO($CONFIG);
-    // check existing
     $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email LIMIT 1');
-    $stmt->execute([':email' => $data['email']]);
+    $stmt->execute([':email' => $email]);
     if ($stmt->fetch()) jsonResponse(['error' => 'email already used'], 409);
-    $hash = password_hash($data['password'], PASSWORD_DEFAULT);
+
+    $hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, created_at, firstname, lastname) VALUES (:email, :hash, NOW(), :firstname, :lastname)');
-    $stmt->execute([':email' => $data['email'], ':hash' => $hash, ':firstname' => $data['firstname'], ':lastname' => $data['lastname']]);
+    $stmt->execute([':email' => $email, ':hash' => $hash, ':firstname' => $firstname, ':lastname' => $lastname]);
     $userId = $pdo->lastInsertId();
     jsonResponse(['ok' => true, 'user_id' => (int)$userId], 201);
 }
 
 function login($CONFIG){
+    // Rate limit: 10 login attempts per IP per 15 minutes
+    rateLimitCheck('login', 10, 900);
+
     $data = getJsonInput();
-    if (empty($data['email']) || empty($data['password'])) {
+
+    $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? '';
+
+    if (empty($email) || empty($password)) {
         jsonResponse(['error' => 'email and password required'], 400);
     }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        jsonResponse(['error' => 'invalid email format'], 400);
+    }
+
+    $email = mb_strtolower($email);
+
+    // Account lockout: 5 failed attempts per email locks the account for 15 minutes
+    if (rateLimitIsAccountLocked($email, 5, 900)) {
+        header('Retry-After: 900');
+        jsonResponse(['error' => 'Account temporarily locked due to too many failed attempts. Please try again later.'], 429);
+    }
+
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT id, password_hash FROM users WHERE email = :email LIMIT 1');
-    $stmt->execute([':email' => $data['email']]);
+    $stmt->execute([':email' => $email]);
     $user = $stmt->fetch();
-    if (!$user || !password_verify($data['password'], $user['password_hash'])) {
+    if (!$user || !password_verify($password, $user['password_hash'])) {
+        rateLimitLoginFailed($email, 5, 900);
         jsonResponse(['error' => 'invalid credentials'], 401);
     }
+
+    // Successful login: clear failed attempt counter
+    rateLimitClearLoginFailed($email);
+
     // create session token in DB
     $token = generateToken(64);
-    $stmt = $pdo->prepare('INSERT INTO sessions (user_id, token, created_at, expires_at) VALUES (:uid, :token, NOW(), date_add(now(), INTERVAL \'172800\'))');
-    //$stmt->execute([':uid' => $user['id'], ':token' => $token, ':seconds' => $CONFIG['session_lifetime_seconds']]);
+    $stmt = $pdo->prepare('INSERT INTO sessions (user_id, token, created_at, expires_at) VALUES (:uid, :token, NOW(), NOW() + INTERVAL \'172800 seconds\')');
     $stmt->execute([':uid' => $user['id'], ':token' => $token]);
-    
+
     setSessionCookie($CONFIG, $token);
     jsonResponse(['ok' => true]);
 }
@@ -187,18 +233,20 @@ function getMe($CONFIG) {
 
 function getUserInfos($CONFIG){
     $user_cookie = getAuthenticatedUser($CONFIG);
+    if (!$user_cookie) jsonResponse(['error' => 'unauthenticated'], 401);
     $id = $user_cookie['id'];
-    
-    $pdo = getPDO($C);
+
+    $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare("SELECT u.email, u.id as id, u.firstname, u.lastname FROM users u WHERE u.id = :id LIMIT 1");
     $stmt->execute([':id' => $id]);
     $user = $stmt->fetch();
+    if (!$user) jsonResponse(['error' => 'user not found'], 404);
     jsonResponse(['user' => $user]);
-    
 }
 
 function getUserAddresses($CONFIG){
     $user_cookie = getAuthenticatedUser($CONFIG);
+    if (!$user_cookie) jsonResponse(['error' => 'unauthenticated'], 401);
     $id = $user_cookie['id'];
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare("SELECT a.id, a.user_id, a.firstname, a.lastname, a.phonenumber, a.address, a.city, a.postal_code, a.country, a.address_type, a.default_address FROM account_addresses a WHERE a.user_id = :user_id ORDER BY a.default_address DESC, a.id ASC");
@@ -209,6 +257,7 @@ function getUserAddresses($CONFIG){
 
 function getUserDefaultAddress($CONFIG){
     $user_cookie = getAuthenticatedUser($CONFIG);
+    if (!$user_cookie) jsonResponse(['error' => 'unauthenticated'], 401);
     $id = $user_cookie['id'];
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare("SELECT a.id, a.user_id, a.firstname, a.lastname, a.phonenumber, a.address, a.city, a.postal_code, a.country, a.address_type, a.default_address FROM account_addresses a WHERE a.user_id = :user_id AND a.default_address IS TRUE LIMIT 1");
@@ -218,8 +267,10 @@ function getUserDefaultAddress($CONFIG){
 }
 
 function getUserAddress($CONFIG){
-    $addressId= $_GET['address_id'];
     $user_cookie = getAuthenticatedUser($CONFIG);
+    if (!$user_cookie) jsonResponse(['error' => 'unauthenticated'], 401);
+    $addressId = $_GET['address_id'] ?? null;
+    if (!$addressId) jsonResponse(['error' => 'address_id is required'], 400);
     $id = $user_cookie['id'];
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare("SELECT a.id, a.user_id, a.firstname, a.lastname, a.phonenumber, a.address, a.city, a.postal_code, a.country, a.address_type, a.default_address FROM account_addresses a WHERE a.user_id = :user_id AND a.id = :addressId LIMIT 1");
@@ -230,22 +281,19 @@ function getUserAddress($CONFIG){
 
 function saveAddress($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    
-    //if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
-    
-    $userId = 3;
-    
+
+    if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
+
+    $userId = $user['id'];
+
     $pdo = getPDO($CONFIG);
-    
-    $raw = file_get_contents('php://input');
-    
+
     $data = getJsonInput();
-    
-    // Vérification d'erreurs de décodage
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        jsonResponse("Erreur JSON : " . json_last_error_msg());
+
+    if (empty($data)) {
+        jsonResponse(['error' => 'invalid request body'], 400);
     }
-    
+
     if(isset(
         $data['id'],
         $data['firstname'],
@@ -277,22 +325,14 @@ function savePayedOrder($CONFIG){
     
     if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
     
-    if($user) $userId = $user['id'];
-    
+    $userId = $user['id'];
+
     $pdo = getPDO($CONFIG);
-    
-    $raw = file_get_contents('php://input');
-    
+
     $data = getJsonInput();
-    
-    // Vérification d'erreurs de décodage
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        jsonResponse("Erreur JSON : " . json_last_error_msg());
-    }
-    
-    // Vérification que c'est bien un tableau
-    if (!is_array($data)) {
-        jsonResponse("Le JSON décodé n'est pas un tableau.");
+
+    if (empty($data)) {
+        jsonResponse(['error' => 'invalid request body'], 400);
     }
     $shippingAddressId = null;
     if(isset($data['account_address'],
@@ -311,8 +351,7 @@ function savePayedOrder($CONFIG){
             $postalCode = $data['account_address']['postalcode'];
             $phone = $data['account_address']['phone'];
             $country = $data['account_address']['country'];
-            $note = $data['account_address']['note'];
-            
+
             $stmt = $pdo->prepare('INSERT INTO account_addresses(user_id, firstname, lastname, phonenumber, address, city, postal_code, country, address_type, default_adress) VALUES (:user_id, :firstname, :lastname, :phone, :address, :city, :postal_code, :country, :address_type, true)');
             $stmt->execute([':user_id' => $userId, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':address' => $address, ':city' => $city, ':postal_code' => $postalCode, ':country' => $country, ':address_type' => 1]);
             $shippingAddressId = $pdo->lastInsertId();
@@ -330,26 +369,36 @@ function savePayedOrder($CONFIG){
     
     $orderId = $pdo->lastInsertId();
     
-    // Parcours du tableau
-    $items = $data['items'];
+    // Batch-fetch all product prices in a single query
+    $items = $data['items'] ?? [];
+    $validItems = [];
+    $productIds = [];
     foreach ($items as $item) {
-        // Validation des clés attendues
         if (isset($item['product'], $item['quantity'])) {
-            $productKey = $item['product'];
-            $productId = (int)substr($productKey,0,5);
-            $stmt = $pdo->prepare('SELECT price FROM products WHERE id = :productId');
-            $stmt->execute([':productId' => $productId]);
-            $productPrice = $stmt->fetchAll();
-            
-            $stmt = $pdo->prepare('INSERT INTO order_items(order_id, product_key, quantity, unit_price_cents) VALUES (:order_id, :product_key, :quantity, :price)');
-            $stmt->execute([':order_id' => $orderId, ':product_key' => $item['product'], ':quantity' => $item['quantity'], ':price' => $productPrice[0]['price']]);
-        } else {
-            echo "Élément incomplet ou invalide.\n";
+            $productIds[(int)substr($item['product'], 0, 5)] = true;
+            $validItems[] = $item;
         }
     }
+    $productPrices = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT id, price FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $productPrices[(int)$p['id']] = $p['price'];
+        }
+    }
+
+    $insertStmt = $pdo->prepare('INSERT INTO order_items(order_id, product_key, quantity, unit_price_cents) VALUES (:order_id, :product_key, :quantity, :price)');
+    foreach ($validItems as $item) {
+        $productKey = $item['product'];
+        $price = $productPrices[(int)substr($productKey, 0, 5)] ?? null;
+        if ($price === null) continue;
+
+        $insertStmt->execute([':order_id' => $orderId, ':product_key' => $productKey, ':quantity' => $item['quantity'], ':price' => $price]);
+    }
     
-    jsonResponse(['ok' => true, 'order_id' => (int)$orderId, 'data' => $raw, 'user'=>$user]);
-    //jsonResponse(['data'=> $data]);
+    jsonResponse(['ok' => true, 'order_id' => (int)$orderId, 'user'=>$user]);
 }
 
 function checkout($CONFIG){
@@ -382,22 +431,41 @@ function checkout($CONFIG){
 
 function getProducts($cfg){
     $pdo = getPDO($cfg);
-    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category, p.active FROM products as p ORDER BY p.id;');
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM products');
+    $stmt->execute();
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category, p.active FROM products as p ORDER BY p.id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
     $stmt->execute();
     $products = $stmt->fetchAll();
-    jsonResponse(['products' => $products]);
+
+    paginatedResponse($products, $total, $pg);
 }
 
 function getActiveProducts($CONFIG){
     $pdo = getPDO($CONFIG);
-    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category FROM products as p WHERE p.active IS TRUE ORDER BY p.id;');
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM products WHERE active IS TRUE');
+    $stmt->execute();
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category FROM products as p WHERE p.active IS TRUE ORDER BY p.id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
     $stmt->execute();
     $products = $stmt->fetchAll();
-    jsonResponse(['products' => $products]);
+
+    paginatedResponse($products, $total, $pg);
 }
 
 function getProduct($CONFIG){
-    $productId = $_GET['id'];
+    $productId = $_GET['id'] ?? null;
+    if (!$productId) jsonResponse(['error' => 'id is required'], 400);
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category, p.details, p.active , p.secondary_pictures, p.colors FROM products as p WHERE p.id = :productId ORDER BY p.id;');
     $stmt->execute([':productId' => $productId]);
@@ -406,7 +474,8 @@ function getProduct($CONFIG){
 }
 
 function getProductMin($CONFIG){
-    $productId = $_GET['id'];
+    $productId = $_GET['id'] ?? null;
+    if (!$productId) jsonResponse(['error' => 'id is required'], 400);
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT p.id, p.name, p.price FROM products as p WHERE p.id = :productId ORDER BY p.id;');
     $stmt->execute([':productId' => $productId]);
@@ -416,11 +485,15 @@ function getProductMin($CONFIG){
 
 function addToCart(){
     $data = getJsonInput();
-    
-    $productId = $data['id'];
-    $quantity = $data['qty'];
-    $size = $data['size'];
-    $clr = $data['clr'];
+
+    if (empty($data['id']) || !isset($data['qty']) || empty($data['size']) || empty($data['clr'])) {
+        jsonResponse(['error' => 'id, qty, size, and clr are required'], 400);
+    }
+
+    $productId = (int)$data['id'];
+    $quantity = max(1, (int)$data['qty']);
+    $size = substr(trim($data['size']), 0, 10);
+    $clr = substr(trim($data['clr']), 0, 10);
     session_start();
     
     if (!isset($_SESSION['cart'])) {
@@ -442,29 +515,16 @@ function addToCart(){
 function getCart(){
     session_start();
     
-    $resp = "";
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
     }
-    
-    $cart = $_SESSION['cart'];
-    
-    $keys = array_keys($_SESSION['cart']);
-    
-    $resp = "[";
-    foreach($keys as $key){
-        $value = $_SESSION['cart'][$key];
-        $resp = $resp."{\"product\":\"".$key."\",\"quantity\":".$value."},";
+
+    $cartItems = [];
+    foreach ($_SESSION['cart'] as $key => $value) {
+        $cartItems[] = ['product' => $key, 'quantity' => $value];
     }
-    
-    if(str_ends_with($resp,",")){
-        $resp = substr($resp,0,strlen($resp)-1);
-    }
-    
-    $resp = $resp."]";
-    
-    
-    jsonResponse($resp);
+
+    jsonResponse(json_encode($cartItems));
 }
 
 function emptyCart(){
@@ -479,7 +539,8 @@ function emptyCart(){
 
 function cartQtyDwn(){
     session_start();
-    $productKey = $_GET['pkey'];
+    $productKey = $_GET['pkey'] ?? null;
+    if (!$productKey) jsonResponse(['error' => 'pkey is required'], 400);
     if(isset($_SESSION['cart'][$productKey])){
         if($_SESSION['cart'][$productKey]==1){
             unset($_SESSION['cart'][$productKey]);
@@ -491,7 +552,8 @@ function cartQtyDwn(){
 
 function cartQtyUp(){
     session_start();
-    $productKey = $_GET['pkey'];
+    $productKey = $_GET['pkey'] ?? null;
+    if (!$productKey) jsonResponse(['error' => 'pkey is required'], 400);
     if(isset($_SESSION['cart'][$productKey])){
         
         $_SESSION['cart'][$productKey] += 1;
@@ -503,13 +565,23 @@ function cartQtyUp(){
 
 function getOrders($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    if (!$user && !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
+    if (!$user || !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
     $pdo = getPDO($CONFIG);
+    $pg = getPaginationParams();
     $status = 'PAYED';
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id;');
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE status = :status');
     $stmt->execute([':status' => $status]);
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':status', $status);
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
+    $stmt->execute();
     $orders = $stmt->fetchAll();
-    jsonResponse($orders);
+
+    paginatedResponse($orders, $total, $pg);
 }
 
 function getUserOrders($CONFIG){
@@ -517,158 +589,150 @@ function getUserOrders($CONFIG){
     if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
     $userId = $user['id'];
     $pdo = getPDO($CONFIG);
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY id;');
-    $stmt->execute(['user_id'=>$userId]);
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE user_id = :user_id');
+    $stmt->execute([':user_id' => $userId]);
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':user_id', $userId);
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
+    $stmt->execute();
     $orders = $stmt->fetchAll();
     $userOrders = [];
-    foreach($orders as $orderInfos){
-        
-        $stmt = $pdo->prepare('SELECT firstname, lastname FROM users WHERE id=:userId');
-        $stmt->execute([':userId'=>$orderInfos['user_id']]);
-        $fetchCustomerResults = $stmt->fetchAll();
-        
-        $customer = $fetchCustomerResults[0];
-        
-        $stmt = $pdo->prepare('SELECT * FROM account_addresses WHERE id=:addressId');
-        $stmt->execute([':addressId'=>$orderInfos['shipping_address_id']]);
-        $fetchAddressResults = $stmt->fetchAll();
-        
-        $shippingAddress = $fetchAddressResults[0];
-        
-        $stmt = $pdo->prepare('SELECT * FROM order_items WHERE order_id = :order_num;');
-        $stmt->execute([':order_num' => $orderInfos['id']]);
-        $items = $stmt->fetchAll();
-        $orderItems = [];
-        foreach($items as $item){
-            
-            $productKey = $item['product_key'];
-            $productId = (int)substr($productKey,0,5);
-            
-            $stmt = $pdo->prepare('SELECT * FROM products WHERE id = :productId;');
-            $stmt->execute([':productId' => $productId]);
-            $product = $stmt->fetchAll();
-            
-            $articleName = $product[0]['name'];
-            $articleCode = $productKey;
-            $articleSize = str_replace("0","",substr($productKey,5,3));
-            $articleColor = substr($productKey,8,3);
-            $qty = $item['quantity'];
-            $unitPrice = $item['unit_price_cents'];
-            $picture = $product[0]['picture'];
-            
-            $orderItem = new OrderItem($articleName, $articleCode, $articleSize, $articleColor, $qty, $unitPrice, $picture);
-            $orderItems[]= $orderItem;
+    $customer = ['firstname' => $user['firstname'], 'lastname' => $user['lastname']];
+
+    // Batch-fetch all order items for the current page of orders
+    $orderIds = array_column($orders, 'id');
+    $allItems = [];
+    if (!empty($orderIds)) {
+        $ph = implode(',', array_fill(0, count($orderIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM order_items WHERE order_id IN ({$ph})");
+        $stmt->execute($orderIds);
+        $allItems = $stmt->fetchAll();
+    }
+
+    // Batch-fetch all referenced products
+    $productIds = [];
+    foreach ($allItems as $item) {
+        $productIds[(int)substr($item['product_key'], 0, 5)] = true;
+    }
+    $products = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $products[(int)$p['id']] = $p;
         }
-        
-        $order = new Order($orderInfos, $customer, $shippingAddress, $orderItems);
+    }
+
+    // Group items by order_id for efficient lookup
+    $itemsByOrder = [];
+    foreach ($allItems as $item) {
+        $itemsByOrder[(int)$item['order_id']][] = $item;
+    }
+
+    foreach ($orders as $orderInfos) {
+        $orderItems = [];
+        foreach ($itemsByOrder[(int)$orderInfos['id']] ?? [] as $item) {
+            $productKey = $item['product_key'];
+            $product = $products[(int)substr($productKey, 0, 5)] ?? null;
+            if (!$product) continue;
+
+            $orderItem = new OrderItem(
+                $product['name'],
+                $productKey,
+                str_replace("0", "", substr($productKey, 5, 3)),
+                substr($productKey, 8, 3),
+                $item['quantity'],
+                $item['unit_price_cents'],
+                $product['picture']
+            );
+            $orderItems[] = $orderItem;
+        }
+
+        $order = new Order($orderInfos, $customer, $orderItems);
         $userOrders[] = $order;
     }
-    jsonResponse($userOrders);
+    paginatedResponse($userOrders, $total, $pg);
 }
 
 function getOrder($CONFIG){
-    $order_num=$_GET['order_num'];
+    $user = getAuthenticatedUser($CONFIG);
+    if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
+
+    $order_num = $_GET['order_num'] ?? null;
+    if (!$order_num) jsonResponse(['error' => 'order_num is required'], 400);
+
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT * FROM orders WHERE id=:order_num;');
     $stmt->execute([':order_num' => $order_num]);
-    $fetchOrderResults = $stmt->fetchAll();
-    
-    $orderInfos = $fetchOrderResults[0];
-    
+    $orderInfos = $stmt->fetch();
+
+    if (!$orderInfos) jsonResponse(['error' => 'order not found'], 404);
+
     $stmt = $pdo->prepare('SELECT firstname, lastname FROM users WHERE id=:userId');
     $stmt->execute([':userId'=>$orderInfos['user_id']]);
-    $fetchCustomerResults = $stmt->fetchAll();
-    
-    $customer = $fetchCustomerResults[0];
-    
-        
+    $customer = $stmt->fetch();
+
+    if (!$customer) jsonResponse(['error' => 'customer not found'], 404);
+
     $stmt = $pdo->prepare('SELECT * FROM order_items WHERE order_id = :order_num;');
     $stmt->execute([':order_num' => $order_num]);
     $items = $stmt->fetchAll();
-    $orderItems = [];
-    foreach($items as $item){
-        
-        $productKey = $item['product_key'];
-        $productId = (int)substr($productKey,0,5);
-        
-        $stmt = $pdo->prepare('SELECT * FROM products WHERE id = :productId;');
-        $stmt->execute([':productId' => $productId]);
-        $product = $stmt->fetchAll();
-        
-        
-        $articleName = $product[0]['name'];
-        $articleCode = $productKey;
-        $articleSize = str_replace("0","",substr($productKey,5,3));
-        $articleColor = substr($productKey,8,3);
-        $qty = $item['quantity'];
-        $unitPrice = $item['unit_price_cents'];
-        $picture = $product[0]['picture'];
-        
-        
-        $orderItem = new OrderItem($articleName, $articleCode, $articleSize, $articleColor, $qty, $unitPrice, $picture);
-        $orderItems[]= $orderItem;
-        
+    // Batch-fetch all referenced products in a single query
+    $productIds = [];
+    foreach ($items as $item) {
+        $productIds[(int)substr($item['product_key'], 0, 5)] = true;
     }
-    
-    $order = new Order($orderInfos, $customer, $shippingAddress, $orderItems);
-    
+    $products = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $products[(int)$p['id']] = $p;
+        }
+    }
+
+    $orderItems = [];
+    foreach ($items as $item) {
+        $productKey = $item['product_key'];
+        $product = $products[(int)substr($productKey, 0, 5)] ?? null;
+        if (!$product) continue;
+
+        $orderItem = new OrderItem(
+            $product['name'],
+            $productKey,
+            str_replace("0", "", substr($productKey, 5, 3)),
+            substr($productKey, 8, 3),
+            $item['quantity'],
+            $item['unit_price_cents'],
+            $product['picture']
+        );
+        $orderItems[] = $orderItem;
+    }
+
+    $order = new Order($orderInfos, $customer, $orderItems);
     jsonResponse($order);
-    
+}
+
+// Enforce CSRF on state-changing requests (login and register are exempt
+// because the user has no session yet at those endpoints)
+$csrfExemptPaths = ['/login', '/register'];
+if ($method === 'POST' && !in_array($path, $csrfExemptPaths, true)) {
+    csrfProtect();
+}
+
+// Provide a GET endpoint so the frontend can fetch a fresh CSRF token
+if ($method === 'GET' && $path === '/csrf_token') {
+    jsonResponse(['csrf_token' => csrfGetToken()]);
 }
 
 try {
-    
-    
-    // CART: all require authentication
-    /*if (preg_match('#^/cart/items(?:/([^/]+))?$#', $path, $m)) {
-        $user = getAuthenticatedUser($CONFIG);
-        if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
-        $pdo = getPDO($CONFIG);
-        $productIdFromPath = $m[1] ?? null;
-
-        if ($method === 'POST' && !$productIdFromPath) {
-            $data = getJsonInput();
-            if (empty($data['product_id']) || !isset($data['quantity'])) jsonResponse(['error' => 'product_id and quantity required'], 400);
-            $stmt = $pdo->prepare('SELECT id FROM cart_items WHERE user_id = :uid AND product_id = :pid LIMIT 1');
-            $stmt->execute([':uid' => $user['id'], ':pid' => $data['product_id']]);
-            $exists = $stmt->fetch();
-            if ($exists) {
-                $stmt = $pdo->prepare('UPDATE cart_items SET quantity = quantity + :qty, updated_at = NOW() WHERE user_id = :uid AND product_id = :pid');
-                $stmt->execute([':qty' => (int)$data['quantity'], ':uid' => $user['id'], ':pid' => $data['product_id']]);
-            } else {
-                $stmt = $pdo->prepare('INSERT INTO cart_items (user_id, product_id, quantity, created_at, updated_at) VALUES (:uid, :pid, :qty, NOW(), NOW())');
-                $stmt->execute([':uid' => $user['id'], ':pid' => $data['product_id'], ':qty' => (int)$data['quantity']]);
-            }
-            jsonResponse(['ok' => true]);
-        }
-
-        if ($method === 'GET' && !$productIdFromPath) {
-            $stmt = $pdo->prepare('SELECT ci.product_id, ci.quantity, p.name, p.price FROM cart_items ci LEFT JOIN products p ON p.id = ci.product_id WHERE ci.user_id = :uid');
-            $stmt->execute([':uid' => $user['id']]);
-            $items = $stmt->fetchAll();
-            jsonResponse(['items' => $items]);
-        }
-
-        if (($method === 'PUT' || $method === 'PATCH') && $productIdFromPath) {
-            $data = getJsonInput();
-            if (!isset($data['quantity'])) jsonResponse(['error' => 'quantity required'], 400);
-            $qty = (int)$data['quantity'];
-            if ($qty <= 0) {
-                $stmt = $pdo->prepare('DELETE FROM cart_items WHERE user_id = :uid AND product_id = :pid');
-                $stmt->execute([':uid' => $user['id'], ':pid' => $productIdFromPath]);
-            } else {
-                $stmt = $pdo->prepare('UPDATE cart_items SET quantity = :qty, updated_at = NOW() WHERE user_id = :uid AND product_id = :pid');
-                $stmt->execute([':qty' => $qty, ':uid' => $user['id'], ':pid' => $productIdFromPath]);
-            }
-            jsonResponse(['ok' => true]);
-        }
-
-        if ($method === 'DELETE' && $productIdFromPath) {
-            $stmt = $pdo->prepare('DELETE FROM cart_items WHERE user_id = :uid AND product_id = :pid');
-            $stmt->execute([':uid' => $user['id'], ':pid' => $productIdFromPath]);
-            jsonResponse(['ok' => true]);
-        }
-    }*/
     if ($method === 'POST' && $path === '/register') {
         register($CONFIG);
     }
@@ -705,10 +769,6 @@ try {
         saveAddress($CONFIG);
     }
     
-    if($method == 'GET' && $path == '/test_save_add'){
-        echo 'test_save_add : succeed';
-    }
-        
     if ($method === 'POST' && $path === '/checkout') {
         checkout($CONFIG);
     }
@@ -767,13 +827,9 @@ try {
     
 
     // Unknown route
-    jsonResponse(['V1.0.0 > error' => $path.' not found, Script name : '.$scriptName], 404);
+    jsonResponse(['error' => 'not_found', 'message' => 'Route not found: ' . $path], 404);
 
 } catch (Exception $e) {
-    // in production don't leak exception messages
-    jsonResponse(['error' => 'server_error', 'message' => $e->getMessage()], 500);
+    logError('Unhandled exception', ['exception' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()]);
+    jsonResponse(['error' => 'server_error', 'message' => 'An unexpected error occurred.'], 500);
 }
-
-
-
-// End of file

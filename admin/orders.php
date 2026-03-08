@@ -13,7 +13,9 @@
             $loggedUser = getAuthenticatedUser($config);
 
             if(!$loggedUser || !$loggedUser['admin']){
-                "You are not logged or are not admin.";
+                http_response_code(403);
+                echo '<p>Forbidden: admin access required.</p>';
+                exit;
             }
         ?>
         <div class="container" style="display:block;">
@@ -44,7 +46,7 @@
                 {"name":"Transaction key","column":"transaction_key"},
                 {"name":"Address id","column":"shipping_address_id"}
             ];
-            createList("orderListDiv", data, header);
+            createList("orderListDiv", data.data, header);
 
         }).done(function(){
                 $(".rw").click(function(){

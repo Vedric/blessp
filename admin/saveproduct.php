@@ -2,14 +2,22 @@
     header('Content-Type: application/json');
     include '../config.php';
     include '../authent.php';
+    include_once __DIR__ . '/../csrf.php';
+
+    // CSRF protection (token can come via header or POST field)
+    csrfProtect();
 
     $loggedUser = getAuthenticatedUser($config);
 
     if(!$loggedUser || !$loggedUser['admin']){
-        "You are not logged or are not admin.";
+        http_response_code(403);
+        echo json_encode(['error' => 'Forbidden: admin access required.']);
+        exit;
     }
 
     $uploadDir = '../img/';
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $maxFileSize = 5 * 1024 * 1024; // 5 MB
 
     $productId = $_POST['productId'] ?? null;
     $productName = $_POST['productName'] ?? '';
@@ -18,15 +26,40 @@
     $details = $_POST['details'] ?? '';
     $imagePath = null;
     $active = $_POST['active'] ?? 'true';
-    $secondaryPictures = $_POST['secondary_pictures'];
-    $colors = $_POST['colors'];
-    $onfront_order = $_POST['onfront_order'];
+    $secondaryPictures = $_POST['secondary_pictures'] ?? '';
+    $colors = $_POST['colors'] ?? '';
+    $onfront_order = $_POST['onfront_order'] ?? 0;
 
-    $fileName = $_FILES['productPicture']['name'];
-    $tmpFileName = $_FILES['productPicture']['tmp_name'];
-    // Gestion upload image
+    // File upload with validation
     if (!empty($_FILES['productPicture']['name'])) {
-        $fileName = time() . '_' . basename($_FILES['productPicture']['name']);
+        $originalName = $_FILES['productPicture']['name'];
+        $fileSize = $_FILES['productPicture']['size'];
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+        if (!in_array($extension, $allowedExtensions)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid file type. Allowed: ' . implode(', ', $allowedExtensions)]);
+            exit;
+        }
+
+        if ($fileSize > $maxFileSize) {
+            http_response_code(400);
+            echo json_encode(['error' => 'File too large. Maximum size: 5 MB.']);
+            exit;
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $_FILES['productPicture']['tmp_name']);
+        finfo_close($finfo);
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+        if (!in_array($mimeType, $allowedMimes)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid MIME type detected.']);
+            exit;
+        }
+
+        $fileName = time() . '_' . basename($originalName);
         $targetPath = $uploadDir . $fileName;
 
         if (move_uploaded_file($_FILES['productPicture']['tmp_name'], $targetPath)) {

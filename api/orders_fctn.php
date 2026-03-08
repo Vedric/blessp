@@ -6,64 +6,81 @@ include 'order.php';
 include 'order_item.php';
 
 function getOrder($CONFIG){
-    $order_num=$_GET['order_num'];
+    $order_num = $_GET['order_num'] ?? null;
+    if (!$order_num) jsonResponse(['error' => 'order_num is required'], 400);
+
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT * FROM orders WHERE id=:order_num;');
     $stmt->execute([':order_num' => $order_num]);
-    $fetchOrderResults = $stmt->fetchAll();
-    
-    $orderInfos = $fetchOrderResults[0];
-    
+    $orderInfos = $stmt->fetch();
+
+    if (!$orderInfos) jsonResponse(['error' => 'order not found'], 404);
+
     $stmt = $pdo->prepare('SELECT firstname, lastname FROM users WHERE id=:userId');
     $stmt->execute([':userId'=>$orderInfos['user_id']]);
-    $fetchCustomerResults = $stmt->fetchAll();
-    
-    $customer = $fetchCustomerResults[0];
-    
-    
+    $customer = $stmt->fetch();
+
+    if (!$customer) jsonResponse(['error' => 'customer not found'], 404);
+
     $stmt = $pdo->prepare('SELECT * FROM order_items WHERE order_id = :order_num;');
     $stmt->execute([':order_num' => $order_num]);
     $items = $stmt->fetchAll();
-    $orderItems = [];
-    foreach($items as $item){
-        
-        $productKey = $item['product_key'];
-        $productId = (int)substr($productKey,0,5);
-        
-        $stmt = $pdo->prepare('SELECT * FROM products WHERE id = :productId;');
-        $stmt->execute([':productId' => $productId]);
-        $product = $stmt->fetchAll();
-        
-        
-        $articleName = $product[0]['name'];
-        $articleCode = $productKey;
-        $articleSize = str_replace("0","",substr($productKey,5,3));
-        $articleColor = substr($productKey,8,3);
-        $qty = $item['quantity'];
-        $unitPrice = $item['unit_price_cents'];
-        $picture = $product[0]['picture'];
-        
-        
-        $orderItem = new OrderItem($articleName, $articleCode, $articleSize, $articleColor, $qty, $unitPrice, $picture);
-        $orderItems[]= $orderItem;
-        
+    // Batch-fetch all referenced products in a single query
+    $productIds = [];
+    foreach ($items as $item) {
+        $productIds[(int)substr($item['product_key'], 0, 5)] = true;
     }
-    
+    $products = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $products[(int)$p['id']] = $p;
+        }
+    }
+
+    $orderItems = [];
+    foreach ($items as $item) {
+        $productKey = $item['product_key'];
+        $product = $products[(int)substr($productKey, 0, 5)] ?? null;
+        if (!$product) continue;
+
+        $orderItem = new OrderItem(
+            $product['name'],
+            $productKey,
+            str_replace("0", "", substr($productKey, 5, 3)),
+            substr($productKey, 8, 3),
+            $item['quantity'],
+            $item['unit_price_cents'],
+            $product['picture']
+        );
+        $orderItems[] = $orderItem;
+    }
+
     $order = new Order($orderInfos, $customer, $orderItems);
-    
     jsonResponse($order);
-    
 }
 
 function getOrders($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    if (!$user && !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
+    if (!$user || !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
     $pdo = getPDO($CONFIG);
+    $pg = getPaginationParams();
     $status = 'PAYED';
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id;');
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE status = :status');
     $stmt->execute([':status' => $status]);
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':status', $status);
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
+    $stmt->execute();
     $orders = $stmt->fetchAll();
-    jsonResponse($orders);
+
+    paginatedResponse($orders, $total, $pg);
 }
 
 function getUserOrders($CONFIG){
@@ -71,77 +88,92 @@ function getUserOrders($CONFIG){
     if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
     $userId = $user['id'];
     $pdo = getPDO($CONFIG);
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY id;');
-    $stmt->execute(['user_id'=>$userId]);
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE user_id = :user_id');
+    $stmt->execute([':user_id' => $userId]);
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY id LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':user_id', $userId);
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
+    $stmt->execute();
     $orders = $stmt->fetchAll();
     $userOrders = [];
-    foreach($orders as $orderInfos){
-        
-        $stmt = $pdo->prepare('SELECT firstname, lastname FROM users WHERE id=:userId');
-        $stmt->execute([':userId'=>$orderInfos['user_id']]);
-        $fetchCustomerResults = $stmt->fetchAll();
-        
-        $customer = $fetchCustomerResults[0];
-        
-//         $stmt = $pdo->prepare('SELECT * FROM account_addresses WHERE id=:addressId');
-//         $stmt->execute([':addressId'=>$orderInfos['shipping_address_id']]);
-//         $fetchAddressResults = $stmt->fetchAll();
-        
-//         $shippingAddress = $fetchAddressResults[0];
-        
-        $stmt = $pdo->prepare('SELECT * FROM order_items WHERE order_id = :order_num;');
-        $stmt->execute([':order_num' => $orderInfos['id']]);
-        $items = $stmt->fetchAll();
-        $orderItems = [];
-        foreach($items as $item){
-            
-            $productKey = $item['product_key'];
-            $productId = (int)substr($productKey,0,5);
-            
-            $stmt = $pdo->prepare('SELECT * FROM products WHERE id = :productId;');
-            $stmt->execute([':productId' => $productId]);
-            $product = $stmt->fetchAll();
-            
-            $articleName = $product[0]['name'];
-            $articleCode = $productKey;
-            $articleSize = str_replace("0","",substr($productKey,5,3));
-            $articleColor = substr($productKey,8,3);
-            $qty = $item['quantity'];
-            $unitPrice = $item['unit_price_cents'];
-            $picture = $product[0]['picture'];
-            
-            $orderItem = new OrderItem($articleName, $articleCode, $articleSize, $articleColor, $qty, $unitPrice, $picture);
-            $orderItems[]= $orderItem;
+    $customer = ['firstname' => $user['firstname'], 'lastname' => $user['lastname']];
+
+    // Batch-fetch all order items for the current page of orders
+    $orderIds = array_column($orders, 'id');
+    $allItems = [];
+    if (!empty($orderIds)) {
+        $ph = implode(',', array_fill(0, count($orderIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM order_items WHERE order_id IN ({$ph})");
+        $stmt->execute($orderIds);
+        $allItems = $stmt->fetchAll();
+    }
+
+    // Batch-fetch all referenced products
+    $productIds = [];
+    foreach ($allItems as $item) {
+        $productIds[(int)substr($item['product_key'], 0, 5)] = true;
+    }
+    $products = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $products[(int)$p['id']] = $p;
         }
-        
+    }
+
+    // Group items by order_id for efficient lookup
+    $itemsByOrder = [];
+    foreach ($allItems as $item) {
+        $itemsByOrder[(int)$item['order_id']][] = $item;
+    }
+
+    foreach ($orders as $orderInfos) {
+        $orderItems = [];
+        foreach ($itemsByOrder[(int)$orderInfos['id']] ?? [] as $item) {
+            $productKey = $item['product_key'];
+            $product = $products[(int)substr($productKey, 0, 5)] ?? null;
+            if (!$product) continue;
+
+            $orderItem = new OrderItem(
+                $product['name'],
+                $productKey,
+                str_replace("0", "", substr($productKey, 5, 3)),
+                substr($productKey, 8, 3),
+                $item['quantity'],
+                $item['unit_price_cents'],
+                $product['picture']
+            );
+            $orderItems[] = $orderItem;
+        }
+
         $order = new Order($orderInfos, $customer, $orderItems);
         $userOrders[] = $order;
     }
-    jsonResponse($userOrders);
+    paginatedResponse($userOrders, $total, $pg);
 }
 
 function savePayedOrder($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    
+
     if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
-    
-    if($user) $userId = $user['id'];
-    
+
+    $userId = $user['id'];
+
     $pdo = getPDO($CONFIG);
-    
-    $raw = file_get_contents('php://input');
-    
+
     $data = getJsonInput();
-    
-    // Vérification d'erreurs de décodage
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        jsonResponse("Erreur JSON : " . json_last_error_msg());
+
+    if (empty($data)) {
+        jsonResponse(['error' => 'invalid request body'], 400);
     }
-    
-    // Vérification que c'est bien un tableau
-    if (!is_array($data)) {
-        jsonResponse("Le JSON décodé n'est pas un tableau.");
-    }
+
     $shippingAddressId = null;
     if(isset($data['account_address']['id'])){
         $shippingAddressId = $data['account_address']['id'];
@@ -151,10 +183,8 @@ function savePayedOrder($CONFIG){
             $data['account_address']['city'],
             $data['account_address']['postalcode'],
             $data['account_address']['phone'],
-            $data['account_address']['country'],
-            $data['account_address']['note'])){
-                
-                
+            $data['account_address']['country'])){
+
                 $firstname = $data['account_address']['firstname'];
                 $lastname = $data['account_address']['lastname'];
                 $address = $data['account_address']['address'];
@@ -162,49 +192,55 @@ function savePayedOrder($CONFIG){
                 $postalCode = $data['account_address']['postalcode'];
                 $phone = $data['account_address']['phone'];
                 $country = $data['account_address']['country'];
-                $note = $data['account_address']['note'];
-                
+
                 $stmt = $pdo->prepare('INSERT INTO account_addresses(user_id, firstname, lastname, phonenumber, address, city, postal_code, country, address_type, default_address) VALUES (:user_id, :firstname, :lastname, :phone, :address, :city, :postal_code, :country, :address_type, true)');
                 $stmt->execute([':user_id' => $userId, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':address' => $address, ':city' => $city, ':postal_code' => $postalCode, ':country' => $country, ':address_type' => 1]);
                 $shippingAddressId = $pdo->lastInsertId();
         }
     }
-    
-    
-    
+
     $stmt = $pdo->prepare('SELECT * FROM account_addresses WHERE id=:addressId;');
     $stmt->execute([':addressId' => $shippingAddressId]);
     $shippingAddress = $stmt->fetch();
     $shippingAddressStr = json_encode($shippingAddress, JSON_UNESCAPED_UNICODE);
-    
+
     $amount = (float)$data['orderAmount'];
     $transactionKey = $data['transaction_key'];
     $stmt = $pdo->prepare('INSERT INTO orders(user_id, amount, status, transaction_key, shipping_address) VALUES (:user_id, :amount, :status, :transaction_key, :shipping_address)');
     $stmt->execute([':user_id' => $userId, ':amount' => $amount, ':status' => 'PAYED', ':transaction_key' => $transactionKey, ':shipping_address' => $shippingAddressStr]);
-    
+
     $orderId = $pdo->lastInsertId();
-    
-    // Parcours du tableau
-    $items = $data['items'];
+
+    // Batch-fetch all product prices in a single query
+    $items = $data['items'] ?? [];
+    $validItems = [];
+    $productIds = [];
     foreach ($items as $item) {
-        // Validation des clés attendues
         if (isset($item['product'], $item['quantity'])) {
-            $productKey = $item['product'];
-            $productId = (int)substr($productKey,0,5);
-            $stmt = $pdo->prepare('SELECT price FROM products WHERE id = :productId');
-            $stmt->execute([':productId' => $productId]);
-            $productPrice = $stmt->fetchAll();
-            
-            $stmt = $pdo->prepare('INSERT INTO order_items(order_id, product_key, quantity, unit_price_cents) VALUES (:order_id, :product_key, :quantity, :price)');
-            $stmt->execute([':order_id' => $orderId, ':product_key' => $item['product'], ':quantity' => $item['quantity'], ':price' => $productPrice[0]['price']]);
-        } else {
-            echo "Élément incomplet ou invalide.\n";
+            $productIds[(int)substr($item['product'], 0, 5)] = true;
+            $validItems[] = $item;
         }
     }
-    
-    jsonResponse(['ok' => true, 'order_id' => (int)$orderId, 'data' => $raw, 'user'=>$user]);
-    //jsonResponse(['data'=> $data]);
-}
+    $productPrices = [];
+    if (!empty($productIds)) {
+        $ph = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $pdo->prepare("SELECT id, price FROM products WHERE id IN ({$ph})");
+        $stmt->execute(array_keys($productIds));
+        foreach ($stmt->fetchAll() as $p) {
+            $productPrices[(int)$p['id']] = $p['price'];
+        }
+    }
 
+    $insertStmt = $pdo->prepare('INSERT INTO order_items(order_id, product_key, quantity, unit_price_cents) VALUES (:order_id, :product_key, :quantity, :price)');
+    foreach ($validItems as $item) {
+        $productKey = $item['product'];
+        $price = $productPrices[(int)substr($productKey, 0, 5)] ?? null;
+        if ($price === null) continue;
+
+        $insertStmt->execute([':order_id' => $orderId, ':product_key' => $productKey, ':quantity' => $item['quantity'], ':price' => $price]);
+    }
+
+    jsonResponse(['ok' => true, 'order_id' => (int)$orderId, 'user'=>$user]);
+}
 
 ?>
