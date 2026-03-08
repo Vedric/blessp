@@ -189,7 +189,7 @@ function getUserInfos($CONFIG){
     $user_cookie = getAuthenticatedUser($CONFIG);
     $id = $user_cookie['id'];
     
-    $pdo = getPDO($C);
+    $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare("SELECT u.email, u.id as id, u.firstname, u.lastname FROM users u WHERE u.id = :id LIMIT 1");
     $stmt->execute([':id' => $id]);
     $user = $stmt->fetch();
@@ -230,11 +230,11 @@ function getUserAddress($CONFIG){
 
 function saveAddress($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    
-    //if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
-    
-    $userId = 3;
-    
+
+    if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
+
+    $userId = $user['id'];
+
     $pdo = getPDO($CONFIG);
     
     $raw = file_get_contents('php://input');
@@ -503,7 +503,7 @@ function cartQtyUp(){
 
 function getOrders($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    if (!$user && !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
+    if (!$user || !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
     $pdo = getPDO($CONFIG);
     $status = 'PAYED';
     $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id;');
