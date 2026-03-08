@@ -98,17 +98,46 @@ function register($CONFIG){
     rateLimitCheck('register', 5, 900);
 
     $data = getJsonInput();
-    if (empty($data['email']) || empty($data['password'])) {
-        jsonResponse(['error' => 'email and password required'], 400);
+    $errors = [];
+
+    $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? '';
+    $firstname = trim($data['firstname'] ?? '');
+    $lastname = trim($data['lastname'] ?? '');
+
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'A valid email address is required.';
     }
+    if (mb_strlen($email) > 254) {
+        $errors['email'] = 'Email must not exceed 254 characters.';
+    }
+    if (empty($password) || mb_strlen($password) < 8) {
+        $errors['password'] = 'Password must be at least 8 characters.';
+    }
+    if (mb_strlen($password) > 128) {
+        $errors['password'] = 'Password must not exceed 128 characters.';
+    }
+    if (empty($firstname) || mb_strlen($firstname) > 100) {
+        $errors['firstname'] = 'First name is required (max 100 characters).';
+    }
+    if (empty($lastname) || mb_strlen($lastname) > 100) {
+        $errors['lastname'] = 'Last name is required (max 100 characters).';
+    }
+
+    if (!empty($errors)) {
+        jsonResponse(['error' => 'validation_error', 'fields' => $errors], 422);
+    }
+
+    $email = mb_strtolower($email);
+
     $pdo = getPDO($CONFIG);
-    // check existing
     $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email LIMIT 1');
-    $stmt->execute([':email' => $data['email']]);
+    $stmt->execute([':email' => $email]);
     if ($stmt->fetch()) jsonResponse(['error' => 'email already used'], 409);
-    $hash = password_hash($data['password'], PASSWORD_DEFAULT);
+
+    $hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, created_at, firstname, lastname) VALUES (:email, :hash, NOW(), :firstname, :lastname)');
-    $stmt->execute([':email' => $data['email'], ':hash' => $hash, ':firstname' => $data['firstname'], ':lastname' => $data['lastname']]);
+    $stmt->execute([':email' => $email, ':hash' => $hash, ':firstname' => $firstname, ':lastname' => $lastname]);
     $userId = $pdo->lastInsertId();
     jsonResponse(['ok' => true, 'user_id' => (int)$userId], 201);
 }
@@ -118,11 +147,18 @@ function login($CONFIG){
     rateLimitCheck('login', 10, 900);
 
     $data = getJsonInput();
-    if (empty($data['email']) || empty($data['password'])) {
+
+    $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? '';
+
+    if (empty($email) || empty($password)) {
         jsonResponse(['error' => 'email and password required'], 400);
     }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        jsonResponse(['error' => 'invalid email format'], 400);
+    }
 
-    $email = $data['email'];
+    $email = mb_strtolower($email);
 
     // Account lockout: 5 failed attempts per email locks the account for 15 minutes
     if (rateLimitIsAccountLocked($email, 5, 900)) {
@@ -134,7 +170,7 @@ function login($CONFIG){
     $stmt = $pdo->prepare('SELECT id, password_hash FROM users WHERE email = :email LIMIT 1');
     $stmt->execute([':email' => $email]);
     $user = $stmt->fetch();
-    if (!$user || !password_verify($data['password'], $user['password_hash'])) {
+    if (!$user || !password_verify($password, $user['password_hash'])) {
         rateLimitLoginFailed($email, 5, 900);
         jsonResponse(['error' => 'invalid credentials'], 401);
     }
@@ -374,7 +410,8 @@ function getActiveProducts($CONFIG){
 }
 
 function getProduct($CONFIG){
-    $productId = $_GET['id'];
+    $productId = $_GET['id'] ?? null;
+    if (!$productId) jsonResponse(['error' => 'id is required'], 400);
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category, p.details, p.active , p.secondary_pictures, p.colors FROM products as p WHERE p.id = :productId ORDER BY p.id;');
     $stmt->execute([':productId' => $productId]);
@@ -383,7 +420,8 @@ function getProduct($CONFIG){
 }
 
 function getProductMin($CONFIG){
-    $productId = $_GET['id'];
+    $productId = $_GET['id'] ?? null;
+    if (!$productId) jsonResponse(['error' => 'id is required'], 400);
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT p.id, p.name, p.price FROM products as p WHERE p.id = :productId ORDER BY p.id;');
     $stmt->execute([':productId' => $productId]);
@@ -393,11 +431,15 @@ function getProductMin($CONFIG){
 
 function addToCart(){
     $data = getJsonInput();
-    
-    $productId = $data['id'];
-    $quantity = $data['qty'];
-    $size = $data['size'];
-    $clr = $data['clr'];
+
+    if (empty($data['id']) || !isset($data['qty']) || empty($data['size']) || empty($data['clr'])) {
+        jsonResponse(['error' => 'id, qty, size, and clr are required'], 400);
+    }
+
+    $productId = (int)$data['id'];
+    $quantity = max(1, (int)$data['qty']);
+    $size = substr(trim($data['size']), 0, 10);
+    $clr = substr(trim($data['clr']), 0, 10);
     session_start();
     
     if (!isset($_SESSION['cart'])) {
@@ -443,7 +485,8 @@ function emptyCart(){
 
 function cartQtyDwn(){
     session_start();
-    $productKey = $_GET['pkey'];
+    $productKey = $_GET['pkey'] ?? null;
+    if (!$productKey) jsonResponse(['error' => 'pkey is required'], 400);
     if(isset($_SESSION['cart'][$productKey])){
         if($_SESSION['cart'][$productKey]==1){
             unset($_SESSION['cart'][$productKey]);
@@ -455,7 +498,8 @@ function cartQtyDwn(){
 
 function cartQtyUp(){
     session_start();
-    $productKey = $_GET['pkey'];
+    $productKey = $_GET['pkey'] ?? null;
+    if (!$productKey) jsonResponse(['error' => 'pkey is required'], 400);
     if(isset($_SESSION['cart'][$productKey])){
         
         $_SESSION['cart'][$productKey] += 1;
