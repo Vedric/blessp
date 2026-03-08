@@ -104,10 +104,29 @@
 
                 <h2 style="margin-top: var(--space-8);">Payment</h2>
 
-                <div id="paypal-button-container"></div>
+                <div class="payment-method-tabs">
+                    <button type="button" class="payment-tab active" data-method="stripe" onclick="selectPaymentMethod('stripe')">Credit Card</button>
+                    <button type="button" class="payment-tab" data-method="paypal" onclick="selectPaymentMethod('paypal')">PayPal</button>
+                </div>
+
+                <div id="stripe-payment-container" class="payment-container">
+                    <div id="stripe-element"></div>
+                    <div id="stripe-errors" class="payment-error" role="alert"></div>
+                    <button type="button" id="stripe-pay-btn" class="stripe-pay-btn" onclick="handleStripePayment()" disabled>Pay now</button>
+                </div>
+
+                <div id="paypal-payment-container" class="payment-container" style="display: none;">
+                    <div id="paypal-button-container"></div>
+                </div>
+
                 <p id="result-message"></p>
 
-                <?php $paypalClientId = getenv('PAYPAL_CLIENT_ID') ?: ''; ?>
+                <?php
+                    $paypalClientId = getenv('PAYPAL_CLIENT_ID') ?: '';
+                    $stripePublishableKey = getenv('STRIPE_PUBLISHABLE_KEY') ?: '';
+                ?>
+                <script src="https://js.stripe.com/v3/"></script>
+                <script>var stripePublishableKey = <?php echo json_encode($stripePublishableKey); ?>;</script>
                 <script
                     src="https://www.paypal.com/sdk/js?client-id=<?php echo htmlspecialchars($paypalClientId); ?>&buyer-country=CA&currency=CAD&components=buttons&disable-funding=paylater"
                     data-sdk-integration-source="developer-studio"></script>
@@ -153,7 +172,8 @@
         ?>
 
     </body>
-    <script type="text/javascript" src="/js/checkout.js?v=1.1.0"></script>
+    <script type="text/javascript" src="/js/checkout.js?v=1.2.0"></script>
+    <script type="text/javascript" src="/js/stripe.js?v=1.0.0"></script>
     <script type="text/javascript" src="/js/paypal.js?v=1.1.0"></script>
     <script type="text/javascript" src="/js/slidepanel.js?v=1.1.0"></script>
     <script type="text/javascript" src="/js/header.js?v=1.1.0"></script>
