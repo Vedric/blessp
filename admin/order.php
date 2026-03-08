@@ -13,7 +13,9 @@
             $loggedUser = getAuthenticatedUser($config);
 
             if(!$loggedUser || !$loggedUser['admin']){
-                "You are not logged or are not admin.";
+                http_response_code(403);
+                echo '<p>Forbidden: admin access required.</p>';
+                exit;
             }
         ?>
 
