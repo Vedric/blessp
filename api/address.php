@@ -5,8 +5,13 @@ include "./helper.php";
 
 include "./address_fctn.php";
 
+// Enforce CSRF on all POST requests
+if ($method === 'POST') {
+    csrfProtect();
+}
+
 try{
-    
+
     if($method === 'POST' && $path === '/add'){
         addAddress($CONFIG);
         

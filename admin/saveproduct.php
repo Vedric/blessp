@@ -2,6 +2,10 @@
     header('Content-Type: application/json');
     include '../config.php';
     include '../authent.php';
+    include_once __DIR__ . '/../csrf.php';
+
+    // CSRF protection (token can come via header or POST field)
+    csrfProtect();
 
     $loggedUser = getAuthenticatedUser($config);
 
