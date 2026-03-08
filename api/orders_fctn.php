@@ -57,7 +57,7 @@ function getOrder($CONFIG){
 
 function getOrders($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
-    if (!$user && !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
+    if (!$user || !$user['admin']) jsonResponse(['error' => 'unauthenticated'], 401);
     $pdo = getPDO($CONFIG);
     $status = 'PAYED';
     $stmt = $pdo->prepare('SELECT * FROM orders WHERE status = :status ORDER BY id;');
