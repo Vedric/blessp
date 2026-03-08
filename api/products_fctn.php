@@ -56,10 +56,19 @@ function getProductMin($CONFIG){
 
 function getOnFrontProducts($CONFIG){
     $pdo = getPDO($CONFIG);
-    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category FROM products as p WHERE p.active IS TRUE AND p.onfront_order IS NOT NULL AND p.onfront_order > 0 ORDER BY p.onfront_order;');
+    $pg = getPaginationParams();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM products WHERE active IS TRUE AND onfront_order IS NOT NULL AND onfront_order > 0');
+    $stmt->execute();
+    $total = (int)$stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.picture, p.category FROM products as p WHERE p.active IS TRUE AND p.onfront_order IS NOT NULL AND p.onfront_order > 0 ORDER BY p.onfront_order LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':limit', $pg['perPage'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $pg['offset'], PDO::PARAM_INT);
     $stmt->execute();
     $products = $stmt->fetchAll();
-    jsonResponse(['products' => $products]);
+
+    paginatedResponse($products, $total, $pg);
 }
 
 ?>

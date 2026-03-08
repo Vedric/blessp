@@ -80,3 +80,27 @@ CREATE TABLE cart_items (
     product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     quantity INTEGER NOT NULL DEFAULT 1
 );
+
+-- ── Indexes ───────────────────────────────────────────────────────
+-- Sessions: token lookup with expiry check (auth on every request)
+CREATE INDEX idx_sessions_token ON sessions(token);
+CREATE INDEX idx_sessions_user_id ON sessions(user_id);
+
+-- Addresses: list by user, ordered by default flag
+CREATE INDEX idx_addresses_user_id ON account_addresses(user_id);
+
+-- Orders: list by user, filter by status
+CREATE INDEX idx_orders_user_id ON orders(user_id);
+CREATE INDEX idx_orders_status ON orders(status);
+
+-- Order items: lookup by order
+CREATE INDEX idx_order_items_order_id ON order_items(order_id);
+
+-- Products: filter by active, featured sort
+CREATE INDEX idx_products_active ON products(active);
+
+-- Cart items: lookup by user
+CREATE INDEX idx_cart_items_user_id ON cart_items(user_id);
+
+-- Products: featured homepage display sort
+CREATE INDEX idx_products_onfront ON products(onfront_order) WHERE active IS TRUE AND onfront_order IS NOT NULL AND onfront_order > 0;
