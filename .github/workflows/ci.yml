@@ -1,0 +1,90 @@
+# Continuous Integration Pipeline
+# Runs on pull requests to develop/main and on pushes to develop.
+# Validates code quality through linting, static analysis, and tests.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+
+jobs:
+  lint-and-test:
+    name: Lint, Analyze & Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: blessp_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── PHP Setup ─────────────────────────────────────────────
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: pgsql, pdo_pgsql, mbstring, xml, curl
+          coverage: xdebug
+          tools: composer:v2
+
+      # ── Dependencies ──────────────────────────────────────────
+      - name: Install Composer dependencies
+        if: hashFiles('composer.json') != ''
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      # ── PHP Lint ──────────────────────────────────────────────
+      # Syntax-check all PHP files, excluding vendored mailer libs
+      - name: PHP Syntax Lint
+        run: |
+          echo "🔍 Running PHP syntax check..."
+          error_count=0
+          while IFS= read -r file; do
+            if ! php -l "$file" > /dev/null 2>&1; then
+              php -l "$file"
+              error_count=$((error_count + 1))
+            fi
+          done < <(find . -name "*.php" -not -path "./mailer/*" -not -path "./vendor/*")
+
+          if [ "$error_count" -gt 0 ]; then
+            echo "❌ Found $error_count file(s) with syntax errors."
+            exit 1
+          fi
+          echo "✅ All PHP files passed syntax check."
+
+      # ── Static Analysis ───────────────────────────────────────
+      - name: PHPStan Static Analysis
+        if: hashFiles('phpstan.neon') != '' || hashFiles('phpstan.neon.dist') != ''
+        run: |
+          composer require --dev phpstan/phpstan --no-interaction || true
+          vendor/bin/phpstan analyse --no-progress
+
+      # ── Unit Tests ────────────────────────────────────────────
+      - name: Run PHPUnit Tests
+        if: hashFiles('phpunit.xml') != '' || hashFiles('phpunit.xml.dist') != ''
+        env:
+          DB_DSN: "pgsql:host=127.0.0.1;port=5432;dbname=blessp_test"
+          DB_USER: postgres
+          DB_PASS: postgres
+        run: vendor/bin/phpunit --colors=always
+
+      # ── Security Audit ────────────────────────────────────────
+      - name: Composer Security Audit
+        if: hashFiles('composer.lock') != ''
+        run: composer audit --format=plain
