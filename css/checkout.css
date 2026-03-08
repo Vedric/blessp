@@ -1,32 +1,46 @@
+/* ==========================================================================
+   Checkout & Form Styles
+   ========================================================================== */
+
 h2 {
-    margin-bottom: 15px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
 }
 
 .box {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+    background: var(--color-bg);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: var(--space-4);
 }
 
 label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
+    margin-bottom: var(--space-1);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
 }
 
 input, select, textarea {
-    width: -webkit-fill-available;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+    width: 100%;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-strong);
+    font-size: var(--font-size-sm);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
 }
 
 textarea {
@@ -36,81 +50,90 @@ textarea {
 
 .row {
     display: flex;
-    gap: 15px;
+    gap: var(--space-4);
 }
 
 .row .form-group {
     flex: 1;
 }
 
+@media (max-width: 479px) {
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
 .summary p {
     display: flex;
     justify-content: space-between;
-    margin: 10px 0;
+    margin: var(--space-3) 0;
 }
 
 .total {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 15px;
-    border-top: 1px solid #ddd;
-    padding-top: 15px;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
 }
 
 .pay-btn {
-    margin-top: 20px;
-    padding: 15px;
+    margin-top: var(--space-5);
+    padding: var(--space-4);
     width: 100%;
-    background: #27ae60;
-    color: white;
+    background: var(--color-success);
+    color: var(--color-white);
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     cursor: pointer;
+    transition: background-color var(--transition-fast);
 }
 
 .pay-btn:hover {
-    background: #219150;
+    background: #15803d;
 }
 
 .payment-methods {
     display: flex;
-    gap: 15px;
-    margin: 10px 0;
+    gap: var(--space-4);
+    margin: var(--space-3) 0;
 }
 
 .payment-methods label {
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
 }
 
 @media (max-width: 900px) {
-    .container {
-    grid-template-columns: 1fr;
+    .checkout {
+        flex-direction: column;
     }
 }
 
-div.orderAndPayInfos{
+div.orderAndPayInfos {
     max-width: 500px;
-    width: -webkit-fill-available;
+    width: 100%;
 }
 
-div.checkout{
-    display:flex;
+div.checkout {
+    display: flex;
     justify-content: center;
+    gap: var(--space-8);
     flex-wrap: wrap;
-    padding-left:10px;
-    padding-right: 10px;
+    padding: var(--space-6) var(--content-padding);
+    max-width: var(--container-max);
+    margin: 0 auto;
 }
 
-div.orderDetails{
+div.orderDetails {
     max-width: 500px;
-    width: -webkit-fill-available;
-
+    width: 100%;
 }
 
-
-.form_field_error{
-    color: red;
-    background-color: rgb(255, 181, 181);
-    border-color: red;
+.form_field_error {
+    color: var(--color-error);
+    background-color: var(--color-error-bg);
+    border-color: var(--color-error);
 }
