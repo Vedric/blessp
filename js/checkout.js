@@ -56,56 +56,62 @@ function flagError(elt, msg){
     elt.addClass("form_field_error");            
 }
 
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 function loadCartItems(){
     $("#orderItems").html("");
-      
+
     $.getJSON("/api.php/cart",function(json){
         var cartContent = JSON.parse(json);
         var cartTotal = 0;
-        
+
         $.each(cartContent,function(index,item){
             var productKey = item.product;
-            
+
             var productId = productKey.substring(0,5).replaceAll("0","");
             var productSize = productKey.substring(5,8).replaceAll("0","");
             var productColor = productKey.substring(8,11);
-          
-            var url = "/api.php/product?id=" + productId;
-            
+
+            var url = "/api.php/product?id=" + encodeURIComponent(productId);
+
 			$.getJSON(url,function(products){
-                let product = products[0]; 
+                let product = products[0];
                 let linePrice = item.quantity*product.price;
                 cartTotal += linePrice;
 
-				var cartItem ='<div class="cartItem">' + 
-                    '<div class="itemImg">' + 
-                        '<img style="width:100px;height:150px;" src="/img/' + product.picture + '">' +
+				var cartItem ='<div class="cartItem">' +
+                    '<div class="itemImg">' +
+                        '<img style="width:100px;height:150px;" src="/img/' + escapeHtml(product.picture) + '">' +
                     '</div>' +
-                    '<div class="itemInfos">'+ 
-                        '<div class="itemInfosL1">'+ 
+                    '<div class="itemInfos">'+
+                        '<div class="itemInfosL1">'+
                             '<div class="itemName">'+
-                                '<span>' + product.name + '</span>'+
+                                '<span>' + escapeHtml(product.name) + '</span>'+
                             '</div>'+
                             '<div class="itemPrice">'+
                                 '<span>' + parseFloat(product.price).toLocaleString('ca-CA', { style: 'currency', currency: 'CAD' }) + '</span>'+
                             '</div>'+
                         '</div>' +
-                        '<div class="itemInfosL2">'+ 
+                        '<div class="itemInfosL2">'+
                             '<div class="itemSize">'+
-                                '<span>SIZE: ' + productSize + '</span>'+
+                                '<span>SIZE: ' + escapeHtml(productSize) + '</span>'+
                             '</div>'+
                             '<div class="itemColor">'+
-                                '<span>COLOR: ' + productColor + '</span>'+
+                                '<span>COLOR: ' + escapeHtml(productColor) + '</span>'+
                             '</div>'+
                             '<div class="itemQty">'+
-                                '<span>QTY: <button class="qtyBtn" onclick="qtyDwn(\'' + productKey + '\');">-</button>' + item.quantity + '<button class="qtyBtn" onclick="qtyUp(\'' + productKey + '\');">+</button></span>'+
+                                '<span>QTY: <button class="qtyBtn" onclick="qtyDwn(\'' + escapeHtml(productKey) + '\');">-</button>' + parseInt(item.quantity) + '<button class="qtyBtn" onclick="qtyUp(\'' + escapeHtml(productKey) + '\');">+</button></span>'+
                             '</div>'+
                         '</div>' +
-                        '<div class="itemInfosL">'+ 
+                        '<div class="itemInfosL">'+
                             '<div class="linePrice">'+
                                 '<span>Subtotal: ' + linePrice.toLocaleString('ca-CA', { style: 'currency', currency: 'CAD' }) + '</span>'+
                             '</div>'+
-                                
+
                             '</div>' +
                         '</div>' +
                     '</div>';
@@ -115,7 +121,7 @@ function loadCartItems(){
                 $("#cartTotalAfterTaxesSpan").html(cartTotalAfterTaxes.toLocaleString('ca-CA', { style: 'currency', currency: 'CAD' }));
             });
         });
-          
+
     });
 }
 

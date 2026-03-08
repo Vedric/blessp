@@ -30,6 +30,15 @@ include './config.php';
 $CONFIG = getConfig();
 
 // -----------------------------
+// Security headers
+// -----------------------------
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 0');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+
+// -----------------------------
 // Helpers
 // -----------------------------
 
@@ -770,8 +779,8 @@ try {
     jsonResponse(['V1.0.0 > error' => $path.' not found, Script name : '.$scriptName], 404);
 
 } catch (Exception $e) {
-    // in production don't leak exception messages
-    jsonResponse(['error' => 'server_error', 'message' => $e->getMessage()], 500);
+    error_log('Unhandled exception: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    jsonResponse(['error' => 'server_error', 'message' => 'An unexpected error occurred.'], 500);
 }
 
 

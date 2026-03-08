@@ -120,16 +120,17 @@ const paypalButtons = window.paypal.Buttons({
 					
 					console.log("SELECTED ADDRESS: " + JSON.stringify(selectedAddress));
 										
-					accountAddress = '{"id":"' + selectedAddressId + 
-						'", "firstname":"' + selectedAddress.firstname + 
-						'", "lastname":"' + selectedAddress.lastname + 
-						'", "address":"' + selectedAddress.address + 
-						'", "city":"' + selectedAddress.city + 
-						'", "postalcode":"' + selectedAddress.postal_code + 
-						'", "phone":"' + selectedAddress.phonenumber + 
-						'", "country":"' + selectedAddress.country + 
-						//'", "note":"' + note + 
-						'", "address_type":1}';
+					accountAddress = JSON.stringify({
+						id: selectedAddressId,
+						firstname: selectedAddress.firstname,
+						lastname: selectedAddress.lastname,
+						address: selectedAddress.address,
+						city: selectedAddress.city,
+						postalcode: selectedAddress.postal_code,
+						phone: selectedAddress.phonenumber,
+						country: selectedAddress.country,
+						address_type: 1
+					});
 
 					
 				}else{
@@ -141,13 +142,27 @@ const paypalButtons = window.paypal.Buttons({
 					const phoneNumber = $("#phone").val();
 					const country = $("#country option:selected").text();
 					
-					accountAddress = '{"firstname":"' + firstname + '", "lastname":"' + lastname + '", "address":"' + address + '", "city":"' + city + '", "postalcode":"' + postalCode + '", "phone":"' + phoneNumber + '", "country":"' + country + '", "note":"' + note + '", "address_type":1}';
+					accountAddress = JSON.stringify({
+						firstname: firstname,
+						lastname: lastname,
+						address: address,
+						city: city,
+						postalcode: postalCode,
+						phone: phoneNumber,
+						country: country,
+						note: note,
+						address_type: 1
+					});
 
 				}
 
                 
-                var orderPayload = '{"transaction_key":"' + transactionKey + '","orderAmount":"'+ orderAmount + '","items":' + cartJson + ', "account_address":' + accountAddress + '}'; 
-                console.log("Order payload: " + orderPayload);
+                var orderPayload = JSON.stringify({
+                    transaction_key: transactionKey,
+                    orderAmount: orderAmount,
+                    items: JSON.parse(cartJson),
+                    account_address: JSON.parse(accountAddress)
+                });
                 
                 const persistOrderRslt = await fetch(
                     `/api/orders.php/save_payed_order`,
