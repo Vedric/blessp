@@ -28,7 +28,7 @@
             
             if($loggedUser){
         
-            echo '<div id="hSignUser" class="hSignUser collapsed">'.$loggedUser['firstname']." ".$loggedUser['lastname'].'</div>';
+            echo '<div id="hSignUser" class="hSignUser collapsed">'.htmlspecialchars($loggedUser['firstname'], ENT_QUOTES, 'UTF-8')." ".htmlspecialchars($loggedUser['lastname'], ENT_QUOTES, 'UTF-8').'</div>';
             echo '<div style="display.none;" id="userMenu" class="dropDown">';
             echo '<ul>';
             echo '<li><a href="/profile/orders_histo.php">My orders</a></li>';
