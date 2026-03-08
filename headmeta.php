@@ -9,3 +9,4 @@
     <link href="/css/style.css?v=1.1.0" rel="stylesheet">
     <link href="/css/slidepanel.css?v=1.1.0" rel="stylesheet">
     <link href="/css/checkout.css?v=1.1.0" rel="stylesheet">
+    <link href="/css/toast.css?v=1.1.0" rel="stylesheet">

@@ -11,10 +11,15 @@ function displayArticles(articles, filter){
     filteredArticles.forEach(function(article){
         var articleDiv = document.createElement("div");
         articleDiv.className = "article";
-        articleDiv.style.backgroundImage = "url('/img/" + article.picture + "')";
         articleDiv.onclick = function(){
             location = "product.php?id=" + article.id;
         };
+
+        var articleImg = document.createElement("img");
+        articleImg.className = "article__img";
+        articleImg.src = "/img/" + article.picture;
+        articleImg.alt = article.name;
+        articleImg.loading = "lazy";
 
         var articleDetail = document.createElement("div");
         articleDetail.className = "articleDetail";
@@ -29,6 +34,7 @@ function displayArticles(articles, filter){
 
         articleDetail.appendChild(articleName);
         articleDetail.appendChild(articlePrice);
+        articleDiv.appendChild(articleImg);
         articleDiv.appendChild(articleDetail);
         articleBox.appendChild(articleDiv);
     });

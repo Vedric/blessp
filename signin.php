@@ -17,7 +17,10 @@
                     <input type="email" id="email" required />
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" required />
+                    <div class="password-field">
+                        <input type="password" id="password" required />
+                        <button type="button" class="password-toggle" onclick="togglePassword('password', this)" aria-label="Show password">Show</button>
+                    </div>
 
                     <button class="sign" type="submit">Sign in</button>
                 </form>
