@@ -146,8 +146,10 @@ function addAddress($CONFIG){
 
 function deleteAddress($CONFIG){
     $user = getAuthenticatedUser($CONFIG);
+    if (!$user) jsonResponse(['error' => 'unauthenticated'], 401);
     $userId = $user['id'];
-    $addressId = $_GET['addressId'];
+    $addressId = $_GET['addressId'] ?? null;
+    if (!$addressId) jsonResponse(['error' => 'addressId is required'], 400);
     
     $pdo = getPDO($CONFIG);
     
@@ -157,8 +159,10 @@ function deleteAddress($CONFIG){
 }
 
 function getUserAddress($CONFIG){
-    $addressId= $_GET['address_id'];
     $user_cookie = getAuthenticatedUser($CONFIG);
+    if (!$user_cookie) jsonResponse(['error' => 'unauthenticated'], 401);
+    $addressId = $_GET['address_id'] ?? null;
+    if (!$addressId) jsonResponse(['error' => 'address_id is required'], 400);
     $id = $user_cookie['id'];
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare("SELECT a.id, a.user_id, a.firstname, a.lastname, a.phonenumber, a.address, a.city, a.postal_code, a.country, a.address_type, a.default_address FROM account_addresses a WHERE a.user_id = :user_id AND a.id = :addressId LIMIT 1");
