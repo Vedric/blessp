@@ -46,7 +46,7 @@
                 {"name":"Transaction key","column":"transaction_key"},
                 {"name":"Address id","column":"shipping_address_id"}
             ];
-            createList("orderListDiv", data, header);
+            createList("orderListDiv", data.data, header);
 
         }).done(function(){
                 $(".rw").click(function(){

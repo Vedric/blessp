@@ -38,4 +38,28 @@ if (!function_exists('getJsonInput')) {
     }
 }
 
+if (!function_exists('getPaginationParams')) {
+    function getPaginationParams(): array {
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = min(100, max(1, (int)($_GET['perPage'] ?? 20)));
+        $offset = ($page - 1) * $perPage;
+        return ['page' => $page, 'perPage' => $perPage, 'offset' => $offset];
+    }
+}
+
+if (!function_exists('paginatedResponse')) {
+    function paginatedResponse(array $data, int $totalItems, array $pagination): void {
+        $totalPages = (int)ceil($totalItems / $pagination['perPage']);
+        jsonResponse([
+            'data' => $data,
+            'pagination' => [
+                'page' => $pagination['page'],
+                'perPage' => $pagination['perPage'],
+                'totalItems' => $totalItems,
+                'totalPages' => $totalPages,
+            ]
+        ]);
+    }
+}
+
 ?>

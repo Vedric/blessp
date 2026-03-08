@@ -44,8 +44,8 @@
 <script>
     if($("#userId")!=null){
         const ordersUrl = "/api/orders.php/user_orders";
-        $.getJSON(ordersUrl, function(data){
-            $.each(data,function(index, order){
+        $.getJSON(ordersUrl, function(response){
+            $.each(response.data,function(index, order){
                 console.log("Order: " + JSON.stringify(order));
                 let orderDiv = createElt("div");
                 orderDiv.classList.add("order_histo");

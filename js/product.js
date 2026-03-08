@@ -52,7 +52,7 @@ const id = getParam("id");
     });
 	
 	$.get("/api/products.php/active_products", function(json){
-		const products = json.products;
+		const products = json.data;
 		const screenWidth = window.screen.width;
 		$.each(products, function(index, product){
 			if(product.id!=id){
