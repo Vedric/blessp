@@ -302,26 +302,22 @@ a:hover {
 .article {
     width: 100%;
     aspect-ratio: 2/3;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-sm);
+    background-color: var(--color-bg-tertiary);
 }
 
-.article:hover {
-    opacity: 0.9;
+.article__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
 }
 
-.articleMobile {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+.article:hover .article__img {
+    transform: scale(1.03);
 }
 
 .articleDetail {
@@ -678,10 +674,40 @@ span.detailsTitle {
     margin-bottom: var(--space-4);
 }
 
+.signForm .password-field input {
+    margin-bottom: 0;
+}
+
 .signForm input:focus {
     outline: none;
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.password-field {
+    position: relative;
+    margin-bottom: var(--space-4);
+}
+
+.password-toggle {
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    cursor: pointer;
+    padding: var(--space-1) var(--space-2);
+    transition: color var(--transition-fast);
+}
+
+.password-toggle:hover {
+    color: var(--color-text);
 }
 
 button.sign {

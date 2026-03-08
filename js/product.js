@@ -89,15 +89,12 @@ function addToCart(){
     var pid = $("#productId").val();
     var size = $("#articleSize").text();
     var color = $("#colorCode").val();
-    var message = "";
     if(size == ""){
-        message += "Please, select a size.\n\r";
+        showToast("Please select a size.", "warning");
+        return;
     }
     if(color == ""){
-        message += "Please, select a color.\n\r";
-    }
-    if(message.length > 0){
-        alert(message);
+        showToast("Please select a color.", "warning");
         return;
     }
 
@@ -109,7 +106,10 @@ function addToCart(){
     });
 
     $.post("/api.php/cart_add", data).done(function(){
+        showToast("Added to cart!", "success");
         updateCartContentAndOpen();
+    }).fail(function(){
+        showToast("Could not add to cart. Please try again.", "error");
     });
 
     setCartItemNumber();

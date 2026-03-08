@@ -7,6 +7,19 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
     <script src="/js/csrf.js"></script>
+    <script src="/js/toast.js"></script>
+    <script>
+    function togglePassword(fieldId, btn){
+        var field = document.getElementById(fieldId);
+        if(field.type === 'password'){
+            field.type = 'text';
+            btn.textContent = 'Hide';
+        } else {
+            field.type = 'password';
+            btn.textContent = 'Show';
+        }
+    }
+    </script>
     <div class="header">
         <div id="left" class="hLeft"><span></span></div>
         <div id="brand" class="hBrand"><span></span></div>
