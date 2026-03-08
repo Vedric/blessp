@@ -52,7 +52,7 @@ function saveAddress($CONFIG){
             $stmt = $pdo->prepare('UPDATE account_addresses set firstname=:firstname, lastname=:lastname, phonenumber=:phonenumber, address=:address, city=:city, postal_code=:postalcode, country=:country, address_type=:addressType WHERE user_id=:userId AND id=:addressId');
             $stmt->execute([':firstname' => $firstname, ':lastname' => $lastname,':userId' => $userId, ':phonenumber' => $phonenumber, ':address' => $address, ':city' => $city, ':postalcode' => $postalCode, ':country' => $country, ':addressType' => 1, ':addressId'=>$addressId]);
 
-            if($dflt=="true"){
+            if(filter_var($dflt, FILTER_VALIDATE_BOOLEAN)){
                 $stmt = $pdo->prepare('UPDATE account_addresses set default_address = false WHERE user_id=:userId;');
                 $stmt->execute([':userId'=>$userId]);
                 $stmt = $pdo->prepare('UPDATE account_addresses set default_address = true WHERE user_id=:userId AND id=:addressId');
@@ -98,11 +98,7 @@ function addAddress($CONFIG){
             $country     = $data['country'];
             $dflt        = $data['default'];
 
-            $dfltBln = FALSE;
-
-            if($dflt==true||$dflt=="true"){
-                $dfltBln = TRUE;
-            }
+            $dfltBln = filter_var($dflt, FILTER_VALIDATE_BOOLEAN);
 
             $stmt = $pdo->prepare('INSERT INTO account_addresses(user_id, firstname, lastname, phonenumber, address, city, postal_code, country, address_type, default_address) VALUES (:userId, :firstname, :lastname, :phonenumber, :address, :city, :postalcode, :country, :addressType, :dflt)');
 
