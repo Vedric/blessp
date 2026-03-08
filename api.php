@@ -200,7 +200,7 @@ function login($CONFIG){
 
     // create session token in DB
     $token = generateToken(64);
-    $stmt = $pdo->prepare('INSERT INTO sessions (user_id, token, created_at, expires_at) VALUES (:uid, :token, NOW(), date_add(now(), INTERVAL \'172800\'))');
+    $stmt = $pdo->prepare('INSERT INTO sessions (user_id, token, created_at, expires_at) VALUES (:uid, :token, NOW(), NOW() + INTERVAL \'172800 seconds\')');
     $stmt->execute([':uid' => $user['id'], ':token' => $token]);
 
     setSessionCookie($CONFIG, $token);
