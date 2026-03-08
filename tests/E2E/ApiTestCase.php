@@ -18,6 +18,21 @@ abstract class ApiTestCase extends DatabaseTestCase
     /** @var resource|null */
     private static $serverProcess = null;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Clear filesystem-based rate limit files between tests
+        $dir = sys_get_temp_dir() . '/blessp_rate_limit';
+        if (is_dir($dir)) {
+            $files = glob($dir . '/*');
+            if ($files) {
+                foreach ($files as $f) {
+                    if (is_file($f)) unlink($f);
+                }
+            }
+        }
+    }
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
