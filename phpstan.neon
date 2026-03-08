@@ -1,0 +1,21 @@
+parameters:
+    level: 5
+    paths:
+        - config.php
+        - authent.php
+        - api_helper.php
+        - csrf.php
+        - rate_limit.php
+        - order.php
+        - order_item.php
+        - api/helper.php
+        - api/products_fctn.php
+        - api/orders_fctn.php
+        - api/address_fctn.php
+    excludePaths:
+        - vendor
+        - mailer
+        - tests
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Function [a-zA-Z_]+ already defined#'
