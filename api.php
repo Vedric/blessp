@@ -30,6 +30,11 @@ include './config.php';
 $CONFIG = getConfig();
 
 // -----------------------------
+// Rate limiting
+// -----------------------------
+include_once __DIR__ . '/rate_limit.php';
+
+// -----------------------------
 // Security headers
 // -----------------------------
 header('X-Content-Type-Options: nosniff');
@@ -137,6 +142,9 @@ $path = '/' . trim($path, '/');
 // POST /checkout
 
 function register($CONFIG){
+    // Rate limit: 5 registration attempts per IP per 15 minutes
+    rateLimitCheck('register', 5, 900);
+
     $data = getJsonInput();
     if (empty($data['email']) || empty($data['password'])) {
         jsonResponse(['error' => 'email and password required'], 400);
@@ -154,23 +162,39 @@ function register($CONFIG){
 }
 
 function login($CONFIG){
+    // Rate limit: 10 login attempts per IP per 15 minutes
+    rateLimitCheck('login', 10, 900);
+
     $data = getJsonInput();
     if (empty($data['email']) || empty($data['password'])) {
         jsonResponse(['error' => 'email and password required'], 400);
     }
+
+    $email = $data['email'];
+
+    // Account lockout: 5 failed attempts per email locks the account for 15 minutes
+    if (rateLimitIsAccountLocked($email, 5, 900)) {
+        header('Retry-After: 900');
+        jsonResponse(['error' => 'Account temporarily locked due to too many failed attempts. Please try again later.'], 429);
+    }
+
     $pdo = getPDO($CONFIG);
     $stmt = $pdo->prepare('SELECT id, password_hash FROM users WHERE email = :email LIMIT 1');
-    $stmt->execute([':email' => $data['email']]);
+    $stmt->execute([':email' => $email]);
     $user = $stmt->fetch();
     if (!$user || !password_verify($data['password'], $user['password_hash'])) {
+        rateLimitLoginFailed($email, 5, 900);
         jsonResponse(['error' => 'invalid credentials'], 401);
     }
+
+    // Successful login: clear failed attempt counter
+    rateLimitClearLoginFailed($email);
+
     // create session token in DB
     $token = generateToken(64);
     $stmt = $pdo->prepare('INSERT INTO sessions (user_id, token, created_at, expires_at) VALUES (:uid, :token, NOW(), date_add(now(), INTERVAL \'172800\'))');
-    //$stmt->execute([':uid' => $user['id'], ':token' => $token, ':seconds' => $CONFIG['session_lifetime_seconds']]);
     $stmt->execute([':uid' => $user['id'], ':token' => $token]);
-    
+
     setSessionCookie($CONFIG, $token);
     jsonResponse(['ok' => true]);
 }
