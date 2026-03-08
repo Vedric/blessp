@@ -28,7 +28,7 @@
             'cookie_secure' => filter_var(getenv('COOKIE_SECURE') ?: 'false', FILTER_VALIDATE_BOOLEAN),
             'cookie_httponly' => true,
             'cookie_samesite' => 'Strict',
-            'version' => '1.0.6',
+            'version' => '2.0.0',
             'taxe_rate' => 0
         ];
 
