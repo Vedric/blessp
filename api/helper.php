@@ -4,8 +4,8 @@ $CONFIG = getConfig();
 include_once __DIR__ . '/../authent.php';
 include_once __DIR__ . '/../csrf.php';
 
-$method = $_SERVER['REQUEST_METHOD'];
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 
 $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 $idx = strrpos($path, "/");

@@ -71,9 +71,7 @@ jobs:
       # ── Static Analysis ───────────────────────────────────────
       - name: PHPStan Static Analysis
         if: hashFiles('phpstan.neon') != '' || hashFiles('phpstan.neon.dist') != ''
-        run: |
-          composer require --dev phpstan/phpstan --no-interaction || true
-          vendor/bin/phpstan analyse --no-progress
+        run: vendor/bin/phpstan analyse --no-progress
 
       # ── Unit Tests ────────────────────────────────────────────
       - name: Run PHPUnit Tests
