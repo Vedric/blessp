@@ -6,6 +6,7 @@ import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import type { Product } from '@/lib/types';
 import { RecentlyViewed } from '@/components/common/RecentlyViewed';
+import { CompareButton } from '@/components/common/CompareButton';
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -135,7 +136,8 @@ export default function HomePage() {
               variants={stagger}
             >
               {featured.map((product) => (
-                <motion.div key={product.id} variants={fadeUp}>
+                <motion.div key={product.id} variants={fadeUp} className="relative">
+                  <CompareButton productId={product.id} />
                   <Link to={`/products/${product.id}`} className="group block">
                     <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
                       <img
