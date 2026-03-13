@@ -85,7 +85,7 @@ export default function SearchPage() {
               defaultValue={query}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder="Search our collection..."
-              className="w-full border border-neutral-200 bg-white py-4 pl-12 pr-4 text-lg text-neutral-900 placeholder:text-neutral-400 focus:border-[#c8a97e] focus:outline-none"
+              className="w-full border border-neutral-200 bg-white py-4 pl-12 pr-4 text-lg text-neutral-900 placeholder:text-neutral-400 transition-colors duration-200 focus:border-[#c8a97e] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e]/20"
             />
           </div>
           {hasSearched && !isLoading && (
@@ -113,13 +113,16 @@ export default function SearchPage() {
             className="flex flex-col items-center py-24 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            <Search className="h-12 w-12 text-neutral-200" strokeWidth={1.5} />
-            <h3 className="mt-6 text-lg font-medium text-neutral-900">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50">
+              <Search className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
+            </div>
+            <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
               Search our collection
             </h3>
             <p className="mt-2 max-w-sm text-sm text-neutral-500">
-              Find exactly what you&apos;re looking for by searching by name or description.
+              Find exactly what you&apos;re looking for by name, category, or description.
             </p>
           </motion.div>
         ) : products.length === 0 ? (
@@ -132,15 +135,15 @@ export default function SearchPage() {
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50">
               <PackageOpen className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
             </div>
-            <h3 className="mt-6 text-lg font-medium text-neutral-900">
+            <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
               No results for &ldquo;{query}&rdquo;
             </h3>
             <p className="mt-2 max-w-sm text-sm text-neutral-500">
-              Try different keywords or browse our full collection.
+              We couldn&apos;t find a match. Try adjusting your keywords or explore our full collection.
             </p>
             <Link
               to="/shop"
-              className="mt-6 text-sm font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:text-[#b89a6f]"
+              className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#c8a97e] hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
             >
               Browse Collection
             </Link>

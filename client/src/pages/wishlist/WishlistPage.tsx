@@ -24,7 +24,9 @@ export default function WishlistPage() {
       {/* Hero banner */}
       <div className="relative overflow-hidden bg-neutral-50">
         <div className="mx-auto max-w-7xl px-4 pt-32 pb-12 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Wishlist' }]} />
+          <div className="mb-6">
+            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Wishlist' }]} />
+          </div>
           <motion.p
             className="text-xs font-medium tracking-[0.3em] text-[#c8a97e] uppercase"
             initial={{ opacity: 0 }}
@@ -89,7 +91,7 @@ export default function WishlistPage() {
             </p>
             <Link
               to="/shop"
-              className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
+              className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#c8a97e] hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
             >
               Explore the Collection
             </Link>

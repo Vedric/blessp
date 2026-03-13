@@ -46,7 +46,7 @@ export function CartDrawer() {
               <h2 className="font-display text-lg font-medium">Cart</h2>
               <button
                 onClick={closeCart}
-                className="text-neutral-400 transition-colors hover:text-neutral-900"
+                className="text-neutral-400 transition-colors duration-200 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
                 aria-label="Close cart"
               >
                 <X size={20} />
@@ -55,13 +55,20 @@ export function CartDrawer() {
 
             {/* Items */}
             {items.length === 0 ? (
-              <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6">
-                <ShoppingBag size={40} className="text-neutral-300" />
-                <p className="text-sm text-neutral-500">
-                  Your cart is empty.
-                </p>
+              <div className="flex flex-1 flex-col items-center justify-center gap-5 px-6">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50">
+                  <ShoppingBag size={28} className="text-neutral-300" strokeWidth={1.5} />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-neutral-900">
+                    Your cart is empty
+                  </p>
+                  <p className="mt-1 text-xs text-neutral-400">
+                    Discover something you love in our collection.
+                  </p>
+                </div>
                 <Button variant="secondary" size="sm" onClick={closeCart}>
-                  Continue Shopping
+                  Explore Collection
                 </Button>
               </div>
             ) : (
@@ -101,7 +108,7 @@ export function CartDrawer() {
                                     ? removeItem(item.id)
                                     : updateQuantity(item.id, item.quantity - 1)
                                 }
-                                className="flex h-7 w-7 items-center justify-center border border-neutral-200 text-neutral-600 transition-colors hover:border-neutral-400"
+                                className="flex h-7 w-7 items-center justify-center border border-neutral-200 text-neutral-600 transition-all duration-200 hover:border-neutral-400 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e]"
                                 aria-label="Decrease quantity"
                               >
                                 <Minus size={12} />
@@ -113,7 +120,7 @@ export function CartDrawer() {
                                 onClick={() =>
                                   updateQuantity(item.id, item.quantity + 1)
                                 }
-                                className="flex h-7 w-7 items-center justify-center border border-neutral-200 text-neutral-600 transition-colors hover:border-neutral-400"
+                                className="flex h-7 w-7 items-center justify-center border border-neutral-200 text-neutral-600 transition-all duration-200 hover:border-neutral-400 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e]"
                                 aria-label="Increase quantity"
                               >
                                 <Plus size={12} />

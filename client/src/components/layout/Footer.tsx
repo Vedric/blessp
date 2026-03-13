@@ -155,7 +155,7 @@ export function Footer() {
                   <li key={to}>
                     <Link
                       to={to}
-                      className="text-sm text-neutral-400 transition-colors hover:text-white"
+                      className="text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:text-white focus-visible:underline"
                     >
                       {label}
                     </Link>
@@ -173,7 +173,7 @@ export function Footer() {
                   <li key={to}>
                     <Link
                       to={to}
-                      className="text-sm text-neutral-400 transition-colors hover:text-white"
+                      className="text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:text-white focus-visible:underline"
                     >
                       {label}
                     </Link>

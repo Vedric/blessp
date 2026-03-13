@@ -28,7 +28,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
             ) : (
               <Link
                 to={item.href}
-                className="text-xs tracking-wider text-neutral-400 uppercase transition-colors hover:text-neutral-600"
+                className="text-xs tracking-wider text-neutral-400 uppercase transition-colors duration-200 hover:text-neutral-600 focus-visible:outline-none focus-visible:text-neutral-600 focus-visible:underline"
               >
                 {item.label}
               </Link>

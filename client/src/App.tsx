@@ -191,8 +191,32 @@ export default function App() {
                   background: '#171717',
                   color: '#fff',
                   fontSize: '0.875rem',
+                  fontFamily: 'inherit',
                   borderRadius: '0',
-                  padding: '12px 20px',
+                  padding: '14px 22px',
+                  letterSpacing: '0.02em',
+                  boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
+                  maxWidth: '420px',
+                },
+                success: {
+                  style: {
+                    background: '#171717',
+                    borderLeft: '3px solid #c8a97e',
+                  },
+                  iconTheme: {
+                    primary: '#c8a97e',
+                    secondary: '#171717',
+                  },
+                },
+                error: {
+                  style: {
+                    background: '#171717',
+                    borderLeft: '3px solid #ef4444',
+                  },
+                  iconTheme: {
+                    primary: '#ef4444',
+                    secondary: '#171717',
+                  },
                 },
               }}
             />
