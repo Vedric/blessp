@@ -10,6 +10,8 @@ import { couponsRouter } from '../../features/coupons/coupons.router';
 import { currencyRouter } from '../../features/currency/currency.router';
 import { reviewsRouter } from '../../features/reviews/reviews.router';
 import { newsletterRouter } from '../../features/newsletter/newsletter.router';
+import { loyaltyRouter } from '../../features/loyalty/loyalty.router';
+import { analyticsRouter } from '../../features/analytics/analytics.router';
 
 const router = Router();
 
@@ -24,5 +26,7 @@ router.use('/coupons', couponsRouter);
 router.use('/currencies', currencyRouter);
 router.use('/reviews', reviewsRouter);
 router.use('/newsletter', newsletterRouter);
+router.use('/loyalty', loyaltyRouter);
+router.use('/analytics', analyticsRouter);
 
 export { router as apiRouter };

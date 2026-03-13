@@ -92,6 +92,41 @@ export class ReviewsController {
     }
   };
 
+  getAllReviews = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const page = Math.max(parseInt(req.query.page as string, 10) || 1, 1);
+      const perPage = Math.min(Math.max(parseInt(req.query.perPage as string, 10) || 20, 1), 100);
+      const result = await this.reviewsService.getAllReviews(page, perPage);
+
+      res.status(200).json({
+        data: result.items,
+        pagination: {
+          page: result.page,
+          perPage: result.perPage,
+          totalItems: result.totalItems,
+          totalPages: result.totalPages,
+        },
+        meta: {
+          requestId: req.headers['x-request-id'] as string,
+          timestamp: new Date().toISOString(),
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  adminDeleteReview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { id } = ReviewParamsSchema.parse(req.params);
+      await this.reviewsService.adminDeleteReview(id);
+
+      res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  };
+
   deleteReview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const authReq = req as AuthenticatedRequest;

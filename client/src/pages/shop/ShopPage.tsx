@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { useCurrency } from '@/context/CurrencyContext';
 import type { Product, PaginatedResponse } from '@/lib/types';
 import { WishlistButton } from '@/components/common/WishlistButton';
+import { CompareButton } from '@/components/common/CompareButton';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { RecentlyViewed } from '@/components/common/RecentlyViewed';
 import { FilterPanel, type ActiveFilters } from '@/components/shop/FilterPanel';
@@ -393,6 +394,16 @@ export default function ShopPage() {
                             alt={product.name}
                             className="h-full w-full bg-neutral-100 scale-[1.02] object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.07]"
                           />
+                          {product.hasLowStock && (
+                            <motion.span
+                              initial={{ opacity: 0, scale: 0.9 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.3 }}
+                              className="absolute top-3 left-3 z-10 bg-[#c8a97e]/90 px-2.5 py-1 text-[10px] font-semibold tracking-widest text-white uppercase backdrop-blur-sm"
+                            >
+                              Low Stock
+                            </motion.span>
+                          )}
                           <div className="absolute inset-0 flex items-end justify-center bg-black/0 transition-all duration-500 group-hover:bg-black/10">
                             <span className="mb-6 translate-y-4 text-xs font-medium tracking-[0.2em] text-white uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                               View Product
@@ -401,6 +412,7 @@ export default function ShopPage() {
                         </div>
                       </Link>
                       <WishlistButton productId={product.id} />
+                      <CompareButton productId={product.id} />
                       <div className="mt-4">
                         <h3 className="text-sm font-medium text-neutral-900">
                           {product.name}

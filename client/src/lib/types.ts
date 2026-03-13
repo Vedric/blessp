@@ -22,6 +22,7 @@ export interface Product {
   sizes: string[];
   isActive: boolean;
   onfrontOrder: number | null;
+  hasLowStock?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -149,6 +150,15 @@ export interface AuthTokens {
   refreshToken: string;
 }
 
+export interface ProductVariant {
+  id: string;
+  productId: string;
+  size: string;
+  color: string;
+  stock: number;
+  sku: string | null;
+}
+
 export interface CouponValidation {
   coupon: {
     code: string;
@@ -156,4 +166,31 @@ export interface CouponValidation {
     discountValue: number;
   };
   discountCents: number;
+}
+
+export interface OrderStatusHistoryEntry {
+  id: string;
+  orderId: string;
+  status: string;
+  note: string | null;
+  createdAt: string;
+}
+
+export type LoyaltyTier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
+
+export interface LoyaltyBalance {
+  points: number;
+  tier: LoyaltyTier;
+  nextTier: LoyaltyTier | null;
+  pointsToNextTier: number;
+  redeemableValue: number;
+}
+
+export interface LoyaltyTransaction {
+  id: string;
+  points: number;
+  type: 'earned' | 'redeemed' | 'bonus';
+  description: string;
+  orderId: string | null;
+  createdAt: string;
 }

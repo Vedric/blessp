@@ -77,6 +77,31 @@ export class ReviewsRepository {
     });
   }
 
+  async findAll(page: number, perPage: number) {
+    const skip = (page - 1) * perPage;
+
+    const [items, totalItems] = await Promise.all([
+      prisma.review.findMany({
+        include: {
+          user: { select: userSelect },
+          product: { select: { name: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: perPage,
+      }),
+      prisma.review.count(),
+    ]);
+
+    return {
+      items,
+      totalItems,
+      page,
+      perPage,
+      totalPages: Math.ceil(totalItems / perPage),
+    };
+  }
+
   async getProductSummary(productId: string): Promise<ReviewSummary> {
     const reviews = await prisma.review.findMany({
       where: { productId },

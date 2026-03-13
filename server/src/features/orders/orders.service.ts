@@ -2,6 +2,7 @@ import { NotFoundError, ForbiddenError, ValidationError } from '../../core/error
 import { OrdersRepository } from './orders.repository';
 import { CartRepository } from '../cart/cart.repository';
 import { CouponsService } from '../coupons/coupons.service';
+import { VariantsRepository } from '../products/variants.repository';
 import { OrderResponse, OrderItemResponse, CreateOrderDto, OrderQueryParams } from './orders.types';
 import { sendOrderConfirmation } from './order.emails';
 import { logger } from '../../core/observability/logger';
@@ -11,6 +12,7 @@ export class OrdersService {
     private readonly ordersRepository: OrdersRepository,
     private readonly cartRepository: CartRepository,
     private readonly couponsService: CouponsService,
+    private readonly variantsRepository: VariantsRepository = new VariantsRepository(),
   ) {}
 
   async createOrder(userId: string, dto: CreateOrderDto): Promise<OrderResponse> {
@@ -27,6 +29,22 @@ export class OrdersService {
       throw new ValidationError(
         `The following products are no longer available: ${names}.`,
       );
+    }
+
+    // Verify stock availability for each cart item
+    for (const item of cartItems) {
+      if (item.size && item.color) {
+        const variant = await this.variantsRepository.findByProductAndVariant(
+          item.productId,
+          item.size,
+          item.color,
+        );
+        if (variant && variant.stock < item.quantity) {
+          throw new ValidationError(
+            `Insufficient stock for "${item.product.name}" (${item.size}/${item.color}). Only ${variant.stock} remaining.`,
+          );
+        }
+      }
     }
 
     const subtotalCents = cartItems.reduce(
@@ -77,8 +95,30 @@ export class OrdersService {
       items: orderItems,
     });
 
+    // Decrement stock for each ordered variant
+    for (const item of cartItems) {
+      if (item.size && item.color) {
+        try {
+          await this.variantsRepository.decrementStock(
+            item.productId,
+            item.size,
+            item.color,
+            item.quantity,
+          );
+        } catch (err) {
+          logger.warn(
+            { err, productId: item.productId, size: item.size, color: item.color },
+            'Could not decrement variant stock (variant may not exist)',
+          );
+        }
+      }
+    }
+
     // Clear the cart after successful order creation
     await this.cartRepository.clearCart(userId);
+
+    // Record initial status history
+    await this.ordersRepository.createStatusHistoryEntry(order.id, 'pending', 'Order placed');
 
     const orderResponse = this.toOrderResponse(order);
 
@@ -161,7 +201,25 @@ export class OrdersService {
     }
 
     const updated = await this.ordersRepository.updateStatus(orderId, status);
+
+    // Record status change in history
+    await this.ordersRepository.createStatusHistoryEntry(orderId, status);
+
     return this.toOrderResponse(updated);
+  }
+
+  async getOrderTimeline(userId: string, orderId: string, isAdmin: boolean) {
+    const order = await this.ordersRepository.findById(orderId);
+
+    if (!order) {
+      throw new NotFoundError('Order', orderId);
+    }
+
+    if (order.userId !== userId && !isAdmin) {
+      throw new ForbiddenError('You do not have access to this order.');
+    }
+
+    return this.ordersRepository.findStatusHistory(orderId);
   }
 
   private toOrderResponse(order: {

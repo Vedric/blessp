@@ -130,4 +130,17 @@ export class OrdersRepository {
       data: { transactionKey },
     });
   }
+
+  async createStatusHistoryEntry(orderId: string, status: string, note?: string) {
+    return prisma.orderStatusHistory.create({
+      data: { orderId, status, note },
+    });
+  }
+
+  async findStatusHistory(orderId: string) {
+    return prisma.orderStatusHistory.findMany({
+      where: { orderId },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
 }

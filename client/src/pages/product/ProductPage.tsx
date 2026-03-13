@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState, useMemo } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Minus, Plus, ShoppingBag, ChevronDown, Ruler } from 'lucide-react';
 import { api } from '@/lib/api';
@@ -10,6 +10,9 @@ import { SizeGuide } from '@/components/common/SizeGuide';
 import { WishlistButton } from '@/components/common/WishlistButton';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { ReviewSection } from '@/components/product/ReviewSection';
+import { SocialShare } from '@/components/product/SocialShare';
+import { CompleteLook } from '@/components/product/CompleteLook';
+import { CompareButton } from '@/components/common/CompareButton';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import type { Product, ProductVariant, PaginatedResponse } from '@/lib/types';
 
@@ -25,6 +28,7 @@ const slideUp = {
 
 export default function ProductPage() {
   const { id: productId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const { addProduct: addToRecentlyViewed } = useRecentlyViewed();
@@ -39,6 +43,7 @@ export default function ProductPage() {
   const [isAdding, setIsAdding] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [variants, setVariants] = useState<ProductVariant[]>([]);
+  const [siblingProducts, setSiblingProducts] = useState<Product[]>([]);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -50,6 +55,14 @@ export default function ProductPage() {
         addToRecentlyViewed(data.id);
         if (data.colors.length > 0) setSelectedColor(data.colors[0]);
         if (data.sizes.length > 0) setSelectedSize(data.sizes[0]);
+
+        // Fetch variant stock info
+        try {
+          const variantData = await api.get<ProductVariant[]>(`/products/${productId}/variants`);
+          setVariants(variantData);
+        } catch {
+          setVariants([]);
+        }
       } catch {
         setProduct(null);
       } finally {
@@ -59,23 +72,57 @@ export default function ProductPage() {
     if (productId) fetchProduct();
   }, [productId]);
 
-  // Fetch related products when main product loads
+  // Fetch sibling products (same category) for color variant linking
   useEffect(() => {
-    const fetchRelated = async () => {
+    const fetchSiblings = async () => {
       if (!product?.category) return;
       try {
         const res = await api.getRaw<PaginatedResponse<Product>>(
-          `/products?category=${product.category}&perPage=5`,
+          `/products?category=${product.category}&perPage=20`,
         );
-        setRelatedProducts(
-          res.data.filter((p) => p.id !== product.id).slice(0, 4),
-        );
+        const siblings = res.data.filter((p) => p.id !== product.id);
+        setSiblingProducts(siblings);
+        setRelatedProducts(siblings.slice(0, 4));
       } catch {
+        setSiblingProducts([]);
         setRelatedProducts([]);
       }
     };
-    fetchRelated();
+    fetchSiblings();
   }, [product?.category, product?.id]);
+
+  // Build a unified color map: color -> product (for cross-product color switching)
+  const colorVariants = useMemo(() => {
+    if (!product) return [];
+    const colorMap = new Map<string, { color: string; product: Product }>();
+
+    // Current product's colors first
+    for (const color of product.colors) {
+      colorMap.set(color.toLowerCase(), { color, product });
+    }
+
+    // Add sibling product colors
+    for (const sibling of siblingProducts) {
+      for (const color of sibling.colors) {
+        const key = color.toLowerCase();
+        if (!colorMap.has(key)) {
+          colorMap.set(key, { color, product: sibling });
+        }
+      }
+    }
+
+    return Array.from(colorMap.values());
+  }, [product, siblingProducts]);
+
+  const handleColorSwitch = (color: string, targetProduct: Product) => {
+    if (targetProduct.id === product?.id) {
+      // Same product, just switch color
+      setSelectedColor(color);
+    } else {
+      // Different product, navigate with crossfade
+      navigate(`/products/${targetProduct.id}`, { replace: true });
+    }
+  };
 
   const handleAddToCart = async () => {
     if (!product) return;
@@ -124,6 +171,19 @@ export default function ProductPage() {
     ...product.images.filter((img) => img !== product.picture),
   ].filter(Boolean);
 
+  // Stock helpers
+  const getVariantStock = (size: string, color: string): number | null => {
+    const variant = variants.find((v) => v.size === size && v.color === color);
+    return variant ? variant.stock : null;
+  };
+
+  const currentStock = selectedSize && selectedColor
+    ? getVariantStock(selectedSize, selectedColor)
+    : null;
+
+  const isOutOfStock = currentStock !== null && currentStock <= 0;
+  const isLowStock = currentStock !== null && currentStock > 0 && currentStock <= 5;
+
   return (
     <div className="mx-auto max-w-7xl px-4 pt-32 pb-24 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -147,14 +207,15 @@ export default function ProductPage() {
         <motion.div variants={fadeIn}>
           <div className="relative">
             {product && <WishlistButton productId={product.id} />}
+            {product && <CompareButton productId={product.id} />}
           <AnimatePresence mode="wait">
             <motion.div
-              key={selectedImage}
+              key={`${product.id}-${selectedImage}`}
               className="aspect-[3/4] overflow-hidden bg-neutral-100"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, scale: 1.03 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
             >
               <img
                 src={allImages[selectedImage] || product.picture}
@@ -198,36 +259,85 @@ export default function ProductPage() {
             {formatPrice(product.price)}
           </p>
 
-          {/* Color selector */}
-          {product.colors.length > 0 && (
+          {/* Stock badge */}
+          {currentStock !== null && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isOutOfStock ? 'oos' : isLowStock ? 'low' : 'in'}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                transition={{ duration: 0.25 }}
+                className="mt-3"
+              >
+                {isOutOfStock ? (
+                  <span className="inline-block rounded-sm bg-neutral-900 px-3 py-1 text-xs font-medium tracking-wider text-white uppercase">
+                    Out of Stock
+                  </span>
+                ) : isLowStock ? (
+                  <span className="inline-block rounded-sm bg-[#c8a97e]/15 px-3 py-1 text-xs font-medium tracking-wider text-[#c8a97e] uppercase">
+                    Only {currentStock} left!
+                  </span>
+                ) : (
+                  <span className="inline-block rounded-sm bg-emerald-50 px-3 py-1 text-xs font-medium tracking-wider text-emerald-700 uppercase">
+                    In Stock
+                  </span>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          )}
+
+          {/* Color selector (unified across sibling products) */}
+          {colorVariants.length > 0 && (
             <div className="mt-8">
               <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
                 Color: {selectedColor}
               </p>
               <div className="mt-3 flex gap-3">
-                {product.colors.map((color) => {
-                  const colorMap: Record<string, string> = {
+                {colorVariants.map(({ color, product: targetProduct }) => {
+                  const colorHexMap: Record<string, string> = {
                     black: '#000000',
                     blue: '#2563eb',
                     pink: '#ec4899',
+                    red: '#ef4444',
                     white: '#ffffff',
                     gray: '#6b7280',
+                    grey: '#6b7280',
                     navy: '#1e3a5f',
+                    green: '#22c55e',
+                    beige: '#d4c5a9',
+                    brown: '#8B4513',
+                    cream: '#FFFDD0',
+                    olive: '#808000',
+                    purple: '#9333ea',
+                    orange: '#f97316',
+                    yellow: '#eab308',
+                    burgundy: '#800020',
+                    khaki: '#c3b091',
                   };
+                  const isCurrentColor =
+                    targetProduct.id === product.id &&
+                    color.toLowerCase() === selectedColor.toLowerCase();
+                  const isSiblingProduct = targetProduct.id !== product.id;
+
                   return (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
+                    <motion.button
+                      key={`${targetProduct.id}-${color}`}
+                      onClick={() => handleColorSwitch(color, targetProduct)}
                       className={cn(
-                        'h-8 w-8 rounded-full border-2 transition-all',
-                        selectedColor === color
+                        'relative h-8 w-8 rounded-full border-2 transition-all',
+                        isCurrentColor
                           ? 'border-neutral-900 ring-2 ring-neutral-900 ring-offset-2'
-                          : 'border-neutral-200 hover:border-neutral-400',
+                          : isSiblingProduct
+                            ? 'border-neutral-200 hover:border-[#c8a97e] hover:ring-1 hover:ring-[#c8a97e] hover:ring-offset-1'
+                            : 'border-neutral-200 hover:border-neutral-400',
                       )}
                       style={{
-                        backgroundColor: colorMap[color.toLowerCase()] || color,
+                        backgroundColor: colorHexMap[color.toLowerCase()] || color,
                       }}
-                      title={color}
+                      title={`${color}${isSiblingProduct ? ` (${targetProduct.name})` : ''}`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
                     />
                   );
                 })}
@@ -242,20 +352,30 @@ export default function ProductPage() {
                 Size
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={cn(
-                      'flex h-10 min-w-[3rem] items-center justify-center border px-4 text-sm font-medium transition-colors',
-                      selectedSize === size
-                        ? 'border-neutral-900 bg-neutral-900 text-white'
-                        : 'border-neutral-200 text-neutral-700 hover:border-neutral-400',
-                    )}
-                  >
-                    {size}
-                  </button>
-                ))}
+                {product.sizes.map((size) => {
+                  const sizeStock = selectedColor
+                    ? getVariantStock(size, selectedColor)
+                    : null;
+                  const sizeOutOfStock = sizeStock !== null && sizeStock <= 0;
+
+                  return (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      disabled={sizeOutOfStock}
+                      className={cn(
+                        'flex h-10 min-w-[3rem] items-center justify-center border px-4 text-sm font-medium transition-colors',
+                        sizeOutOfStock
+                          ? 'cursor-not-allowed border-neutral-100 text-neutral-300 line-through'
+                          : selectedSize === size
+                            ? 'border-neutral-900 bg-neutral-900 text-white'
+                            : 'border-neutral-200 text-neutral-700 hover:border-neutral-400',
+                      )}
+                    >
+                      {size}
+                    </button>
+                  );
+                })}
               </div>
               <button
                 onClick={() => setSizeGuideOpen(true)}
@@ -295,14 +415,19 @@ export default function ProductPage() {
           {/* Add to Cart */}
           <motion.button
             onClick={handleAddToCart}
-            disabled={isAdding}
-            className="mt-10 flex w-full items-center justify-center gap-3 bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-all hover:bg-[#c8a97e] hover:text-neutral-950 disabled:opacity-50"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            disabled={isAdding || isOutOfStock}
+            className={cn(
+              'mt-10 flex w-full items-center justify-center gap-3 px-8 py-4 text-sm font-medium tracking-widest uppercase transition-all disabled:opacity-50',
+              isOutOfStock
+                ? 'cursor-not-allowed bg-neutral-200 text-neutral-400'
+                : 'bg-neutral-900 text-white hover:bg-[#c8a97e] hover:text-neutral-950',
+            )}
+            whileHover={isOutOfStock ? {} : { scale: 1.02 }}
+            whileTap={isOutOfStock ? {} : { scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
           >
             <ShoppingBag className="h-4 w-4" />
-            {isAdding ? 'Adding...' : 'Add to Cart'}
+            {isOutOfStock ? 'Out of Stock' : isAdding ? 'Adding...' : 'Add to Cart'}
           </motion.button>
 
           {/* Description accordion */}
@@ -338,8 +463,16 @@ export default function ProductPage() {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Social sharing */}
+          <SocialShare productName={product.name} className="mt-6 border-t border-neutral-100 pt-6" />
         </motion.div>
       </motion.div>
+
+      {/* Complete the Look */}
+      {productId && product && (
+        <CompleteLook productId={productId} currentProduct={product} />
+      )}
 
       {/* You May Also Like */}
       {relatedProducts.length > 0 && (

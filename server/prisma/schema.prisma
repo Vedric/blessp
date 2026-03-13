@@ -18,14 +18,17 @@ model User {
   updatedAt    DateTime  @updatedAt @map("updated_at")
   deletedAt    DateTime? @map("deleted_at")
 
-  sessions      Session[]
-  addresses     Address[]
-  orders        Order[]
-  cartItems     CartItem[]
-  wishlistItems WishlistItem[]
-  reviews       Review[]
-  refreshTokens       RefreshToken[]
-  passwordResetTokens PasswordResetToken[]
+  loyaltyPoints Int       @default(0) @map("loyalty_points")
+
+  sessions              Session[]
+  addresses             Address[]
+  orders                Order[]
+  cartItems             CartItem[]
+  wishlistItems         WishlistItem[]
+  reviews               Review[]
+  refreshTokens         RefreshToken[]
+  passwordResetTokens   PasswordResetToken[]
+  loyaltyTransactions   LoyaltyTransaction[]
 
   @@map("users")
 }
@@ -97,6 +100,7 @@ model Product {
   cartItems     CartItem[]
   wishlistItems WishlistItem[]
   reviews       Review[]
+  variants      ProductVariant[]
 
   @@index([isActive])
   @@index([onfrontOrder])
@@ -139,12 +143,26 @@ model Order {
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
-  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items OrderItem[]
+  user          User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items         OrderItem[]
+  statusHistory OrderStatusHistory[]
 
   @@index([userId])
   @@index([status])
   @@map("orders")
+}
+
+model OrderStatusHistory {
+  id        String   @id @default(uuid())
+  orderId   String   @map("order_id")
+  status    String
+  note      String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_status_history")
 }
 
 model OrderItem {
@@ -237,4 +255,35 @@ model NewsletterSubscription {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("newsletter_subscriptions")
+}
+
+model ProductVariant {
+  id        String  @id @default(uuid())
+  productId String  @map("product_id")
+  size      String
+  color     String
+  stock     Int     @default(0)
+  sku       String?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, size, color])
+  @@index([productId])
+  @@map("product_variants")
+}
+
+model LoyaltyTransaction {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  points      Int      // positive for earned/bonus, negative for redeemed
+  type        String   // "earned", "redeemed", "bonus"
+  description String
+  orderId     String?  @map("order_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([orderId])
+  @@map("loyalty_transactions")
 }

@@ -78,6 +78,38 @@ export class ReviewsService {
     return toReviewResponse(updated);
   }
 
+  async getAllReviews(page: number, perPage: number) {
+    const result = await this.reviewsRepository.findAll(page, perPage);
+
+    return {
+      items: result.items.map((review) => ({
+        id: review.id,
+        userId: review.userId,
+        productId: review.productId,
+        productName: (review as { product?: { name: string } }).product?.name ?? 'Unknown',
+        rating: review.rating,
+        title: review.title,
+        comment: review.comment,
+        user: review.user,
+        createdAt: review.createdAt.toISOString(),
+        updatedAt: review.updatedAt.toISOString(),
+      })),
+      totalItems: result.totalItems,
+      page: result.page,
+      perPage: result.perPage,
+      totalPages: result.totalPages,
+    };
+  }
+
+  async adminDeleteReview(reviewId: string): Promise<void> {
+    const review = await this.reviewsRepository.findById(reviewId);
+    if (!review) {
+      throw new NotFoundError('Review', reviewId);
+    }
+
+    await this.reviewsRepository.delete(reviewId);
+  }
+
   async deleteReview(userId: string, reviewId: string): Promise<void> {
     const review = await this.reviewsRepository.findById(reviewId);
     if (!review) {

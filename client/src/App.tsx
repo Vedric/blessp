@@ -5,6 +5,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import { CurrencyProvider } from '@/context/CurrencyContext';
+import { CompareProvider } from '@/context/CompareContext';
 import { Layout } from '@/components/layout/Layout';
 import { ProtectedRoute } from '@/components/common/ProtectedRoute';
 import { AdminRoute } from '@/components/common/AdminRoute';
@@ -24,6 +25,7 @@ const ProfilePage = lazy(() => import('@/pages/profile/ProfilePage'));
 const OrdersPage = lazy(() => import('@/pages/profile/OrdersPage'));
 const OrderDetailPage = lazy(() => import('@/pages/profile/OrderDetailPage'));
 const AddressesPage = lazy(() => import('@/pages/profile/AddressesPage'));
+const LoyaltyPage = lazy(() => import('@/pages/profile/LoyaltyPage'));
 const AdminDashboardPage = lazy(() => import('@/pages/admin/AdminDashboardPage'));
 const AdminProductsPage = lazy(() => import('@/pages/admin/AdminProductsPage'));
 const AdminProductEditPage = lazy(() => import('@/pages/admin/AdminProductEditPage'));
@@ -33,6 +35,7 @@ const TermsPage = lazy(() => import('@/pages/legal/TermsPage'));
 const ReturnPolicyPage = lazy(() => import('@/pages/legal/ReturnPolicyPage'));
 const WishlistPage = lazy(() => import('@/pages/wishlist/WishlistPage'));
 const SearchPage = lazy(() => import('@/pages/search/SearchPage'));
+const ComparePage = lazy(() => import('@/pages/compare/ComparePage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
 function PageLoader() {
@@ -51,6 +54,7 @@ export default function App() {
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
+            <CompareProvider>
               <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route element={<Layout />}>
@@ -66,6 +70,7 @@ export default function App() {
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/terms" element={<TermsPage />} />
                   <Route path="/return-policy" element={<ReturnPolicyPage />} />
+                  <Route path="/compare" element={<ComparePage />} />
 
                   {/* Protected routes */}
                   <Route
@@ -105,6 +110,14 @@ export default function App() {
                     element={
                       <ProtectedRoute>
                         <AddressesPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile/loyalty"
+                    element={
+                      <ProtectedRoute>
+                        <LoyaltyPage />
                       </ProtectedRoute>
                     }
                   />
@@ -156,6 +169,7 @@ export default function App() {
                 </Route>
               </Routes>
               </Suspense>
+            </CompareProvider>
             </WishlistProvider>
 
             <CookieBanner />
