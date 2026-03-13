@@ -16,11 +16,11 @@ export const CreateOrderSchema = z.object({
 export const OrderQuerySchema = z.object({
   page: z.coerce.number().int().positive().default(1),
   perPage: z.coerce.number().int().positive().max(100).default(20),
-  status: z.enum(['pending', 'paid', 'shipped', 'delivered', 'cancelled']).optional(),
+  status: z.enum(['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled']).optional(),
 });
 
 export const UpdateOrderStatusSchema = z.object({
-  status: z.enum(['pending', 'paid', 'shipped', 'delivered', 'cancelled'], {
+  status: z.enum(['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'], {
     required_error: 'A valid order status is required.',
   }),
 }).strict();
