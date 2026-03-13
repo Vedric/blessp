@@ -1,0 +1,51 @@
+# Security Audit Pipeline
+# Scans dependencies for known vulnerabilities on a weekly schedule and on PRs.
+
+name: Security Audit
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"  # Every Monday at 08:00 UTC
+  pull_request:
+    branches: [develop, main]
+  workflow_dispatch:
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
+
+      - name: Install server dependencies
+        run: cd server && npm ci
+
+      - name: Install client dependencies
+        run: cd client && npm ci
+
+      - name: Audit server dependencies
+        run: cd server && npm audit --audit-level=high
+
+      - name: Audit client dependencies
+        run: cd client && npm audit --audit-level=high
+
+      - name: Validate Prisma schema
+        run: cd server && npx prisma validate

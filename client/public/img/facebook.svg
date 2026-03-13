@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="103.19999mm"
+   height="103.19999mm"
+   viewBox="0 0 103.19999 103.19999"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="facebook.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#000000"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.92599442"
+     inkscape:cx="-393.63088"
+     inkscape:cy="-19.978522"
+     inkscape:window-width="2880"
+     inkscape:window-height="1694"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true">
+    <sodipodi:guide
+       position="-33.78576,136.90676"
+       orientation="0,-1"
+       id="guide2"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-27.499725,155.47913"
+       orientation="0,-1"
+       id="guide3"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="powerclip"
+       message=""
+       id="path-effect3"
+       is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3">
+      <path
+         id="path3"
+         style="display:none;fill:#ffffff;stroke:#0000ff;stroke-width:0.210929;stroke-linecap:square;stroke-miterlimit:0;stroke-dasharray:none;paint-order:stroke fill markers"
+         d="m 158.99934,62.565143 c 14.95657,-0.06634 18.36739,0.120809 18.36739,0.120809 v 18.442445 l -14.78466,0.02074 c -2.62329,0.06863 -3.54878,1.183333 -3.58273,3.618949 v 10.373358 l 17.76739,-0.02016 -3.22139,17.771396 -14.546,-0.0202 v 40.55132 h -20.21021 c 0,0 0.0124,-24.51858 0.0166,-40.51103 l -16.61852,0.006 -0.004,-17.697451 16.62251,-0.05041 c -0.001,-6.744105 -0.006,-12.067844 -0.0175,-14.019649 -0.0404,-7.268784 5.25366,-18.520481 20.21023,-18.586825 z"
+         sodipodi:nodetypes="zccccccccccccccszz" />
+      <path
+         id="lpe_path-effect3"
+         style="fill:#ffffff;stroke:#0000ff;stroke-width:0.210929;stroke-linecap:square;stroke-miterlimit:0;stroke-dasharray:none;paint-order:stroke fill markers"
+         class="powerclip"
+         d="M 89.496367,44.835749 H 202.69636 V 158.03574 H 89.496367 Z m 69.502973,17.729394 -8.9e-4,-7.08e-4 c -14.95657,0.06634 -20.25063,11.318041 -20.21023,18.586825 0.0115,1.951805 0.0165,7.275544 0.0175,14.019649 l -16.62251,0.05041 0.004,17.697451 16.61852,-0.006 c -0.004,15.99245 -0.0166,40.51103 -0.0166,40.51103 h 20.21021 v -40.55132 l 14.546,0.0202 3.22139,-17.771396 -17.76739,0.02016 V 84.768086 c 0.034,-2.435616 0.95944,-3.550319 3.58273,-3.618949 l 14.78466,-0.02074 V 62.685952 c 0,0 -3.41082,-0.187149 -18.36739,-0.120809 z" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-94.698408,-49.304201)">
+    <path
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.277896;stroke-linecap:square;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect1"
+       width="102.9221"
+       height="102.9221"
+       x="94.635315"
+       y="49.974697"
+       ry="21.790995"
+       clip-path="url(#clipPath3)"
+       inkscape:path-effect="#path-effect3"
+       sodipodi:type="rect"
+       d="m 116.42631,49.974697 h 59.34011 c 12.07221,0 21.79099,9.718784 21.79099,21.790995 V 131.1058 c 0,12.07221 -9.71878,21.79099 -21.79099,21.79099 h -59.34011 c -12.07221,0 -21.790995,-9.71878 -21.790995,-21.79099 V 71.765692 c 0,-12.072211 9.718785,-21.790995 21.790995,-21.790995 z"
+       transform="translate(0.20204082,-0.53154762)" />
+  </g>
+</svg>
