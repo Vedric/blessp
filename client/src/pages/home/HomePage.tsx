@@ -141,7 +141,7 @@ export default function HomePage() {
                       <img
                         src={product.picture || product.images?.[0]}
                         alt={product.name}
-                        className="h-full w-full bg-neutral-100 object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                        className="h-full w-full bg-neutral-100 scale-[1.02] object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.07]"
                       />
                     </div>
                     <div className="mt-4">
@@ -283,7 +283,7 @@ export default function HomePage() {
                 <img
                   src={src}
                   alt={`BLE$$ P lookbook ${i + 1}`}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                  className="h-full w-full scale-[1.02] object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.07]"
                 />
               </motion.div>
             ))}

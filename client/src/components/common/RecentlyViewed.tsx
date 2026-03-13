@@ -103,7 +103,7 @@ export function RecentlyViewed() {
                     src={product.picture || product.images?.[0]}
                     alt={product.name}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="h-full w-full scale-[1.02] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
                   />
                 </div>
                 <div className="mt-3">

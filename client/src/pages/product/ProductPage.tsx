@@ -11,7 +11,7 @@ import { WishlistButton } from '@/components/common/WishlistButton';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { ReviewSection } from '@/components/product/ReviewSection';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
-import type { Product, PaginatedResponse } from '@/lib/types';
+import type { Product, ProductVariant, PaginatedResponse } from '@/lib/types';
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -38,6 +38,7 @@ export default function ProductPage() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [variants, setVariants] = useState<ProductVariant[]>([]);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -179,7 +180,7 @@ export default function ProductPage() {
                   <img
                     src={img}
                     alt={`${product.name} view ${i + 1}`}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full scale-[1.02] object-cover"
                   />
                 </button>
               ))}
@@ -373,7 +374,7 @@ export default function ProductPage() {
                     <img
                       src={related.picture || related.images?.[0]}
                       alt={related.name}
-                      className="h-full w-full bg-neutral-100 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="h-full w-full scale-[1.02] bg-neutral-100 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
                     />
                   </div>
                   <div className="mt-4">

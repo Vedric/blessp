@@ -391,7 +391,7 @@ export default function ShopPage() {
                           <img
                             src={product.picture || product.images?.[0]}
                             alt={product.name}
-                            className="h-full w-full bg-neutral-100 object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                            className="h-full w-full bg-neutral-100 scale-[1.02] object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.07]"
                           />
                           <div className="absolute inset-0 flex items-end justify-center bg-black/0 transition-all duration-500 group-hover:bg-black/10">
                             <span className="mb-6 translate-y-4 text-xs font-medium tracking-[0.2em] text-white uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">

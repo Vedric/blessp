@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star } from 'lucide-react';
 import { api } from '@/lib/api';
@@ -258,9 +259,12 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
               </div>
             )}
             {!isAuthenticated && (
-              <p className="text-sm text-neutral-400">
-                Sign in to leave a review.
-              </p>
+              <Link
+                to="/signin"
+                className="border border-[#c8a97e] px-6 py-3 text-sm font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:bg-[#c8a97e] hover:text-white"
+              >
+                Sign in to Review
+              </Link>
             )}
           </div>
         </motion.div>
