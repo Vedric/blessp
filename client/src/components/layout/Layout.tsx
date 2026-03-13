@@ -5,12 +5,14 @@ import { Footer } from './Footer';
 import { CartDrawer } from './CartDrawer';
 import { BackToTop } from '@/components/common/BackToTop';
 import { CompareDrawer } from '@/components/common/CompareDrawer';
+import { NavigationProgress } from '@/components/common/NavigationProgress';
 
 export function Layout() {
   const location = useLocation();
 
   return (
     <div className="flex min-h-screen flex-col">
+      <NavigationProgress />
       <Header />
       <main className="flex-1 pt-16 md:pt-18">
         <AnimatePresence mode="wait">
