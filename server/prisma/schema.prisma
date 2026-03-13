@@ -23,6 +23,7 @@ model User {
   orders        Order[]
   cartItems     CartItem[]
   wishlistItems WishlistItem[]
+  reviews       Review[]
   refreshTokens       RefreshToken[]
   passwordResetTokens PasswordResetToken[]
 
@@ -95,6 +96,7 @@ model Product {
   orderItems    OrderItem[]
   cartItems     CartItem[]
   wishlistItems WishlistItem[]
+  reviews       Review[]
 
   @@index([isActive])
   @@index([onfrontOrder])
@@ -207,4 +209,32 @@ model Coupon {
   createdAt     DateTime  @default(now()) @map("created_at")
 
   @@map("coupons")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  productId String   @map("product_id")
+  rating    Int      // 1-5
+  title     String?
+  comment   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([userId])
+  @@map("reviews")
+}
+
+model NewsletterSubscription {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscriptions")
 }

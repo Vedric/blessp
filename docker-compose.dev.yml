@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: blessp
+      POSTGRES_PASSWORD: blessp_dev_password
+      POSTGRES_DB: blessp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blessp -d blessp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    image: node:22-alpine
+    working_dir: /app/server
+    command: sh -c "npm install && npx prisma generate && npx prisma db push --skip-generate && npx tsx prisma/seed.ts && npm run dev"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app/server
+      - server_node_modules:/app/server/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://blessp:blessp_dev_password@db:5432/blessp
+      JWT_ACCESS_SECRET: dev-access-secret-change-me-in-production-min32chars
+      JWT_REFRESH_SECRET: dev-refresh-secret-change-me-in-production-min32chars
+      JWT_ACCESS_EXPIRY: 15m
+      JWT_REFRESH_EXPIRY: 7d
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
+      STRIPE_SECRET_KEY: sk_test_placeholder
+      STRIPE_WEBHOOK_SECRET: whsec_test_placeholder
+      LOG_LEVEL: debug
+      SERVICE_NAME: blessp-api
+      SERVICE_VERSION: 3.0.0
+    depends_on:
+      db:
+        condition: service_healthy
+
+  client:
+    image: node:22-alpine
+    working_dir: /app/client
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app/client
+      - client_node_modules:/app/client/node_modules
+    environment:
+      VITE_API_PROXY_TARGET: http://server:3000
+      VITE_STRIPE_PUBLIC_KEY: pk_test_placeholder
+    depends_on:
+      - server
+
+volumes:
+  pgdata:
+  server_node_modules:
+  client_node_modules:

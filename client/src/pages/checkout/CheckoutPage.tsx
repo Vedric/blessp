@@ -5,10 +5,12 @@ import { Check, ChevronRight, Tag, X } from 'lucide-react';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { stripePromise } from '@/lib/stripe';
 import { api } from '@/lib/api';
-import { formatPrice, cn } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import { useAuth } from '@/context/AuthContext';
 import type { Address, CouponValidation } from '@/lib/types';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 const steps = ['Shipping', 'Payment', 'Confirmation'];
 
@@ -197,6 +199,7 @@ function PaymentStep({
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items, total, clearCart } = useCart();
+  const { formatPrice } = useCurrency();
   const { isAuthenticated } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -338,6 +341,14 @@ export default function CheckoutPage() {
     <Elements stripe={stripePromise}>
       <div className="min-h-screen px-4 pt-32 pb-24 sm:px-6">
         <div className="mx-auto max-w-5xl">
+          <div className="mb-8">
+            <Breadcrumbs
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Checkout' },
+              ]}
+            />
+          </div>
           {/* Step indicator */}
           <div className="mb-12 flex items-center justify-center gap-4">
             {steps.map((step, i) => (
