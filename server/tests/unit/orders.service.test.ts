@@ -6,6 +6,9 @@ import { VariantsRepository } from '@features/products/variants.repository';
 import { NotFoundError, ForbiddenError, ValidationError } from '@core/errors/http.errors';
 
 jest.mock('@features/products/variants.repository');
+jest.mock('@core/queue/email.producer', () => ({
+  enqueueOrderConfirmationEmail: jest.fn().mockResolvedValue(undefined),
+}));
 
 describe('OrdersService', () => {
   let service: OrdersService;

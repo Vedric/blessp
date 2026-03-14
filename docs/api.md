@@ -538,6 +538,21 @@ No response body.
 
 Public endpoints (GET) do not require authentication. Write operations (POST, PATCH, DELETE) require admin privileges.
 
+### Caching Behaviour
+
+When Redis is available, the product endpoints leverage an in-memory cache to reduce database load. Caching is transparent to clients and does not affect the response format.
+
+| Endpoint | Cache Key Pattern | TTL | Notes |
+| --- | --- | --- | --- |
+| `GET /products` | `products:list:<queryHash>` | 120 seconds | Keyed by the combination of page, perPage, category, search, sort, and isActive |
+| `GET /products/:id` | `products:detail:<id>` | 300 seconds | Per-product cache |
+| `GET /products/featured` | `products:featured` | 300 seconds | Single shared key |
+| `GET /products` (filters) | `products:filters` | 600 seconds | Available filter values (categories, etc.) |
+
+**Cache invalidation:** When a product is created, updated, or deleted via `POST`, `PATCH`, or `DELETE`, all product-related cache entries are invalidated by pattern (`products:*`). This ensures clients always see fresh data after write operations.
+
+**No Redis?** If `REDIS_URL` is not configured, the cache layer operates in no-op mode. All reads fall through to PostgreSQL, and all write-through calls are silently skipped. No errors are raised.
+
 ### GET /api/v1/products
 
 List products with pagination, filtering, searching, and sorting. Only active, non-deleted products are returned.
@@ -929,6 +944,7 @@ Create a new order from the items currently in the authenticated user's cart. Th
 5. Order items are created with denormalised product name and price (preserving the values at purchase time)
 6. The order is created inside a database transaction
 7. The cart is cleared
+8. An order confirmation email is dispatched (via BullMQ when Redis is available, or sent synchronously as a fallback)
 
 #### Success response: `201 Created`
 
@@ -1179,14 +1195,14 @@ Liveness probe. Returns `200 OK` if the process is running. Use this for contain
 
 ### GET /health/ready
 
-Readiness probe. Returns `200 OK` only if the database is reachable. Use this for load balancer health checks and container readiness probes.
+Readiness probe. Returns `200 OK` only if the database is reachable. Use this for load balancer health checks and container readiness probes. When Redis is configured, its connectivity is also checked, but Redis being unreachable does not cause a 503 (the application functions without it).
 
 #### Success response: `200 OK`
 
 ```json
 {
   "status": "ready",
-  "checks": { "database": "fulfilled" }
+  "checks": { "database": "fulfilled", "redis": "fulfilled" }
 }
 ```
 
@@ -1195,7 +1211,7 @@ Readiness probe. Returns `200 OK` only if the database is reachable. Use this fo
 ```json
 {
   "status": "unavailable",
-  "checks": { "database": "rejected" }
+  "checks": { "database": "rejected", "redis": "fulfilled" }
 }
 ```
 

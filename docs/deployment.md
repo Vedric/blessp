@@ -23,9 +23,12 @@ Complete guide to deploying the BLE$$ P e-commerce platform in development, stag
 |-------------|---------|---------|
 | Node.js | 22+ | Runtime for the server and build tooling |
 | PostgreSQL | 16+ | Primary database |
+| Redis | 7+ *(optional)* | Caching and background job queue (BullMQ) |
 | Docker | 24+ | Containerized deployment |
 | Docker Compose | v2+ | Multi-service orchestration |
 | Stripe Account | | Payment processing (API keys required) |
+
+> Redis is **optional**. When `REDIS_URL` is not set, the application operates in no-op mode: caching is skipped and background email jobs are sent synchronously. No errors are raised.
 
 ## 🔧 Environment Variables
 
@@ -53,6 +56,7 @@ The validation schema lives in `server/src/core/config/env.ts`.
 | `CORS_ALLOWED_ORIGINS` | `string` | `http://localhost:3000` | Comma-separated URLs | 🌐 Allowed CORS origins |
 | `STRIPE_SECRET_KEY` | `string` | (none) | Min 1 character if provided | 💳 Stripe secret key |
 | `STRIPE_WEBHOOK_SECRET` | `string` | (none) | Min 1 character if provided | 💳 Stripe webhook signing secret |
+| `REDIS_URL` | `string` | (none) | Valid Redis URL if provided | 🗄️ Redis connection string (e.g., `redis://localhost:6379`). When omitted, caching and BullMQ are disabled |
 | `SERVICE_NAME` | `string` | `blessp-api` | Any string | 📊 Service name in log output |
 | `SERVICE_VERSION` | `string` | `3.0.0` | Any string | 📊 Version tag in log output |
 
@@ -75,6 +79,8 @@ LOG_LEVEL=debug
 
 DATABASE_URL=postgresql://blessp:blessp_dev_password@localhost:5433/blessp
 
+REDIS_URL=redis://localhost:6379
+
 JWT_PRIVATE_KEY_BASE64=<base64-encoded-RSA-private-key-PEM>
 JWT_PUBLIC_KEY_BASE64=<base64-encoded-RSA-public-key-PEM>
 JWT_ACCESS_EXPIRY=15m
@@ -95,21 +101,42 @@ The recommended production deployment uses Docker Compose with a multi-stage Doc
 
 ### Architecture
 
-```
-┌────────────────────────────────────────────┐
-│              Docker Compose                │
-│                                            │
-│  ┌──────────┐         ┌──────────────────┐ │
-│  │    db     │         │       app        │ │
-│  │ Postgres  │◄────────│  Node.js 22      │ │
-│  │ 16-alpine │  :5432  │  (non-root)      │ │
-│  │  :5433    │         │  :3000           │ │
-│  │  (host)   │         │                  │ │
-│  │  📁 pgdata│         │  Express API     │ │
-│  │  (volume) │         │  + React SPA     │ │
-│  └──────────┘         │  (static files)  │ │
-│                        └──────────────────┘ │
-└────────────────────────────────────────────┘
+```mermaid
+graph LR
+    subgraph COMPOSE["🐳 Docker Compose · Production"]
+        direction TB
+
+        subgraph DBSVC["db"]
+            direction TB
+            DBIMG["PostgreSQL 16 Alpine"]
+            DBPORT["Port 5433 → 5432"]
+            DBVOL["📁 pgdata volume"]
+        end
+
+        subgraph REDISSVC["redis"]
+            direction TB
+            REDISIMG["Redis 7 Alpine"]
+            REDISPORT["Port 6379"]
+            REDISVOL["📁 redisdata volume"]
+        end
+
+        subgraph APPSVC["app"]
+            direction TB
+            APPIMG["Node.js 22 Alpine · non-root"]
+            APPPORT["Port 3000"]
+            APP1["Express API"]
+            APP2["React SPA (static)"]
+            APP3["BullMQ Worker"]
+        end
+    end
+
+    DBSVC -- "TCP :5432" --> APPSVC
+    REDISSVC -- "TCP :6379" --> APPSVC
+
+    style COMPOSE fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#e2e8f0
+    style DBSVC fill:#1e293b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+    style REDISSVC fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
+    style APPSVC fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
 ```
 
 ### Dockerfile Stages
@@ -128,6 +155,10 @@ The production image is built in three stages to minimize the final image size:
 - ✅ Built-in `HEALTHCHECK` instruction (polls `/health/live` every 30 seconds)
 - ✅ Only production artifacts are included (no source code, no dev dependencies)
 - ✅ `NODE_ENV=production` is baked into the image
+
+**Redis in Docker Compose:**
+
+The compose stack includes a `redis:7-alpine` service with a persistent volume (`redisdata`) and a health check (`redis-cli ping`). The `app` service depends on Redis with `condition: service_healthy`. Redis data persists across container restarts via the named volume.
 
 ### Build and Start
 
@@ -188,20 +219,51 @@ The development setup uses `docker-compose.dev.yml` with three services and hot 
 
 ### Architecture
 
-```
-┌──────────────────────────────────────────────────────┐
-│              Docker Compose (Dev)                    │
-│                                                      │
-│  ┌──────────┐  ┌──────────────┐  ┌───────────────┐  │
-│  │    db     │  │    server    │  │    client     │  │
-│  │ Postgres  │  │  node:22    │  │  node:22      │  │
-│  │ 16-alpine │  │  tsx watch  │  │  vite dev     │  │
-│  │  :5433    │  │  :3000      │  │  :5173        │  │
-│  │           │  │             │  │               │  │
-│  │  📁 pgdata│  │  📁 bind    │  │  📁 bind      │  │
-│  │  (volume) │  │    mount    │  │    mount      │  │
-│  └──────────┘  └──────────────┘  └───────────────┘  │
-└──────────────────────────────────────────────────────┘
+```mermaid
+graph LR
+    subgraph COMPOSE["🐳 Docker Compose · Development"]
+        direction TB
+
+        subgraph DBSVC2["db"]
+            direction TB
+            DBIMG2["PostgreSQL 16 Alpine"]
+            DBPORT2["Port 5433 → 5432"]
+            DBVOL2["📁 pgdata volume"]
+        end
+
+        subgraph REDISSVC2["redis"]
+            direction TB
+            REDISIMG2["Redis 7 Alpine"]
+            REDISPORT2["Port 6379"]
+            REDISVOL2["📁 redisdata volume"]
+        end
+
+        subgraph SRVSVC["server"]
+            direction TB
+            SRVIMG["node:22-alpine"]
+            SRVPORT["Port 3000"]
+            SRVCMD["tsx watch · hot reload"]
+            SRVMNT["📁 bind mount (./server)"]
+        end
+
+        subgraph CLISVC["client"]
+            direction TB
+            CLIIMG["node:22-alpine"]
+            CLIPORT["Port 5173"]
+            CLICMD["vite dev · HMR"]
+            CLIMNT["📁 bind mount (./client)"]
+        end
+    end
+
+    DBSVC2 -- "TCP :5432" --> SRVSVC
+    REDISSVC2 -- "TCP :6379" --> SRVSVC
+    SRVSVC -- "API proxy" --> CLISVC
+
+    style COMPOSE fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#e2e8f0
+    style DBSVC2 fill:#1e293b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+    style REDISSVC2 fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
+    style SRVSVC fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
+    style CLISVC fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#e2e8f0
 ```
 
 ### Key Differences from Production
@@ -212,7 +274,7 @@ The development setup uses `docker-compose.dev.yml` with three services and hot 
 | Hot reload | No | ✅ tsx watch (server) + Vite HMR (client) |
 | Source code | Copied into image | Bind-mounted from host |
 | node_modules | Copied from deps stage | Named volumes (isolated from host) |
-| Services | 2 (db + app) | 3 (db + server + client) |
+| Services | 3 (db + redis + app) | 4 (db + redis + server + client) |
 | Startup command | `node dist/server.js` | `npm install && prisma generate && prisma db push && seed && npm run dev` |
 
 ### Start the Development Environment
@@ -415,7 +477,19 @@ This endpoint performs no I/O. If the process can respond to HTTP, it returns 20
 }
 ```
 
-The readiness check executes `SELECT 1` against PostgreSQL. If the query fails, the endpoint returns 503 Service Unavailable.
+The readiness check executes `SELECT 1` against PostgreSQL. If the query fails, the endpoint returns 503 Service Unavailable. When Redis is configured, its connectivity is also checked via `PING`, but Redis being unreachable does not cause a 503 because the application functions without it.
+
+### Redis Health Check (Docker Compose)
+
+The Redis service uses `redis-cli ping`:
+
+```yaml
+healthcheck:
+  test: ["CMD", "redis-cli", "ping"]
+  interval: 5s
+  timeout: 5s
+  retries: 5
+```
 
 ### 🐳 Docker HEALTHCHECK
 
@@ -452,14 +526,31 @@ The server implements graceful shutdown in `server/src/server.ts`.
 
 ### Shutdown Sequence
 
-```
-1. 📡 Receive SIGTERM or SIGINT signal
-2. 📝 Log "Shutdown signal received"
-3. 🚫 Stop accepting new HTTP connections
-4. ⏳ Wait for in-flight requests to complete
-5. 🔌 Disconnect from PostgreSQL (prisma.$disconnect)
-6. 📝 Log "Database connection closed"
-7. ✅ Exit with code 0
+```mermaid
+flowchart TD
+    A["📡 SIGTERM / SIGINT received"] --> B["📝 Log: Shutdown signal received"]
+    B --> C["🚫 Stop accepting new HTTP connections"]
+    C --> D["⏳ Wait for in-flight requests"]
+    D --> E["⏹️ Stop BullMQ email worker"]
+    E --> F["📭 Close BullMQ email queue"]
+    F --> G["🔌 Disconnect Redis"]
+    G --> H["🔌 Disconnect PostgreSQL"]
+    H --> I["📝 Log: Database connection closed"]
+    I --> J["✅ Exit code 0"]
+
+    D -- "Timeout 10s" --> K["❌ Force exit code 1"]
+
+    style A fill:#1e293b,stroke:#f97316,stroke-width:2px,color:#e2e8f0
+    style J fill:#1e293b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+    style K fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#e2e8f0
+    style B fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style C fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style D fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#e2e8f0
+    style E fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style F fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style G fill:#1e293b,stroke:#fb923c,stroke-width:1px,color:#e2e8f0
+    style H fill:#1e293b,stroke:#34d399,stroke-width:1px,color:#e2e8f0
+    style I fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
 ```
 
 ### Timeout
@@ -525,6 +616,8 @@ These fields appear as `[REDACTED]` in the log output, preventing accidental cre
 | Health check failures | 1 failure | 3 consecutive failures |
 | Database connection errors | Any | Sustained over 1 min |
 | Stripe webhook delivery failures | > 1% | > 5% |
+| Redis connection errors | Any | Sustained over 1 min |
+| BullMQ dead-letter queue depth | > 10 | > 50 |
 
 ### 🔔 Recommended Alerts
 
@@ -671,6 +764,34 @@ For managed PostgreSQL providers, use the built-in backup features:
 1. Check application logs: `docker compose logs app`
 2. Verify the app is listening on port 3000: `docker compose exec app wget -qO- http://localhost:3000/health/live`
 3. Ensure no other process on the host is binding port 3000
+
+### Redis Connection Warnings in Logs
+
+**Symptom:** Log entries reading `Redis connection error` or `Redis initial connection failed, cache will operate in no-op mode`.
+
+**Cause:** The `REDIS_URL` is set but Redis is not reachable at that address.
+
+**Fix:**
+
+1. Verify Redis is running: `docker compose ps` or `redis-cli -u $REDIS_URL ping`
+2. Check the `REDIS_URL` format: `redis://host:port`
+3. In Docker, ensure the app service uses the container name (`redis`) as the host, not `localhost`
+
+> This is **non-fatal**. The application continues to function without Redis. Caching is skipped and background email jobs fall back to synchronous delivery.
+
+### Order Confirmation Emails Not Sending
+
+**Symptom:** Orders are created successfully but no confirmation email is sent.
+
+**Cause:** Either the email worker is not running (Redis unavailable) or the synchronous fallback failed.
+
+**Fix:**
+
+1. Check whether Redis is connected: look for `BullMQ email worker started` in startup logs
+2. If Redis is unavailable, the producer falls back to synchronous sending. Check for `Failed to send order confirmation email (fallback)` errors
+3. If Redis is available, check the BullMQ dead-letter queue for failed jobs. Jobs retry 3 times with exponential backoff before being marked as failed
+
+---
 
 ### Stripe Webhooks Not Received
 

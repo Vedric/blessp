@@ -23,80 +23,127 @@ BLE$$ P uses **PostgreSQL 16** with **Prisma ORM 6.5** for schema management, mi
 
 ## 📊 Entity Relationship Diagram
 
-```
-┌─────────────────────┐
-│       users         │
-│─────────────────────│
-│ 🔑 id         (PK) │──┐
-│    email       (UQ) │  │
-│    password_hash     │  │
-│    first_name        │  │
-│    last_name         │  │
-│    is_admin          │  │
-│    created_at        │  │
-│    updated_at        │  │
-│    deleted_at   🗑️   │  │
-└─────────────────────┘  │
-        │                │
-        │  ┌─────────────┼──────────────────────────────────────┐
-        │  │             │                                      │
-        │  │             │                                      │
-        v  v             v                                      v
-┌──────────────┐  ┌──────────────────┐  ┌──────────────┐  ┌──────────────┐
-│  sessions    │  │ refresh_tokens   │  │  addresses   │  │  cart_items  │
-│──────────────│  │──────────────────│  │──────────────│  │──────────────│
-│ 🔑 id  (PK) │  │ 🔑 id      (PK) │  │ 🔑 id  (PK) │  │ 🔑 id  (PK) │
-│ 🔗 user_id   │  │ 🔗 user_id      │  │ 🔗 user_id   │  │ 🔗 user_id   │
-│    token (UQ)│  │    token    (UQ) │  │    first_name│  │ 🔗 product_id│
-│    expires_at│  │    family_id     │  │    last_name │  │    quantity  │
-│    created_at│  │    used_at       │  │    phone     │  │    size      │
-└──────────────┘  │    expires_at    │  │    addr_line1│  │    color     │
-                  │    created_at    │  │    addr_line2│  │    created_at│
-                  └──────────────────┘  │    city      │  │ (UQ: user,  │
-                                        │    postal    │  │  product,   │
-        ┌──────────────────────┐        │    province  │  │  size,color)│
-        │password_reset_tokens │        │    country   │  └──────┬──────┘
-        │──────────────────────│        │    addr_type │         │
-        │ 🔑 id       (PK)    │        │    is_default│         │
-        │ 🔗 user_id          │        │    created_at│         │
-        │    token    (UQ)     │        │    updated_at│         │
-        │    expires_at        │        └──────────────┘         │
-        │    used_at           │                                 v
-        │    created_at        │        ┌──────────────────────────────┐
-        └──────────────────────┘        │         products             │
-                                        │──────────────────────────────│
-        ┌──────────────┐                │ 🔑 id              (PK)     │
-        │   orders     │                │    name                      │
-        │──────────────│                │    price        💰 (cents)   │
-        │ 🔑 id  (PK) │                │    description               │
-        │ 🔗 user_id   │                │    details                   │
-        │    total_cents│                │    picture                   │
-        │    status    │                │    images          (array)   │
-        │    txn_key   │                │    category                  │
-        │    (UQ, null)│                │    colors          (array)   │
-        │    shipping_ │                │    sizes           (array)   │
-        │    address   │                │    is_active                 │
-        │    (JSONB)   │                │    onfront_order             │
-        │    created_at│                │    created_at                │
-        │    updated_at│                │    updated_at                │
-        └──────┬───────┘                │    deleted_at          🗑️    │
-               │                        └──────────────────────────────┘
-               v                                     ^
-        ┌──────────────────┐                         │
-        │   order_items    │                         │
-        │──────────────────│                         │
-        │ 🔑 id       (PK)│                         │
-        │ 🔗 order_id (FK) │                         │
-        │ 🔗 product_id    │─────────────────────────┘
-        │    (FK, nullable)│
-        │    product_key   │
-        │    product_name  │
-        │    quantity      │
-        │    unit_price_   │
-        │      cents  💰   │
-        │    size          │
-        │    color         │
-        └──────────────────┘
+```mermaid
+erDiagram
+    users {
+        UUID id PK
+        VARCHAR email UK "normalized lowercase"
+        VARCHAR password_hash "Argon2id"
+        VARCHAR first_name
+        VARCHAR last_name
+        BOOLEAN is_admin "default false"
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+        TIMESTAMPTZ deleted_at "soft delete"
+    }
+
+    sessions {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR token UK
+        TIMESTAMPTZ expires_at
+        TIMESTAMPTZ created_at
+    }
+
+    refresh_tokens {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR token UK
+        UUID family_id "reuse detection"
+        TIMESTAMPTZ used_at "null = valid"
+        TIMESTAMPTZ expires_at
+        TIMESTAMPTZ created_at
+    }
+
+    password_reset_tokens {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR token UK
+        TIMESTAMPTZ expires_at
+        TIMESTAMPTZ used_at
+        TIMESTAMPTZ created_at
+    }
+
+    products {
+        UUID id PK
+        VARCHAR name
+        INTEGER price "cents"
+        TEXT description
+        TEXT details
+        VARCHAR picture
+        VARCHAR_ARRAY images
+        VARCHAR category
+        VARCHAR_ARRAY colors
+        VARCHAR_ARRAY sizes
+        BOOLEAN is_active "default true"
+        INTEGER onfront_order "featured sort"
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+        TIMESTAMPTZ deleted_at "soft delete"
+    }
+
+    addresses {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR first_name
+        VARCHAR last_name
+        VARCHAR phone
+        VARCHAR address_line_1
+        VARCHAR address_line_2
+        VARCHAR city
+        VARCHAR postal_code
+        VARCHAR province
+        VARCHAR country
+        VARCHAR address_type "shipping or billing"
+        BOOLEAN is_default
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    orders {
+        UUID id PK
+        UUID user_id FK
+        INTEGER total_cents "cents"
+        INTEGER discount_cents "cents"
+        VARCHAR coupon_code
+        VARCHAR status "pending paid shipped delivered cancelled"
+        VARCHAR transaction_key UK "Stripe PaymentIntent ID"
+        JSONB shipping_address "point-in-time snapshot"
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    order_items {
+        UUID id PK
+        UUID order_id FK
+        UUID product_id FK "nullable, SET NULL"
+        VARCHAR product_key "preserved original ID"
+        VARCHAR product_name "denormalized"
+        INTEGER quantity
+        INTEGER unit_price_cents "cents, denormalized"
+        VARCHAR size
+        VARCHAR color
+    }
+
+    cart_items {
+        UUID id PK
+        UUID user_id FK
+        UUID product_id FK
+        INTEGER quantity "default 1"
+        VARCHAR size
+        VARCHAR color
+        TIMESTAMPTZ created_at
+    }
+
+    users ||--o{ sessions : "has"
+    users ||--o{ refresh_tokens : "has"
+    users ||--o{ password_reset_tokens : "has"
+    users ||--o{ addresses : "has"
+    users ||--o{ orders : "places"
+    users ||--o{ cart_items : "owns"
+    products ||--o{ cart_items : "in cart"
+    products ||--o{ order_items : "ordered (SET NULL)"
+    orders ||--o{ order_items : "contains"
 ```
 
 ## 📋 Tables
@@ -261,10 +308,13 @@ Stores customer orders. Totals are stored in cents. The `shipping_address` colum
 
 **📋 Order status lifecycle:**
 
-```
-pending → paid → shipped → delivered
-   │
-   └──→ cancelled
+```mermaid
+stateDiagram-v2
+    [*] --> pending : Order created
+    pending --> paid : Stripe webhook (payment_intent.succeeded)
+    paid --> shipped : Admin action
+    shipped --> delivered : Admin action
+    pending --> cancelled : Admin action or payment_intent.payment_failed
 ```
 
 | Status | Meaning |
@@ -366,15 +416,27 @@ All foreign keys enforce referential integrity at the database level. The `ON DE
 
 ### 🔗 Relationship Diagram (simplified)
 
-```
-users ──1:N──→ sessions
-users ──1:N──→ refresh_tokens
-users ──1:N──→ password_reset_tokens
-users ──1:N──→ addresses
-users ──1:N──→ orders ──1:N──→ order_items
-users ──1:N──→ cart_items
-products ──1:N──→ cart_items
-products ──1:N──→ order_items (SET NULL on delete)
+```mermaid
+graph LR
+    U["👤 users"] -->|"1:N CASCADE"| S["🔐 sessions"]
+    U -->|"1:N CASCADE"| RT["🔄 refresh_tokens"]
+    U -->|"1:N CASCADE"| PRT["🔑 password_reset_tokens"]
+    U -->|"1:N CASCADE"| A["📫 addresses"]
+    U -->|"1:N CASCADE"| O["📦 orders"]
+    U -->|"1:N CASCADE"| CI["🛒 cart_items"]
+    O -->|"1:N CASCADE"| OI["📝 order_items"]
+    P["🛍️ products"] -->|"1:N CASCADE"| CI
+    P -->|"1:N SET NULL"| OI
+
+    style U fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
+    style P fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#e2e8f0
+    style O fill:#1e293b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+    style S fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style RT fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style PRT fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style A fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style CI fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
+    style OI fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
 ```
 
 ## 📇 Indexes
@@ -466,12 +528,18 @@ All schema changes are managed exclusively through **Prisma migrations**. Direct
 
 ### Workflow
 
-```
-1. ✏️  Edit schema.prisma
-2. 🔄  Run: npx prisma migrate dev --name <description>
-3. 👀  Review the generated SQL in prisma/migrations/
-4. 📝  Commit both the schema file and the migration directory
-5. 🚀  Apply in production: npx prisma migrate deploy
+```mermaid
+flowchart LR
+    A["✏️ Edit<br/>schema.prisma"] --> B["🔄 Run<br/>prisma migrate dev"]
+    B --> C["👀 Review<br/>generated SQL"]
+    C --> D["📝 Commit<br/>schema + migration"]
+    D --> E["🚀 Deploy<br/>prisma migrate deploy"]
+
+    style A fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#e2e8f0
+    style B fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
+    style C fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#e2e8f0
+    style D fill:#1e293b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+    style E fill:#1e293b,stroke:#f97316,stroke-width:2px,color:#e2e8f0
 ```
 
 ### Rules

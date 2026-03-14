@@ -5,7 +5,7 @@ import { CartRepository } from '../cart/cart.repository';
 import { CouponsService } from '../coupons/coupons.service';
 import { VariantsRepository } from '../products/variants.repository';
 import { OrderResponse, OrderItemResponse, CreateOrderDto, OrderQueryParams } from './orders.types';
-import { sendOrderConfirmation } from './order.emails';
+import { enqueueOrderConfirmationEmail } from '../../core/queue/email.producer';
 import { logger } from '../../core/observability/logger';
 import { getTracer } from '../../core/observability/tracer';
 
@@ -136,10 +136,10 @@ export class OrdersService {
       'order.id': order.id,
     });
 
-    // Fire-and-forget order confirmation email
-    sendOrderConfirmation({
+    // Enqueue order confirmation email (falls back to direct send if Redis is unavailable)
+    enqueueOrderConfirmationEmail({
       orderId: order.id,
-      customerEmail: '', // Will be populated via the user lookup in the email module
+      customerEmail: '',
       customerName: `${dto.firstName} ${dto.lastName}`,
       items: orderItems.map((item) => ({
         name: item.productName,
@@ -158,7 +158,7 @@ export class OrdersService {
         country: dto.country,
       },
     }).catch((err) => {
-      logger.error({ err, orderId: order.id }, 'Failed to send order confirmation email');
+      logger.error({ err, orderId: order.id }, 'Failed to enqueue order confirmation email');
     });
 
     span.setStatus({ code: SpanStatusCode.OK });

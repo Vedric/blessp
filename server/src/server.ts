@@ -7,6 +7,9 @@ import { createApp } from './app';
 import { Env } from './core/config/env';
 import { prisma, disconnectPrisma } from './core/database/client';
 import { logger } from './core/observability/logger';
+import { startEmailWorker, stopEmailWorker } from './core/queue/email.worker';
+import { closeQueues } from './core/queue/queue.client';
+import { disconnectRedis } from './core/cache/redis.client';
 
 async function main(): Promise<void> {
   // Verify database connectivity before accepting traffic
@@ -17,6 +20,8 @@ async function main(): Promise<void> {
     logger.fatal({ err: error }, 'Failed to connect to the database');
     process.exit(1);
   }
+
+  startEmailWorker();
 
   const app = createApp();
 
@@ -33,6 +38,11 @@ async function main(): Promise<void> {
 
     server.close(async () => {
       logger.info('HTTP server closed');
+
+      await stopEmailWorker();
+      await closeQueues();
+      await disconnectRedis();
+      logger.info('Queue and cache connections closed');
 
       await disconnectPrisma();
       logger.info('Database connection closed');
