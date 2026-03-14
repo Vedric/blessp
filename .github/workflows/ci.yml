@@ -57,6 +57,7 @@ jobs:
 
     env:
       NODE_ENV: test
+      DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/placeholder
       JWT_SECRET: ci-test-jwt-secret-not-real
       JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret-not-real
       STRIPE_SECRET_KEY: sk_test_fake_key_for_ci

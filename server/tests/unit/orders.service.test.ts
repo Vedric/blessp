@@ -1,12 +1,18 @@
 import { OrdersService } from '@features/orders/orders.service';
 import { OrdersRepository } from '@features/orders/orders.repository';
 import { CartRepository } from '@features/cart/cart.repository';
+import { CouponsService } from '@features/coupons/coupons.service';
+import { VariantsRepository } from '@features/products/variants.repository';
 import { NotFoundError, ForbiddenError, ValidationError } from '@core/errors/http.errors';
+
+jest.mock('@features/products/variants.repository');
 
 describe('OrdersService', () => {
   let service: OrdersService;
   let ordersRepository: jest.Mocked<OrdersRepository>;
   let cartRepository: jest.Mocked<CartRepository>;
+  let couponsService: jest.Mocked<CouponsService>;
+  let variantsRepository: jest.Mocked<VariantsRepository>;
 
   const userId = 'usr_order-owner';
 
@@ -45,6 +51,8 @@ describe('OrdersService', () => {
       id: 'ord_001',
       userId,
       totalCents: 7000,
+      discountCents: 0,
+      couponCode: null,
       status: 'pending',
       transactionKey: null,
       shippingAddress: { firstName: 'Alice', lastName: 'Dupont', city: 'Paris' },
@@ -76,6 +84,8 @@ describe('OrdersService', () => {
       findAll: jest.fn(),
       updateStatus: jest.fn(),
       updateTransactionKey: jest.fn(),
+      createStatusHistoryEntry: jest.fn(),
+      findStatusHistory: jest.fn(),
     } as unknown as jest.Mocked<OrdersRepository>;
 
     cartRepository = {
@@ -87,7 +97,19 @@ describe('OrdersService', () => {
       clearCart: jest.fn(),
     } as unknown as jest.Mocked<CartRepository>;
 
-    service = new OrdersService(ordersRepository, cartRepository);
+    couponsService = {
+      applyCoupon: jest.fn(),
+      validateCoupon: jest.fn(),
+    } as unknown as jest.Mocked<CouponsService>;
+
+    variantsRepository = {
+      findByProductId: jest.fn(),
+      findByProductAndVariant: jest.fn(),
+      upsertMany: jest.fn(),
+      decrementStock: jest.fn(),
+    } as unknown as jest.Mocked<VariantsRepository>;
+
+    service = new OrdersService(ordersRepository, cartRepository, couponsService, variantsRepository);
   });
 
   describe('createOrder', () => {
@@ -99,8 +121,11 @@ describe('OrdersService', () => {
       const order = makeOrderFixture();
 
       cartRepository.findByUserId.mockResolvedValueOnce(cartItems as any);
+      variantsRepository.findByProductAndVariant.mockResolvedValueOnce({ stock: 10 } as any);
       ordersRepository.create.mockResolvedValueOnce(order as any);
+      variantsRepository.decrementStock.mockResolvedValueOnce(undefined as any);
       cartRepository.clearCart.mockResolvedValueOnce(undefined as any);
+      ordersRepository.createStatusHistoryEntry.mockResolvedValueOnce(undefined as any);
 
       const result = await service.createOrder(userId, shippingDto);
 
@@ -155,8 +180,11 @@ describe('OrdersService', () => {
       const order = makeOrderFixture({ totalCents: 9000 });
 
       cartRepository.findByUserId.mockResolvedValueOnce(cartItems as any);
+      variantsRepository.findByProductAndVariant.mockResolvedValue({ stock: 50 } as any);
       ordersRepository.create.mockResolvedValueOnce(order as any);
+      variantsRepository.decrementStock.mockResolvedValue(undefined as any);
       cartRepository.clearCart.mockResolvedValueOnce(undefined as any);
+      ordersRepository.createStatusHistoryEntry.mockResolvedValueOnce(undefined as any);
 
       await service.createOrder(userId, shippingDto);
 
@@ -268,6 +296,7 @@ describe('OrdersService', () => {
 
       ordersRepository.findById.mockResolvedValueOnce(order as any);
       ordersRepository.updateStatus.mockResolvedValueOnce(updatedOrder as any);
+      ordersRepository.createStatusHistoryEntry.mockResolvedValueOnce(undefined as any);
 
       const result = await service.updateOrderStatus(order.id, 'shipped');
 
