@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentIntentSchema } from './payments.schema';
+import { sendSuccess, sendCreated } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -20,13 +21,7 @@ export class PaymentsController {
         currency,
       );
 
-      res.status(201).json({
-        data: paymentIntent,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, paymentIntent);
     } catch (error) {
       next(error);
     }
@@ -41,6 +36,7 @@ export class PaymentsController {
           error: {
             code: 'MISSING_SIGNATURE',
             message: 'Missing Stripe webhook signature.',
+            requestId: req.headers['x-request-id'] as string,
           },
         });
         return;
@@ -50,7 +46,7 @@ export class PaymentsController {
       // the route uses express.raw() middleware
       await this.paymentsService.handleWebhook(req.body as Buffer, signature);
 
-      res.status(200).json({ received: true });
+      sendSuccess(res, req, { received: true });
     } catch (error) {
       next(error);
     }

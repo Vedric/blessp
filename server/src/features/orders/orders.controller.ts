@@ -6,6 +6,7 @@ import {
   UpdateOrderStatusSchema,
   OrderParamsSchema,
 } from './orders.schema';
+import { sendSuccess, sendCreated, sendPaginated } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -20,13 +21,7 @@ export class OrdersController {
       const dto = CreateOrderSchema.parse(req.body);
       const order = await this.ordersService.createOrder(authReq.user!.userId, dto);
 
-      res.status(201).json({
-        data: order,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, order);
     } catch (error) {
       next(error);
     }
@@ -42,13 +37,7 @@ export class OrdersController {
         authReq.user!.isAdmin,
       );
 
-      res.status(200).json({
-        data: order,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, order);
     } catch (error) {
       next(error);
     }
@@ -60,14 +49,7 @@ export class OrdersController {
       const query = OrderQuerySchema.parse(req.query);
       const result = await this.ordersService.getUserOrders(authReq.user!.userId, query);
 
-      res.status(200).json({
-        data: result.data,
-        pagination: result.pagination,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendPaginated(res, req, result.data, result.pagination);
     } catch (error) {
       next(error);
     }
@@ -78,14 +60,7 @@ export class OrdersController {
       const query = OrderQuerySchema.parse(req.query);
       const result = await this.ordersService.getAllOrders(query);
 
-      res.status(200).json({
-        data: result.data,
-        pagination: result.pagination,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendPaginated(res, req, result.data, result.pagination);
     } catch (error) {
       next(error);
     }
@@ -101,13 +76,7 @@ export class OrdersController {
         authReq.user!.isAdmin,
       );
 
-      res.status(200).json({
-        data: timeline,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, timeline);
     } catch (error) {
       next(error);
     }
@@ -119,13 +88,7 @@ export class OrdersController {
       const { status } = UpdateOrderStatusSchema.parse(req.body);
       const order = await this.ordersService.updateOrderStatus(id, status);
 
-      res.status(200).json({
-        data: order,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, order);
     } catch (error) {
       next(error);
     }

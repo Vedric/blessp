@@ -1,3 +1,4 @@
+import { SpanStatusCode } from '@opentelemetry/api';
 import { NotFoundError, ForbiddenError, ValidationError } from '../../core/errors/http.errors';
 import { OrdersRepository } from './orders.repository';
 import { CartRepository } from '../cart/cart.repository';
@@ -6,6 +7,7 @@ import { VariantsRepository } from '../products/variants.repository';
 import { OrderResponse, OrderItemResponse, CreateOrderDto, OrderQueryParams } from './orders.types';
 import { sendOrderConfirmation } from './order.emails';
 import { logger } from '../../core/observability/logger';
+import { getTracer } from '../../core/observability/tracer';
 
 export class OrdersService {
   constructor(
@@ -16,6 +18,12 @@ export class OrdersService {
   ) {}
 
   async createOrder(userId: string, dto: CreateOrderDto): Promise<OrderResponse> {
+    const tracer = getTracer('orders-service');
+    const span = tracer.startSpan('createOrder', {
+      attributes: { 'order.userId': userId },
+    });
+
+    try {
     const cartItems = await this.cartRepository.findByUserId(userId);
 
     if (cartItems.length === 0) {
@@ -122,6 +130,12 @@ export class OrdersService {
 
     const orderResponse = this.toOrderResponse(order);
 
+    span.setAttributes({
+      'order.totalCents': totalCents,
+      'order.itemCount': cartItems.length,
+      'order.id': order.id,
+    });
+
     // Fire-and-forget order confirmation email
     sendOrderConfirmation({
       orderId: order.id,
@@ -147,7 +161,15 @@ export class OrdersService {
       logger.error({ err, orderId: order.id }, 'Failed to send order confirmation email');
     });
 
+    span.setStatus({ code: SpanStatusCode.OK });
     return orderResponse;
+    } catch (error) {
+      span.recordException(error as Error);
+      span.setStatus({ code: SpanStatusCode.ERROR });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   async getOrder(userId: string, orderId: string, isAdmin: boolean): Promise<OrderResponse> {

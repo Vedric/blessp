@@ -1,25 +1,19 @@
-import type { AuthTokens } from './types';
-
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 /* ── Token helpers ── */
 
+let accessToken: string | null = null;
+
 export function getAccessToken(): string | null {
-  return localStorage.getItem('accessToken');
+  return accessToken;
 }
 
-export function getRefreshToken(): string | null {
-  return localStorage.getItem('refreshToken');
-}
-
-export function setTokens(tokens: AuthTokens): void {
-  localStorage.setItem('accessToken', tokens.accessToken);
-  localStorage.setItem('refreshToken', tokens.refreshToken);
+export function setAccessToken(token: string | null): void {
+  accessToken = token;
 }
 
 export function clearTokens(): void {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
+  accessToken = null;
 }
 
 /* ── Internal fetch wrapper ── */
@@ -27,15 +21,16 @@ export function clearTokens(): void {
 let isRefreshing = false;
 let refreshPromise: Promise<boolean> | null = null;
 
-async function attemptTokenRefresh(): Promise<boolean> {
-  const refresh = getRefreshToken();
-  if (!refresh) return false;
+function isAuthPath(path: string): boolean {
+  return path.startsWith('/auth/');
+}
 
+async function attemptTokenRefresh(): Promise<boolean> {
   try {
     const res = await fetch(`${BASE_URL}/auth/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken: refresh }),
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -44,7 +39,7 @@ async function attemptTokenRefresh(): Promise<boolean> {
     }
 
     const body = await res.json();
-    setTokens(body.data.tokens);
+    setAccessToken(body.data.tokens.accessToken);
     return true;
   } catch {
     clearTokens();
@@ -78,14 +73,20 @@ async function request<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  let res = await fetch(`${BASE_URL}${path}`, {
+  const fetchOptions: RequestInit = {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
-  });
+  };
+
+  if (isAuthPath(path)) {
+    fetchOptions.credentials = 'include';
+  }
+
+  let res = await fetch(`${BASE_URL}${path}`, fetchOptions);
 
   // Automatic token refresh on 401
-  if (res.status === 401 && getRefreshToken()) {
+  if (res.status === 401) {
     const refreshed = await refreshIfNeeded();
     if (refreshed) {
       const newToken = getAccessToken();
@@ -96,6 +97,7 @@ async function request<T>(
         method,
         headers,
         body: body ? JSON.stringify(body) : undefined,
+        ...(isAuthPath(path) ? { credentials: 'include' as RequestCredentials } : {}),
       });
     }
   }
@@ -134,13 +136,19 @@ async function requestRaw<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  let res = await fetch(`${BASE_URL}${path}`, {
+  const fetchOptions: RequestInit = {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
-  });
+  };
 
-  if (res.status === 401 && getRefreshToken()) {
+  if (isAuthPath(path)) {
+    fetchOptions.credentials = 'include';
+  }
+
+  let res = await fetch(`${BASE_URL}${path}`, fetchOptions);
+
+  if (res.status === 401) {
     const refreshed = await refreshIfNeeded();
     if (refreshed) {
       const newToken = getAccessToken();
@@ -151,6 +159,7 @@ async function requestRaw<T>(
         method,
         headers,
         body: body ? JSON.stringify(body) : undefined,
+        ...(isAuthPath(path) ? { credentials: 'include' as RequestCredentials } : {}),
       });
     }
   }

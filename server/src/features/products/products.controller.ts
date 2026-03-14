@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ProductsService } from './products.service';
 import { CreateProductSchema, UpdateProductSchema, ProductQuerySchema, UpdateVariantsSchema } from './products.schema';
+import { sendSuccess, sendCreated, sendPaginated, sendNoContent } from '../../core/types/response';
 
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -10,14 +11,7 @@ export class ProductsController {
       const query = ProductQuerySchema.parse(req.query);
       const result = await this.productsService.listProducts(query);
 
-      res.status(200).json({
-        data: result.data,
-        pagination: result.pagination,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendPaginated(res, req, result.data, result.pagination);
     } catch (error) {
       next(error);
     }
@@ -27,13 +21,7 @@ export class ProductsController {
     try {
       const product = await this.productsService.getProduct(req.params.id as string);
 
-      res.status(200).json({
-        data: product,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, product);
     } catch (error) {
       next(error);
     }
@@ -43,13 +31,7 @@ export class ProductsController {
     try {
       const filters = await this.productsService.getFilters();
 
-      res.status(200).json({
-        data: filters,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, filters);
     } catch (error) {
       next(error);
     }
@@ -59,13 +41,7 @@ export class ProductsController {
     try {
       const products = await this.productsService.getFeaturedProducts();
 
-      res.status(200).json({
-        data: products,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, products);
     } catch (error) {
       next(error);
     }
@@ -76,13 +52,7 @@ export class ProductsController {
       const dto = CreateProductSchema.parse(req.body);
       const product = await this.productsService.createProduct(dto);
 
-      res.status(201).json({
-        data: product,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, product);
     } catch (error) {
       next(error);
     }
@@ -93,13 +63,7 @@ export class ProductsController {
       const dto = UpdateProductSchema.parse(req.body);
       const product = await this.productsService.updateProduct(req.params.id as string, dto);
 
-      res.status(200).json({
-        data: product,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, product);
     } catch (error) {
       next(error);
     }
@@ -108,7 +72,7 @@ export class ProductsController {
   delete = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await this.productsService.deleteProduct(req.params.id as string);
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }
@@ -118,13 +82,7 @@ export class ProductsController {
     try {
       const products = await this.productsService.getCompleteLook(req.params.id as string);
 
-      res.status(200).json({
-        data: products,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, products);
     } catch (error) {
       next(error);
     }
@@ -134,13 +92,7 @@ export class ProductsController {
     try {
       const variants = await this.productsService.getVariants(req.params.id as string);
 
-      res.status(200).json({
-        data: variants,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, variants);
     } catch (error) {
       next(error);
     }
@@ -154,13 +106,7 @@ export class ProductsController {
         dto.variants,
       );
 
-      res.status(200).json({
-        data: variants,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, variants);
     } catch (error) {
       next(error);
     }

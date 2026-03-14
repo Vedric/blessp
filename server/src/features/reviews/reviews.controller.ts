@@ -7,6 +7,7 @@ import {
   ReviewParamsSchema,
   ProductIdParamsSchema,
 } from './reviews.schema';
+import { sendSuccess, sendCreated, sendPaginated, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -20,18 +21,11 @@ export class ReviewsController {
       const { productId, page, perPage } = ReviewQuerySchema.parse(req.query);
       const result = await this.reviewsService.getProductReviews(productId, page, perPage);
 
-      res.status(200).json({
-        data: result.items,
-        pagination: {
-          page: result.page,
-          perPage: result.perPage,
-          totalItems: result.totalItems,
-          totalPages: result.totalPages,
-        },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
+      sendPaginated(res, req, result.items, {
+        page: result.page,
+        perPage: result.perPage,
+        totalItems: result.totalItems,
+        totalPages: result.totalPages,
       });
     } catch (error) {
       next(error);
@@ -43,13 +37,7 @@ export class ReviewsController {
       const { productId } = ProductIdParamsSchema.parse(req.params);
       const summary = await this.reviewsService.getReviewSummary(productId);
 
-      res.status(200).json({
-        data: summary,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, summary);
     } catch (error) {
       next(error);
     }
@@ -61,13 +49,7 @@ export class ReviewsController {
       const dto = CreateReviewSchema.parse(req.body);
       const review = await this.reviewsService.createReview(authReq.user!.userId, dto);
 
-      res.status(201).json({
-        data: review,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, review);
     } catch (error) {
       next(error);
     }
@@ -80,13 +62,7 @@ export class ReviewsController {
       const dto = UpdateReviewSchema.parse(req.body);
       const review = await this.reviewsService.updateReview(authReq.user!.userId, id, dto);
 
-      res.status(200).json({
-        data: review,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, review);
     } catch (error) {
       next(error);
     }
@@ -98,18 +74,11 @@ export class ReviewsController {
       const perPage = Math.min(Math.max(parseInt(req.query.perPage as string, 10) || 20, 1), 100);
       const result = await this.reviewsService.getAllReviews(page, perPage);
 
-      res.status(200).json({
-        data: result.items,
-        pagination: {
-          page: result.page,
-          perPage: result.perPage,
-          totalItems: result.totalItems,
-          totalPages: result.totalPages,
-        },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
+      sendPaginated(res, req, result.items, {
+        page: result.page,
+        perPage: result.perPage,
+        totalItems: result.totalItems,
+        totalPages: result.totalPages,
       });
     } catch (error) {
       next(error);
@@ -121,7 +90,7 @@ export class ReviewsController {
       const { id } = ReviewParamsSchema.parse(req.params);
       await this.reviewsService.adminDeleteReview(id);
 
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }
@@ -133,7 +102,7 @@ export class ReviewsController {
       const { id } = ReviewParamsSchema.parse(req.params);
       await this.reviewsService.deleteReview(authReq.user!.userId, id);
 
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }

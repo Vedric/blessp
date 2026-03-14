@@ -1,4 +1,5 @@
 import pino from 'pino';
+import { trace, context } from '@opentelemetry/api';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -23,6 +24,17 @@ export const logger = pino({
     censor: '[REDACTED]',
   },
   timestamp: pino.stdTimeFunctions.isoTime,
+  mixin() {
+    const span = trace.getSpan(context.active());
+    if (!span) {
+      return {};
+    }
+    const spanContext = span.spanContext();
+    return {
+      traceId: spanContext.traceId,
+      spanId: spanContext.spanId,
+    };
+  },
   transport: isProduction
     ? undefined
     : {

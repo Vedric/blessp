@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { LoyaltyService } from './loyalty.service';
 import { RedeemPointsSchema, LoyaltyQuerySchema } from './loyalty.schema';
+import { sendSuccess, sendCreated, sendPaginated } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -14,13 +15,7 @@ export class LoyaltyController {
       const authReq = req as AuthenticatedRequest;
       const balance = await this.loyaltyService.getBalance(authReq.user!.userId);
 
-      res.status(200).json({
-        data: balance,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, balance);
     } catch (error) {
       next(error);
     }
@@ -32,14 +27,7 @@ export class LoyaltyController {
       const query = LoyaltyQuerySchema.parse(req.query);
       const result = await this.loyaltyService.getTransactions(authReq.user!.userId, query);
 
-      res.status(200).json({
-        data: result.data,
-        pagination: result.pagination,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendPaginated(res, req, result.data, result.pagination);
     } catch (error) {
       next(error);
     }
@@ -51,13 +39,7 @@ export class LoyaltyController {
       const dto = RedeemPointsSchema.parse(req.body);
       const transaction = await this.loyaltyService.redeemPoints(authReq.user!.userId, dto);
 
-      res.status(201).json({
-        data: transaction,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, transaction);
     } catch (error) {
       next(error);
     }

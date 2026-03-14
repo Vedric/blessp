@@ -131,9 +131,9 @@ Open `server/.env` in your editor and fill in the values:
 # Database (update with your local PostgreSQL credentials)
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/blessp?schema=public
 
-# JWT secrets (generate strong random values for production)
-JWT_ACCESS_SECRET=change_me_access_secret_min_32_chars
-JWT_REFRESH_SECRET=change_me_refresh_secret_min_32_chars
+# JWT (RS256 asymmetric keys, base64-encoded PEM)
+JWT_PRIVATE_KEY_BASE64=<base64-encoded-RSA-private-key-PEM>
+JWT_PUBLIC_KEY_BASE64=<base64-encoded-RSA-public-key-PEM>
 
 # Stripe (use test keys for development)
 STRIPE_SECRET_KEY=sk_test_changeme

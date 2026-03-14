@@ -7,8 +7,8 @@ const EnvSchema = z.object({
 
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
 
-  JWT_ACCESS_SECRET: z.string().min(32, 'JWT_ACCESS_SECRET must be at least 32 characters'),
-  JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters'),
+  JWT_PRIVATE_KEY_BASE64: z.string().min(1, 'JWT_PRIVATE_KEY_BASE64 is required'),
+  JWT_PUBLIC_KEY_BASE64: z.string().min(1, 'JWT_PUBLIC_KEY_BASE64 is required'),
   JWT_ACCESS_EXPIRY: z.string().default('15m'),
   JWT_REFRESH_EXPIRY: z.string().default('7d'),
 
@@ -19,6 +19,12 @@ const EnvSchema = z.object({
 
   SERVICE_NAME: z.string().default('blessp-api'),
   SERVICE_VERSION: z.string().default('3.0.0'),
+
+  OTEL_ENABLED: z
+    .string()
+    .transform((val) => val === 'true')
+    .default('false'),
+  OTEL_EXPORTER_OTLP_ENDPOINT: z.string().url().optional(),
 });
 
 export type EnvConfig = z.infer<typeof EnvSchema>;

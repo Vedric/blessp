@@ -47,8 +47,8 @@ Authorization: Bearer <access_token>
 
 | Token Type | Default TTL | Storage | Secret |
 | --- | --- | --- | --- |
-| Access token | 15 minutes (`JWT_ACCESS_EXPIRY`) | Client memory / localStorage | `JWT_ACCESS_SECRET` (HS256) |
-| Refresh token | 7 days (`JWT_REFRESH_EXPIRY`) | Client localStorage + database | `JWT_REFRESH_SECRET` (HS256) |
+| Access token | 15 minutes (`JWT_ACCESS_EXPIRY`) | Client memory / localStorage | RS256 (asymmetric, `JWT_PRIVATE_KEY_BASE64` / `JWT_PUBLIC_KEY_BASE64`) |
+| Refresh token | 7 days (`JWT_REFRESH_EXPIRY`) | Client localStorage + database | RS256 (asymmetric, `JWT_PRIVATE_KEY_BASE64` / `JWT_PUBLIC_KEY_BASE64`) |
 
 ### Access token payload 📦
 

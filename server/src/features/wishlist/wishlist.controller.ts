@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { WishlistService } from './wishlist.service';
 import { AddToWishlistSchema, WishlistProductParamsSchema } from './wishlist.schema';
+import { sendSuccess, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -14,13 +15,7 @@ export class WishlistController {
       const authReq = req as AuthenticatedRequest;
       const items = await this.wishlistService.getWishlist(authReq.user!.userId);
 
-      res.status(200).json({
-        data: items,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, items);
     } catch (error) {
       next(error);
     }
@@ -32,13 +27,7 @@ export class WishlistController {
       const dto = AddToWishlistSchema.parse(req.body);
       const result = await this.wishlistService.toggleWishlistItem(authReq.user!.userId, dto.productId);
 
-      res.status(200).json({
-        data: result,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, result);
     } catch (error) {
       next(error);
     }
@@ -50,7 +39,7 @@ export class WishlistController {
       const { productId } = WishlistProductParamsSchema.parse(req.params);
       await this.wishlistService.removeFromWishlist(authReq.user!.userId, productId);
 
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }

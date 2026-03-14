@@ -6,8 +6,8 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import { api, setTokens, clearTokens, getAccessToken } from '@/lib/api';
-import type { User, AuthTokens } from '@/lib/types';
+import { api, setAccessToken, clearTokens, getAccessToken } from '@/lib/api';
+import type { User } from '@/lib/types';
 
 interface AuthState {
   user: User | null;
@@ -16,7 +16,7 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: { email: string; password: string; firstName: string; lastName: string }) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
 
@@ -52,14 +52,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [fetchUser]);
 
   // Schedule token refresh (every 13 minutes for a 15-minute TTL)
+  // The refresh token is sent automatically via httpOnly cookie
   useEffect(() => {
     if (!user) return;
     const interval = setInterval(async () => {
       try {
-        const data = await api.post<{ tokens: AuthTokens }>('/auth/refresh', {
-          refreshToken: localStorage.getItem('refreshToken'),
-        });
-        setTokens(data.tokens);
+        const data = await api.post<{ tokens: { accessToken: string } }>('/auth/refresh');
+        setAccessToken(data.tokens.accessToken);
       } catch {
         setUser(null);
         clearTokens();
@@ -69,27 +68,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const login = useCallback(async (email: string, password: string) => {
-    const data = await api.post<{ tokens: AuthTokens; user: User }>(
+    const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
       '/auth/login',
       { email, password },
     );
-    setTokens(data.tokens);
+    setAccessToken(data.tokens.accessToken);
     setUser(data.user);
   }, []);
 
   const register = useCallback(
     async (data: { email: string; password: string; firstName: string; lastName: string }) => {
-      const res = await api.post<{ tokens: AuthTokens; user: User }>(
+      const res = await api.post<{ tokens: { accessToken: string }; user: User }>(
         '/auth/register',
         data,
       );
-      setTokens(res.tokens);
+      setAccessToken(res.tokens.accessToken);
       setUser(res.user);
     },
     [],
   );
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch {
+      // Clear local state even if the server call fails
+    }
     clearTokens();
     setUser(null);
   }, []);
