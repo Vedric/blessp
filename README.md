@@ -34,9 +34,12 @@ BLE$$ P is a **full-stack e-commerce platform** purpose-built for a luxury stree
 | **Express** | 5.1 | HTTP framework for routing and middleware |
 | **Prisma ORM** | 6.5 | Type-safe database access, migrations, and schema management |
 | **PostgreSQL** | 16 (Alpine) | Relational database with JSONB, array columns, and ACID transactions |
+| **Redis** | 7 (Alpine) | Optional: product caching and BullMQ email queue |
 | **Zod** | 3.24 | Runtime schema validation for all request inputs |
 | **Pino** | 9.6 | Structured JSON logging with field redaction |
 | **Stripe** | 17.7 | Payment processing (PaymentIntents + webhook verification) |
+| **ioredis** | 5.x | Redis client (cache and BullMQ transport) |
+| **BullMQ** | 5.x | Background job queue for email delivery |
 | **Argon2** | 0.41 | Password hashing with Argon2id (OWASP recommended) |
 | **jsonwebtoken** | 9.0 | JWT signing and verification (HS256) |
 | **Helmet** | 8.1 | HTTP security header hardening |
@@ -88,10 +91,13 @@ Before you begin, make sure you have the following installed:
 | **Node.js** | 22.x | `node --version` |
 | **npm** | 10.x | `npm --version` |
 | **PostgreSQL** | 16.x | `psql --version` |
+| **Redis** *(optional)* | 7.x | `redis-cli --version` |
 | **Docker** *(optional)* | 24.x | `docker --version` |
 | **Docker Compose** *(optional)* | 2.x | `docker compose version` |
 
-> 💡 **Tip:** If you use the Docker Compose setup, you do not need a local PostgreSQL installation. The Compose stack provisions its own database container.
+> 💡 **Tip:** If you use the Docker Compose setup, you do not need a local PostgreSQL or Redis installation. The Compose stack provisions its own database and Redis containers.
+
+💡 **Redis is optional.** The application works fully without it. When `REDIS_URL` is not set, product caching is skipped and order confirmation emails are sent synchronously instead of via the BullMQ queue.
 
 ---
 
@@ -134,6 +140,9 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/blessp?schema=public
 # JWT (RS256 asymmetric keys, base64-encoded PEM)
 JWT_PRIVATE_KEY_BASE64=<base64-encoded-RSA-private-key-PEM>
 JWT_PUBLIC_KEY_BASE64=<base64-encoded-RSA-public-key-PEM>
+
+# Redis (optional, enables caching and background email queue)
+REDIS_URL=redis://localhost:6379
 
 # Stripe (use test keys for development)
 STRIPE_SECRET_KEY=sk_test_changeme
@@ -225,12 +234,13 @@ The `docker-compose.yml` file builds and runs the optimised production image:
 docker compose up --build -d
 ```
 
-This starts **two services**:
+This starts **three services**:
 
 | Service | Port | Description |
 |---|---|---|
 | `db` | 5433 (host) → 5432 | PostgreSQL 16 with persistent volume |
-| `app` | 3000 | Production app (API + static client files) |
+| `redis` | 6379 | Redis 7 Alpine (caching, BullMQ email queue) |
+| `app` | 3000 | Production app (API + static client files + BullMQ worker) |
 
 The production Dockerfile uses a **three-stage build**:
 
@@ -302,6 +312,13 @@ blessp/
 │   │   │   │   ├── 📄 request.id.ts   UUID v4 request ID (respects client X-Request-ID header)
 │   │   │   │   ├── 📄 security.headers.ts HSTS, X-Frame-Options, CSP, Referrer-Policy, Permissions-Policy
 │   │   │   │   └── 📄 validate.ts     Zod schema validation for body, query, and params
+│   │   │   ├── 📂 cache/
+│   │   │   │   ├── 📄 redis.client.ts  ioredis singleton (lazyConnect, no-op if REDIS_URL unset)
+│   │   │   │   └── 📄 cache.service.ts CacheService with get/set/delete/deleteByPattern
+│   │   │   ├── 📂 queue/
+│   │   │   │   ├── 📄 queue.client.ts  BullMQ email queue (3 retries, exponential backoff)
+│   │   │   │   ├── 📄 email.producer.ts Enqueue or synchronous fallback for order emails
+│   │   │   │   └── 📄 email.worker.ts  BullMQ worker (concurrency 5)
 │   │   │   ├── 📂 observability/
 │   │   │   │   └── 📄 logger.ts       Pino structured logger with field redaction
 │   │   │   ├── 📂 router/
@@ -421,7 +438,8 @@ blessp/
 │       ├── 📄 001-use-postgresql.md
 │       ├── 📄 002-jwt-refresh-rotation.md
 │       ├── 📄 003-monorepo-structure.md
-│       └── 📄 004-react-vite-tailwind.md
+│       ├── 📄 004-react-vite-tailwind.md
+│       └── 📄 005-redis-caching-email-queue.md
 │
 ├── 📂 .github/
 │   ├── 📂 workflows/
@@ -594,46 +612,78 @@ The GitHub Actions CI pipeline runs on every pull request and push to `develop`/
 
 ## 📊 Architecture Overview
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    🌐 Client (React SPA)                │
-│   Vite + Tailwind + Framer Motion + Stripe Elements     │
-│   Port 5173 (dev) / served from Express (prod)          │
-└──────────────────────────┬──────────────────────────────┘
-                           │ HTTP (JSON)
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                 ⚙️ Express API Server                    │
-│   Port 3000                                             │
-│                                                         │
-│   ┌─────────────────────────────────────────┐           │
-│   │ 🔧 Middleware Pipeline                   │           │
-│   │  helmet → cors → cookieParser → json    │           │
-│   │  → requestId → securityHeaders          │           │
-│   │  → globalRateLimiter                    │           │
-│   └─────────────────────────────────────────┘           │
-│                                                         │
-│   ┌─────────────────────────────────────────┐           │
-│   │ 🗂️ Feature Modules                      │           │
-│   │                                         │           │
-│   │  Router → Controller → Service → Repo   │           │
-│   │                                         │           │
-│   │  🔑 auth    👤 users    🛍️ products     │           │
-│   │  🛒 cart    📦 orders   💳 payments     │           │
-│   └─────────────────────────────────────────┘           │
-│                                                         │
-│   ┌─────────────────────────────────────────┐           │
-│   │ 🛠️ Core Infrastructure                  │           │
-│   │  config (Zod) │ errors │ security       │           │
-│   │  observability (Pino) │ pagination      │           │
-│   └─────────────────────────────────────────┘           │
-└──────────────────────────┬──────────────────────────────┘
-                           │ Prisma ORM
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│              🐘 PostgreSQL 16                            │
-│   9 tables │ JSONB │ arrays │ UUID PKs │ soft deletes   │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph CLIENT["🌐 Client · React SPA"]
+        direction LR
+        C1["Vite + Tailwind CSS"]
+        C2["Framer Motion"]
+        C3["Stripe Elements"]
+        C4["React Router"]
+    end
+
+    subgraph SERVER["⚙️ Express API Server · Port 3000"]
+        direction TB
+
+        subgraph MW["🔧 Middleware Pipeline"]
+            direction LR
+            MW1["helmet"] --> MW2["cors"]
+            MW2 --> MW3["cookieParser"]
+            MW3 --> MW4["json"]
+            MW4 --> MW5["requestId"]
+            MW5 --> MW6["securityHeaders"]
+            MW6 --> MW7["rateLimiter"]
+        end
+
+        subgraph FEAT["🗂️ Feature Modules"]
+            direction LR
+            F1["🔑 Auth"]
+            F2["👤 Users"]
+            F3["🛍️ Products"]
+            F4["🛒 Cart"]
+            F5["📦 Orders"]
+            F6["💳 Payments"]
+        end
+
+        subgraph LAYER["📐 Clean Layered Architecture"]
+            direction LR
+            L1["Router"] --> L2["Controller"]
+            L2 --> L3["Service"]
+            L3 --> L4["Repository"]
+        end
+
+        subgraph CORE["🛠️ Core Infrastructure"]
+            direction LR
+            CORE1["Config · Zod"]
+            CORE2["Errors"]
+            CORE3["Security"]
+            CORE4["Observability · Pino"]
+            CORE5["Cache · CacheService"]
+            CORE6["Queue · BullMQ"]
+        end
+    end
+
+    subgraph DB["🐘 PostgreSQL 16"]
+        DB1["9 tables · JSONB · arrays · UUID PKs · soft deletes"]
+    end
+
+    subgraph REDIS["🗄️ Redis 7 · optional"]
+        R1["Product Cache"]
+        R2["BullMQ Email Queue"]
+    end
+
+    CLIENT -- "HTTP / JSON" --> SERVER
+    SERVER -- "Prisma ORM" --> DB
+    SERVER -. "ioredis (optional)" .-> REDIS
+
+    style CLIENT fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#e2e8f0
+    style SERVER fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
+    style MW fill:#0f172a,stroke:#94a3b8,stroke-width:1px,color:#cbd5e1
+    style FEAT fill:#0f172a,stroke:#94a3b8,stroke-width:1px,color:#cbd5e1
+    style LAYER fill:#0f172a,stroke:#94a3b8,stroke-width:1px,color:#cbd5e1
+    style CORE fill:#0f172a,stroke:#94a3b8,stroke-width:1px,color:#cbd5e1
+    style DB fill:#1e293b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+    style REDIS fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
 ```
 
 ### Clean layered architecture 🧅
@@ -798,6 +848,7 @@ For the complete deployment guide, see [docs/deployment.md](docs/deployment.md).
 | [🔑 ADR 002: JWT Refresh Rotation](docs/adr/002-jwt-refresh-rotation.md) | Authentication strategy and token lifecycle |
 | [📦 ADR 003: Monorepo Structure](docs/adr/003-monorepo-structure.md) | Single repo for server and client |
 | [🎨 ADR 004: React + Vite + Tailwind](docs/adr/004-react-vite-tailwind.md) | Frontend technology choices |
+| [🗄️ ADR 005: Redis for Caching and Email Queue](docs/adr/005-redis-caching-email-queue.md) | Optional Redis for product caching and BullMQ email delivery |
 
 ---
 
