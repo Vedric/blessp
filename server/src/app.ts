@@ -5,11 +5,13 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Env } from './core/config/env';
 import { requestId } from './core/middleware/request.id';
+import { metricsMiddleware } from './core/middleware/metrics.middleware';
 import { securityHeaders } from './core/middleware/security.headers';
 import { globalRateLimiter } from './core/middleware/rate.limit';
 import { globalErrorHandler } from './core/middleware/error.handler';
 import { apiRouter } from './core/router/index';
 import { prisma } from './core/database/client';
+import { register } from './core/observability/metrics';
 
 export function createApp(): express.Application {
   const app = express();
@@ -37,8 +39,19 @@ export function createApp(): express.Application {
   app.use(cookieParser());
   app.use(express.json({ limit: '1mb' }));
   app.use(requestId);
+  app.use(metricsMiddleware);
   app.use(securityHeaders);
   app.use(globalRateLimiter);
+
+  // Prometheus metrics endpoint
+  app.get('/metrics', async (_req, res) => {
+    try {
+      res.set('Content-Type', register.contentType);
+      res.end(await register.metrics());
+    } catch {
+      res.status(500).end();
+    }
+  });
 
   // Health check endpoints
   app.get('/health/live', (_req, res) => {
@@ -73,6 +86,7 @@ export function createApp(): express.Application {
       req.method !== 'GET' ||
       req.path.startsWith('/api/') ||
       req.path.startsWith('/health/') ||
+      req.path === '/metrics' ||
       req.path.includes('.')
     ) {
       return next();
