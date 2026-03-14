@@ -8,12 +8,22 @@ jest.mock('@core/database/client', () => {
   const mockUser = {
     findUnique: jest.fn(),
     create: jest.fn(),
+    update: jest.fn(),
   };
   return {
     prisma: { user: mockUser },
     getPrismaClient: jest.fn(),
   };
 });
+
+jest.mock('@core/observability/logger', () => ({
+  logger: {
+    info: jest.fn(),
+    debug: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+  },
+}));
 
 // Import after mock registration so the mock is in place
 import { AuthService } from '@features/auth/auth.service';
@@ -26,6 +36,7 @@ import { prisma } from '@core/database/client';
 const mockPrismaUser = prisma.user as unknown as {
   findUnique: jest.Mock;
   create: jest.Mock;
+  update: jest.Mock;
 };
 
 describe('AuthService', () => {
@@ -45,6 +56,9 @@ describe('AuthService', () => {
       findFamilyByToken: jest.fn(),
       deleteExpired: jest.fn(),
       deleteByUserId: jest.fn(),
+      createPasswordResetToken: jest.fn(),
+      findPasswordResetToken: jest.fn(),
+      markPasswordResetTokenUsed: jest.fn(),
     } as unknown as jest.Mocked<AuthRepository>;
 
     hashService = {
@@ -269,6 +283,106 @@ describe('AuthService', () => {
 
       await expect(service.logout('unknown-token')).resolves.toBeUndefined();
       expect(authRepository.revokeFamily).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('refreshToken (user deleted)', () => {
+    it('throws UnauthorizedError when the user account no longer exists', async () => {
+      const storedToken = {
+        id: 'rt_001',
+        userId: 'usr_deleted',
+        token: 'valid-token',
+        familyId: 'family_001',
+        expiresAt: new Date(Date.now() + 86400000),
+        usedAt: null,
+        createdAt: new Date(),
+      };
+
+      authRepository.findByToken.mockResolvedValueOnce(storedToken as any);
+      authRepository.markAsUsed.mockResolvedValueOnce(undefined as any);
+      mockPrismaUser.findUnique.mockResolvedValueOnce(null);
+
+      await expect(service.refreshToken('valid-token')).rejects.toThrow(UnauthorizedError);
+    });
+  });
+
+  describe('getMe', () => {
+    it('returns the authenticated user profile', async () => {
+      const user = makeUserFixture({ id: 'usr_me' });
+      mockPrismaUser.findUnique.mockResolvedValueOnce(user);
+
+      const result = await service.getMe('usr_me');
+
+      expect(result.id).toBe('usr_me');
+      expect(result.email).toBe(user.email);
+    });
+
+    it('throws UnauthorizedError when the user does not exist', async () => {
+      mockPrismaUser.findUnique.mockResolvedValueOnce(null);
+
+      await expect(service.getMe('usr_gone')).rejects.toThrow(UnauthorizedError);
+    });
+  });
+
+  describe('forgotPassword', () => {
+    it('creates a password reset token when the user exists', async () => {
+      const user = makeUserFixture({ id: 'usr_forgot' });
+      mockPrismaUser.findUnique.mockResolvedValueOnce(user);
+      authRepository.createPasswordResetToken.mockResolvedValueOnce(undefined as any);
+
+      await service.forgotPassword(user.email);
+
+      expect(authRepository.createPasswordResetToken).toHaveBeenCalledWith(
+        user.id,
+        expect.any(String),
+        expect.any(Date),
+      );
+    });
+
+    it('silently succeeds when the email does not exist (no user enumeration)', async () => {
+      mockPrismaUser.findUnique.mockResolvedValueOnce(null);
+
+      await expect(service.forgotPassword('nobody@example.com')).resolves.toBeUndefined();
+      expect(authRepository.createPasswordResetToken).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('resets the password and revokes all sessions', async () => {
+      const resetToken = {
+        id: 'prt_001',
+        userId: 'usr_reset',
+        token: 'reset-token-value',
+        expiresAt: new Date(Date.now() + 3600000),
+        usedAt: null,
+      };
+
+      authRepository.findPasswordResetToken.mockResolvedValueOnce(resetToken as any);
+      hashService.hash.mockResolvedValueOnce('$argon2id$new-hash');
+      mockPrismaUser.update.mockResolvedValueOnce(undefined as any);
+      authRepository.markPasswordResetTokenUsed.mockResolvedValueOnce(undefined as any);
+      authRepository.deleteByUserId.mockResolvedValueOnce(undefined as any);
+
+      await service.resetPassword('reset-token-value', 'NewStr0ngP@ssword');
+
+      expect(hashService.hash).toHaveBeenCalledWith('NewStr0ngP@ssword');
+      expect(mockPrismaUser.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'usr_reset' },
+          data: { passwordHash: '$argon2id$new-hash' },
+        }),
+      );
+      expect(authRepository.markPasswordResetTokenUsed).toHaveBeenCalledWith('prt_001');
+      expect(authRepository.deleteByUserId).toHaveBeenCalledWith('usr_reset');
+    });
+
+    it('throws UnauthorizedError when the reset token is invalid', async () => {
+      authRepository.findPasswordResetToken.mockResolvedValueOnce(null);
+
+      await expect(
+        service.resetPassword('bad-token', 'NewStr0ngP@ssword'),
+      ).rejects.toThrow(UnauthorizedError);
+      expect(hashService.hash).not.toHaveBeenCalled();
     });
   });
 });
