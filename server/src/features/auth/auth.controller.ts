@@ -1,10 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
+import { Env } from '../../core/config/env';
 import { AuthService } from './auth.service';
-import { RegisterSchema, LoginSchema, RefreshTokenSchema, LogoutSchema, ForgotPasswordSchema, ResetPasswordSchema } from './auth.schema';
+import { RegisterSchema, LoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from './auth.schema';
+import { sendSuccess, sendCreated, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
 }
+
+const REFRESH_TOKEN_COOKIE = 'refreshToken';
+
+const REFRESH_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: Env.NODE_ENV === 'production',
+  sameSite: 'strict' as const,
+  path: '/api/v1/auth',
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
 
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -14,15 +26,11 @@ export class AuthController {
       const dto = RegisterSchema.parse(req.body);
       const result = await this.authService.register(dto);
 
-      res.status(201).json({
-        data: {
-          user: result.user,
-          tokens: result.tokens,
-        },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
+      res.cookie(REFRESH_TOKEN_COOKIE, result.tokens.refreshToken, REFRESH_COOKIE_OPTIONS);
+
+      sendCreated(res, req, {
+        user: result.user,
+        tokens: { accessToken: result.tokens.accessToken },
       });
     } catch (error) {
       next(error);
@@ -34,15 +42,11 @@ export class AuthController {
       const dto = LoginSchema.parse(req.body);
       const result = await this.authService.login(dto);
 
-      res.status(200).json({
-        data: {
-          user: result.user,
-          tokens: result.tokens,
-        },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
+      res.cookie(REFRESH_TOKEN_COOKIE, result.tokens.refreshToken, REFRESH_COOKIE_OPTIONS);
+
+      sendSuccess(res, req, {
+        user: result.user,
+        tokens: { accessToken: result.tokens.accessToken },
       });
     } catch (error) {
       next(error);
@@ -51,16 +55,23 @@ export class AuthController {
 
   refresh = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { refreshToken } = RefreshTokenSchema.parse(req.body);
+      const refreshToken = req.cookies?.[REFRESH_TOKEN_COOKIE];
+      if (!refreshToken) {
+        res.status(401).json({
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'Refresh token is missing.',
+            requestId: req.headers['x-request-id'] as string,
+          },
+        });
+        return;
+      }
+
       const tokens = await this.authService.refreshToken(refreshToken);
 
-      res.status(200).json({
-        data: { tokens },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      res.cookie(REFRESH_TOKEN_COOKIE, tokens.refreshToken, REFRESH_COOKIE_OPTIONS);
+
+      sendSuccess(res, req, { tokens: { accessToken: tokens.accessToken } });
     } catch (error) {
       next(error);
     }
@@ -68,10 +79,19 @@ export class AuthController {
 
   logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { refreshToken } = LogoutSchema.parse(req.body);
-      await this.authService.logout(refreshToken);
+      const refreshToken = req.cookies?.[REFRESH_TOKEN_COOKIE];
+      if (refreshToken) {
+        await this.authService.logout(refreshToken);
+      }
 
-      res.status(204).send();
+      res.clearCookie(REFRESH_TOKEN_COOKIE, {
+        httpOnly: true,
+        secure: Env.NODE_ENV === 'production',
+        sameSite: 'strict' as const,
+        path: '/api/v1/auth',
+      });
+
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }
@@ -82,13 +102,7 @@ export class AuthController {
       const { email } = ForgotPasswordSchema.parse(req.body);
       await this.authService.forgotPassword(email);
 
-      res.status(200).json({
-        data: { message: 'If an account with that email exists, a password reset link has been sent.' },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, { message: 'If an account with that email exists, a password reset link has been sent.' });
     } catch (error) {
       next(error);
     }
@@ -99,13 +113,7 @@ export class AuthController {
       const { token, password } = ResetPasswordSchema.parse(req.body);
       await this.authService.resetPassword(token, password);
 
-      res.status(200).json({
-        data: { message: 'Password has been reset successfully.' },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, { message: 'Password has been reset successfully.' });
     } catch (error) {
       next(error);
     }
@@ -117,13 +125,7 @@ export class AuthController {
       const userId = authReq.user!.userId;
       const user = await this.authService.getMe(userId);
 
-      res.status(200).json({
-        data: user,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, user);
     } catch (error) {
       next(error);
     }
