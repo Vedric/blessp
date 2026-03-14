@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AnalyticsService } from './analytics.service';
+import { sendSuccess } from '../../core/types/response';
 import type { RevenuePeriod } from './analytics.types';
 
 const VALID_PERIODS: RevenuePeriod[] = ['7d', '30d', '90d'];
@@ -7,17 +8,11 @@ const VALID_PERIODS: RevenuePeriod[] = ['7d', '30d', '90d'];
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
-  getOverview = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+  getOverview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const overview = await this.analyticsService.getOverview();
 
-      res.status(200).json({
-        data: overview,
-        meta: {
-          requestId: _req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, overview);
     } catch (error) {
       next(error);
     }
@@ -40,13 +35,7 @@ export class AnalyticsController {
 
       const revenue = await this.analyticsService.getRevenue(period as RevenuePeriod);
 
-      res.status(200).json({
-        data: revenue,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, revenue);
     } catch (error) {
       next(error);
     }
@@ -57,13 +46,7 @@ export class AnalyticsController {
       const limit = Math.min(parseInt(req.query.limit as string, 10) || 10, 50);
       const topProducts = await this.analyticsService.getTopProducts(limit);
 
-      res.status(200).json({
-        data: topProducts,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, topProducts);
     } catch (error) {
       next(error);
     }
@@ -74,13 +57,7 @@ export class AnalyticsController {
       const limit = Math.min(parseInt(req.query.limit as string, 10) || 10, 50);
       const recentOrders = await this.analyticsService.getRecentOrders(limit);
 
-      res.status(200).json({
-        data: recentOrders,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, recentOrders);
     } catch (error) {
       next(error);
     }

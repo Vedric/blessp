@@ -7,6 +7,7 @@ import {
   UpdateCouponSchema,
   CouponParamsSchema,
 } from './coupons.schema';
+import { sendSuccess, sendCreated } from '../../core/types/response';
 
 export class CouponsController {
   constructor(private readonly couponsService: CouponsService) {}
@@ -16,13 +17,7 @@ export class CouponsController {
       const dto = ValidateCouponSchema.parse(req.body);
       const result = await this.couponsService.validateCoupon(dto.code, dto.orderTotalCents);
 
-      res.status(200).json({
-        data: result,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, result);
     } catch (error) {
       next(error);
     }
@@ -33,13 +28,7 @@ export class CouponsController {
       const dto = ApplyCouponSchema.parse(req.body);
       const result = await this.couponsService.applyCoupon(dto.code, dto.orderTotalCents);
 
-      res.status(200).json({
-        data: result,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, result);
     } catch (error) {
       next(error);
     }
@@ -50,13 +39,7 @@ export class CouponsController {
       const dto = CreateCouponSchema.parse(req.body);
       const coupon = await this.couponsService.createCoupon(dto);
 
-      res.status(201).json({
-        data: coupon,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, coupon);
     } catch (error) {
       next(error);
     }
@@ -66,13 +49,7 @@ export class CouponsController {
     try {
       const coupons = await this.couponsService.listCoupons();
 
-      res.status(200).json({
-        data: coupons,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, coupons);
     } catch (error) {
       next(error);
     }
@@ -84,13 +61,7 @@ export class CouponsController {
       const dto = UpdateCouponSchema.parse(req.body);
       const coupon = await this.couponsService.updateCoupon(id, dto);
 
-      res.status(200).json({
-        data: coupon,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, coupon);
     } catch (error) {
       next(error);
     }

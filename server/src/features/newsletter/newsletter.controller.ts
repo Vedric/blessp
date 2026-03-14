@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { NewsletterService } from './newsletter.service';
 import { NewsletterSubscribeSchema, NewsletterUnsubscribeSchema } from './newsletter.schema';
+import { sendSuccess, sendCreated, sendNoContent } from '../../core/types/response';
 
 export class NewsletterController {
   constructor(private readonly newsletterService: NewsletterService) {}
@@ -10,18 +11,15 @@ export class NewsletterController {
       const dto = NewsletterSubscribeSchema.parse(req.body);
       const result = await this.newsletterService.subscribe(dto.email);
 
-      const statusCode = result.alreadySubscribed ? 200 : 201;
-      res.status(statusCode).json({
-        data: {
-          message: result.alreadySubscribed
-            ? 'This email is already subscribed.'
-            : 'Successfully subscribed to the newsletter.',
-        },
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      const message = result.alreadySubscribed
+        ? 'This email is already subscribed.'
+        : 'Successfully subscribed to the newsletter.';
+
+      if (result.alreadySubscribed) {
+        sendSuccess(res, req, { message });
+      } else {
+        sendCreated(res, req, { message });
+      }
     } catch (error) {
       next(error);
     }
@@ -32,7 +30,7 @@ export class NewsletterController {
       const dto = NewsletterUnsubscribeSchema.parse(req.body);
       await this.newsletterService.unsubscribe(dto.email);
 
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }

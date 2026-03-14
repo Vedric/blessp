@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { CartService } from './cart.service';
 import { AddToCartSchema, UpdateCartItemSchema, CartItemParamsSchema } from './cart.schema';
+import { sendSuccess, sendCreated, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -14,13 +15,7 @@ export class CartController {
       const authReq = req as AuthenticatedRequest;
       const cart = await this.cartService.getCart(authReq.user!.userId);
 
-      res.status(200).json({
-        data: cart,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, cart);
     } catch (error) {
       next(error);
     }
@@ -32,13 +27,7 @@ export class CartController {
       const dto = AddToCartSchema.parse(req.body);
       const cart = await this.cartService.addToCart(authReq.user!.userId, dto);
 
-      res.status(201).json({
-        data: cart,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendCreated(res, req, cart);
     } catch (error) {
       next(error);
     }
@@ -51,13 +40,7 @@ export class CartController {
       const dto = UpdateCartItemSchema.parse(req.body);
       const cart = await this.cartService.updateCartItem(authReq.user!.userId, itemId, dto);
 
-      res.status(200).json({
-        data: cart,
-        meta: {
-          requestId: req.headers['x-request-id'] as string,
-          timestamp: new Date().toISOString(),
-        },
-      });
+      sendSuccess(res, req, cart);
     } catch (error) {
       next(error);
     }
@@ -69,7 +52,7 @@ export class CartController {
       const { itemId } = CartItemParamsSchema.parse(req.params);
       await this.cartService.removeFromCart(authReq.user!.userId, itemId);
 
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }
@@ -80,7 +63,7 @@ export class CartController {
       const authReq = req as AuthenticatedRequest;
       await this.cartService.clearCart(authReq.user!.userId);
 
-      res.status(204).send();
+      sendNoContent(res);
     } catch (error) {
       next(error);
     }
