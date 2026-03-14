@@ -17,47 +17,22 @@ beforeAll(async () => {
   }
 });
 
+afterEach(async () => {
+  if (dbAvailable) {
+    await cleanDatabase();
+  }
+});
+
 afterAll(async () => {
   if (dbAvailable) {
     await teardownTestDatabase();
   }
 });
 
-const describeIfDb = () => (dbAvailable ? describe : describe.skip);
-
-// We wrap all tests in a function so we can conditionally skip the entire suite.
-// The outer describe is always declared; the inner one is skipped when no DB exists.
 describe('Auth API integration tests', () => {
-  beforeAll(async () => {
-    dbAvailable = await isDatabaseAvailable();
-    if (dbAvailable) {
-      await setupTestDatabase();
-    }
-  });
-
-  afterEach(async () => {
-    if (dbAvailable) {
-      await cleanDatabase();
-    }
-  });
-
-  afterAll(async () => {
-    if (dbAvailable) {
-      await teardownTestDatabase();
-    }
-  });
-
-  const shouldRun = () => {
-    if (!dbAvailable) {
-      test.skip('database not available, skipping', () => {});
-      return false;
-    }
-    return true;
-  };
-
   describe('POST /api/v1/auth/register', () => {
     it('creates a new user and returns 201 with tokens', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const res = await request(app)
         .post('/api/v1/auth/register')
@@ -89,7 +64,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 409 when email is already registered', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const email = 'duplicate@example.com';
 
@@ -107,7 +82,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 422 when the password is too weak', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const res = await request(app)
         .post('/api/v1/auth/register')
@@ -125,7 +100,7 @@ describe('Auth API integration tests', () => {
 
   describe('POST /api/v1/auth/login', () => {
     it('returns 200 with tokens on valid credentials', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const email = 'login@example.com';
       const password = 'StrongPassword1';
@@ -145,7 +120,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 401 with a generic message on invalid password', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const email = 'loginbad@example.com';
 
@@ -164,7 +139,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 401 with the same generic message for a non-existent email', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const res = await request(app)
         .post('/api/v1/auth/login')
@@ -178,7 +153,7 @@ describe('Auth API integration tests', () => {
 
   describe('GET /api/v1/auth/me', () => {
     it('returns the user profile with a valid access token', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const user = await registerTestUser();
 
@@ -197,7 +172,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 401 without an authorization header', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const res = await request(app)
         .get('/api/v1/auth/me')
@@ -207,7 +182,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 401 with an invalid token', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const res = await request(app)
         .get('/api/v1/auth/me')
@@ -220,7 +195,7 @@ describe('Auth API integration tests', () => {
 
   describe('POST /api/v1/auth/refresh', () => {
     it('returns a new token pair when a valid refresh token cookie is sent', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const user = await registerTestUser();
 
@@ -238,7 +213,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('returns 401 when no refresh token cookie is present', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const res = await request(app)
         .post('/api/v1/auth/refresh')
@@ -250,7 +225,7 @@ describe('Auth API integration tests', () => {
 
   describe('POST /api/v1/auth/logout', () => {
     it('clears the refresh token cookie and returns 204', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const user = await registerTestUser();
 
@@ -263,7 +238,7 @@ describe('Auth API integration tests', () => {
       const cookies: string[] = res.headers['set-cookie'] ?? [];
       const refreshCookie = (Array.isArray(cookies) ? cookies : [cookies])
         .find((c: string) => c.startsWith('refreshToken='));
-      // A cleared cookie typically has an empty value or an expiry in the past
+      // A cleared cookie typically has an expiry in the past or Max-Age=0
       if (refreshCookie) {
         expect(
           refreshCookie.includes('Expires=') || refreshCookie.includes('Max-Age=0')
@@ -273,7 +248,7 @@ describe('Auth API integration tests', () => {
     });
 
     it('invalidates the refresh token so subsequent refreshes fail', async () => {
-      if (!shouldRun()) return;
+      if (!dbAvailable) return;
 
       const user = await registerTestUser();
 
