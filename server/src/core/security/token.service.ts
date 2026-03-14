@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import jwt, { type SignOptions } from 'jsonwebtoken';
 import { Env } from '../config/env';
 import { UnauthorizedError } from '../errors/http.errors';
@@ -58,6 +59,7 @@ export class TokenService {
     const options: SignOptions = {
       algorithm: 'RS256',
       expiresIn: Env.JWT_REFRESH_EXPIRY as unknown as number,
+      jwtid: crypto.randomUUID(),
     };
     return jwt.sign({ ...payload }, getPrivateKey(), options);
   }
