@@ -26,9 +26,6 @@ export default tseslint.config(
       // TODO(LINT-002): fix hooks violations then promote these to 'error'
       'react-hooks/rules-of-hooks': 'off',
       'react-hooks/exhaustive-deps': 'off',
-      // TODO(LINT-003): enable strict react-hooks v7 rules after refactoring affected components
-      'react-hooks/set-state-in-effect': 'off',
-      'react-hooks/purity': 'off',
       'react-refresh/only-export-components': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
