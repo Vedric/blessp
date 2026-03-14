@@ -44,6 +44,12 @@ jobs:
       - name: Generate Prisma client
         run: cd server && npx prisma generate
 
+      - name: Lint (server)
+        run: cd server && npm run lint
+
+      - name: Lint (client)
+        run: cd client && npm run lint
+
       - name: TypeScript check (server)
         run: cd server && npx tsc --noEmit
 
@@ -58,8 +64,6 @@ jobs:
     env:
       NODE_ENV: test
       DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/placeholder
-      JWT_SECRET: ci-test-jwt-secret-not-real
-      JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret-not-real
       STRIPE_SECRET_KEY: sk_test_fake_key_for_ci
       STRIPE_WEBHOOK_SECRET: whsec_fake_key_for_ci
       CLIENT_URL: http://localhost:5173
@@ -74,6 +78,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: server/package-lock.json
+
+      - name: Generate RSA keypair for JWT tests
+        run: |
+          openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -outform PEM -out /tmp/jwt_private.pem 2>/dev/null
+          openssl pkey -in /tmp/jwt_private.pem -pubout -out /tmp/jwt_public.pem 2>/dev/null
+          echo "JWT_PRIVATE_KEY_BASE64=$(cat /tmp/jwt_private.pem | base64 -w0)" >> "$GITHUB_ENV"
+          echo "JWT_PUBLIC_KEY_BASE64=$(cat /tmp/jwt_public.pem | base64 -w0)" >> "$GITHUB_ENV"
+          rm /tmp/jwt_private.pem /tmp/jwt_public.pem
 
       - name: Install server dependencies
         run: cd server && npm ci
@@ -115,8 +127,6 @@ jobs:
     env:
       NODE_ENV: test
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/blessp_test
-      JWT_SECRET: ci-test-jwt-secret-not-real
-      JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret-not-real
       STRIPE_SECRET_KEY: sk_test_fake_key_for_ci
       STRIPE_WEBHOOK_SECRET: whsec_fake_key_for_ci
       CLIENT_URL: http://localhost:5173
@@ -131,6 +141,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: server/package-lock.json
+
+      - name: Generate RSA keypair for JWT tests
+        run: |
+          openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -outform PEM -out /tmp/jwt_private.pem 2>/dev/null
+          openssl pkey -in /tmp/jwt_private.pem -pubout -out /tmp/jwt_public.pem 2>/dev/null
+          echo "JWT_PRIVATE_KEY_BASE64=$(cat /tmp/jwt_private.pem | base64 -w0)" >> "$GITHUB_ENV"
+          echo "JWT_PUBLIC_KEY_BASE64=$(cat /tmp/jwt_public.pem | base64 -w0)" >> "$GITHUB_ENV"
+          rm /tmp/jwt_private.pem /tmp/jwt_public.pem
 
       - name: Install server dependencies
         run: cd server && npm ci

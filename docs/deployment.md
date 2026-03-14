@@ -38,8 +38,8 @@ The validation schema lives in `server/src/core/config/env.ts`.
 | Variable | Type | Validation | Description |
 |----------|------|------------|-------------|
 | `DATABASE_URL` | `string` | Min 1 character | PostgreSQL connection string (e.g., `postgresql://user:pass@host:5432/dbname`) |
-| `JWT_ACCESS_SECRET` | `string` | Min 32 characters | 🔑 Secret for signing JWT access tokens |
-| `JWT_REFRESH_SECRET` | `string` | Min 32 characters | 🔑 Secret for signing JWT refresh tokens |
+| `JWT_PRIVATE_KEY_BASE64` | `string` | Min 1 character | 🔑 Base64-encoded RSA private key (PEM) for signing JWTs |
+| `JWT_PUBLIC_KEY_BASE64` | `string` | Min 1 character | 🔑 Base64-encoded RSA public key (PEM) for verifying JWTs |
 
 ### Optional Variables (with defaults)
 
@@ -75,8 +75,8 @@ LOG_LEVEL=debug
 
 DATABASE_URL=postgresql://blessp:blessp_dev_password@localhost:5433/blessp
 
-JWT_ACCESS_SECRET=dev-access-secret-change-me-in-production-min32chars
-JWT_REFRESH_SECRET=dev-refresh-secret-change-me-in-production-min32chars
+JWT_PRIVATE_KEY_BASE64=<base64-encoded-RSA-private-key-PEM>
+JWT_PUBLIC_KEY_BASE64=<base64-encoded-RSA-public-key-PEM>
 JWT_ACCESS_EXPIRY=15m
 JWT_REFRESH_EXPIRY=7d
 
@@ -541,10 +541,9 @@ Before deploying to production, verify every item on this list.
 ### 🔑 Secrets and Credentials
 
 - [ ] `NODE_ENV` is set to `production`
-- [ ] `JWT_ACCESS_SECRET` is a strong, randomly generated value (minimum 32 characters)
-- [ ] `JWT_REFRESH_SECRET` is a strong, randomly generated value (minimum 32 characters)
-- [ ] JWT access and refresh secrets are **different** from each other
-- [ ] JWT secrets are **unique** to this environment (not shared with staging)
+- [ ] `JWT_PRIVATE_KEY_BASE64` contains a valid base64-encoded RSA private key (2048-bit minimum)
+- [ ] `JWT_PUBLIC_KEY_BASE64` contains the matching base64-encoded RSA public key
+- [ ] The RSA keypair is **unique** to this environment (not shared with staging)
 - [ ] Database credentials are unique to this environment
 - [ ] Database credentials are sourced from a secrets manager (not hardcoded in compose files)
 - [ ] Stripe keys are **production** keys (not `sk_test_` prefixed)
@@ -634,7 +633,7 @@ For managed PostgreSQL providers, use the built-in backup features:
 **Fix:** Check the error output for the specific field that failed. Common issues:
 
 - `DATABASE_URL` is empty or not a valid connection string
-- `JWT_ACCESS_SECRET` or `JWT_REFRESH_SECRET` is shorter than 32 characters
+- `JWT_PRIVATE_KEY_BASE64` or `JWT_PUBLIC_KEY_BASE64` is missing or empty
 - `PORT` is not a positive integer
 
 ### Database Connection Refused

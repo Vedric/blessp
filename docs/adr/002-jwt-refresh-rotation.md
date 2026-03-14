@@ -36,8 +36,8 @@ We implement JWT-based authentication with **short-lived access tokens** and **r
 
 | Property | Value |
 |----------|-------|
-| Algorithm | HS256 (symmetric, single-service architecture) |
-| Secret | `JWT_ACCESS_SECRET` (minimum 32 characters) |
+| Algorithm | RS256 (asymmetric) |
+| Keys | `JWT_PRIVATE_KEY_BASE64` (signing) / `JWT_PUBLIC_KEY_BASE64` (verification) |
 | TTL | 15 minutes (configurable via `JWT_ACCESS_EXPIRY`) |
 | Transport | `Authorization: Bearer <token>` header |
 | Storage (client) | In-memory JavaScript variable (not localStorage) |
@@ -59,8 +59,8 @@ The access token payload contains:
 
 | Property | Value |
 |----------|-------|
-| Algorithm | HS256 (symmetric) |
-| Secret | `JWT_REFRESH_SECRET` (separate from access secret, minimum 32 characters) |
+| Algorithm | RS256 (asymmetric) |
+| Keys | `JWT_PRIVATE_KEY_BASE64` (signing) / `JWT_PUBLIC_KEY_BASE64` (verification) |
 | TTL | 7 days (configurable via `JWT_REFRESH_EXPIRY`) |
 | Transport | JSON response body |
 | Storage (client) | Managed by the frontend AuthContext |

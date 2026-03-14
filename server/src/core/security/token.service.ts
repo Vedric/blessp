@@ -24,27 +24,48 @@ interface JwtRefreshClaims extends RefreshTokenPayload {
   exp: number;
 }
 
+function decodeKey(base64: string): string {
+  return Buffer.from(base64, 'base64').toString('utf8');
+}
+
+let _privateKey: string | null = null;
+let _publicKey: string | null = null;
+
+function getPrivateKey(): string {
+  if (!_privateKey) {
+    _privateKey = decodeKey(Env.JWT_PRIVATE_KEY_BASE64);
+  }
+  return _privateKey;
+}
+
+function getPublicKey(): string {
+  if (!_publicKey) {
+    _publicKey = decodeKey(Env.JWT_PUBLIC_KEY_BASE64);
+  }
+  return _publicKey;
+}
+
 export class TokenService {
   signAccessToken(payload: AccessTokenPayload): string {
     const options: SignOptions = {
-      algorithm: 'HS256',
+      algorithm: 'RS256',
       expiresIn: Env.JWT_ACCESS_EXPIRY as unknown as number,
     };
-    return jwt.sign({ ...payload }, Env.JWT_ACCESS_SECRET, options);
+    return jwt.sign({ ...payload }, getPrivateKey(), options);
   }
 
   signRefreshToken(payload: RefreshTokenPayload): string {
     const options: SignOptions = {
-      algorithm: 'HS256',
+      algorithm: 'RS256',
       expiresIn: Env.JWT_REFRESH_EXPIRY as unknown as number,
     };
-    return jwt.sign({ ...payload }, Env.JWT_REFRESH_SECRET, options);
+    return jwt.sign({ ...payload }, getPrivateKey(), options);
   }
 
   verifyAccessToken(token: string): AccessTokenPayload {
     try {
-      const decoded = jwt.verify(token, Env.JWT_ACCESS_SECRET, {
-        algorithms: ['HS256'],
+      const decoded = jwt.verify(token, getPublicKey(), {
+        algorithms: ['RS256'],
       }) as JwtAccessClaims;
 
       return {
@@ -62,8 +83,8 @@ export class TokenService {
 
   verifyRefreshToken(token: string): RefreshTokenPayload {
     try {
-      const decoded = jwt.verify(token, Env.JWT_REFRESH_SECRET, {
-        algorithms: ['HS256'],
+      const decoded = jwt.verify(token, getPublicKey(), {
+        algorithms: ['RS256'],
       }) as JwtRefreshClaims;
 
       return {
