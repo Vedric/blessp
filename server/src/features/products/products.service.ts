@@ -1,4 +1,5 @@
 import { NotFoundError } from '../../core/errors/http.errors';
+import { CacheService } from '../../core/cache/cache.service';
 import { ProductsRepository } from './products.repository';
 import { VariantsRepository, UpdateVariantInput } from './variants.repository';
 import { ProductResponse, ProductFiltersResponse, ProductVariantResponse, CreateProductDto, UpdateProductDto, ProductQueryParams } from './products.types';
@@ -7,12 +8,18 @@ export class ProductsService {
   constructor(
     private readonly productsRepository: ProductsRepository,
     private readonly variantsRepository: VariantsRepository = new VariantsRepository(),
+    private readonly cache: CacheService = new CacheService(null),
   ) {}
 
   async listProducts(params: ProductQueryParams) {
-    const result = await this.productsRepository.findAll(params);
+    const cacheKey = this.buildListCacheKey(params);
 
-    return {
+    type ListResult = { data: ProductResponse[]; pagination: { page: number; perPage: number; totalItems: number; totalPages: number } };
+    const cached = await this.cache.get<ListResult>(cacheKey);
+    if (cached) return cached;
+
+    const result = await this.productsRepository.findAll(params);
+    const response: ListResult = {
       data: result.items.map(this.toProductResponse),
       pagination: {
         page: result.page,
@@ -21,6 +28,22 @@ export class ProductsService {
         totalPages: result.totalPages,
       },
     };
+
+    await this.cache.set(cacheKey, response, 120);
+    return response;
+  }
+
+  private buildListCacheKey(params: ProductQueryParams): string {
+    const sorted = Object.keys(params)
+      .sort()
+      .reduce<Record<string, unknown>>((acc, key) => {
+        const value = params[key as keyof ProductQueryParams];
+        if (value !== undefined && value !== null && value !== '') {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
+    return `products:list:${JSON.stringify(sorted)}`;
   }
 
   async getProduct(id: string): Promise<ProductResponse> {

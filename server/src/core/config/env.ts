@@ -20,6 +20,8 @@ const EnvSchema = z.object({
   SERVICE_NAME: z.string().default('blessp-api'),
   SERVICE_VERSION: z.string().default('3.0.0'),
 
+  REDIS_URL: z.string().optional(),
+
   OTEL_ENABLED: z
     .string()
     .transform((val) => val === 'true')
