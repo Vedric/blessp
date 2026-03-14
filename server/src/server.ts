@@ -1,3 +1,8 @@
+// OpenTelemetry must be initialized before any other imports so that
+// auto-instrumentation hooks into HTTP and Express modules at load time.
+import { startTracer, shutdownTracer } from './core/observability/tracer';
+startTracer();
+
 import { createApp } from './app';
 import { Env } from './core/config/env';
 import { prisma, disconnectPrisma } from './core/database/client';
@@ -31,6 +36,9 @@ async function main(): Promise<void> {
 
       await disconnectPrisma();
       logger.info('Database connection closed');
+
+      await shutdownTracer();
+      logger.info('Tracer shut down');
 
       process.exit(0);
     });
