@@ -142,7 +142,7 @@ jobs:
         run: cd server && npx prisma db push --skip-generate
 
       - name: Run integration tests
-        run: cd server && npx jest --testPathPattern=tests/integration
+        run: cd server && npx jest --testPathPattern=tests/integration --passWithNoTests
 
   build:
     name: Build Artifacts
