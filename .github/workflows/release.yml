@@ -1,6 +1,5 @@
 # Release Pipeline
-# Automatically creates a GitHub release when code is pushed to main.
-# Extracts the version from config.php and generates a changelog.
+# Creates a GitHub release with Docker image and changelog when code is pushed to main.
 
 name: Release
 
@@ -10,66 +9,105 @@ on:
   workflow_dispatch:
     inputs:
       version_override:
-        description: "Version override (e.g. 1.2.0). Leave empty to read from config.php."
+        description: "Version override (e.g. 2.1.0). Leave empty to read from server/package.json."
         required: false
         type: string
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "22"
+
 jobs:
+  ci:
+    name: Run CI Checks
+    uses: ./.github/workflows/ci.yml
+
   release:
     name: Create Release
+    needs: ci
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for changelog generation
+          fetch-depth: 0
 
-      # ── Determine Version ─────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
+
+      - name: Install server dependencies
+        run: cd server && npm ci
+
+      - name: Install client dependencies
+        run: cd client && npm ci
+
+      - name: Generate Prisma client
+        run: cd server && npx prisma generate
+
+      - name: Build server
+        run: cd server && npm run build
+
+      - name: Build client
+        run: cd client && npm run build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Extract version
         id: version
         run: |
           if [ -n "${{ github.event.inputs.version_override }}" ]; then
             VERSION="${{ github.event.inputs.version_override }}"
           else
-            VERSION=$(php -r "
-              require 'config.php';
-              \$c = getConfig();
-              echo \$c['version'] ?? '0.0.0';
-            ")
+            VERSION=$(node -p "require('./server/package.json').version")
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
-          echo "📦 Releasing version: $VERSION"
+          echo "Releasing version: $VERSION"
 
-      # ── Check if tag already exists ───────────────────────────
       - name: Check existing tag
         id: tag_check
         run: |
           if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "⚠️  Tag v${{ steps.version.outputs.version }} already exists, skipping release."
+            echo "Tag v${{ steps.version.outputs.version }} already exists, skipping release."
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # ── Generate Changelog ────────────────────────────────────
+      - name: Build Docker image
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: |
+            blessp:${{ steps.version.outputs.version }}
+            blessp:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Generate changelog
         if: steps.tag_check.outputs.exists == 'false'
-        id: changelog
         run: |
-          # Find the previous tag (if any)
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 
           if [ -n "$PREVIOUS_TAG" ]; then
-            echo "📝 Generating changelog since $PREVIOUS_TAG..."
             CHANGES=$(git log "$PREVIOUS_TAG"..HEAD --pretty=format:"- %s (%h)" --no-merges)
           else
-            echo "📝 Generating changelog from all commits..."
             CHANGES=$(git log --pretty=format:"- %s (%h)" --no-merges -50)
           fi
 
-          # Write to file to preserve multiline content
           {
             echo "## What's Changed"
             echo ""
@@ -79,7 +117,6 @@ jobs:
             echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG:-initial}...v${{ steps.version.outputs.version }}"
           } > release_notes.md
 
-      # ── Create Release ────────────────────────────────────────
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
@@ -89,6 +126,5 @@ jobs:
           body_path: release_notes.md
           draft: false
           prerelease: false
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,5 @@
 # Continuous Integration Pipeline
-# Runs on pull requests to develop/main and on pushes to develop.
-# Validates code quality through linting, static analysis, and tests.
+# Validates code quality, runs tests, and verifies builds on every PR and push.
 
 name: CI
 
@@ -8,11 +7,94 @@ on:
   pull_request:
     branches: [develop, main]
   push:
-    branches: [develop]
+    branches: [develop, main]
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
 
 jobs:
-  lint-and-test:
-    name: Lint, Analyze & Test
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
+
+      - name: Install server dependencies
+        run: cd server && npm ci
+
+      - name: Install client dependencies
+        run: cd client && npm ci
+
+      - name: Generate Prisma client
+        run: cd server && npx prisma generate
+
+      - name: TypeScript check (server)
+        run: cd server && npx tsc --noEmit
+
+      - name: TypeScript check (client)
+        run: cd client && npx tsc --noEmit
+
+  test-unit:
+    name: Unit Tests
+    needs: lint-and-typecheck
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/placeholder
+      JWT_SECRET: ci-test-jwt-secret-not-real
+      JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret-not-real
+      STRIPE_SECRET_KEY: sk_test_fake_key_for_ci
+      STRIPE_WEBHOOK_SECRET: whsec_fake_key_for_ci
+      CLIENT_URL: http://localhost:5173
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        run: cd server && npm ci
+
+      - name: Generate Prisma client
+        run: cd server && npx prisma generate
+
+      - name: Run unit tests with coverage
+        run: cd server && npx jest --testPathPattern=tests/unit --coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-coverage
+          path: server/coverage/
+          retention-days: 14
+
+  test-integration:
+    name: Integration Tests
+    needs: lint-and-typecheck
     runs-on: ubuntu-latest
 
     services:
@@ -30,73 +112,103 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/blessp_test
+      JWT_SECRET: ci-test-jwt-secret-not-real
+      JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret-not-real
+      STRIPE_SECRET_KEY: sk_test_fake_key_for_ci
+      STRIPE_WEBHOOK_SECRET: whsec_fake_key_for_ci
+      CLIENT_URL: http://localhost:5173
+
     steps:
-      # ── Checkout ──────────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── PHP Setup ─────────────────────────────────────────────
-      - name: Set up PHP 8.2
-        uses: shivammathur/setup-php@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          php-version: "8.2"
-          extensions: pgsql, pdo_pgsql, mbstring, xml, curl, sockets
-          coverage: xdebug
-          tools: composer:v2
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: server/package-lock.json
 
-      # ── Dependencies ──────────────────────────────────────────
-      - name: Install Composer dependencies
-        if: hashFiles('composer.json') != ''
-        run: composer install --prefer-dist --no-progress --no-interaction
+      - name: Install server dependencies
+        run: cd server && npm ci
 
-      # ── PHP Lint ──────────────────────────────────────────────
-      # Syntax-check all PHP files, excluding vendored mailer libs
-      - name: PHP Syntax Lint
-        run: |
-          echo "🔍 Running PHP syntax check..."
-          error_count=0
-          while IFS= read -r file; do
-            if ! php -l "$file" > /dev/null 2>&1; then
-              php -l "$file"
-              error_count=$((error_count + 1))
-            fi
-          done < <(find . -name "*.php" -not -path "./mailer/*" -not -path "./vendor/*")
+      - name: Generate Prisma client
+        run: cd server && npx prisma generate
 
-          if [ "$error_count" -gt 0 ]; then
-            echo "❌ Found $error_count file(s) with syntax errors."
-            exit 1
-          fi
-          echo "✅ All PHP files passed syntax check."
+      - name: Push database schema
+        run: cd server && npx prisma db push --skip-generate
 
-      # ── Static Analysis ───────────────────────────────────────
-      - name: PHPStan Static Analysis
-        if: hashFiles('phpstan.neon') != '' || hashFiles('phpstan.neon.dist') != ''
-        run: vendor/bin/phpstan analyse --no-progress
+      - name: Run integration tests
+        run: cd server && npx jest --testPathPattern=tests/integration --passWithNoTests
 
-      # ── Unit Tests ────────────────────────────────────────────
-      - name: Run Unit Tests
-        if: hashFiles('phpunit.xml') != '' || hashFiles('phpunit.xml.dist') != ''
-        run: vendor/bin/phpunit --testsuite unit --colors=always
+  build:
+    name: Build Artifacts
+    needs: test-unit
+    runs-on: ubuntu-latest
 
-      # ── Integration Tests ───────────────────────────────────
-      - name: Run Integration Tests
-        if: hashFiles('phpunit.xml') != '' || hashFiles('phpunit.xml.dist') != ''
-        env:
-          DB_DSN: "pgsql:host=127.0.0.1;port=5432;dbname=blessp_test"
-          DB_USER: postgres
-          DB_PASS: postgres
-        run: vendor/bin/phpunit --testsuite integration --colors=always
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # ── E2E Tests ───────────────────────────────────────────
-      - name: Run E2E Tests
-        if: hashFiles('phpunit.xml') != '' || hashFiles('phpunit.xml.dist') != ''
-        env:
-          DB_DSN: "pgsql:host=127.0.0.1;port=5432;dbname=blessp_test"
-          DB_USER: postgres
-          DB_PASS: postgres
-        run: vendor/bin/phpunit --testsuite e2e --colors=always
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
 
-      # ── Security Audit ────────────────────────────────────────
-      - name: Composer Security Audit
-        if: hashFiles('composer.lock') != ''
-        run: composer audit --format=plain
+      - name: Install server dependencies
+        run: cd server && npm ci
+
+      - name: Install client dependencies
+        run: cd client && npm ci
+
+      - name: Generate Prisma client
+        run: cd server && npx prisma generate
+
+      - name: Build server
+        run: cd server && npm run build
+
+      - name: Build client
+        run: cd client && npm run build
+
+      - name: Upload server build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-dist
+          path: server/dist/
+          retention-days: 7
+
+      - name: Upload client build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-dist
+          path: client/dist/
+          retention-days: 7
+
+  docker-build:
+    name: Docker Build Verification
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: blessp:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: blessp
+      POSTGRES_PASSWORD: blessp_dev_password
+      POSTGRES_DB: blessp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blessp -d blessp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://blessp:blessp_dev_password@db:5432/blessp
+      JWT_ACCESS_SECRET: dev-access-secret-change-me-in-production-min32chars
+      JWT_REFRESH_SECRET: dev-refresh-secret-change-me-in-production-min32chars
+      JWT_ACCESS_EXPIRY: 15m
+      JWT_REFRESH_EXPIRY: 7d
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
+      STRIPE_SECRET_KEY: sk_test_placeholder
+      STRIPE_WEBHOOK_SECRET: whsec_test_placeholder
+      LOG_LEVEL: info
+      SERVICE_NAME: blessp-api
+      SERVICE_VERSION: 3.0.0
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
