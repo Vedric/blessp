@@ -30,6 +30,11 @@ JWT_PUBLIC=$(cat /tmp/blessp_public.pem | base64 -w0)
 rm -f /tmp/blessp_private.pem /tmp/blessp_public.pem
 log "RS256 keypair generated."
 
+# Generate a random database password
+DB_PASS=$(openssl rand -base64 24 | tr -d '/+=' | head -c 32)
+DB_USER="blessp"
+DB_NAME="blessp"
+
 # -----------------------------------------------
 step 2 "Configuring environment files..."
 # -----------------------------------------------
@@ -39,6 +44,9 @@ if [ -f .env ]; then
   warn ".env (root) already exists, overwriting with fresh keys."
 fi
 cat > .env <<ENVEOF
+POSTGRES_USER=${DB_USER}
+POSTGRES_PASSWORD=${DB_PASS}
+POSTGRES_DB=${DB_NAME}
 JWT_PRIVATE_KEY_BASE64=${JWT_PRIVATE}
 JWT_PUBLIC_KEY_BASE64=${JWT_PUBLIC}
 ENVEOF
@@ -50,7 +58,7 @@ if [ -f server/.env ]; then
 fi
 cat > server/.env <<ENVEOF
 # Database
-DATABASE_URL=postgresql://blessp:blessp_dev_password@localhost:5433/blessp?schema=public
+DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@localhost:5433/${DB_NAME}?schema=public
 
 # Server
 NODE_ENV=development
@@ -95,7 +103,7 @@ docker compose -f docker-compose.dev.yml up db redis -d 2>&1
 
 echo "    Waiting for PostgreSQL..."
 RETRIES=0
-until docker compose -f docker-compose.dev.yml exec -T db pg_isready -U blessp -d blessp -q 2>/dev/null; do
+until docker compose -f docker-compose.dev.yml exec -T db pg_isready -U "${DB_USER}" -d "${DB_NAME}" -q 2>/dev/null; do
   RETRIES=$((RETRIES + 1))
   if [ $RETRIES -gt 30 ]; then
     fail "PostgreSQL did not become ready in 30 seconds."

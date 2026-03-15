@@ -4,13 +4,13 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: blessp
-      POSTGRES_PASSWORD: blessp_dev_password
-      POSTGRES_DB: blessp
+      POSTGRES_USER: ${POSTGRES_USER:-blessp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env file}
+      POSTGRES_DB: ${POSTGRES_DB:-blessp}
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U blessp -d blessp"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-blessp} -d ${POSTGRES_DB:-blessp}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -37,15 +37,15 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      DATABASE_URL: postgresql://blessp:blessp_dev_password@db:5432/blessp
+      DATABASE_URL: postgresql://${POSTGRES_USER:-blessp}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-blessp}
       REDIS_URL: redis://redis:6379
       JWT_PRIVATE_KEY_BASE64: ${JWT_PRIVATE_KEY_BASE64:-}
       JWT_PUBLIC_KEY_BASE64: ${JWT_PUBLIC_KEY_BASE64:-}
       JWT_ACCESS_EXPIRY: 15m
       JWT_REFRESH_EXPIRY: 7d
       CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
-      STRIPE_SECRET_KEY: sk_test_placeholder
-      STRIPE_WEBHOOK_SECRET: whsec_test_placeholder
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
       LOG_LEVEL: info
       SERVICE_NAME: blessp-api
       SERVICE_VERSION: 3.0.0
