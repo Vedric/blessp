@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Pencil, Trash2, Star, X, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
@@ -32,14 +33,10 @@ const emptyForm: AddressForm = {
   isDefault: false,
 };
 
-const countries = [
-  { code: 'CA', label: 'Canada' },
-  { code: 'US', label: 'United States' },
-  { code: 'GB', label: 'United Kingdom' },
-  { code: 'FR', label: 'France' },
-];
+const countryCodes = ['CA', 'US', 'GB', 'FR'];
 
 export default function AddressesPage() {
+  const { t } = useTranslation();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -116,7 +113,7 @@ export default function AddressesPage() {
       closeForm();
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setError(apiErr.message || 'Failed to save address.');
+      setError(apiErr.message || t('addresses.failedSave'));
     } finally {
       setIsSaving(false);
     }
@@ -155,9 +152,9 @@ export default function AddressesPage() {
           <div className="mb-6">
             <Breadcrumbs
               items={[
-                { label: 'Home', href: '/' },
-                { label: 'Account', href: '/profile' },
-                { label: 'Addresses' },
+                { label: t('common.home'), href: '/' },
+                { label: t('common.account'), href: '/profile' },
+                { label: t('addresses.title') },
               ]}
             />
           </div>
@@ -165,7 +162,7 @@ export default function AddressesPage() {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-                Addresses
+                {t('addresses.title')}
               </h1>
               <div className="mt-2 h-px w-12 bg-brand-500" />
             </div>
@@ -174,7 +171,7 @@ export default function AddressesPage() {
               className="flex items-center gap-1.5 bg-neutral-900 px-5 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
             >
               <Plus className="h-3.5 w-3.5" />
-              Add
+              {t('common.add')}
             </button>
           </div>
 
@@ -197,7 +194,7 @@ export default function AddressesPage() {
                 >
                   <div className="flex items-center justify-between">
                     <h2 className="font-display text-xl font-light text-neutral-900">
-                      {editingId ? 'Edit Address' : 'New Address'}
+                      {editingId ? t('addresses.editAddress') : t('addresses.newAddress')}
                     </h2>
                     <button
                       onClick={closeForm}
@@ -214,7 +211,7 @@ export default function AddressesPage() {
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          First Name
+                          {t('common.firstName')}
                         </label>
                         <input
                           required
@@ -227,7 +224,7 @@ export default function AddressesPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Last Name
+                          {t('common.lastName')}
                         </label>
                         <input
                           required
@@ -241,7 +238,7 @@ export default function AddressesPage() {
                     </div>
                     <div>
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Phone
+                        {t('common.phone')}
                       </label>
                       <input
                         type="tel"
@@ -250,12 +247,12 @@ export default function AddressesPage() {
                           setForm({ ...form, phone: e.target.value })
                         }
                         className={cn(inputClass, 'mt-2')}
-                        placeholder="Optional"
+                        placeholder={t('common.optional')}
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Address Line 1
+                        {t('common.addressLine1')}
                       </label>
                       <input
                         required
@@ -268,7 +265,7 @@ export default function AddressesPage() {
                     </div>
                     <div>
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Address Line 2
+                        {t('common.addressLine2')}
                       </label>
                       <input
                         value={form.addressLine2}
@@ -276,13 +273,13 @@ export default function AddressesPage() {
                           setForm({ ...form, addressLine2: e.target.value })
                         }
                         className={cn(inputClass, 'mt-2')}
-                        placeholder="Optional"
+                        placeholder={t('common.optional')}
                       />
                     </div>
                     <div className="grid gap-4 sm:grid-cols-3">
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          City
+                          {t('common.city')}
                         </label>
                         <input
                           required
@@ -295,7 +292,7 @@ export default function AddressesPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Postal Code
+                          {t('common.postalCode')}
                         </label>
                         <input
                           required
@@ -308,7 +305,7 @@ export default function AddressesPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Province / State
+                          {t('common.provinceState')}
                         </label>
                         <input
                           value={form.province}
@@ -321,7 +318,7 @@ export default function AddressesPage() {
                     </div>
                     <div>
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Country
+                        {t('common.country')}
                       </label>
                       <select
                         value={form.country}
@@ -330,9 +327,9 @@ export default function AddressesPage() {
                         }
                         className={cn(inputClass, 'mt-2')}
                       >
-                        {countries.map((c) => (
-                          <option key={c.code} value={c.code}>
-                            {c.label}
+                        {countryCodes.map((code) => (
+                          <option key={code} value={code}>
+                            {t(`countries.${code}`)}
                           </option>
                         ))}
                       </select>
@@ -347,7 +344,7 @@ export default function AddressesPage() {
                         className="h-4 w-4 border-neutral-300"
                       />
                       <span className="text-sm text-neutral-700">
-                        Set as default address
+                        {t('addresses.setDefault')}
                       </span>
                     </label>
                     <div className="flex gap-3 pt-2">
@@ -356,14 +353,14 @@ export default function AddressesPage() {
                         disabled={isSaving}
                         className="flex-1 bg-neutral-900 px-6 py-3 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
                       >
-                        {isSaving ? 'Saving...' : 'Save Address'}
+                        {isSaving ? t('common.saving') : t('addresses.saveAddress')}
                       </button>
                       <button
                         type="button"
                         onClick={closeForm}
                         className="px-6 py-3 text-xs font-medium tracking-widest text-neutral-600 uppercase"
                       >
-                        Cancel
+                        {t('common.cancel')}
                       </button>
                     </div>
                   </form>
@@ -396,16 +393,16 @@ export default function AddressesPage() {
                 <MapPin className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
               </div>
               <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
-                No saved addresses
+                {t('addresses.noAddresses')}
               </h3>
               <p className="mt-2 max-w-sm text-sm text-neutral-500">
-                Add a shipping address to speed up your checkout experience.
+                {t('addresses.noAddressesDesc')}
               </p>
               <button
                 onClick={openNew}
                 className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#c8a97e] hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
               >
-                Add Address
+                {t('addresses.addAddress')}
               </button>
             </motion.div>
           ) : (
@@ -424,7 +421,7 @@ export default function AddressesPage() {
                         {addr.isDefault && (
                           <span className="flex items-center gap-1 text-2xs font-medium text-brand-600 uppercase">
                             <Star className="h-3 w-3 fill-current" />
-                            Default
+                            {t('common.default')}
                           </span>
                         )}
                       </div>
@@ -459,13 +456,13 @@ export default function AddressesPage() {
                             onClick={() => handleDelete(addr.id)}
                             className="text-xs font-medium text-red-600"
                           >
-                            Confirm
+                            {t('common.confirm')}
                           </button>
                           <button
                             onClick={() => setDeleteConfirm(null)}
                             className="text-xs text-neutral-500"
                           >
-                            Cancel
+                            {t('common.cancel')}
                           </button>
                         </div>
                       ) : (

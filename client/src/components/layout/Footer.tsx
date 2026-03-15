@@ -2,8 +2,10 @@ import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, ChevronDown, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { CurrencySelector } from '@/components/common/CurrencySelector';
+import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 import { api } from '@/lib/api';
 
 function TikTokIcon({ size = 20 }: { size?: number }) {
@@ -32,18 +34,18 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const shopLinks = [
-  { label: 'All Products', to: '/shop' },
-  { label: 'Hoodies', to: '/shop?category=hoodies' },
-  { label: 'Pants', to: '/shop?category=pants' },
-  { label: 'Sets', to: '/shop?category=sets' },
+const shopLinkKeys = [
+  { key: 'footer.allProducts', to: '/shop' },
+  { key: 'footer.hoodies', to: '/shop?category=hoodies' },
+  { key: 'footer.pants', to: '/shop?category=pants' },
+  { key: 'footer.sets', to: '/shop?category=sets' },
 ];
 
-const careLinks = [
-  { label: 'Contact Us', to: '/contact' },
-  { label: 'Shipping & Returns', to: '/return-policy' },
-  { label: 'Terms & Conditions', to: '/terms' },
-  { label: 'FAQ', to: '/contact#faq' },
+const careLinkKeys = [
+  { key: 'footer.contactUs', to: '/contact' },
+  { key: 'footer.shippingReturns', to: '/return-policy' },
+  { key: 'footer.termsConditions', to: '/terms' },
+  { key: 'footer.faq', to: '/contact#faq' },
 ];
 
 const socialLinks = [
@@ -90,6 +92,7 @@ function FooterAccordion({
 }
 
 export function Footer() {
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -127,9 +130,7 @@ export function Footer() {
               BLE$$ P
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-neutral-400">
-              Luxury streetwear for those who move with purpose.
-              Every piece is crafted from premium materials, designed to
-              elevate your everyday.
+              {t('footer.brandDesc')}
             </p>
             <div className="mt-6 flex items-center gap-4">
               {socialLinks.map(({ label, href, icon: Icon }) => (
@@ -149,15 +150,15 @@ export function Footer() {
 
           {/* Shop column */}
           <motion.div variants={fadeUp}>
-            <FooterAccordion title="Shop">
+            <FooterAccordion title={t('footer.shop')}>
               <ul className="space-y-3">
-                {shopLinks.map(({ label, to }) => (
+                {shopLinkKeys.map(({ key, to }) => (
                   <li key={to}>
                     <Link
                       to={to}
                       className="text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:text-white focus-visible:underline"
                     >
-                      {label}
+                      {t(key)}
                     </Link>
                   </li>
                 ))}
@@ -167,15 +168,15 @@ export function Footer() {
 
           {/* Customer Care column */}
           <motion.div variants={fadeUp}>
-            <FooterAccordion title="Customer Care">
+            <FooterAccordion title={t('footer.customerCare')}>
               <ul className="space-y-3">
-                {careLinks.map(({ label, to }) => (
+                {careLinkKeys.map(({ key, to }) => (
                   <li key={to}>
                     <Link
                       to={to}
                       className="text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:text-white focus-visible:underline"
                     >
-                      {label}
+                      {t(key)}
                     </Link>
                   </li>
                 ))}
@@ -185,9 +186,9 @@ export function Footer() {
 
           {/* Newsletter column */}
           <motion.div variants={fadeUp}>
-            <FooterAccordion title="Stay Connected">
+            <FooterAccordion title={t('footer.stayConnected')}>
               <p className="text-sm text-neutral-400">
-                Subscribe for exclusive drops and early access.
+                {t('footer.newsletterDesc')}
               </p>
               <form onSubmit={handleSubscribe} className="mt-4 flex gap-0">
                 <div className="relative flex-1">
@@ -205,12 +206,12 @@ export function Footer() {
                   type="submit"
                   className="h-11 bg-[#c8a97e] px-5 text-xs font-medium tracking-widest text-neutral-950 uppercase transition-colors hover:bg-[#b89a6f]"
                 >
-                  Join
+                  {t('footer.join')}
                 </button>
               </form>
               {subscribed && (
                 <p className="mt-2 text-xs text-[#c8a97e]">
-                  Welcome to the family.
+                  {t('footer.welcomeFamily')}
                 </p>
               )}
             </FooterAccordion>
@@ -223,9 +224,10 @@ export function Footer() {
           className="mt-12 flex flex-col items-center gap-6 border-t border-neutral-800 pt-8 md:flex-row md:justify-between"
         >
           <p className="text-xs text-neutral-500">
-            &copy; {year} BLE$$ P. All rights reserved.
+            &copy; {year} BLE$$ P. {t('common.allRightsReserved')}
           </p>
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <CurrencySelector />
             {/* Payment badges */}
             <span className="flex h-7 items-center rounded border border-neutral-700 px-2.5 text-[10px] font-semibold tracking-wider text-neutral-400">

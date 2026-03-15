@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Star, Trash2, X } from 'lucide-react';
 import { api } from '@/lib/api';
@@ -46,18 +47,12 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-const ratingOptions = [
-  { label: 'All Ratings', value: '' },
-  { label: '5 Stars', value: '5' },
-  { label: '4 Stars', value: '4' },
-  { label: '3 Stars', value: '3' },
-  { label: '2 Stars', value: '2' },
-  { label: '1 Star', value: '1' },
-];
+const ratingValues = ['', '5', '4', '3', '2', '1'];
 
 /* ── Component ── */
 
 export default function AdminReviewsPage() {
+  const { t } = useTranslation();
   const [reviews, setReviews] = useState<AdminReview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -121,40 +116,44 @@ export default function AdminReviewsPage() {
             className="mb-6 inline-flex items-center gap-1 text-xs font-medium tracking-widest text-neutral-500 uppercase transition-colors hover:text-neutral-900"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Dashboard
+            {t('admin.dashboard.title')}
           </Link>
 
           <div className="flex items-end justify-between">
             <div>
               <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-                Reviews
+                {t('admin.reviews.title')}
               </h1>
               <div className="mt-2 h-px w-12 bg-[#c8a97e]" />
             </div>
             {!isLoading && (
               <p className="text-xs text-neutral-400">
-                {totalItems} review{totalItems !== 1 ? 's' : ''} total
+                {t('admin.reviews.total', { count: totalItems })}
               </p>
             )}
           </div>
 
           {/* Rating filter */}
           <div className="mt-8 flex flex-wrap gap-2">
-            {ratingOptions.map((opt) => (
+            {ratingValues.map((val) => (
               <button
-                key={opt.value}
+                key={val}
                 onClick={() => {
-                  setRatingFilter(opt.value);
+                  setRatingFilter(val);
                   setPage(1);
                 }}
                 className={cn(
                   'px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors',
-                  ratingFilter === opt.value
+                  ratingFilter === val
                     ? 'bg-neutral-900 text-white'
                     : 'bg-neutral-50 text-neutral-600 hover:bg-neutral-100',
                 )}
               >
-                {opt.label}
+                {val === ''
+                  ? t('admin.reviews.allRatings')
+                  : val === '1'
+                    ? t('admin.reviews.ratingStarSingle')
+                    : t('admin.reviews.ratingStars', { count: Number(val) })}
               </button>
             ))}
           </div>
@@ -179,7 +178,7 @@ export default function AdminReviewsPage() {
           ) : reviews.length === 0 ? (
             <div className="mt-20 text-center">
               <Star className="mx-auto h-8 w-8 text-neutral-200" />
-              <p className="mt-3 text-neutral-500">No reviews found.</p>
+              <p className="mt-3 text-neutral-500">{t('admin.reviews.noReviews')}</p>
             </div>
           ) : (
             <motion.div
@@ -193,11 +192,11 @@ export default function AdminReviewsPage() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-neutral-100 text-left text-2xs font-medium tracking-widest text-neutral-400 uppercase">
-                      <th className="pb-3">Product</th>
-                      <th className="pb-3">Customer</th>
-                      <th className="pb-3">Rating</th>
-                      <th className="pb-3">Comment</th>
-                      <th className="pb-3">Date</th>
+                      <th className="pb-3">{t('admin.reviews.tableHeaders.product')}</th>
+                      <th className="pb-3">{t('admin.reviews.tableHeaders.customer')}</th>
+                      <th className="pb-3">{t('admin.reviews.tableHeaders.rating')}</th>
+                      <th className="pb-3">{t('admin.reviews.tableHeaders.comment')}</th>
+                      <th className="pb-3">{t('admin.reviews.tableHeaders.date')}</th>
                       <th className="pb-3" />
                     </tr>
                   </thead>
@@ -227,7 +226,7 @@ export default function AdminReviewsPage() {
                             </p>
                           )}
                           <p className="truncate text-sm text-neutral-500">
-                            {review.comment ?? 'No comment'}
+                            {review.comment ?? t('admin.reviews.noComment')}
                           </p>
                         </td>
                         <td className="py-4 pr-4">
@@ -239,7 +238,7 @@ export default function AdminReviewsPage() {
                           <button
                             onClick={() => setDeleteTarget(review)}
                             className="p-1.5 text-neutral-400 transition-colors hover:text-red-600"
-                            title="Delete review"
+                            title={t('admin.reviews.deleteReview')}
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -336,7 +335,7 @@ export default function AdminReviewsPage() {
             >
               <div className="flex items-start justify-between">
                 <h3 className="text-lg font-medium text-neutral-900">
-                  Delete Review
+                  {t('admin.reviews.deleteReview')}
                 </h3>
                 <button
                   onClick={() => !isDeleting && setDeleteTarget(null)}
@@ -346,15 +345,15 @@ export default function AdminReviewsPage() {
                 </button>
               </div>
               <p className="mt-3 text-sm text-neutral-600">
-                Are you sure you want to delete this review by{' '}
+                {t('admin.reviews.deleteConfirm')}
+                {' '}
                 <span className="font-medium text-neutral-900">
                   {deleteTarget.user.firstName} {deleteTarget.user.lastName}
-                </span>{' '}
-                on{' '}
+                </span>
+                {' / '}
                 <span className="font-medium text-neutral-900">
                   {deleteTarget.product.name}
                 </span>
-                ? This action cannot be undone.
               </p>
               <div className="mt-2">
                 <StarRating rating={deleteTarget.rating} />
@@ -370,14 +369,14 @@ export default function AdminReviewsPage() {
                   disabled={isDeleting}
                   className="flex-1 border border-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
                 <button
                   onClick={handleDelete}
                   disabled={isDeleting}
                   className="flex-1 bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
                 >
-                  {isDeleting ? 'Deleting...' : 'Delete Review'}
+                  {isDeleting ? t('admin.reviews.deleting') : t('admin.reviews.deleteReview')}
                 </button>
               </div>
             </motion.div>

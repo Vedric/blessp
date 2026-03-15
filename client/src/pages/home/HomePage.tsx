@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Gem, Truck, RotateCcw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import type { Product } from '@/lib/types';
@@ -32,6 +33,7 @@ const socialImages = [
 ];
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const [featured, setFeatured] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -81,14 +83,14 @@ export default function HomePage() {
             className="mt-4 text-lg tracking-[0.25em] text-white/80 uppercase md:text-xl"
             variants={fadeIn}
           >
-            Curated Streetwear Essentials
+            {t('home.heroSubtitle')}
           </motion.p>
           <motion.div variants={fadeUp}>
             <Link
               to="/shop"
               className="mt-10 inline-flex items-center gap-2 border border-white px-10 py-4 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-white hover:text-black"
             >
-              Shop Collection
+              {t('home.shopCollection')}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
@@ -116,7 +118,7 @@ export default function HomePage() {
             className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl"
             variants={fadeUp}
           >
-            New Arrivals
+            {t('home.newArrivals')}
           </motion.h2>
           <motion.div className="mt-2 h-px w-12 bg-brand-500" variants={fadeUp} />
 
@@ -181,25 +183,20 @@ export default function HomePage() {
             </motion.div>
             <motion.div className="max-w-lg" variants={fadeUp}>
               <h2 className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl">
-                The BLE$$ P Story
+                {t('home.brandStoryTitle')}
               </h2>
               <div className="mt-2 h-px w-12 bg-brand-500" />
               <p className="mt-8 text-base leading-relaxed text-neutral-600">
-                Born from the intersection of luxury and streetwear, BLE$$ P is a
-                celebration of intentional design. Every piece is crafted with
-                meticulous attention to detail, using premium fabrics that feel as
-                extraordinary as they look.
+                {t('home.brandStoryP1')}
               </p>
               <p className="mt-4 text-base leading-relaxed text-neutral-600">
-                We believe that true style is effortless. Our collections are
-                curated for those who understand that what you wear is an extension
-                of who you are. Minimal, bold, unapologetic.
+                {t('home.brandStoryP2')}
               </p>
               <Link
                 to="/shop"
                 className="mt-10 inline-flex items-center gap-2 text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:text-brand-600"
               >
-                Explore Collection
+                {t('home.exploreCollection')}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </motion.div>
@@ -219,21 +216,18 @@ export default function HomePage() {
           {[
             {
               icon: Gem,
-              title: 'Premium Materials',
-              description:
-                'Sourced from the finest mills, every fabric is chosen for its hand feel, drape, and lasting quality.',
+              title: t('home.premiumMaterials'),
+              description: t('home.premiumMaterialsDesc'),
             },
             {
               icon: Truck,
-              title: 'Free Shipping',
-              description:
-                'Complimentary delivery on all orders over $100. Your pieces arrive beautifully packaged.',
+              title: t('home.freeShipping'),
+              description: t('home.freeShippingDesc'),
             },
             {
               icon: RotateCcw,
-              title: 'Easy Returns',
-              description:
-                'Not the right fit? Return within 30 days for a full refund, no questions asked.',
+              title: t('home.easyReturns'),
+              description: t('home.easyReturnsDesc'),
             },
           ].map((feature) => (
             <motion.div
@@ -265,7 +259,7 @@ export default function HomePage() {
         >
           <motion.div className="text-center" variants={fadeUp}>
             <h2 className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl">
-              Follow Us
+              {t('home.followUs')}
             </h2>
             <p className="mt-2 text-sm tracking-widest text-neutral-500 uppercase">
               @blessp

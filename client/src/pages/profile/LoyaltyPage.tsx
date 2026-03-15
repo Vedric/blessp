@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crown, Star, Gift, Trophy, ArrowLeft, ArrowUpRight, ArrowDownRight, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { formatDate, cn } from '@/lib/utils';
 import type { LoyaltyBalance, LoyaltyTransaction, LoyaltyTier, PaginatedResponse } from '@/lib/types';
@@ -55,6 +56,7 @@ const stagger = {
 };
 
 export default function LoyaltyPage() {
+  const { t } = useTranslation();
   const [balance, setBalance] = useState<LoyaltyBalance | null>(null);
   const [transactions, setTransactions] = useState<LoyaltyTransaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -101,12 +103,12 @@ export default function LoyaltyPage() {
       await api.post('/loyalty/redeem', { points: redeemablePoints });
       const discountValue = ((redeemablePoints / 100) * 5).toFixed(2);
       setRedeemSuccess(
-        `Successfully redeemed ${redeemablePoints} points for a $${discountValue} discount.`,
+        t('loyalty.redeemSuccess', { points: redeemablePoints, value: discountValue }),
       );
       await fetchData();
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setRedeemError(apiErr.message || 'Failed to redeem points.');
+      setRedeemError(apiErr.message || t('loyalty.redeemFailed'));
     } finally {
       setIsRedeeming(false);
     }
@@ -157,11 +159,11 @@ export default function LoyaltyPage() {
             className="mb-6 inline-flex items-center gap-1 text-xs font-medium tracking-widest text-neutral-500 uppercase transition-colors hover:text-neutral-900"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Account
+            {t('profile.account')}
           </Link>
 
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            Loyalty Rewards
+            {t('loyalty.title')}
           </h1>
           <div className="mt-2 h-px w-12 bg-[#c8a97e]" />
 
@@ -189,7 +191,7 @@ export default function LoyaltyPage() {
                     </motion.div>
                     <div>
                       <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Your Tier
+                        {t('loyalty.yourTier')}
                       </p>
                       <h2 className={cn('font-display text-2xl font-light', tierConfig.color)}>
                         {balance.tier}
@@ -199,7 +201,7 @@ export default function LoyaltyPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                    Points Balance
+                    {t('loyalty.pointsBalance')}
                   </p>
                   <motion.p
                     className="font-display text-4xl font-light text-neutral-900"
@@ -218,7 +220,7 @@ export default function LoyaltyPage() {
                   <div className="flex items-center justify-between text-xs text-neutral-500">
                     <span>{balance.tier}</span>
                     <span>
-                      {balance.pointsToNextTier.toLocaleString()} points to {balance.nextTier}
+                      {t('loyalty.pointsToNext', { points: balance.pointsToNextTier.toLocaleString(), tier: balance.nextTier })}
                     </span>
                   </div>
                   <div className="mt-2 h-2 overflow-hidden bg-white/60">
@@ -238,7 +240,7 @@ export default function LoyaltyPage() {
 
               {!balance.nextTier && (
                 <p className="mt-6 text-sm text-neutral-600">
-                  You have reached the highest tier. Enjoy exclusive Platinum benefits.
+                  {t('loyalty.maxTier')}
                 </p>
               )}
             </motion.div>
@@ -291,7 +293,7 @@ export default function LoyaltyPage() {
                 <Gift className="h-5 w-5 text-[#c8a97e]" />
                 <div>
                   <h3 className="text-sm font-medium text-neutral-900">
-                    Redeem Your Points
+                    {t('loyalty.redeemTitle')}
                   </h3>
                   <p className="text-xs text-neutral-500">
                     You can redeem{' '}
@@ -334,7 +336,7 @@ export default function LoyaltyPage() {
                 disabled={isRedeeming}
                 className="mt-4 bg-neutral-900 px-6 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
               >
-                {isRedeeming ? 'Redeeming...' : 'Redeem Points'}
+                {isRedeeming ? t('loyalty.redeeming') : t('loyalty.redeemButton')}
               </button>
             </motion.div>
           )}
@@ -347,28 +349,28 @@ export default function LoyaltyPage() {
             transition={{ delay: 0.4 }}
           >
             <h3 className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-              How It Works
+              {t('loyalty.howItWorks')}
             </h3>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               <div>
                 <Star className="h-4 w-4 text-[#c8a97e]" />
-                <p className="mt-2 text-sm font-medium text-neutral-900">Earn Points</p>
+                <p className="mt-2 text-sm font-medium text-neutral-900">{t('loyalty.earnPoints')}</p>
                 <p className="mt-1 text-xs text-neutral-500">
-                  1 point for every $1 spent on orders
+                  {t('loyalty.earnPointsDesc')}
                 </p>
               </div>
               <div>
                 <Gift className="h-4 w-4 text-[#c8a97e]" />
-                <p className="mt-2 text-sm font-medium text-neutral-900">Redeem Rewards</p>
+                <p className="mt-2 text-sm font-medium text-neutral-900">{t('loyalty.redeemRewards')}</p>
                 <p className="mt-1 text-xs text-neutral-500">
-                  100 points = $5 discount on your next order
+                  {t('loyalty.redeemRewardsDesc')}
                 </p>
               </div>
               <div>
                 <Crown className="h-4 w-4 text-[#c8a97e]" />
-                <p className="mt-2 text-sm font-medium text-neutral-900">Climb Tiers</p>
+                <p className="mt-2 text-sm font-medium text-neutral-900">{t('loyalty.climbTiers')}</p>
                 <p className="mt-1 text-xs text-neutral-500">
-                  Reach higher tiers for exclusive benefits
+                  {t('loyalty.climbTiersDesc')}
                 </p>
               </div>
             </div>
@@ -377,14 +379,14 @@ export default function LoyaltyPage() {
           {/* Transaction History */}
           <div className="mt-10">
             <h2 className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-              Points History
+              {t('loyalty.pointsHistory')}
             </h2>
 
             {transactions.length === 0 ? (
               <div className="mt-6 text-center">
                 <Star className="mx-auto h-10 w-10 text-neutral-200" />
                 <p className="mt-3 text-sm text-neutral-500">
-                  No transactions yet. Start shopping to earn points.
+                  {t('loyalty.noTransactions')}
                 </p>
               </div>
             ) : (

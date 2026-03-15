@@ -17,5 +17,8 @@ router.use(authenticate);
 router.get('/profile', usersController.getProfile);
 router.patch('/profile', usersController.updateProfile);
 router.post('/change-password', usersController.changePassword);
+router.delete('/account', usersController.deleteAccount);
+router.get('/email-preferences', usersController.getEmailPreferences);
+router.patch('/email-preferences', usersController.updateEmailPreferences);
 
 export { router as usersRouter };

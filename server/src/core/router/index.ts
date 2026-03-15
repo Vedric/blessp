@@ -12,6 +12,7 @@ import { reviewsRouter } from '../../features/reviews/reviews.router';
 import { newsletterRouter } from '../../features/newsletter/newsletter.router';
 import { loyaltyRouter } from '../../features/loyalty/loyalty.router';
 import { analyticsRouter } from '../../features/analytics/analytics.router';
+import { contactRouter } from '../../features/contact/contact.router';
 
 const router = Router();
 
@@ -28,5 +29,6 @@ router.use('/reviews', reviewsRouter);
 router.use('/newsletter', newsletterRouter);
 router.use('/loyalty', loyaltyRouter);
 router.use('/analytics', analyticsRouter);
+router.use('/contact', contactRouter);
 
 export { router as apiRouter };

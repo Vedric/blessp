@@ -39,8 +39,8 @@ services:
       PORT: 3000
       DATABASE_URL: postgresql://blessp:blessp_dev_password@db:5432/blessp
       REDIS_URL: redis://redis:6379
-      JWT_PRIVATE_KEY_BASE64: ${JWT_PRIVATE_KEY_BASE64:?Set JWT_PRIVATE_KEY_BASE64 in your .env file}
-      JWT_PUBLIC_KEY_BASE64: ${JWT_PUBLIC_KEY_BASE64:?Set JWT_PUBLIC_KEY_BASE64 in your .env file}
+      JWT_PRIVATE_KEY_BASE64: ${JWT_PRIVATE_KEY_BASE64:-}
+      JWT_PUBLIC_KEY_BASE64: ${JWT_PUBLIC_KEY_BASE64:-}
       JWT_ACCESS_EXPIRY: 15m
       JWT_REFRESH_EXPIRY: 7d
       CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173

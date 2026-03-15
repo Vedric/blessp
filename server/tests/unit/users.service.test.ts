@@ -1,3 +1,23 @@
+jest.mock('@core/observability/logger', () => ({
+  logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
+}));
+
+const mockDeleteByUserId = jest.fn().mockResolvedValue(undefined);
+jest.mock('@features/auth/auth.repository', () => ({
+  AuthRepository: jest.fn().mockImplementation(() => ({
+    deleteByUserId: mockDeleteByUserId,
+  })),
+}));
+
+const mockDetachAllPaymentMethods = jest.fn().mockResolvedValue(undefined);
+jest.mock('@features/payments/payments.service', () => ({
+  PaymentsService: jest.fn().mockImplementation(() => ({
+    detachAllPaymentMethods: mockDetachAllPaymentMethods,
+  })),
+}));
+
+jest.mock('@features/orders/orders.repository');
+
 import { UsersService } from '@features/users/users.service';
 import { UsersRepository } from '@features/users/users.repository';
 import { HashService } from '@core/security/hash.service';
@@ -19,6 +39,8 @@ describe('UsersService', () => {
       update: jest.fn(),
       updatePasswordHash: jest.fn(),
       softDelete: jest.fn(),
+      findEmailPreference: jest.fn(),
+      upsertEmailPreference: jest.fn(),
     } as unknown as jest.Mocked<UsersRepository>;
 
     hashService = {
@@ -151,6 +173,146 @@ describe('UsersService', () => {
         service.changePassword(user.id, changePasswordDto),
       ).rejects.toThrow(InvalidCredentialsError);
       expect(usersRepository.updatePasswordHash).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('deleteAccount', () => {
+    const deleteAccountDto = { password: 'Str0ngP@ssword1' };
+
+    it('throws NotFoundError when user does not exist', async () => {
+      usersRepository.findById.mockResolvedValueOnce(null);
+
+      await expect(
+        service.deleteAccount('usr_nonexistent', deleteAccountDto),
+      ).rejects.toThrow(NotFoundError);
+    });
+
+    it('throws InvalidCredentialsError when the password is wrong', async () => {
+      const user = makeUserFixture();
+      usersRepository.findById.mockResolvedValueOnce(user);
+      hashService.verify.mockResolvedValueOnce(false);
+
+      await expect(
+        service.deleteAccount(user.id, deleteAccountDto),
+      ).rejects.toThrow(InvalidCredentialsError);
+      expect(usersRepository.softDelete).not.toHaveBeenCalled();
+    });
+
+    it('revokes all refresh tokens before soft-deleting the user', async () => {
+      const user = makeUserFixture();
+      usersRepository.findById.mockResolvedValueOnce(user);
+      hashService.verify.mockResolvedValueOnce(true);
+      usersRepository.softDelete.mockResolvedValueOnce(undefined as any);
+
+      await service.deleteAccount(user.id, deleteAccountDto);
+
+      expect(mockDeleteByUserId).toHaveBeenCalledWith(user.id);
+    });
+
+    it('detaches all Stripe payment methods before soft-deleting the user', async () => {
+      const user = makeUserFixture();
+      usersRepository.findById.mockResolvedValueOnce(user);
+      hashService.verify.mockResolvedValueOnce(true);
+      usersRepository.softDelete.mockResolvedValueOnce(undefined as any);
+
+      await service.deleteAccount(user.id, deleteAccountDto);
+
+      expect(mockDetachAllPaymentMethods).toHaveBeenCalledWith(user.id);
+    });
+
+    it('soft-deletes the user on success', async () => {
+      const user = makeUserFixture();
+      usersRepository.findById.mockResolvedValueOnce(user);
+      hashService.verify.mockResolvedValueOnce(true);
+      usersRepository.softDelete.mockResolvedValueOnce(undefined as any);
+
+      await service.deleteAccount(user.id, deleteAccountDto);
+
+      expect(hashService.verify).toHaveBeenCalledWith(user.passwordHash, deleteAccountDto.password);
+      expect(usersRepository.softDelete).toHaveBeenCalledWith(user.id);
+    });
+  });
+
+  describe('getEmailPreferences', () => {
+    it('returns existing preferences when found', async () => {
+      const user = makeUserFixture();
+      const prefs = {
+        id: 'ep_001',
+        userId: user.id,
+        orderUpdates: false,
+        promotions: true,
+        newsletter: false,
+        loyaltyAlerts: true,
+      };
+
+      usersRepository.findById.mockResolvedValueOnce(user);
+      usersRepository.findEmailPreference.mockResolvedValueOnce(prefs);
+
+      const result = await service.getEmailPreferences(user.id);
+
+      expect(result).toEqual({
+        orderUpdates: false,
+        promotions: true,
+        newsletter: false,
+        loyaltyAlerts: true,
+      });
+    });
+
+    it('returns default preferences when no record exists', async () => {
+      const user = makeUserFixture();
+      usersRepository.findById.mockResolvedValueOnce(user);
+      usersRepository.findEmailPreference.mockResolvedValueOnce(null);
+
+      const result = await service.getEmailPreferences(user.id);
+
+      expect(result).toEqual({
+        orderUpdates: true,
+        promotions: true,
+        newsletter: true,
+        loyaltyAlerts: true,
+      });
+    });
+
+    it('throws NotFoundError when user does not exist', async () => {
+      usersRepository.findById.mockResolvedValueOnce(null);
+
+      await expect(service.getEmailPreferences('usr_nonexistent')).rejects.toThrow(NotFoundError);
+    });
+  });
+
+  describe('updateEmailPreferences', () => {
+    it('updates and returns the new preferences', async () => {
+      const user = makeUserFixture();
+      const updateDto = { promotions: false, newsletter: false };
+      const upsertedPrefs = {
+        id: 'ep_001',
+        userId: user.id,
+        orderUpdates: true,
+        promotions: false,
+        newsletter: false,
+        loyaltyAlerts: true,
+      };
+
+      usersRepository.findById.mockResolvedValueOnce(user);
+      usersRepository.upsertEmailPreference.mockResolvedValueOnce(upsertedPrefs);
+
+      const result = await service.updateEmailPreferences(user.id, updateDto);
+
+      expect(result).toEqual({
+        orderUpdates: true,
+        promotions: false,
+        newsletter: false,
+        loyaltyAlerts: true,
+      });
+      expect(usersRepository.upsertEmailPreference).toHaveBeenCalledWith(user.id, updateDto);
+    });
+
+    it('throws NotFoundError when user does not exist', async () => {
+      usersRepository.findById.mockResolvedValueOnce(null);
+
+      await expect(
+        service.updateEmailPreferences('usr_nonexistent', { promotions: false }),
+      ).rejects.toThrow(NotFoundError);
     });
   });
 });

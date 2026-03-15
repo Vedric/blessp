@@ -18,3 +18,21 @@ export interface ChangePasswordDto {
   currentPassword: string;
   newPassword: string;
 }
+
+export interface DeleteAccountDto {
+  password: string;
+}
+
+export interface EmailPreferenceResponse {
+  orderUpdates: boolean;
+  promotions: boolean;
+  newsletter: boolean;
+  loyaltyAlerts: boolean;
+}
+
+export interface UpdateEmailPreferencesDto {
+  orderUpdates?: boolean;
+  promotions?: boolean;
+  newsletter?: boolean;
+  loyaltyAlerts?: boolean;
+}

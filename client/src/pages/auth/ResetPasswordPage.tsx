@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 
 export default function ResetPasswordPage() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token') ?? '';
 
@@ -14,9 +16,9 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState('');
 
   const passwordRequirements = [
-    { label: 'At least 12 characters', met: password.length >= 12 },
-    { label: 'At least one uppercase letter', met: /[A-Z]/.test(password) },
-    { label: 'At least one number', met: /[0-9]/.test(password) },
+    { label: t('auth.resetPassword.req12Chars'), met: password.length >= 12 },
+    { label: t('auth.resetPassword.reqUppercase'), met: /[A-Z]/.test(password) },
+    { label: t('auth.resetPassword.reqNumber'), met: /[0-9]/.test(password) },
   ];
 
   const handleSubmit = async (e: FormEvent) => {
@@ -24,12 +26,12 @@ export default function ResetPasswordPage() {
     setError('');
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError(t('auth.resetPassword.passwordsMismatch'));
       return;
     }
 
     if (!token) {
-      setError('Reset token is missing. Please use the link from your email.');
+      setError(t('auth.resetPassword.tokenMissing'));
       return;
     }
 
@@ -40,7 +42,7 @@ export default function ResetPasswordPage() {
       setIsSuccess(true);
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setError(apiErr.message || 'Something went wrong. The token may be invalid or expired.');
+      setError(apiErr.message || t('auth.resetPassword.genericError'));
     } finally {
       setIsLoading(false);
     }
@@ -57,10 +59,10 @@ export default function ResetPasswordPage() {
         >
           <div className="text-center">
             <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-              Invalid Link
+              {t('auth.resetPassword.invalidLink')}
             </h1>
             <p className="mt-4 text-sm text-neutral-500">
-              This password reset link is invalid. Please request a new one.
+              {t('auth.resetPassword.invalidLinkDesc')}
             </p>
           </div>
 
@@ -69,7 +71,7 @@ export default function ResetPasswordPage() {
               to="/forgot-password"
               className="flex w-full items-center justify-center bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
             >
-              Request New Link
+              {t('auth.resetPassword.requestNewLink')}
             </Link>
           </div>
         </motion.div>
@@ -87,10 +89,10 @@ export default function ResetPasswordPage() {
       >
         <div className="text-center">
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            Set New Password
+            {t('auth.resetPassword.title')}
           </h1>
           <p className="mt-2 text-sm text-neutral-500">
-            Choose a strong password for your account
+            {t('auth.resetPassword.subtitle')}
           </p>
         </div>
 
@@ -102,14 +104,14 @@ export default function ResetPasswordPage() {
             transition={{ duration: 0.4 }}
           >
             <div className="border border-green-200 bg-green-50 px-4 py-4 text-sm text-green-700">
-              Password has been reset. You can now sign in.
+              {t('auth.resetPassword.successMessage')}
             </div>
 
             <Link
               to="/signin"
               className="flex w-full items-center justify-center bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
             >
-              Sign In
+              {t('common.signIn')}
             </Link>
           </motion.div>
         ) : (
@@ -129,7 +131,7 @@ export default function ResetPasswordPage() {
                 htmlFor="password"
                 className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
               >
-                New Password
+                {t('auth.resetPassword.newPasswordLabel')}
               </label>
               <input
                 id="password"
@@ -138,7 +140,7 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-2 block w-full border border-neutral-200 bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors"
-                placeholder="Enter new password"
+                placeholder={t('auth.resetPassword.newPasswordPlaceholder')}
               />
             </div>
 
@@ -147,7 +149,7 @@ export default function ResetPasswordPage() {
                 htmlFor="confirmPassword"
                 className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
               >
-                Confirm Password
+                {t('auth.resetPassword.confirmPasswordLabel')}
               </label>
               <input
                 id="confirmPassword"
@@ -156,13 +158,13 @@ export default function ResetPasswordPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="mt-2 block w-full border border-neutral-200 bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors"
-                placeholder="Confirm new password"
+                placeholder={t('auth.resetPassword.confirmPasswordPlaceholder')}
               />
             </div>
 
             <div className="space-y-1.5">
               <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Requirements
+                {t('auth.resetPassword.requirements')}
               </p>
               {passwordRequirements.map((req) => (
                 <div key={req.label} className="flex items-center gap-2 text-xs">
@@ -189,13 +191,13 @@ export default function ResetPasswordPage() {
               disabled={isLoading}
               className="flex w-full items-center justify-center bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
             >
-              {isLoading ? 'Resetting...' : 'Reset Password'}
+              {isLoading ? t('auth.resetPassword.submitting') : t('auth.resetPassword.submitButton')}
             </button>
           </form>
         )}
 
         <p className="mt-8 text-center text-sm text-neutral-500">
-          Remember your password?{' '}
+          {t('auth.resetPassword.rememberPassword')}{' '}
           <Link
             to="/signin"
             className="font-medium text-neutral-900 underline underline-offset-4 transition-colors hover:text-brand-600"

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Search, ShoppingBag, Mail, FileText, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -12,14 +13,15 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const popularLinks = [
-  { label: 'Shop All', href: '/shop', icon: ShoppingBag },
-  { label: 'Wishlist', href: '/wishlist', icon: Heart },
-  { label: 'Contact', href: '/contact', icon: Mail },
-  { label: 'Return Policy', href: '/return-policy', icon: FileText },
+const popularLinkKeys = [
+  { labelKey: 'notFound.shopAll', href: '/shop', icon: ShoppingBag },
+  { labelKey: 'notFound.wishlist', href: '/wishlist', icon: Heart },
+  { labelKey: 'common.contact', href: '/contact', icon: Mail },
+  { labelKey: 'footer.returnPolicy', href: '/return-policy', icon: FileText },
 ];
 
 export default function NotFoundPage() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
@@ -53,14 +55,14 @@ export default function NotFoundPage() {
           className="text-xs font-medium tracking-[0.3em] text-[#c8a97e] uppercase"
           variants={fadeUp}
         >
-          Page Not Found
+          {t('notFound.pageNotFound')}
         </motion.p>
 
         <motion.h1
           className="mt-4 font-display text-4xl font-light tracking-tight text-neutral-900 md:text-5xl"
           variants={fadeUp}
         >
-          Lost in Style
+          {t('notFound.lostInStyle')}
         </motion.h1>
 
         <motion.div
@@ -72,8 +74,7 @@ export default function NotFoundPage() {
           className="mt-6 max-w-md text-sm leading-relaxed text-neutral-500"
           variants={fadeUp}
         >
-          The page you&apos;re looking for doesn&apos;t exist or has been moved.
-          Try searching for what you need or explore our popular pages below.
+          {t('notFound.description')}
         </motion.p>
 
         {/* Search bar */}
@@ -88,7 +89,7 @@ export default function NotFoundPage() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search products, pages..."
+              placeholder={t('notFound.searchPlaceholder')}
               className="w-full border border-neutral-200 bg-white py-3.5 pl-11 pr-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#c8a97e] focus:outline-none focus:ring-0 transition-colors"
             />
           </div>
@@ -100,14 +101,14 @@ export default function NotFoundPage() {
             to="/"
             className="inline-flex items-center justify-center bg-neutral-900 px-10 py-4 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#c8a97e] hover:text-neutral-950"
           >
-            Back to Home
+            {t('notFound.backToHome')}
           </Link>
 
           <Link
             to="/shop"
             className="inline-flex items-center gap-2 text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:text-[#c8a97e]"
           >
-            Browse Collection
+            {t('notFound.browseCollection')}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </motion.div>
@@ -115,10 +116,10 @@ export default function NotFoundPage() {
         {/* Popular links */}
         <motion.div className="mt-12 w-full" variants={fadeUp}>
           <p className="mb-4 text-xs font-medium tracking-widest text-neutral-400 uppercase">
-            Popular Pages
+            {t('notFound.popularPages')}
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {popularLinks.map((link) => (
+            {popularLinkKeys.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
@@ -126,7 +127,7 @@ export default function NotFoundPage() {
               >
                 <link.icon className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-[#c8a97e]" />
                 <span className="text-xs font-medium text-neutral-600 transition-colors group-hover:text-neutral-900">
-                  {link.label}
+                  {t(link.labelKey)}
                 </span>
               </Link>
             ))}

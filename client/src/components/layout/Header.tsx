@@ -13,6 +13,7 @@ import {
   Shield,
   Heart,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -20,6 +21,7 @@ import { SearchOverlay } from '@/components/common/SearchOverlay';
 import { cn } from '@/lib/utils';
 
 export function Header() {
+  const { t } = useTranslation();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const { itemCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
@@ -94,13 +96,13 @@ export function Header() {
                 to="/shop"
                 className="text-xs font-medium uppercase tracking-widest text-neutral-600 transition-colors hover:text-neutral-900"
               >
-                Shop
+                {t('common.shop')}
               </Link>
               <Link
                 to="/contact"
                 className="text-xs font-medium uppercase tracking-widest text-neutral-600 transition-colors hover:text-neutral-900"
               >
-                Contact
+                {t('common.contact')}
               </Link>
             </nav>
           </div>
@@ -155,19 +157,19 @@ export function Header() {
                     <DropdownLink
                       to="/profile"
                       icon={<UserCircle size={16} />}
-                      label="My Profile"
+                      label={t('nav.myProfile')}
                       onClick={() => setUserDropdownOpen(false)}
                     />
                     <DropdownLink
                       to="/profile/orders"
                       icon={<Package size={16} />}
-                      label="My Orders"
+                      label={t('nav.myOrders')}
                       onClick={() => setUserDropdownOpen(false)}
                     />
                     <DropdownLink
                       to="/wishlist"
                       icon={<Heart size={16} />}
-                      label="My Wishlist"
+                      label={t('nav.myWishlist')}
                       onClick={() => setUserDropdownOpen(false)}
                     />
 
@@ -175,7 +177,7 @@ export function Header() {
                       <DropdownLink
                         to="/admin"
                         icon={<Shield size={16} />}
-                        label="Admin"
+                        label={t('nav.admin')}
                         onClick={() => setUserDropdownOpen(false)}
                       />
                     )}
@@ -186,7 +188,7 @@ export function Header() {
                         className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900"
                       >
                         <LogOut size={16} />
-                        Sign Out
+                        {t('common.signOut')}
                       </button>
                     </div>
                   </motion.div>
@@ -267,19 +269,19 @@ export function Header() {
                 className="mb-4 flex w-full items-center gap-3 rounded border border-neutral-200 px-4 py-3 text-sm text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700"
               >
                 <Search size={16} />
-                Search products...
+                {t('nav.searchProducts')}
               </button>
 
               <div className="flex flex-col gap-6">
                 <MobileLink
                   to="/shop"
-                  label="Shop"
+                  label={t('common.shop')}
                   onClick={() => setMobileMenuOpen(false)}
                   delay={0.05}
                 />
                 <MobileLink
                   to="/contact"
-                  label="Contact"
+                  label={t('common.contact')}
                   onClick={() => setMobileMenuOpen(false)}
                   delay={0.1}
                 />
@@ -290,19 +292,19 @@ export function Header() {
                   <>
                     <MobileLink
                       to="/profile"
-                      label="Profile"
+                      label={t('nav.profile')}
                       onClick={() => setMobileMenuOpen(false)}
                       delay={0.15}
                     />
                     <MobileLink
                       to="/profile/orders"
-                      label="Orders"
+                      label={t('nav.orders')}
                       onClick={() => setMobileMenuOpen(false)}
                       delay={0.2}
                     />
                     <MobileLink
                       to="/wishlist"
-                      label="Wishlist"
+                      label={t('common.wishlist')}
                       onClick={() => setMobileMenuOpen(false)}
                       delay={0.25}
                       badge={wishlistCount > 0 ? wishlistCount : undefined}
@@ -310,7 +312,7 @@ export function Header() {
                     {isAdmin && (
                       <MobileLink
                         to="/admin"
-                        label="Admin"
+                        label={t('nav.admin')}
                         onClick={() => setMobileMenuOpen(false)}
                         delay={0.3}
                       />
@@ -326,20 +328,20 @@ export function Header() {
                       }}
                       className="text-left text-sm font-medium uppercase tracking-widest text-neutral-400 transition-colors hover:text-neutral-900"
                     >
-                      Sign Out
+                      {t('common.signOut')}
                     </motion.button>
                   </>
                 ) : (
                   <>
                     <MobileLink
                       to="/signin"
-                      label="Sign In"
+                      label={t('common.signIn')}
                       onClick={() => setMobileMenuOpen(false)}
                       delay={0.15}
                     />
                     <MobileLink
                       to="/signup"
-                      label="Sign Up"
+                      label={t('common.signUp')}
                       onClick={() => setMobileMenuOpen(false)}
                       delay={0.2}
                     />

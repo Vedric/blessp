@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Pencil, Trash2, Eye, EyeOff } from 'lucide-react';
 import { api } from '@/lib/api';
@@ -13,6 +14,7 @@ const fadeUp = {
 };
 
 export default function AdminProductsPage() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -79,9 +81,9 @@ export default function AdminProductsPage() {
           <div className="mb-6">
             <Breadcrumbs
               items={[
-                { label: 'Home', href: '/' },
-                { label: 'Admin', href: '/admin' },
-                { label: 'Products' },
+                { label: t('common.home'), href: '/' },
+                { label: t('nav.admin'), href: '/admin' },
+                { label: t('admin.products.title') },
               ]}
             />
           </div>
@@ -89,7 +91,7 @@ export default function AdminProductsPage() {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-                Products
+                {t('admin.products.title')}
               </h1>
               <div className="mt-2 h-px w-12 bg-brand-500" />
             </div>
@@ -98,7 +100,7 @@ export default function AdminProductsPage() {
               className="flex items-center gap-1.5 bg-neutral-900 px-5 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
             >
               <Plus className="h-3.5 w-3.5" />
-              Add Product
+              {t('admin.products.addProduct')}
             </Link>
           </div>
 
@@ -120,25 +122,24 @@ export default function AdminProductsPage() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <h3 className="text-lg font-medium text-neutral-900">
-                    Delete Product
+                    {t('admin.products.deleteProduct')}
                   </h3>
                   <p className="mt-2 text-sm text-neutral-500">
-                    Are you sure you want to delete &ldquo;{deleteModal.name}&rdquo;?
-                    This action cannot be undone.
+                    {t('admin.products.deleteConfirm', { name: deleteModal.name })}
                   </p>
                   <div className="mt-6 flex gap-3">
                     <button
                       onClick={() => setDeleteModal(null)}
                       className="flex-1 border border-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
                     >
-                      Cancel
+                      {t('common.cancel')}
                     </button>
                     <button
                       onClick={handleDelete}
                       disabled={isDeleting}
                       className="flex-1 bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
                     >
-                      {isDeleting ? 'Deleting...' : 'Delete'}
+                      {isDeleting ? t('admin.products.deleting') : t('common.delete')}
                     </button>
                   </div>
                 </motion.div>
@@ -166,7 +167,7 @@ export default function AdminProductsPage() {
             </div>
           ) : products.length === 0 ? (
             <div className="mt-20 text-center">
-              <p className="text-neutral-500">No products yet.</p>
+              <p className="text-neutral-500">{t('admin.products.noProducts')}</p>
             </div>
           ) : (
             <div className="mt-10 space-y-2">
@@ -211,7 +212,7 @@ export default function AdminProductsPage() {
                           ? 'text-green-600 hover:text-green-800'
                           : 'text-neutral-400 hover:text-neutral-600',
                       )}
-                      title={product.isActive ? 'Deactivate' : 'Activate'}
+                      title={product.isActive ? t('admin.products.deactivate') : t('admin.products.activate')}
                     >
                       {product.isActive ? (
                         <Eye className="h-4 w-4" />

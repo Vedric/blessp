@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
@@ -16,6 +17,7 @@ const stagger = {
 };
 
 export function RecentlyViewed() {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const { recentIds } = useRecentlyViewed();
   const [products, setProducts] = useState<Product[]>([]);
@@ -72,7 +74,7 @@ export function RecentlyViewed() {
         className="font-display text-2xl font-light tracking-tight text-neutral-900 md:text-3xl"
         variants={fadeUp}
       >
-        Recently Viewed
+        {t('recentlyViewed.title')}
       </motion.h2>
       <motion.div className="mt-2 h-px w-12 bg-[#c8a97e]" variants={fadeUp} />
 

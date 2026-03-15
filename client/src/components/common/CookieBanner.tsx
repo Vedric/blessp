@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/Button';
 
 const COOKIE_CONSENT_KEY = 'blessp_cookie_consent';
 
 export function CookieBanner() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -37,15 +39,14 @@ export function CookieBanner() {
           className="fixed bottom-0 left-0 right-0 z-50 border-t border-neutral-100 bg-white px-6 py-5 shadow-lg md:flex md:items-center md:justify-between md:px-10"
         >
           <p className="mb-4 text-sm text-neutral-600 md:mb-0 md:mr-8">
-            We use cookies to enhance your browsing experience and analyze site
-            traffic. By continuing, you agree to our use of cookies.
+            {t('cookie.message')}
           </p>
           <div className="flex gap-3">
             <Button variant="ghost" size="sm" onClick={handleReject}>
-              Reject
+              {t('cookie.reject')}
             </Button>
             <Button variant="primary" size="sm" onClick={handleAccept}>
-              Accept
+              {t('cookie.accept')}
             </Button>
           </div>
         </motion.div>

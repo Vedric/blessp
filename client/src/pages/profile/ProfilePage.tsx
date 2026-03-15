@@ -1,7 +1,8 @@
 import { useState, useEffect, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Package, MapPin, User as UserIcon, Lock, ChevronRight, Crown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Package, MapPin, User as UserIcon, Lock, ChevronRight, Crown, CreditCard, Bell, AlertTriangle, Loader2, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
@@ -9,6 +10,8 @@ import { LoyaltyBadge } from '@/components/common/LoyaltyBadge';
 import type { LoyaltyBalance } from '@/lib/types';
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, refreshUser, logout } = useAuth();
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -34,7 +37,7 @@ export default function ProfilePage() {
       setIsEditingProfile(false);
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setProfileError(apiErr.message || 'Failed to update profile.');
+      setProfileError(apiErr.message || t('profile.failedUpdateProfile'));
     } finally {
       setProfileSaving(false);
     }
@@ -45,19 +48,19 @@ export default function ProfilePage() {
     setPasswordError('');
     setPasswordSuccess('');
     if (newPassword.length < 12) {
-      setPasswordError('New password must be at least 12 characters.');
+      setPasswordError(t('profile.passwordMinLength'));
       return;
     }
     setPasswordSaving(true);
     try {
       await api.patch('/auth/password', { currentPassword, newPassword });
-      setPasswordSuccess('Password updated successfully.');
+      setPasswordSuccess(t('profile.passwordUpdated'));
       setCurrentPassword('');
       setNewPassword('');
       setIsChangingPassword(false);
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setPasswordError(apiErr.message || 'Failed to change password.');
+      setPasswordError(apiErr.message || t('profile.failedChangePassword'));
     } finally {
       setPasswordSaving(false);
     }
@@ -74,10 +77,38 @@ export default function ProfilePage() {
       .catch(() => { /* Loyalty fetch is non-critical */ });
   }, []);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [showDeletePassword, setShowDeletePassword] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteAccount = async (e: FormEvent) => {
+    e.preventDefault();
+    setDeleteError('');
+    if (!deletePassword) {
+      setDeleteError(t('profile.deleteAccount.passwordRequired'));
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      await api.delete('/users/account', { password: deletePassword });
+      await logout();
+      navigate('/');
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string };
+      setDeleteError(apiErr.message || t('profile.deleteAccount.error'));
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const navItems = [
-    { label: 'Orders', icon: Package, to: '/profile/orders' },
-    { label: 'Addresses', icon: MapPin, to: '/profile/addresses' },
-    { label: 'Loyalty Rewards', icon: Crown, to: '/profile/loyalty' },
+    { label: t('profile.nav.orders'), icon: Package, to: '/profile/orders' },
+    { label: t('profile.nav.addresses'), icon: MapPin, to: '/profile/addresses' },
+    { label: t('profile.nav.paymentMethods'), icon: CreditCard, to: '/profile/payment-methods' },
+    { label: t('profile.nav.emailPreferences'), icon: Bell, to: '/profile/email-preferences' },
+    { label: t('profile.nav.loyaltyRewards'), icon: Crown, to: '/profile/loyalty' },
   ];
 
   return (
@@ -89,7 +120,7 @@ export default function ProfilePage() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl">
-            My Account
+            {t('profile.myAccount')}
           </h1>
           <div className="mt-2 h-px w-12 bg-brand-500" />
 
@@ -124,7 +155,7 @@ export default function ProfilePage() {
                   }}
                   className="text-xs font-medium tracking-widest text-brand-600 uppercase"
                 >
-                  Edit
+                  {t('common.edit')}
                 </button>
               )}
             </div>
@@ -137,7 +168,7 @@ export default function ProfilePage() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                      First Name
+                      {t('checkout.firstName')}
                     </label>
                     <input
                       value={firstName}
@@ -148,7 +179,7 @@ export default function ProfilePage() {
                   </div>
                   <div>
                     <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                      Last Name
+                      {t('checkout.lastName')}
                     </label>
                     <input
                       value={lastName}
@@ -164,14 +195,14 @@ export default function ProfilePage() {
                     disabled={profileSaving}
                     className="bg-neutral-900 px-6 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
                   >
-                    {profileSaving ? 'Saving...' : 'Save'}
+                    {profileSaving ? t('common.saving') : t('common.save')}
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsEditingProfile(false)}
                     className="px-6 py-2.5 text-xs font-medium tracking-widest text-neutral-600 uppercase"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </button>
                 </div>
               </form>
@@ -184,7 +215,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-3">
                 <Lock className="h-5 w-5 text-neutral-400" />
                 <span className="text-sm font-medium text-neutral-900">
-                  Password
+                  {t('profile.password')}
                 </span>
               </div>
               {!isChangingPassword && (
@@ -192,7 +223,7 @@ export default function ProfilePage() {
                   onClick={() => setIsChangingPassword(true)}
                   className="text-xs font-medium tracking-widest text-brand-600 uppercase"
                 >
-                  Change
+                  {t('profile.change')}
                 </button>
               )}
             </div>
@@ -207,7 +238,7 @@ export default function ProfilePage() {
                 )}
                 <div>
                   <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                    Current Password
+                    {t('profile.currentPassword')}
                   </label>
                   <input
                     type="password"
@@ -219,7 +250,7 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                    New Password
+                    {t('profile.newPassword')}
                   </label>
                   <input
                     type="password"
@@ -229,7 +260,7 @@ export default function ProfilePage() {
                     required
                   />
                   <p className="mt-1 text-xs text-neutral-400">
-                    At least 12 characters.
+                    {t('profile.atLeast12Chars')}
                   </p>
                 </div>
                 <div className="flex gap-3">
@@ -238,7 +269,7 @@ export default function ProfilePage() {
                     disabled={passwordSaving}
                     className="bg-neutral-900 px-6 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
                   >
-                    {passwordSaving ? 'Updating...' : 'Update Password'}
+                    {passwordSaving ? t('profile.updating') : t('profile.updatePassword')}
                   </button>
                   <button
                     type="button"
@@ -248,7 +279,7 @@ export default function ProfilePage() {
                     }}
                     className="px-6 py-2.5 text-xs font-medium tracking-widest text-neutral-600 uppercase"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </button>
                 </div>
               </form>
@@ -294,8 +325,111 @@ export default function ProfilePage() {
             onClick={logout}
             className="mt-10 text-sm text-neutral-500 underline underline-offset-4 transition-colors hover:text-neutral-900"
           >
-            Sign Out
+            {t('common.signOut')}
           </button>
+
+          {/* Delete Account */}
+          <div className="mt-12 border border-red-100 p-6">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+              <h3 className="text-sm font-medium text-red-700">
+                {t('profile.deleteAccount.title')}
+              </h3>
+            </div>
+            <p className="mt-3 text-sm text-neutral-500">
+              {t('profile.deleteAccount.description')}
+            </p>
+            <button
+              onClick={() => {
+                setShowDeleteModal(true);
+                setDeletePassword('');
+                setDeleteError('');
+              }}
+              className="mt-4 border border-red-300 px-6 py-2.5 text-xs font-medium tracking-widest text-red-600 uppercase transition-colors hover:bg-red-50"
+            >
+              {t('profile.deleteAccount.button')}
+            </button>
+          </div>
+
+          {/* Delete Account Modal */}
+          <AnimatePresence>
+            {showDeleteModal && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full max-w-md bg-white p-8"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-50">
+                      <AlertTriangle className="h-5 w-5 text-red-500" />
+                    </div>
+                    <h3 className="font-display text-lg font-medium text-neutral-900">
+                      {t('profile.deleteAccount.modalTitle')}
+                    </h3>
+                  </div>
+
+                  <p className="mt-4 text-sm text-neutral-600">
+                    {t('profile.deleteAccount.warning')}
+                  </p>
+
+                  <form onSubmit={handleDeleteAccount} className="mt-6 space-y-4">
+                    {deleteError && (
+                      <p className="text-xs text-red-600">{deleteError}</p>
+                    )}
+                    <div>
+                      <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                        {t('profile.deleteAccount.confirmPassword')}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showDeletePassword ? 'text' : 'password'}
+                          value={deletePassword}
+                          onChange={(e) => setDeletePassword(e.target.value)}
+                          className={cn(inputClass, 'mt-2 pr-12')}
+                          required
+                          placeholder={t('profile.deleteAccount.passwordPlaceholder')}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowDeletePassword(!showDeletePassword)}
+                          className="absolute right-3 top-1/2 mt-1 -translate-y-1/2 text-neutral-400 transition-colors hover:text-neutral-600"
+                        >
+                          {showDeletePassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        type="submit"
+                        disabled={isDeleting || !deletePassword}
+                        className="flex items-center gap-2 bg-red-600 px-6 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-red-700 disabled:opacity-50"
+                      >
+                        {isDeleting && <Loader2 className="h-3 w-3 animate-spin" />}
+                        {t('profile.deleteAccount.confirm')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowDeleteModal(false)}
+                        className="px-6 py-2.5 text-xs font-medium tracking-widest text-neutral-600 uppercase transition-colors hover:text-neutral-900"
+                      >
+                        {t('common.cancel')}
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </div>
     </div>

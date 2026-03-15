@@ -1,5 +1,5 @@
 import { prisma } from '../../core/database/client';
-import { UpdateUserDto } from './users.types';
+import { UpdateUserDto, UpdateEmailPreferencesDto } from './users.types';
 
 export class UsersRepository {
   async findById(id: string) {
@@ -36,6 +36,23 @@ export class UsersRepository {
     return prisma.user.update({
       where: { id },
       data: { deletedAt: new Date() },
+    });
+  }
+
+  async findEmailPreference(userId: string) {
+    return prisma.emailPreference.findUnique({
+      where: { userId },
+    });
+  }
+
+  async upsertEmailPreference(userId: string, data: UpdateEmailPreferencesDto) {
+    return prisma.emailPreference.upsert({
+      where: { userId },
+      create: {
+        userId,
+        ...data,
+      },
+      update: data,
     });
   }
 }

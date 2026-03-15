@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { WishlistButton } from '@/components/common/WishlistButton';
@@ -16,6 +17,7 @@ const stagger = {
 };
 
 export default function WishlistPage() {
+  const { t } = useTranslation();
   const { wishlistItems, isLoading } = useWishlist();
   const { formatPrice } = useCurrency();
 
@@ -25,7 +27,7 @@ export default function WishlistPage() {
       <div className="relative overflow-hidden bg-neutral-50">
         <div className="mx-auto max-w-7xl px-4 pt-32 pb-12 sm:px-6 lg:px-8">
           <div className="mb-6">
-            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Wishlist' }]} />
+            <Breadcrumbs items={[{ label: t('common.home'), href: '/' }, { label: t('wishlist.title') }]} />
           </div>
           <motion.p
             className="text-xs font-medium tracking-[0.3em] text-[#c8a97e] uppercase"
@@ -41,7 +43,7 @@ export default function WishlistPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            My Wishlist
+            {t('wishlist.myWishlist')}
           </motion.h1>
           <motion.div
             className="mt-3 h-[2px] w-16 bg-[#c8a97e]"
@@ -56,7 +58,7 @@ export default function WishlistPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Pieces you love, saved for later.
+            {t('wishlist.subtitle')}
           </motion.p>
         </div>
       </div>
@@ -84,16 +86,16 @@ export default function WishlistPage() {
               <Heart className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
             </div>
             <h3 className="mt-6 text-lg font-medium text-neutral-900">
-              Your wishlist is empty
+              {t('wishlist.empty')}
             </h3>
             <p className="mt-2 max-w-sm text-sm text-neutral-500">
-              Browse our collection and save the pieces you love.
+              {t('wishlist.emptyDesc')}
             </p>
             <Link
               to="/shop"
               className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#c8a97e] hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
             >
-              Explore the Collection
+              {t('wishlist.exploreCollection')}
             </Link>
           </motion.div>
         ) : (
@@ -115,7 +117,7 @@ export default function WishlistPage() {
                       />
                       <div className="absolute inset-0 flex items-end justify-center bg-black/0 transition-all duration-500 group-hover:bg-black/10">
                         <span className="mb-6 translate-y-4 text-xs font-medium tracking-[0.2em] text-white uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                          View Product
+                          {t('shop.viewProduct')}
                         </span>
                       </div>
                     </div>

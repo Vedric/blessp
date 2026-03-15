@@ -1,0 +1,804 @@
+{
+  "common": {
+    "home": "Home",
+    "shop": "Shop",
+    "contact": "Contact",
+    "search": "Search",
+    "compare": "Compare",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "account": "Account",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "back": "Back",
+    "loading": "Loading...",
+    "add": "Add",
+    "apply": "Apply",
+    "clear": "Clear",
+    "clearAll": "Clear all",
+    "viewProduct": "View Product",
+    "addToCart": "Add to Cart",
+    "adding": "Adding...",
+    "browseCollection": "Browse Collection",
+    "exploreCollection": "Explore the Collection",
+    "continueShopping": "Continue Shopping",
+    "noResults": "No results",
+    "product": "product",
+    "products": "products",
+    "result": "result",
+    "results": "results",
+    "optional": "Optional",
+    "default": "Default",
+    "lowStock": "Low Stock",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "free": "Free",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "discount": "Discount",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Password",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "provinceState": "Province / State",
+    "country": "Country",
+    "addressLine1": "Address Line 1",
+    "addressLine2": "Address Line 2",
+    "allRightsReserved": "All rights reserved.",
+    "items": "Items"
+  },
+  "nav": {
+    "myProfile": "My Profile",
+    "myOrders": "My Orders",
+    "myWishlist": "My Wishlist",
+    "admin": "Admin",
+    "profile": "Profile",
+    "orders": "Orders",
+    "searchProducts": "Search products..."
+  },
+  "home": {
+    "heroSubtitle": "Curated Streetwear Essentials",
+    "shopCollection": "Shop Collection",
+    "newArrivals": "New Arrivals",
+    "brandStoryTitle": "The BLE$$ P Story",
+    "brandStoryP1": "Born from the intersection of luxury and streetwear, BLE$$ P is a celebration of intentional design. Every piece is crafted with meticulous attention to detail, using premium fabrics that feel as extraordinary as they look.",
+    "brandStoryP2": "We believe that true style is effortless. Our collections are curated for those who understand that what you wear is an extension of who you are. Minimal, bold, unapologetic.",
+    "exploreCollection": "Explore Collection",
+    "premiumMaterials": "Premium Materials",
+    "premiumMaterialsDesc": "Sourced from the finest mills, every fabric is chosen for its hand feel, drape, and lasting quality.",
+    "freeShipping": "Free Shipping",
+    "freeShippingDesc": "Complimentary delivery on all orders over $100. Your pieces arrive beautifully packaged.",
+    "easyReturns": "Easy Returns",
+    "easyReturnsDesc": "Not the right fit? Return within 30 days for a full refund, no questions asked.",
+    "followUs": "Follow Us"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your BLE$$ P account",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "forgotPassword": "Forgot password?",
+      "submitButton": "Sign In",
+      "submitting": "Signing in...",
+      "checkCredentials": "Please check your credentials and try again.",
+      "noAccount": "Don't have an account?",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email.",
+      "passwordRequired": "Password is required.",
+      "invalidCredentials": "Invalid email or password.",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "Enter your password"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "subtitle": "Join the BLE$$ P community",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "passwordPlaceholder": "Create a strong password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "submitButton": "Create Account",
+      "submitting": "Creating account...",
+      "termsAgreement": "By creating an account, you agree to our",
+      "termsLink": "Terms & Conditions",
+      "hasAccount": "Already have an account?",
+      "passwordsMismatch": "Passwords do not match.",
+      "passwordsMatch": "Passwords match",
+      "firstNameMin": "First name must be at least 2 characters.",
+      "lastNameMin": "Last name must be at least 2 characters.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email.",
+      "passwordMin": "Password must be at least 12 characters.",
+      "passwordUppercase": "Password must contain an uppercase letter.",
+      "passwordNumber": "Password must contain a number.",
+      "genericError": "An error occurred. Please try again.",
+      "checks": {
+        "minLength": "At least 12 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number",
+        "special": "One special character"
+      },
+      "strength": {
+        "weak": "weak",
+        "fair": "fair",
+        "good": "good",
+        "strong": "strong"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email and we'll send you a reset link",
+      "submitButton": "Send Reset Link",
+      "submitting": "Sending...",
+      "successMessage": "If an account with that email exists, we have sent a password reset link.",
+      "backToSignIn": "Back to Sign In",
+      "rememberPassword": "Remember your password?",
+      "genericError": "Something went wrong. Please try again."
+    },
+    "resetPassword": {
+      "invalidLink": "Invalid Link",
+      "invalidLinkDesc": "This password reset link is invalid. Please request a new one.",
+      "requestNewLink": "Request New Link",
+      "title": "Set New Password",
+      "subtitle": "Choose a strong password for your account",
+      "newPasswordLabel": "New Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "requirements": "Requirements",
+      "req12Chars": "At least 12 characters",
+      "reqUppercase": "At least one uppercase letter",
+      "reqNumber": "At least one number",
+      "submitButton": "Reset Password",
+      "submitting": "Resetting...",
+      "successMessage": "Password has been reset. You can now sign in.",
+      "passwordsMismatch": "Passwords do not match.",
+      "tokenMissing": "Reset token is missing. Please use the link from your email.",
+      "genericError": "Something went wrong. The token may be invalid or expired.",
+      "rememberPassword": "Remember your password?"
+    }
+  },
+  "shop": {
+    "collection": "Collection",
+    "collectionDesc": "Explore our curated selection of premium streetwear essentials.",
+    "categories": {
+      "all": "All",
+      "hoodies": "Hoodies",
+      "pants": "Pants",
+      "sets": "Sets"
+    },
+    "sort": {
+      "newest": "Newest",
+      "priceLowHigh": "Price: Low to High",
+      "priceHighLow": "Price: High to Low"
+    },
+    "noProductsFound": "No products found",
+    "noProductsDesc": "We couldn't find any products matching your filters. Try adjusting your selection or browse our full collection.",
+    "viewAllProducts": "View All Products",
+    "sizePrefix": "Size",
+    "productCount": "{{count}} products",
+    "productCount_one": "{{count}} product",
+    "lowStock": "Low Stock",
+    "viewProduct": "View Product"
+  },
+  "product": {
+    "notFound": "Product not found.",
+    "color": "Color",
+    "size": "Size",
+    "sizeGuide": "Size Guide",
+    "quantity": "Quantity",
+    "descriptionDetails": "Description & Details",
+    "youMayAlsoLike": "You May Also Like",
+    "onlyXLeft": "Only {{count}} left!",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "addToCart": "Add to Cart",
+    "adding": "Adding..."
+  },
+  "checkout": {
+    "steps": {
+      "shipping": "Shipping",
+      "payment": "Payment",
+      "confirmation": "Confirmation"
+    },
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "shippingAddress": "Shipping Address",
+    "savedAddresses": "Saved Addresses",
+    "addressLine2Placeholder": "Apartment, suite, etc. (optional)",
+    "continueToPayment": "Continue to Payment",
+    "preparing": "Preparing...",
+    "shippingTo": "Shipping to",
+    "cardDetails": "Card Details",
+    "cardSecure": "Your payment is processed securely via Stripe.",
+    "placeOrder": "Place Order",
+    "processing": "Processing...",
+    "orderConfirmed": "Order Confirmed",
+    "thankYou": "Thank you for your purchase.",
+    "orderNumber": "Order number:",
+    "viewOrders": "View Orders",
+    "orderSummary": "Order Summary",
+    "havePromoCode": "Have a promo code?",
+    "enterCode": "Enter code",
+    "removePromoCode": "Remove promo code",
+    "percentOff": "{{value}}% off",
+    "amountOff": "{{value}} off",
+    "paymentError": "Payment failed. Please try again.",
+    "paymentNotCompleted": "Payment was not completed. Please try again.",
+    "paymentLoading": "Payment system is still loading. Please wait a moment.",
+    "cardFormError": "Unable to load the card form. Please refresh and try again.",
+    "failedPrepare": "Failed to prepare payment. Please try again.",
+    "savedCards": "Saved Payment Methods",
+    "cardEnding": "ending in",
+    "default": "Default",
+    "useNewCard": "Use a new card",
+    "saveCardForFuture": "Save this card for future purchases",
+    "invalidOrExpiredCode": "Invalid or expired code",
+    "payment": "Payment",
+    "billingSameAsShipping": "Billing address is the same as shipping",
+    "billingAddress": "Billing Address"
+  },
+  "profile": {
+    "myAccount": "My Account",
+    "account": "Account",
+    "editProfile": "Edit",
+    "password": "Password",
+    "change": "Change",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "atLeast12Chars": "At least 12 characters.",
+    "updatePassword": "Update Password",
+    "updating": "Updating...",
+    "passwordUpdated": "Password updated successfully.",
+    "passwordMinLength": "New password must be at least 12 characters.",
+    "failedUpdateProfile": "Failed to update profile.",
+    "failedChangePassword": "Failed to change password.",
+    "nav": {
+      "orders": "Orders",
+      "addresses": "Addresses",
+      "paymentMethods": "Payment Methods",
+      "emailPreferences": "Email Preferences",
+      "loyaltyRewards": "Loyalty Rewards"
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+      "button": "Delete My Account",
+      "modalTitle": "Delete Your Account",
+      "warning": "This will permanently delete your account, order history, saved addresses, and all associated data. This action cannot be reversed.",
+      "confirmPassword": "Confirm Your Password",
+      "passwordPlaceholder": "Enter your password to confirm",
+      "passwordRequired": "Password is required to delete your account.",
+      "confirm": "Delete Account",
+      "error": "Failed to delete account."
+    }
+  },
+  "orders": {
+    "myOrders": "My Orders",
+    "noOrders": "No orders yet",
+    "noOrdersDesc": "Your order history will appear here once you make your first purchase. Browse our curated collection to get started.",
+    "browseCollection": "Browse Collection",
+    "viewWishlist": "View Wishlist",
+    "itemCount": "{{count}} items",
+    "itemCount_one": "{{count}} item",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    }
+  },
+  "orderDetail": {
+    "notFound": "Order not found.",
+    "backToOrders": "Back to Orders",
+    "placedOn": "Placed on {{date}}",
+    "items": "Items ({{count}})",
+    "qty": "Qty: {{count}}",
+    "needHelp": "Need help with this order?",
+    "contactUs": "Contact us"
+  },
+  "addresses": {
+    "title": "Addresses",
+    "editAddress": "Edit Address",
+    "newAddress": "New Address",
+    "setDefault": "Set as default address",
+    "saveAddress": "Save Address",
+    "noAddresses": "No saved addresses",
+    "noAddressesDesc": "Add a shipping address to speed up your checkout experience.",
+    "addAddress": "Add Address",
+    "failedSave": "Failed to save address."
+  },
+  "loyalty": {
+    "title": "Loyalty Rewards",
+    "yourTier": "Your Tier",
+    "pointsBalance": "Points Balance",
+    "pointsToNext": "{{points}} points to {{tier}}",
+    "maxTier": "You have reached the highest tier. Enjoy exclusive Platinum benefits.",
+    "redeemTitle": "Redeem Your Points",
+    "redeemDesc": "You can redeem <points>{{points}} points</points> for a <discount>{{discount}} discount</discount>",
+    "redeemButton": "Redeem Points",
+    "redeeming": "Redeeming...",
+    "redeemSuccess": "Successfully redeemed {{points}} points for a ${{value}} discount.",
+    "redeemFailed": "Failed to redeem points.",
+    "howItWorks": "How It Works",
+    "earnPoints": "Earn Points",
+    "earnPointsDesc": "1 point for every $1 spent on orders",
+    "redeemRewards": "Redeem Rewards",
+    "redeemRewardsDesc": "100 points = $5 discount on your next order",
+    "climbTiers": "Climb Tiers",
+    "climbTiersDesc": "Reach higher tiers for exclusive benefits",
+    "pointsHistory": "Points History",
+    "noTransactions": "No transactions yet. Start shopping to earn points."
+  },
+  "wishlist": {
+    "title": "Wishlist",
+    "myWishlist": "My Wishlist",
+    "subtitle": "Pieces you love, saved for later.",
+    "empty": "Your wishlist is empty",
+    "emptyDesc": "Browse our collection and save the pieces you love.",
+    "exploreCollection": "Explore the Collection"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We would love to hear from you. Reach out with any questions, feedback, or collaboration inquiries.",
+    "sendMessage": "Send a Message",
+    "subjects": {
+      "generalInquiry": "General Inquiry",
+      "orderSupport": "Order Support",
+      "returnsExchanges": "Returns & Exchanges",
+      "collaboration": "Collaboration",
+      "other": "Other"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "emailPlaceholder": "your@email.com",
+      "subject": "Subject",
+      "selectSubject": "Select a subject",
+      "message": "Message",
+      "messagePlaceholder": "Tell us how we can help...",
+      "sendMessage": "Send Message",
+      "sending": "Sending..."
+    },
+    "messageSent": "Message Sent",
+    "messageSentDesc": "Thank you for reaching out. Our team will get back to you within 24 to 48 business hours.",
+    "sendAnother": "Send Another Message",
+    "getInTouch": "Get in Touch",
+    "info": {
+      "returns": "Returns",
+      "followUs": "Follow Us",
+      "responseTime": "Response Time",
+      "responseTimeDesc": "We aim to respond to all inquiries within 24 to 48 business hours."
+    },
+    "faqTitle": "Frequently Asked Questions",
+    "faq": {
+      "shippingQ": "How long does shipping take?",
+      "shippingA": "Standard shipping within Canada takes 5 to 7 business days. Expedited shipping is available at checkout for 2 to 3 business day delivery. Orders to the United States typically arrive within 7 to 14 business days.",
+      "returnPolicyQ": "What is your return policy?",
+      "returnPolicyA": "We offer a 30-day return window from the date of delivery. Items must be unworn, unwashed, and in their original condition with all tags attached. Visit our Return Policy page for full details.",
+      "viewReturnPolicy": "View Return Policy",
+      "internationalQ": "Do you offer international shipping?",
+      "internationalA": "We currently ship within Canada and the United States. International shipping to additional regions is planned for future expansion. Sign up for our newsletter to stay informed about updates.",
+      "trackOrderQ": "How can I track my order?",
+      "trackOrderA": "Once your order has shipped, you will receive an email with a tracking number and a link to the carrier's tracking page. You can also view your order status by logging into your account and visiting the Orders section.",
+      "trueSizeQ": "Are your products true to size?",
+      "trueSizeA": "Our garments are designed with a relaxed, contemporary fit. We recommend consulting the size guide available on each product page. If you are between sizes, we suggest sizing up for a more relaxed look or sizing down for a fitted silhouette."
+    },
+    "lookingForMore": "Looking for something else?",
+    "submitError": "Something went wrong. Please try again.",
+    "rateLimitNotice": "You can submit one message every 15 minutes.",
+    "validation": {
+      "nameRequired": "Name is required.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "subjectRequired": "Please select a subject.",
+      "messageRequired": "Message is required.",
+      "messageMinLength": "Message must be at least 10 characters."
+    }
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search our collection...",
+    "searchCollection": "Search our collection",
+    "searchDesc": "Find exactly what you're looking for by name, category, or description.",
+    "noResults": "No results for \"{{query}}\"",
+    "noResultsDesc": "We couldn't find a match. Try adjusting your keywords or explore our full collection.",
+    "browseCollection": "Browse Collection",
+    "resultsCount": "{{count}} results for \"{{query}}\"",
+    "resultsCount_one": "{{count}} result for \"{{query}}\""
+  },
+  "compare": {
+    "title": "Compare",
+    "noProducts": "No products to compare",
+    "noProductsDesc": "Add products to your comparison list from the shop to see them side by side.",
+    "browseCollection": "Browse Collection",
+    "sideBySide": "Side by Side",
+    "compareProducts": "Compare Products",
+    "comparingCount": "Comparing {{count}} products",
+    "comparingCount_one": "Comparing {{count}} product",
+    "clearAll": "Clear all",
+    "image": "Image",
+    "name": "Name",
+    "price": "Price",
+    "description": "Description",
+    "noDescription": "No description available.",
+    "category": "Category",
+    "sizes": "Sizes",
+    "colors": "Colors",
+    "actions": "Actions"
+  },
+  "notFound": {
+    "pageNotFound": "Page Not Found",
+    "lostInStyle": "Lost in Style",
+    "description": "The page you're looking for doesn't exist or has been moved. Try searching for what you need or explore our popular pages below.",
+    "searchPlaceholder": "Search products, pages...",
+    "backToHome": "Back to Home",
+    "browseCollection": "Browse Collection",
+    "popularPages": "Popular Pages",
+    "shopAll": "Shop All",
+    "wishlist": "Wishlist"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyDesc": "Discover something you love in our collection.",
+    "checkout": "Checkout"
+  },
+  "cookie": {
+    "message": "We use cookies to enhance your browsing experience and analyze site traffic. By continuing, you agree to our use of cookies.",
+    "reject": "Reject",
+    "accept": "Accept"
+  },
+  "searchOverlay": {
+    "title": "Search",
+    "placeholder": "What are you looking for?",
+    "viewAllResults": "View all results",
+    "noResults": "No results for \"{{query}}\""
+  },
+  "sizeGuide": {
+    "title": "Size Guide",
+    "tops": "Tops",
+    "bottoms": "Bottoms",
+    "size": "Size",
+    "chest": "Chest",
+    "waist": "Waist",
+    "hips": "Hips",
+    "length": "Length",
+    "inseam": "Inseam",
+    "howToMeasure": "How to Measure",
+    "chestDesc": "Measure around the fullest part of your chest, keeping the tape level.",
+    "waistDesc": "Measure around your natural waistline, just above the hip bone.",
+    "hipsDesc": "Stand with feet together and measure around the fullest part of your hips.",
+    "inseamDesc": "Measure from the crotch seam to the bottom of the leg."
+  },
+  "compareDrawer": {
+    "compare": "Compare ({{count}}/3)",
+    "clear": "Clear",
+    "compareNow": "Compare Now"
+  },
+  "recentlyViewed": {
+    "title": "Recently Viewed"
+  },
+  "reviews": {
+    "customerReviews": "Customer Reviews",
+    "writeReview": "Write a Review",
+    "editReview": "Edit Your Review",
+    "editButton": "Edit Review",
+    "deleteReview": "Delete Review",
+    "signInToReview": "Sign in to Review",
+    "rating": "Rating",
+    "titleOptional": "Title (optional)",
+    "titlePlaceholder": "Summarize your experience",
+    "commentOptional": "Comment (optional)",
+    "commentPlaceholder": "Share your thoughts about this product",
+    "submitReview": "Submit Review",
+    "updateReview": "Update Review",
+    "submitting": "Submitting...",
+    "selectRating": "Please select a rating.",
+    "noReviews": "No reviews yet. Be the first to share your thoughts.",
+    "loadMore": "Load More Reviews",
+    "review": "review",
+    "reviewPlural": "reviews"
+  },
+  "completeLook": {
+    "title": "Complete the Look",
+    "shopTheSet": "Shop the Set",
+    "save": "Save {{amount}}",
+    "addBoth": "Add Both to Cart"
+  },
+  "orderTimeline": {
+    "title": "Order Timeline",
+    "orderPlaced": "Order Placed",
+    "confirmed": "Confirmed",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "This order has been cancelled.",
+    "inProgress": "In progress"
+  },
+  "filters": {
+    "title": "Filters",
+    "priceRange": "Price Range",
+    "colors": "Colors",
+    "sizes": "Sizes",
+    "clearAllFilters": "Clear All Filters",
+    "clearAll": "Clear all",
+    "showResults": "Show Results"
+  },
+  "footer": {
+    "brandDesc": "Luxury streetwear for those who move with purpose. Every piece is crafted from premium materials, designed to elevate your everyday.",
+    "shop": "Shop",
+    "allProducts": "All Products",
+    "hoodies": "Hoodies",
+    "pants": "Pants",
+    "sets": "Sets",
+    "customerCare": "Customer Care",
+    "contactUs": "Contact Us",
+    "shippingReturns": "Shipping & Returns",
+    "termsConditions": "Terms & Conditions",
+    "returnPolicy": "Return Policy",
+    "faq": "FAQ",
+    "stayConnected": "Stay Connected",
+    "newsletterDesc": "Subscribe for exclusive drops and early access.",
+    "join": "Join",
+    "welcomeFamily": "Welcome to the family."
+  },
+  "countries": {
+    "CA": "Canada",
+    "US": "United States",
+    "GB": "United Kingdom",
+    "FR": "France"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "totalRevenue": "Total Revenue",
+      "totalOrders": "Total Orders",
+      "customers": "Customers",
+      "avgOrderValue": "Avg Order Value",
+      "revenue": "Revenue",
+      "topProducts": "Top Products",
+      "recentOrders": "Recent Orders",
+      "recentReviews": "Recent Reviews",
+      "manage": "Manage",
+      "products": "Products",
+      "orders": "Orders",
+      "noProductData": "No product data yet",
+      "noOrders": "No orders yet",
+      "noReviews": "No reviews yet",
+      "viewAll": "View all",
+      "sold": "{{count}} sold",
+      "ordersInPeriod": "{{count}} orders in period",
+      "ordersInPeriod_one": "{{count}} order in period",
+      "reviewCount": "{{count}} reviews",
+      "reviewCount_one": "{{count}} review",
+      "allTime": "All time",
+      "registered": "Registered",
+      "perOrder": "Per order"
+    },
+    "products": {
+      "title": "Products",
+      "addProduct": "Add Product",
+      "deleteProduct": "Delete Product",
+      "deleteConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "deleting": "Deleting...",
+      "noProducts": "No products yet.",
+      "deactivate": "Deactivate",
+      "activate": "Activate"
+    },
+    "productEdit": {
+      "newProduct": "New Product",
+      "editProduct": "Edit Product",
+      "productName": "Product Name",
+      "price": "Price (USD)",
+      "category": "Category",
+      "description": "Description",
+      "sizes": "Sizes",
+      "colors": "Colors",
+      "images": "Images",
+      "imageUrlPlaceholder": "Image URL (e.g. /img/black_hoody_1.jpeg)",
+      "productNamePlaceholder": "e.g. Premium Black Hoodie",
+      "descriptionPlaceholder": "Product description...",
+      "pricePlaceholder": "49.99",
+      "failedSave": "Failed to save product.",
+      "activeVisible": "Product is active and visible in the shop",
+      "createProduct": "Create Product",
+      "saveChanges": "Save Changes"
+    },
+    "orders": {
+      "title": "Orders",
+      "allStatuses": "All Statuses",
+      "noOrders": "No orders found.",
+      "shipTo": "Ship to:",
+      "updateStatus": "Update Status:",
+      "itemCount": "{{count}} items",
+      "itemCount_one": "{{count}} item"
+    },
+    "reviews": {
+      "title": "Reviews",
+      "allRatings": "All Ratings",
+      "ratingStars": "{{count}} Stars",
+      "ratingStarSingle": "1 Star",
+      "noReviews": "No reviews found.",
+      "tableHeaders": {
+        "customer": "Customer",
+        "product": "Product",
+        "rating": "Rating",
+        "comment": "Comment",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "deleteReview": "Delete Review",
+      "deleteConfirmBy": "Are you sure you want to delete this review by <author>{{author}}</author> on <product>{{product}}</product>? This action cannot be undone.",
+      "deleteConfirm": "Are you sure you want to delete this review?",
+      "deleting": "Deleting...",
+      "noComment": "No comment",
+      "total": "{{count}} reviews total",
+      "total_one": "{{count}} review total"
+    }
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "lastUpdated": "Last updated: March 2026",
+    "questionsAboutTerms": "Have questions about our terms?",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptance of Terms",
+        "content": "By accessing and using the BLE$$ P website and services, you accept and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services."
+      },
+      "use": {
+        "title": "2. Use of Services",
+        "content": "You agree to use our services only for lawful purposes and in accordance with these Terms. You must not use our services in any way that could damage, disable, or impair our servers or interfere with any other party's use of our services."
+      },
+      "accounts": {
+        "title": "3. Accounts",
+        "content": "When you create an account with us, you must provide accurate and complete information. You are responsible for safeguarding the password that you use to access our services and for any activities under your account."
+      },
+      "products": {
+        "title": "4. Products and Pricing",
+        "content": "All products are subject to availability. We reserve the right to discontinue any product at any time. Prices are subject to change without notice. We make every effort to display accurate pricing, but errors may occur."
+      },
+      "orders": {
+        "title": "5. Orders and Payment",
+        "content": "By placing an order, you are making an offer to purchase. We reserve the right to accept or decline your order. Payment must be received before orders are processed. All payments are processed securely through our payment partners."
+      },
+      "shipping": {
+        "title": "6. Shipping and Delivery",
+        "content": "Shipping times are estimates and may vary. We are not responsible for delays caused by carriers or customs. Risk of loss and title pass to you upon delivery to the carrier."
+      },
+      "returns": {
+        "title": "7. Returns and Refunds",
+        "content": "Please refer to our Return Policy for detailed information about returns, exchanges, and refunds. Items must be returned within 30 days of delivery in their original condition."
+      },
+      "intellectual": {
+        "title": "8. Intellectual Property",
+        "content": "All content on our website, including text, graphics, logos, images, and software, is the property of BLE$$ P and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works without our express written permission."
+      },
+      "limitation": {
+        "title": "9. Limitation of Liability",
+        "content": "BLE$$ P shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services or products."
+      },
+      "changes": {
+        "title": "10. Changes to Terms",
+        "content": "We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting. Your continued use of our services constitutes acceptance of the modified terms."
+      }
+    }
+  },
+  "returnPolicy": {
+    "title": "Return Policy",
+    "subtitle": "Hassle-free returns within 30 days",
+    "highlights": {
+      "window": "30-Day Window",
+      "windowDesc": "From date of delivery",
+      "originalCondition": "Original Condition",
+      "originalConditionDesc": "Unworn with tags attached",
+      "freeReturns": "Free Returns",
+      "freeReturnsDesc": "On all domestic orders",
+      "refundTime": "5\u201310 Business Days",
+      "refundTimeDesc": "Refund processing time"
+    },
+    "sections": {
+      "overview": {
+        "title": "Overview",
+        "content": "At BLE$$ P, we are committed to ensuring your complete satisfaction with every purchase. We understand that sometimes an item may not meet your expectations, and we want the return process to be as seamless as possible.\n\nThis Return Policy outlines the terms and conditions for returning or exchanging products purchased through our website. Please read this policy carefully before initiating a return."
+      },
+      "eligibility": {
+        "title": "Eligibility",
+        "content": "Items are eligible for return within 30 days of the delivery date. To qualify for a return, the following conditions must be met:\n\n\u2022 The item must be unworn, unwashed, and free of any alterations.\n\u2022 All original tags and labels must be attached.\n\u2022 The item must be returned in its original packaging.\n\u2022 Proof of purchase (order confirmation email or receipt) is required.\n\nItems returned outside the 30-day window or that do not meet the above conditions may be refused or returned to you at your expense."
+      },
+      "condition": {
+        "title": "Condition Requirements",
+        "content": "We inspect all returned items upon receipt. Items must be in resalable condition to qualify for a refund or exchange. This means:\n\n\u2022 No signs of wear, including odors, stains, pet hair, or makeup marks.\n\u2022 No missing buttons, zippers, or other components.\n\u2022 Items must not have been tailored or altered in any way.\n\u2022 Shoes must be returned in their original shoe box, which must be in its original condition.\n\nWe reserve the right to decline a return if the item does not meet these requirements."
+      },
+      "process": {
+        "title": "How to Initiate a Return",
+        "content": "To start a return, please follow these steps:\n\n1. Contact our support team at returns@blessp.com or through the Contact page on our website. Include your order number and the item(s) you wish to return.\n\n2. You will receive a Return Merchandise Authorization (RMA) number along with detailed instructions and a prepaid return shipping label (for domestic orders).\n\n3. Pack the item(s) securely in their original packaging, attach the return label, and drop the package off at the designated carrier location.\n\n4. Once your return is received and inspected, we will notify you by email regarding the status of your refund or exchange.\n\nPlease do not send items back without first obtaining an RMA number, as unauthorized returns may not be processed."
+      },
+      "refunds": {
+        "title": "Refund Process",
+        "content": "Approved refunds will be issued to your original payment method. Please allow 5 to 10 business days for the refund to appear on your statement after we have processed the return.\n\n\u2022 Credit/debit card refunds may take an additional 2 to 5 business days depending on your financial institution.\n\u2022 Original shipping costs are non-refundable unless the return is due to a defect or an error on our part.\n\u2022 If you paid using a promotional code or gift card, the refund will be issued as store credit.\n\nYou will receive an email confirmation once your refund has been processed."
+      },
+      "exchanges": {
+        "title": "Exchanges",
+        "content": "We offer exchanges for a different size or color of the same item, subject to availability. To request an exchange, please follow the same process as a return and indicate your preferred replacement item.\n\nIf the requested item is not available, we will issue a full refund to your original payment method.\n\nExchanges are processed within 3 to 5 business days of receiving the returned item. A new order confirmation will be sent to your email with updated tracking information."
+      },
+      "nonReturnable": {
+        "title": "Non-Returnable Items",
+        "content": "The following items are final sale and cannot be returned or exchanged:\n\n\u2022 Items marked as \"Final Sale\" or purchased during clearance promotions.\n\u2022 Gift cards.\n\u2022 Intimate apparel and swimwear (for hygiene reasons).\n\u2022 Items that have been personalized or customized.\n\u2022 Items purchased through third-party retailers (please refer to the retailer's return policy).\n\nPlease review product descriptions carefully before purchasing, as non-returnable items will be clearly indicated on the product page."
+      },
+      "damaged": {
+        "title": "Damaged or Defective Items",
+        "content": "If you receive an item that is damaged, defective, or incorrect, please contact us within 48 hours of delivery. Include your order number, a description of the issue, and photographs of the item and packaging.\n\nWe will arrange for a prepaid return label at no cost to you and, depending on your preference, provide a replacement item or a full refund, including any original shipping charges.\n\nQuality is at the core of everything we do, and we take reports of defective items very seriously. Your feedback helps us maintain the standards our customers expect."
+      },
+      "contact": {
+        "title": "Contact for Returns",
+        "content": "For any questions or concerns regarding returns and exchanges, our team is here to help."
+      }
+    },
+    "contactInfo": {
+      "department": "Returns Department",
+      "generalInquiries": "General inquiries:",
+      "responseTime": "Response time: within 24 to 48 business hours"
+    },
+    "needHelp": "Need further assistance?",
+    "viewTerms": "Terms & Conditions"
+  },
+  "paymentMethods": {
+    "title": "Payment Methods",
+    "backToProfile": "Profile",
+    "emptyTitle": "No saved payment methods",
+    "emptyDescription": "Add a credit or debit card to speed up your future purchases.",
+    "addCard": "Add Card",
+    "newCard": "New Card",
+    "saveCard": "Save Card",
+    "addCardError": "Failed to add card. Please try again.",
+    "fetchError": "Failed to load your payment methods.",
+    "defaultError": "Failed to set as default.",
+    "deleteError": "Failed to delete payment method.",
+    "cardEnding": "ending in",
+    "default": "Default",
+    "setDefault": "Set Default",
+    "remove": "Remove",
+    "removeTitle": "Remove Payment Method",
+    "removeConfirm": "Are you sure you want to remove this card? This action cannot be undone."
+  },
+  "emailPreferences": {
+    "title": "Email Preferences",
+    "subtitle": "Choose which email notifications you would like to receive.",
+    "backToProfile": "Profile",
+    "orderUpdates": "Order Updates",
+    "orderUpdatesDesc": "Receive notifications about your order status, shipments, and deliveries.",
+    "promotions": "Promotions",
+    "promotionsDesc": "Stay informed about sales, exclusive offers, and promo codes.",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Receive our newsletter with the latest trends, new arrivals, and inspiration.",
+    "loyaltyAlerts": "Loyalty Alerts",
+    "loyaltyAlertsDesc": "Receive notifications about your loyalty points, tier changes, and rewards.",
+    "save": "Save Preferences",
+    "saved": "Preferences saved successfully.",
+    "saveError": "Failed to save preferences."
+  },
+  "productCard": {
+    "noImage": "No image"
+  },
+  "language": {
+    "en": "English",
+    "fr": "Francais"
+  }
+}

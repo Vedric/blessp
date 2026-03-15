@@ -2,10 +2,12 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 
 export default function SignInPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -18,9 +20,9 @@ export default function SignInPage() {
 
   const validateFields = (): boolean => {
     const errs: { email?: string; password?: string } = {};
-    if (!email.trim()) errs.email = 'Email is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Please enter a valid email.';
-    if (!password) errs.password = 'Password is required.';
+    if (!email.trim()) errs.email = t('auth.signIn.emailRequired');
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = t('auth.signIn.emailInvalid');
+    if (!password) errs.password = t('auth.signIn.passwordRequired');
     setFieldErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -36,7 +38,7 @@ export default function SignInPage() {
       navigate('/');
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setError(apiErr.message || 'Invalid email or password.');
+      setError(apiErr.message || t('auth.signIn.invalidCredentials'));
     } finally {
       setIsLoading(false);
     }
@@ -55,10 +57,10 @@ export default function SignInPage() {
 
         <div className="text-center">
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            Welcome Back
+            {t('auth.signIn.title')}
           </h1>
           <p className="mt-2 text-sm text-neutral-500">
-            Sign in to your BLE$$ P account
+            {t('auth.signIn.subtitle')}
           </p>
         </div>
 
@@ -76,7 +78,7 @@ export default function SignInPage() {
                   <div>
                     <p className="text-sm font-medium text-red-700">{error}</p>
                     <p className="mt-1 text-xs text-red-500">
-                      Please check your credentials and try again.
+                      {t('auth.signIn.checkCredentials')}
                     </p>
                   </div>
                 </div>
@@ -89,7 +91,7 @@ export default function SignInPage() {
               htmlFor="email"
               className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
             >
-              Email
+              {t('auth.signIn.emailLabel')}
             </label>
             <input
               id="email"
@@ -105,7 +107,7 @@ export default function SignInPage() {
                 'mt-2 block w-full border bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
                 fieldErrors.email ? 'border-red-300' : 'border-neutral-200',
               )}
-              placeholder="you@example.com"
+              placeholder={t('auth.signIn.emailPlaceholder')}
             />
             <AnimatePresence>
               {fieldErrors.email && (
@@ -127,13 +129,13 @@ export default function SignInPage() {
                 htmlFor="password"
                 className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
               >
-                Password
+                {t('auth.signIn.passwordLabel')}
               </label>
               <Link
                 to="/forgot-password"
                 className="text-xs text-[#c8a97e] transition-colors hover:text-neutral-900"
               >
-                Forgot password?
+                {t('auth.signIn.forgotPassword')}
               </Link>
             </div>
             <div className="relative">
@@ -151,7 +153,7 @@ export default function SignInPage() {
                   'mt-2 block w-full border bg-transparent px-4 py-3 pr-12 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
                   fieldErrors.password ? 'border-red-300' : 'border-neutral-200',
                 )}
-                placeholder="Enter your password"
+                placeholder={t('auth.signIn.passwordPlaceholder')}
               />
               <button
                 type="button"
@@ -185,21 +187,21 @@ export default function SignInPage() {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in...
+                {t('auth.signIn.submitting')}
               </>
             ) : (
-              'Sign In'
+              t('auth.signIn.submitButton')
             )}
           </motion.button>
         </form>
 
         <p className="mt-8 text-center text-sm text-neutral-500">
-          Don&apos;t have an account?{' '}
+          {t('auth.signIn.noAccount')}{' '}
           <Link
             to="/signup"
             className="font-medium text-neutral-900 underline underline-offset-4 transition-colors hover:text-[#c8a97e]"
           >
-            Sign Up
+            {t('common.signUp')}
           </Link>
         </p>
       </motion.div>

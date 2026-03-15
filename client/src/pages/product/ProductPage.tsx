@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Minus, Plus, ShoppingBag, ChevronDown, Ruler } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
@@ -27,6 +28,7 @@ const slideUp = {
 };
 
 export default function ProductPage() {
+  const { t } = useTranslation();
   const { id: productId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -161,7 +163,7 @@ export default function ProductPage() {
   if (!product) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-neutral-500">Product not found.</p>
+        <p className="text-neutral-500">{t('product.notFound')}</p>
       </div>
     );
   }
@@ -189,8 +191,8 @@ export default function ProductPage() {
       <div className="mb-8">
         <Breadcrumbs
           items={[
-            { label: 'Home', href: '/' },
-            { label: 'Shop', href: '/shop' },
+            { label: t('common.home'), href: '/' },
+            { label: t('common.shop'), href: '/shop' },
             ...(product.category
               ? [{ label: product.category, href: `/shop?category=${product.category}` }]
               : []),
@@ -272,15 +274,15 @@ export default function ProductPage() {
               >
                 {isOutOfStock ? (
                   <span className="inline-block rounded-sm bg-neutral-900 px-3 py-1 text-xs font-medium tracking-wider text-white uppercase">
-                    Out of Stock
+                    {t('product.outOfStock')}
                   </span>
                 ) : isLowStock ? (
                   <span className="inline-block rounded-sm bg-[#c8a97e]/15 px-3 py-1 text-xs font-medium tracking-wider text-[#c8a97e] uppercase">
-                    Only {currentStock} left!
+                    {t('product.onlyXLeft', { count: currentStock })}
                   </span>
                 ) : (
                   <span className="inline-block rounded-sm bg-emerald-50 px-3 py-1 text-xs font-medium tracking-wider text-emerald-700 uppercase">
-                    In Stock
+                    {t('product.inStock')}
                   </span>
                 )}
               </motion.div>
@@ -291,7 +293,7 @@ export default function ProductPage() {
           {colorVariants.length > 0 && (
             <div className="mt-8">
               <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Color: {selectedColor}
+                {t('product.color')}: {selectedColor}
               </p>
               <div className="mt-3 flex gap-3">
                 {colorVariants.map(({ color, product: targetProduct }) => {
@@ -349,7 +351,7 @@ export default function ProductPage() {
           {product.sizes.length > 0 && (
             <div className="mt-8">
               <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Size
+                {t('product.size')}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.sizes.map((size) => {
@@ -382,7 +384,7 @@ export default function ProductPage() {
                 className="mt-3 inline-flex items-center gap-1.5 text-xs text-neutral-500 transition-colors hover:text-[#c8a97e]"
               >
                 <Ruler className="h-3.5 w-3.5" />
-                Size Guide
+                {t('product.sizeGuide')}
               </button>
             </div>
           )}
@@ -390,7 +392,7 @@ export default function ProductPage() {
           {/* Quantity */}
           <div className="mt-8">
             <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-              Quantity
+              {t('product.quantity')}
             </p>
             <div className="mt-3 flex items-center border border-neutral-200 w-fit">
               <button
@@ -427,7 +429,7 @@ export default function ProductPage() {
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
           >
             <ShoppingBag className="h-4 w-4" />
-            {isOutOfStock ? 'Out of Stock' : isAdding ? 'Adding...' : 'Add to Cart'}
+            {isOutOfStock ? t('product.outOfStock') : isAdding ? t('product.adding') : t('product.addToCart')}
           </motion.button>
 
           {/* Description accordion */}
@@ -437,7 +439,7 @@ export default function ProductPage() {
               className="flex w-full items-center justify-between py-5 text-left"
             >
               <span className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-                Description & Details
+                {t('product.descriptionDetails')}
               </span>
               <ChevronDown
                 className={cn(
@@ -489,7 +491,7 @@ export default function ProductPage() {
             className="font-display text-2xl font-light tracking-tight text-neutral-900 md:text-3xl"
             variants={slideUp}
           >
-            You May Also Like
+            {t('product.youMayAlsoLike')}
           </motion.h2>
           <motion.div className="mt-2 h-px w-12 bg-[#c8a97e]" variants={slideUp} />
 
