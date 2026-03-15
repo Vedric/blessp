@@ -170,6 +170,14 @@
       "tokenMissing": "Le jeton de réinitialisation est manquant. Veuillez utiliser le lien de votre courriel.",
       "genericError": "Une erreur est survenue. Le jeton est peut-être invalide ou expiré.",
       "rememberPassword": "Vous vous souvenez de votre mot de passe ?"
+    },
+    "social": {
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithApple": "Continuer avec Apple",
+      "or": "ou",
+      "googleError": "La connexion Google a échoué. Veuillez réessayer.",
+      "appleError": "La connexion Apple a échoué. Veuillez réessayer.",
+      "appleNotAvailable": "La connexion Apple n'est pas disponible."
     }
   },
   "shop": {

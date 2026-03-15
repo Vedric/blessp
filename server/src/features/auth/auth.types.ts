@@ -29,3 +29,11 @@ export interface AuthUserResponse {
   isAdmin: boolean;
   createdAt: Date;
 }
+
+export interface OAuthLoginDto {
+  provider: 'google' | 'apple';
+  providerAccountId: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+}

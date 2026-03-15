@@ -2,9 +2,9 @@ import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 import { prisma } from '../../core/database/client';
 import { EmailAlreadyTakenError, InvalidCredentialsError } from '../../core/errors/domain.errors';
-import { UnauthorizedError } from '../../core/errors/http.errors';
+import { UnauthorizedError, ValidationError } from '../../core/errors/http.errors';
 import { AuthRepository } from './auth.repository';
-import { RegisterDto, LoginDto, TokenPair, AccessTokenPayload, AuthUserResponse } from './auth.types';
+import { RegisterDto, LoginDto, TokenPair, AccessTokenPayload, AuthUserResponse, OAuthLoginDto } from './auth.types';
 import { HashService } from '../../core/security/hash.service';
 import { TokenService } from '../../core/security/token.service';
 import { logger } from '../../core/observability/logger';
@@ -58,11 +58,114 @@ export class AuthService {
       throw new InvalidCredentialsError();
     }
 
+    // OAuth-only users cannot sign in with email/password
+    if (!user.passwordHash) {
+      throw new InvalidCredentialsError();
+    }
+
     const isValid = await this.hashService.verify(user.passwordHash, dto.password);
 
     if (!isValid) {
       throw new InvalidCredentialsError();
     }
+
+    const tokens = await this.issueTokenPair(user.id, user.email, user.isAdmin);
+
+    return {
+      user: this.toAuthUserResponse(user),
+      tokens,
+    };
+  }
+
+  async oauthLogin(dto: OAuthLoginDto): Promise<{ user: AuthUserResponse; tokens: TokenPair }> {
+    // Check if this OAuth account already exists
+    const existingOAuth = await prisma.oAuthAccount.findUnique({
+      where: {
+        provider_providerAccountId: {
+          provider: dto.provider,
+          providerAccountId: dto.providerAccountId,
+        },
+      },
+      include: { user: true },
+    });
+
+    if (existingOAuth) {
+      // Existing OAuth user: check not deleted
+      if (existingOAuth.user.deletedAt) {
+        throw new UnauthorizedError('This account has been deactivated.');
+      }
+
+      const tokens = await this.issueTokenPair(
+        existingOAuth.user.id,
+        existingOAuth.user.email,
+        existingOAuth.user.isAdmin,
+      );
+
+      return {
+        user: this.toAuthUserResponse(existingOAuth.user),
+        tokens,
+      };
+    }
+
+    // Check if a user with this email already exists (account linking)
+    const existingUser = await prisma.user.findUnique({
+      where: { email: dto.email, deletedAt: null },
+    });
+
+    if (existingUser) {
+      // Link the OAuth provider to the existing account
+      await prisma.oAuthAccount.create({
+        data: {
+          userId: existingUser.id,
+          provider: dto.provider,
+          providerAccountId: dto.providerAccountId,
+        },
+      });
+
+      logger.info(
+        { userId: existingUser.id, provider: dto.provider },
+        'OAuth provider linked to existing account',
+      );
+
+      const tokens = await this.issueTokenPair(
+        existingUser.id,
+        existingUser.email,
+        existingUser.isAdmin,
+      );
+
+      return {
+        user: this.toAuthUserResponse(existingUser),
+        tokens,
+      };
+    }
+
+    // New user: create account + OAuth link
+    if (!dto.firstName || !dto.lastName) {
+      throw new ValidationError('First name and last name are required for new accounts.', {});
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        email: dto.email,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        oauthAccounts: {
+          create: {
+            provider: dto.provider,
+            providerAccountId: dto.providerAccountId,
+          },
+        },
+      },
+    });
+
+    logger.info(
+      { userId: user.id, provider: dto.provider },
+      'New user registered via OAuth',
+    );
+
+    sendWelcomeEmail({ email: user.email, firstName: user.firstName }).catch((err) => {
+      logger.error({ err, userId: user.id }, 'Failed to send welcome email');
+    });
 
     const tokens = await this.issueTokenPair(user.id, user.email, user.isAdmin);
 

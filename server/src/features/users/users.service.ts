@@ -1,4 +1,4 @@
-import { NotFoundError, ConflictError } from '../../core/errors/http.errors';
+import { NotFoundError, ConflictError, ValidationError } from '../../core/errors/http.errors';
 import { InvalidCredentialsError } from '../../core/errors/domain.errors';
 import { HashService } from '../../core/security/hash.service';
 import { UsersRepository } from './users.repository';
@@ -57,6 +57,10 @@ export class UsersService {
       throw new NotFoundError('User', userId);
     }
 
+    if (!user.passwordHash) {
+      throw new ValidationError('Cannot change password for accounts created via social login.', {});
+    }
+
     const isValid = await this.hashService.verify(user.passwordHash, dto.currentPassword);
 
     if (!isValid) {
@@ -74,10 +78,13 @@ export class UsersService {
       throw new NotFoundError('User', userId);
     }
 
-    const isValid = await this.hashService.verify(user.passwordHash, dto.password);
+    // OAuth-only users confirm deletion without password
+    if (user.passwordHash) {
+      const isValid = await this.hashService.verify(user.passwordHash, dto.password);
 
-    if (!isValid) {
-      throw new InvalidCredentialsError();
+      if (!isValid) {
+        throw new InvalidCredentialsError();
+      }
     }
 
     // Revoke all refresh tokens so active sessions are invalidated
