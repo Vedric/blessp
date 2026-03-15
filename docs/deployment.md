@@ -30,6 +30,24 @@ Complete guide to deploying the BLE$$ P e-commerce platform in development, stag
 
 > Redis is **optional**. When `REDIS_URL` is not set, the application operates in no-op mode: caching is skipped and background email jobs are sent synchronously. No errors are raised.
 
+### Quick local setup
+
+For a streamlined local environment, we provide an automated setup script that handles JWT key generation, `.env` file creation, dependency installation, database provisioning, and seeding:
+
+```bash
+bash scripts/setup-local.sh
+```
+
+The script performs the following steps:
+1. Generates an RS256 keypair and base64-encodes the PEM files
+2. Creates `server/.env` with all required variables pre-filled
+3. Installs npm dependencies for root, server, and client
+4. Generates the Prisma client
+5. Pushes the database schema
+6. Seeds the database with sample data
+
+After the script completes, start the development servers with `npm run dev`.
+
 ## 🔧 Environment Variables
 
 All configuration is injected via environment variables. The application validates every variable at startup using **Zod** and will **refuse to start** if any required variable is missing or invalid.
@@ -59,6 +77,9 @@ The validation schema lives in `server/src/core/config/env.ts`.
 | `REDIS_URL` | `string` | (none) | Valid Redis URL if provided | 🗄️ Redis connection string (e.g., `redis://localhost:6379`). When omitted, caching and BullMQ are disabled |
 | `SERVICE_NAME` | `string` | `blessp-api` | Any string | 📊 Service name in log output |
 | `SERVICE_VERSION` | `string` | `3.0.0` | Any string | 📊 Version tag in log output |
+| `OTEL_ENABLED` | `string` | `false` | `true` or `false` | 📊 Enable OpenTelemetry tracing. When `false`, no traces are exported even if the OTLP endpoint is set |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `string` | (none) | Valid URL if provided | 📊 OTLP HTTP endpoint for exporting traces (e.g., `http://localhost:4318`). Requires `OTEL_ENABLED=true` |
+| `STRIPE_PUBLISHABLE_KEY` | `string` | (none) | Min 1 character if provided | 💳 Stripe publishable key (used by the client for Stripe Elements initialization) |
 
 ### 🔒 Security Rules for Environment Variables
 
@@ -90,14 +111,20 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
 
 STRIPE_SECRET_KEY=sk_test_placeholder
 STRIPE_WEBHOOK_SECRET=whsec_test_placeholder
+STRIPE_PUBLISHABLE_KEY=pk_test_changeme
 
 SERVICE_NAME=blessp-api
 SERVICE_VERSION=3.0.0
+
+OTEL_ENABLED=false
+# OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 ```
 
 ## 🐳 Docker Deployment (Production)
 
 The recommended production deployment uses Docker Compose with a multi-stage Dockerfile.
+
+> **Variable interpolation:** The `docker-compose.yml` file uses `${VARIABLE:-default}` syntax to read values from the root `.env` file. Credentials such as `POSTGRES_PASSWORD`, `JWT_PRIVATE_KEY_BASE64`, `JWT_PUBLIC_KEY_BASE64`, `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` must be defined in the root `.env` before running `docker compose up`. The `POSTGRES_PASSWORD` variable uses the `${POSTGRES_PASSWORD:?...}` syntax, which causes Docker Compose to fail with a clear error if the value is missing.
 
 ### Architecture
 
