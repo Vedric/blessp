@@ -209,6 +209,11 @@
     "addToCart": "Add to Cart",
     "adding": "Adding..."
   },
+  "delivery": {
+    "freeShipping": "Complimentary shipping on orders over $100",
+    "estimatedDelivery": "Estimated delivery: {{range}}",
+    "returns": "Free returns within 30 days"
+  },
   "checkout": {
     "steps": {
       "shipping": "Shipping",
@@ -250,7 +255,16 @@
     "invalidOrExpiredCode": "Invalid or expired code",
     "payment": "Payment",
     "billingSameAsShipping": "Billing address is the same as shipping",
-    "billingAddress": "Billing Address"
+    "billingAddress": "Billing Address",
+    "confirmation": {
+      "emailNotice": "A confirmation email has been sent to {{email}}. Please check your inbox for your order details.",
+      "itemsOrdered": "Items Ordered",
+      "qty": "Qty: {{count}}",
+      "shippingAddress": "Shipping Address",
+      "estimatedDelivery": "Estimated Delivery",
+      "deliveryTimeframe": "5\u20137 business days",
+      "paymentSummary": "Payment Summary"
+    }
   },
   "profile": {
     "myAccount": "My Account",
@@ -297,11 +311,13 @@
     "itemCount_one": "{{count}} item",
     "status": {
       "pending": "Pending",
+      "paid": "Paid",
       "confirmed": "Confirmed",
       "processing": "Processing",
       "shipped": "Shipped",
       "delivered": "Delivered",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
     }
   },
   "orderDetail": {
@@ -628,7 +644,10 @@
       "shipTo": "Ship to:",
       "updateStatus": "Update Status:",
       "itemCount": "{{count}} items",
-      "itemCount_one": "{{count}} item"
+      "itemCount_one": "{{count}} item",
+      "refund": "Refund",
+      "refunding": "Refunding...",
+      "confirmRefund": "Are you sure you want to refund this order? This action cannot be undone."
     },
     "reviews": {
       "title": "Reviews",

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { PaymentsService } from './payments.service';
-import { CreatePaymentIntentSchema, AttachPaymentMethodSchema } from './payments.schema';
+import { CreatePaymentIntentSchema, AttachPaymentMethodSchema, RefundOrderSchema } from './payments.schema';
 import { sendSuccess, sendCreated, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
@@ -81,6 +81,17 @@ export class PaymentsController {
       );
 
       sendSuccess(res, req, { message: 'Default payment method updated.' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  refund = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { orderId, reason } = RefundOrderSchema.parse(req.body);
+      const result = await this.paymentsService.refundOrder(orderId, reason);
+
+      sendSuccess(res, req, result);
     } catch (error) {
       next(error);
     }

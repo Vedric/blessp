@@ -49,6 +49,9 @@ const mockStripeInstance = {
     detach: jest.fn(),
     retrieve: jest.fn(),
   },
+  refunds: {
+    create: jest.fn(),
+  },
 };
 
 jest.mock('stripe', () => {
@@ -509,6 +512,64 @@ describe('PaymentsService', () => {
           default_payment_method: 'pm_preferred',
         },
       });
+    });
+  });
+
+  describe('refundOrder', () => {
+    it('throws NotFoundError when order does not exist', async () => {
+      ordersRepository.findById.mockResolvedValueOnce(null);
+
+      await expect(service.refundOrder('ord_missing')).rejects.toThrow(NotFoundError);
+    });
+
+    it('throws ValidationError when order has no transaction key', async () => {
+      ordersRepository.findById.mockResolvedValueOnce(
+        makeOrderFixture({ transactionKey: null }) as any,
+      );
+
+      await expect(service.refundOrder(orderId)).rejects.toThrow(ValidationError);
+    });
+
+    it('creates a Stripe refund and returns the refund details', async () => {
+      ordersRepository.findById.mockResolvedValueOnce(
+        makeOrderFixture({ transactionKey: 'pi_charged', totalCents: 5000 }) as any,
+      );
+      mockStripeInstance.refunds.create.mockResolvedValueOnce({
+        id: 're_test_001',
+        amount: 5000,
+      });
+
+      const result = await service.refundOrder(orderId, 'Defective item');
+
+      expect(result).toEqual({ refundId: 're_test_001', amountRefunded: 5000 });
+      expect(mockStripeInstance.refunds.create).toHaveBeenCalledWith({
+        payment_intent: 'pi_charged',
+        reason: 'requested_by_customer',
+        metadata: {
+          orderId,
+          internalReason: 'Defective item',
+        },
+      });
+    });
+
+    it('uses a default reason when none is provided', async () => {
+      ordersRepository.findById.mockResolvedValueOnce(
+        makeOrderFixture({ transactionKey: 'pi_charged' }) as any,
+      );
+      mockStripeInstance.refunds.create.mockResolvedValueOnce({
+        id: 're_test_002',
+        amount: 5000,
+      });
+
+      await service.refundOrder(orderId);
+
+      expect(mockStripeInstance.refunds.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metadata: expect.objectContaining({
+            internalReason: 'Admin-initiated refund',
+          }),
+        }),
+      );
     });
   });
 });

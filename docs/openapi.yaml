@@ -42,6 +42,8 @@ tags:
     description: Loyalty points, tiers, and redemption
   - name: Analytics
     description: Administrative dashboard analytics
+  - name: Contact
+    description: Public contact form submissions
   - name: Health
     description: Service health and readiness probes
 
@@ -329,6 +331,84 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /users/account:
+    delete:
+      operationId: deleteUserAccount
+      tags: [Users]
+      summary: Permanently delete the authenticated user's account (GDPR)
+      description: >
+        Permanently removes the authenticated user's account and all associated
+        personal data in compliance with GDPR right-to-erasure requirements.
+        The user must confirm the action by providing their current password.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccountRequest'
+      responses:
+        '204':
+          description: Account deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /users/email-preferences:
+    get:
+      operationId: getEmailPreferences
+      tags: [Users]
+      summary: Retrieve the authenticated user's email preferences
+      description: >
+        Returns the current email notification preferences for the
+        authenticated user, covering order updates, promotions,
+        newsletter, and loyalty alerts.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Email preferences retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailPreferencesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      operationId: updateEmailPreferences
+      tags: [Users]
+      summary: Update the authenticated user's email preferences
+      description: >
+        Partially updates the email notification preferences for the
+        authenticated user. Only the provided fields are modified.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmailPreferencesRequest'
+      responses:
+        '200':
+          description: Email preferences updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailPreferencesResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -1054,6 +1134,186 @@ paths:
           description: Webhook processed
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /payments/methods:
+    get:
+      operationId: listPaymentMethods
+      tags: [Payments]
+      summary: List saved payment methods for the authenticated user
+      description: >
+        Returns all payment methods saved to the authenticated user's
+        Stripe customer profile, including card brand, last four digits,
+        expiration date, and default status.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Payment methods retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PaymentMethod'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      operationId: attachPaymentMethod
+      tags: [Payments]
+      summary: Attach a payment method to the authenticated user
+      description: >
+        Associates a Stripe payment method with the authenticated user's
+        customer profile for future purchases.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachPaymentMethodRequest'
+      responses:
+        '201':
+          description: Payment method attached
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /payments/methods/{id}:
+    delete:
+      operationId: detachPaymentMethod
+      tags: [Payments]
+      summary: Detach a saved payment method
+      description: >
+        Removes a payment method from the authenticated user's Stripe
+        customer profile. The method can no longer be used for future
+        purchases.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '204':
+          description: Payment method detached
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /payments/methods/{id}/default:
+    post:
+      operationId: setDefaultPaymentMethod
+      tags: [Payments]
+      summary: Set a payment method as the default
+      description: >
+        Marks the specified payment method as the default for the
+        authenticated user. The previous default method is automatically
+        demoted.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Default payment method updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /payments/refund:
+    post:
+      operationId: refundOrder
+      tags: [Payments]
+      summary: Issue a refund for an order (admin only)
+      description: >
+        Processes a full refund for the specified order through Stripe.
+        An optional reason may be provided for audit purposes.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundOrderRequest'
+      responses:
+        '200':
+          description: Refund processed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/RefundResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Contact
+  # ──────────────────────────────────────────────
+  /contact:
+    post:
+      operationId: submitContactForm
+      tags: [Contact]
+      summary: Submit a contact form inquiry
+      description: >
+        Accepts a public contact form submission and queues it for
+        processing by the support team. Rate limited to 5 requests
+        per 15 minutes per IP address to prevent abuse.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactFormRequest'
+      responses:
+        '201':
+          description: Contact form submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
         '500':
           $ref: '#/components/responses/InternalError'
 
@@ -2279,6 +2539,55 @@ components:
           description: Must contain at least one uppercase letter and one number
       additionalProperties: false
 
+    DeleteAccountRequest:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          minLength: 1
+          description: Current password to confirm account deletion
+      additionalProperties: false
+
+    EmailPreferences:
+      type: object
+      required:
+        - orderUpdates
+        - promotions
+        - newsletter
+        - loyaltyAlerts
+      properties:
+        orderUpdates:
+          type: boolean
+          description: Receive notifications about order status changes
+          example: true
+        promotions:
+          type: boolean
+          description: Receive promotional offers and sales announcements
+          example: false
+        newsletter:
+          type: boolean
+          description: Receive the periodic newsletter
+          example: true
+        loyaltyAlerts:
+          type: boolean
+          description: Receive loyalty program tier and points notifications
+          example: true
+
+    UpdateEmailPreferencesRequest:
+      type: object
+      properties:
+        orderUpdates:
+          type: boolean
+        promotions:
+          type: boolean
+        newsletter:
+          type: boolean
+        loyaltyAlerts:
+          type: boolean
+      additionalProperties: false
+
     # ── Product ───────────────────────────────────
     Product:
       type: object
@@ -2655,11 +2964,13 @@ components:
       type: string
       enum:
         - pending
+        - paid
         - confirmed
         - processing
         - shipped
         - delivered
         - cancelled
+        - refunded
 
     OrderItem:
       type: object
@@ -2802,6 +3113,10 @@ components:
       properties:
         status:
           $ref: '#/components/schemas/OrderStatus'
+        note:
+          type: string
+          maxLength: 500
+          description: Optional note recorded alongside the status change in the order timeline
       additionalProperties: false
 
     OrderTimelineEntry:
@@ -2857,6 +3172,115 @@ components:
           maxLength: 3
           default: cad
           description: ISO 4217 currency code
+      additionalProperties: false
+
+    PaymentMethod:
+      type: object
+      required:
+        - id
+        - brand
+        - last4
+        - expMonth
+        - expYear
+        - isDefault
+      properties:
+        id:
+          type: string
+          description: Stripe payment method identifier
+          example: pm_1N2abc3DEfGhIjKl
+        brand:
+          type: string
+          description: Card brand (e.g. Visa, Mastercard, Amex)
+          example: Visa
+        last4:
+          type: string
+          description: Last four digits of the card number
+          example: '4242'
+        expMonth:
+          type: integer
+          minimum: 1
+          maximum: 12
+          description: Card expiration month
+          example: 12
+        expYear:
+          type: integer
+          description: Card expiration year
+          example: 2027
+        isDefault:
+          type: boolean
+          description: Whether this is the default payment method
+          example: true
+
+    AttachPaymentMethodRequest:
+      type: object
+      required:
+        - paymentMethodId
+      properties:
+        paymentMethodId:
+          type: string
+          minLength: 1
+          description: Stripe payment method identifier to attach
+      additionalProperties: false
+
+    RefundOrderRequest:
+      type: object
+      required:
+        - orderId
+      properties:
+        orderId:
+          type: string
+          format: uuid
+          description: Identifier of the order to refund
+        reason:
+          type: string
+          maxLength: 500
+          description: Optional reason for the refund (recorded for audit purposes)
+      additionalProperties: false
+
+    RefundResult:
+      type: object
+      required:
+        - refundId
+        - amountRefunded
+      properties:
+        refundId:
+          type: string
+          description: Stripe refund identifier
+          example: re_1N2abc3DEfGhIjKl
+        amountRefunded:
+          type: integer
+          description: Refunded amount in the smallest currency unit (e.g. cents)
+          example: 29900
+
+    # ── Contact ──────────────────────────────────
+    ContactFormRequest:
+      type: object
+      required:
+        - name
+        - email
+        - subject
+        - message
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Full name of the person submitting the inquiry
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: Contact email address
+        subject:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Subject of the inquiry
+        message:
+          type: string
+          minLength: 1
+          maxLength: 5000
+          description: Body of the contact message
       additionalProperties: false
 
     # ── Wishlist ──────────────────────────────────
@@ -3453,6 +3877,14 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/UserProfile'
+
+    EmailPreferencesResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/EmailPreferences'
 
     ProductDataResponse:
       allOf:

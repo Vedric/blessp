@@ -30,19 +30,27 @@ JWT_PUBLIC=$(cat /tmp/blessp_public.pem | base64 -w0)
 rm -f /tmp/blessp_private.pem /tmp/blessp_public.pem
 log "RS256 keypair generated."
 
-# Generate a random database password
-DB_PASS=$(openssl rand -base64 24 | tr -d '/+=' | head -c 32)
-DB_USER="blessp"
-DB_NAME="blessp"
-
 # -----------------------------------------------
 step 2 "Configuring environment files..."
 # -----------------------------------------------
 
-# Root .env (used by docker-compose for variable interpolation)
+DB_USER="blessp"
+DB_NAME="blessp"
+
+# Reuse existing DB password if .env exists (volume keeps the old password)
 if [ -f .env ]; then
-  warn ".env (root) already exists, overwriting with fresh keys."
+  EXISTING_PASS=$(grep '^POSTGRES_PASSWORD=' .env | cut -d'=' -f2-)
 fi
+
+if [ -n "${EXISTING_PASS:-}" ]; then
+  DB_PASS="$EXISTING_PASS"
+  log "Reusing existing database password from .env"
+else
+  DB_PASS=$(openssl rand -base64 24 | tr -d '/+=' | head -c 32)
+  log "Generated new database password."
+fi
+
+# Root .env (used by docker-compose for variable interpolation)
 cat > .env <<ENVEOF
 POSTGRES_USER=${DB_USER}
 POSTGRES_PASSWORD=${DB_PASS}
@@ -53,9 +61,6 @@ ENVEOF
 log ".env (root) written."
 
 # server/.env (used when running server outside Docker)
-if [ -f server/.env ]; then
-  warn "server/.env already exists, overwriting with fresh keys."
-fi
 cat > server/.env <<ENVEOF
 # Database
 DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@localhost:5433/${DB_NAME}?schema=public
@@ -96,10 +101,10 @@ log "server/.env written."
 step 3 "Starting PostgreSQL and Redis via Docker..."
 # -----------------------------------------------
 echo "    Stopping any existing containers..."
-docker compose -f docker-compose.dev.yml stop db redis 2>/dev/null || true
+docker compose -f docker-compose.dev.yml down --remove-orphans 2>/dev/null || true
 
 echo "    Starting db and redis..."
-docker compose -f docker-compose.dev.yml up db redis -d 2>&1
+docker compose -f docker-compose.dev.yml up db redis -d --no-deps 2>&1
 
 echo "    Waiting for PostgreSQL..."
 RETRIES=0

@@ -276,6 +276,53 @@ export class PaymentsService {
     }
   }
 
+  async refundOrder(orderId: string, reason?: string): Promise<{ refundId: string; amountRefunded: number }> {
+    const stripe = this.requireStripe();
+    const tracer = getTracer('payments-service');
+    const span = tracer.startSpan('refundOrder', {
+      attributes: { 'refund.orderId': orderId },
+    });
+
+    try {
+      const order = await this.ordersRepository.findById(orderId);
+
+      if (!order) {
+        throw new NotFoundError('Order', orderId);
+      }
+
+      if (!order.transactionKey) {
+        throw new ValidationError('No payment was recorded for this order.');
+      }
+
+      const refund = await stripe.refunds.create({
+        payment_intent: order.transactionKey,
+        reason: 'requested_by_customer',
+        metadata: {
+          orderId,
+          internalReason: reason ?? 'Admin-initiated refund',
+        },
+      });
+
+      logger.info(
+        { orderId, refundId: refund.id, amount: refund.amount },
+        'Stripe refund created',
+      );
+
+      span.setStatus({ code: SpanStatusCode.OK });
+
+      return {
+        refundId: refund.id,
+        amountRefunded: refund.amount,
+      };
+    } catch (error) {
+      span.recordException(error as Error);
+      span.setStatus({ code: SpanStatusCode.ERROR });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
   async handleWebhook(rawBody: Buffer, signature: string): Promise<void> {
     const stripe = this.requireStripe();
 

@@ -11,10 +11,20 @@ BLE$$ P uses **PostgreSQL 16** with **Prisma ORM 6.5** for schema management, mi
   - [refresh_tokens](#-refresh_tokens)
   - [password_reset_tokens](#-password_reset_tokens)
   - [products](#-products)
+  - [product_variants](#-product_variants)
   - [addresses](#-addresses)
   - [orders](#-orders)
   - [order_items](#-order_items)
+  - [order_status_history](#-order_status_history)
   - [cart_items](#-cart_items)
+  - [wishlist_items](#-wishlist_items)
+  - [coupons](#-coupons)
+  - [reviews](#-reviews)
+  - [newsletter_subscriptions](#-newsletter_subscriptions)
+  - [loyalty_transactions](#-loyalty_transactions)
+  - [stripe_customers](#-stripe_customers)
+  - [email_preferences](#-email_preferences)
+  - [contact_messages](#-contact_messages)
 - [Relationships](#-relationships)
 - [Indexes](#-indexes)
 - [Design Decisions](#-design-decisions)
@@ -32,6 +42,7 @@ erDiagram
         VARCHAR first_name
         VARCHAR last_name
         BOOLEAN is_admin "default false"
+        INTEGER loyalty_points "default 0"
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
         TIMESTAMPTZ deleted_at "soft delete"
@@ -135,15 +146,117 @@ erDiagram
         TIMESTAMPTZ created_at
     }
 
+    product_variants {
+        UUID id PK
+        UUID product_id FK
+        VARCHAR size
+        VARCHAR color
+        INTEGER stock "default 0"
+        VARCHAR sku "optional"
+    }
+
+    wishlist_items {
+        UUID id PK
+        UUID user_id FK
+        UUID product_id FK
+        TIMESTAMPTZ created_at
+    }
+
+    coupons {
+        UUID id PK
+        VARCHAR code UK
+        VARCHAR discount_type "percentage or fixed"
+        INTEGER discount_value
+        INTEGER min_order_cents "optional"
+        INTEGER max_uses "optional"
+        INTEGER current_uses "default 0"
+        BOOLEAN is_active "default true"
+        TIMESTAMPTZ expires_at "optional"
+        TIMESTAMPTZ created_at
+    }
+
+    reviews {
+        UUID id PK
+        UUID user_id FK
+        UUID product_id FK
+        INTEGER rating "1 to 5"
+        VARCHAR title "optional"
+        TEXT comment "optional"
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    newsletter_subscriptions {
+        UUID id PK
+        VARCHAR email UK
+        BOOLEAN is_active "default true"
+        TIMESTAMPTZ created_at
+    }
+
+    loyalty_transactions {
+        UUID id PK
+        UUID user_id FK
+        INTEGER points "positive or negative"
+        VARCHAR type "earned redeemed bonus"
+        VARCHAR description
+        UUID order_id "optional"
+        TIMESTAMPTZ created_at
+    }
+
+    stripe_customers {
+        UUID id PK
+        UUID user_id FK UK
+        VARCHAR stripe_customer_id UK
+        TIMESTAMPTZ created_at
+    }
+
+    email_preferences {
+        UUID id PK
+        UUID user_id FK UK
+        BOOLEAN order_updates "default true"
+        BOOLEAN promotions "default true"
+        BOOLEAN newsletter "default true"
+        BOOLEAN loyalty_alerts "default true"
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    contact_messages {
+        UUID id PK
+        VARCHAR name
+        VARCHAR email
+        VARCHAR subject
+        TEXT message
+        TIMESTAMPTZ read_at "optional"
+        TIMESTAMPTZ created_at
+    }
+
+    order_status_history {
+        UUID id PK
+        UUID order_id FK
+        VARCHAR status
+        VARCHAR note "optional"
+        TIMESTAMPTZ created_at
+    }
+
     users ||--o{ sessions : "has"
     users ||--o{ refresh_tokens : "has"
     users ||--o{ password_reset_tokens : "has"
     users ||--o{ addresses : "has"
     users ||--o{ orders : "places"
     users ||--o{ cart_items : "owns"
+    users ||--o{ wishlist_items : "has"
+    users ||--o{ reviews : "writes"
+    users ||--o{ loyalty_transactions : "earns"
+    users ||--o| stripe_customers : "has"
+    users ||--o| email_preferences : "has"
     products ||--o{ cart_items : "in cart"
+    products ||--o{ wishlist_items : "wishlisted"
+    products ||--o{ reviews : "reviewed"
+    products ||--o{ product_variants : "has variants"
     products ||--o{ order_items : "ordered (SET NULL)"
     orders ||--o{ order_items : "contains"
+    orders ||--o{ order_status_history : "tracks"
 ```
 
 ## 📋 Tables
@@ -160,6 +273,7 @@ Stores registered user accounts. Supports **soft deletion** via the `deleted_at`
 | `first_name` | `VARCHAR` | No | | | User's first name |
 | `last_name` | `VARCHAR` | No | | | User's last name |
 | `is_admin` | `BOOLEAN` | No | `false` | | Grants admin privileges when `true` |
+| `loyalty_points` | `INTEGER` | No | `0` | | Accumulated loyalty points balance (earned from orders, redeemed for store credit) |
 | `created_at` | `TIMESTAMPTZ` | No | `now()` | | Account creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | No | Auto-updated | | Last modification timestamp (Prisma `@updatedAt`) |
 | `deleted_at` | `TIMESTAMPTZ` | Yes | `null` | | 🗑️ Soft delete marker. Non-null means the user is deleted |

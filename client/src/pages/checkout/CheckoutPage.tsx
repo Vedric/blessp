@@ -2,7 +2,7 @@ import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ChevronRight, Tag, X, CreditCard } from 'lucide-react';
+import { Check, ChevronRight, Tag, X, CreditCard, MapPin, Package, Mail } from 'lucide-react';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { stripePromise } from '@/lib/stripe';
 import { api } from '@/lib/api';
@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useAuth } from '@/context/AuthContext';
-import type { Address, CouponValidation } from '@/lib/types';
+import type { Address, CartItem, CouponValidation } from '@/lib/types';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 interface SavedPaymentMethod {
@@ -393,7 +393,7 @@ export default function CheckoutPage() {
   const { t } = useTranslation();
   const { items, total, clearCart } = useCart();
   const { formatPrice } = useCurrency();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -407,6 +407,13 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPreparingPayment, setIsPreparingPayment] = useState(false);
   const [error, setError] = useState('');
+
+  // Snapshot of the order at confirmation time, captured before the cart is cleared
+  const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([]);
+  const [confirmedSubtotal, setConfirmedSubtotal] = useState(0);
+  const [confirmedShipping, setConfirmedShipping] = useState(0);
+  const [confirmedDiscount, setConfirmedDiscount] = useState(0);
+  const [confirmedTotal, setConfirmedTotal] = useState(0);
 
   // Coupon state
   const [promoOpen, setPromoOpen] = useState(false);
@@ -501,6 +508,13 @@ export default function CheckoutPage() {
   };
 
   const handlePaymentSuccess = () => {
+    // Capture the order snapshot before clearing so the confirmation step can display it
+    setConfirmedItems([...items]);
+    setConfirmedSubtotal(total);
+    setConfirmedShipping(shippingCents);
+    setConfirmedDiscount(discountCents);
+    setConfirmedTotal(grandTotal);
+
     clearCart();
     goNext();
   };
@@ -1003,42 +1017,163 @@ export default function CheckoutPage() {
                     animate="center"
                     exit="exit"
                     transition={{ duration: 0.3 }}
-                    className="py-12 text-center"
                   >
-                    <motion.div
-                      className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-50"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 200,
-                        damping: 15,
-                        delay: 0.2,
-                      }}
-                    >
-                      <Check className="h-10 w-10 text-green-600" />
-                    </motion.div>
+                    {/* Header with checkmark */}
+                    <div className="py-10 text-center">
+                      <motion.div
+                        className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-50"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 200,
+                          damping: 15,
+                          delay: 0.2,
+                        }}
+                      >
+                        <Check className="h-10 w-10 text-green-600" />
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                      >
+                        <h2 className="mt-8 font-display text-3xl font-light text-neutral-900">
+                          {t('checkout.orderConfirmed')}
+                        </h2>
+                        <p className="mt-3 text-neutral-500">
+                          {t('checkout.thankYou')}
+                        </p>
+                        {orderNumber && (
+                          <p className="mt-2 text-sm text-neutral-700">
+                            {t('checkout.orderNumber')}{' '}
+                            <span className="font-mono font-medium">
+                              {orderNumber.slice(0, 8).toUpperCase()}
+                            </span>
+                          </p>
+                        )}
+                      </motion.div>
+                    </div>
 
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 }}
+                      transition={{ delay: 0.6 }}
+                      className="space-y-6"
                     >
-                      <h2 className="mt-8 font-display text-3xl font-light text-neutral-900">
-                        {t('checkout.orderConfirmed')}
-                      </h2>
-                      <p className="mt-3 text-neutral-500">
-                        {t('checkout.thankYou')}
-                      </p>
-                      {orderNumber && (
-                        <p className="mt-2 text-sm text-neutral-700">
-                          {t('checkout.orderNumber')}{' '}
-                          <span className="font-mono font-medium">
-                            {orderNumber.slice(0, 8).toUpperCase()}
-                          </span>
+                      {/* Email confirmation notice */}
+                      <div className="flex items-center gap-3 border border-neutral-100 bg-neutral-50 px-5 py-4">
+                        <Mail className="h-5 w-5 flex-shrink-0 text-[#c8a97e]" />
+                        <p className="text-sm text-neutral-700">
+                          {t('checkout.confirmation.emailNotice', {
+                            email: user?.email ?? '',
+                          })}
                         </p>
+                      </div>
+
+                      {/* Items ordered */}
+                      {confirmedItems.length > 0 && (
+                        <div className="border border-neutral-100 p-6">
+                          <h3 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
+                            {t('checkout.confirmation.itemsOrdered')}
+                          </h3>
+                          <div className="mt-4 divide-y divide-neutral-100">
+                            {confirmedItems.map((item) => (
+                              <div key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
+                                <div className="h-16 w-16 flex-shrink-0 bg-neutral-50">
+                                  <img
+                                    src={item.product.picture}
+                                    alt={item.product.name}
+                                    className="h-full w-full object-cover"
+                                  />
+                                </div>
+                                <div className="flex-1 text-sm">
+                                  <p className="font-medium text-neutral-900">
+                                    {item.product.name}
+                                  </p>
+                                  <p className="mt-0.5 text-neutral-500">
+                                    {item.size && item.size}
+                                    {item.size && item.color && ', '}
+                                    {item.color && item.color}
+                                  </p>
+                                  <p className="mt-0.5 text-neutral-500">
+                                    {t('checkout.confirmation.qty', { count: item.quantity })}
+                                  </p>
+                                </div>
+                                <p className="text-sm font-medium text-neutral-900">
+                                  {formatPrice(item.product.price * item.quantity)}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       )}
-                      <div className="mt-10 flex justify-center gap-4">
+
+                      {/* Shipping address and estimated delivery */}
+                      <div className="grid gap-6 sm:grid-cols-2">
+                        <div className="border border-neutral-100 p-6">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-neutral-400" />
+                            <h3 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
+                              {t('checkout.confirmation.shippingAddress')}
+                            </h3>
+                          </div>
+                          <div className="mt-4 text-sm leading-relaxed text-neutral-700">
+                            <p className="font-medium">{shipping.firstName} {shipping.lastName}</p>
+                            <p>{shipping.addressLine1}</p>
+                            {shipping.addressLine2 && <p>{shipping.addressLine2}</p>}
+                            <p>{shipping.city}, {shipping.province} {shipping.postalCode}</p>
+                            <p>{t(`countries.${shipping.country}`)}</p>
+                          </div>
+                        </div>
+
+                        <div className="border border-neutral-100 p-6">
+                          <div className="flex items-center gap-2">
+                            <Package className="h-4 w-4 text-neutral-400" />
+                            <h3 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
+                              {t('checkout.confirmation.estimatedDelivery')}
+                            </h3>
+                          </div>
+                          <p className="mt-4 text-sm text-neutral-700">
+                            {t('checkout.confirmation.deliveryTimeframe')}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Payment summary */}
+                      <div className="border border-neutral-100 p-6">
+                        <h3 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
+                          {t('checkout.confirmation.paymentSummary')}
+                        </h3>
+                        <div className="mt-4 space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-neutral-500">{t('common.subtotal')}</span>
+                            <span className="text-neutral-900">{formatPrice(confirmedSubtotal)}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-neutral-500">{t('common.shipping')}</span>
+                            <span className="text-neutral-900">
+                              {confirmedShipping === 0 ? t('common.free') : formatPrice(confirmedShipping)}
+                            </span>
+                          </div>
+                          {confirmedDiscount > 0 && (
+                            <div className="flex justify-between text-sm">
+                              <span className="text-green-600">{t('common.discount')}</span>
+                              <span className="text-green-600">
+                                -{formatPrice(confirmedDiscount)}
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex justify-between border-t border-neutral-100 pt-2 text-sm font-medium">
+                            <span className="text-neutral-900">{t('common.total')}</span>
+                            <span className="text-neutral-900">{formatPrice(confirmedTotal)}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="flex justify-center gap-4 pt-4">
                         <button
                           onClick={() => navigate('/profile/orders')}
                           className="border border-neutral-200 px-8 py-3 text-sm font-medium tracking-widest text-neutral-700 uppercase transition-colors hover:bg-neutral-50"

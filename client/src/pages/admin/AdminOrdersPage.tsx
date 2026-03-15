@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, RotateCcw } from 'lucide-react';
 import { api } from '@/lib/api';
 import { formatPrice, formatDate, cn } from '@/lib/utils';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
@@ -15,15 +15,18 @@ const statusOptions = [
   'shipped',
   'delivered',
   'cancelled',
+  'refunded',
 ] as const;
 
 const statusStyles: Record<string, string> = {
   pending: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+  paid: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   confirmed: 'bg-blue-50 text-blue-700 border-blue-200',
   processing: 'bg-blue-50 text-blue-700 border-blue-200',
   shipped: 'bg-indigo-50 text-indigo-700 border-indigo-200',
   delivered: 'bg-green-50 text-green-700 border-green-200',
   cancelled: 'bg-neutral-50 text-neutral-500 border-neutral-200',
+  refunded: 'bg-orange-50 text-orange-700 border-orange-200',
 };
 
 const updateStatuses = [
@@ -33,6 +36,7 @@ const updateStatuses = [
   'shipped',
   'delivered',
   'cancelled',
+  'refunded',
 ];
 
 export default function AdminOrdersPage() {
@@ -43,6 +47,7 @@ export default function AdminOrdersPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [statusFilter, setStatusFilter] = useState('all');
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [refundingOrder, setRefundingOrder] = useState<string | null>(null);
 
   const fetchOrders = useCallback(async () => {
     setIsLoading(true);
@@ -53,7 +58,7 @@ export default function AdminOrdersPage() {
       if (statusFilter !== 'all') params.set('status', statusFilter);
 
       const res = await api.getRaw<PaginatedResponse<Order>>(
-        `/admin/orders?${params.toString()}`,
+        `/orders?${params.toString()}`,
       );
       setOrders(res.data);
       setTotalPages(res.pagination.totalPages);
@@ -70,7 +75,7 @@ export default function AdminOrdersPage() {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      await api.patch(`/admin/orders/${orderId}`, { status: newStatus });
+      await api.patch(`/orders/${orderId}/status`, { status: newStatus });
       setOrders((prev) =>
         prev.map((o) =>
           o.id === orderId ? { ...o, status: newStatus as Order['status'] } : o,
@@ -247,6 +252,29 @@ export default function AdminOrdersPage() {
                               </option>
                             ))}
                           </select>
+
+                          {/* Refund button for paid/delivered orders with a transaction */}
+                          {(order.status === 'paid' || order.status === 'delivered') && order.transactionKey && (
+                            <button
+                              onClick={async () => {
+                                if (!confirm(t('admin.orders.confirmRefund'))) return;
+                                setRefundingOrder(order.id);
+                                try {
+                                  await api.post('/payments/refund', { orderId: order.id });
+                                  await updateOrderStatus(order.id, 'refunded');
+                                } catch {
+                                  // Error handled by API layer
+                                } finally {
+                                  setRefundingOrder(null);
+                                }
+                              }}
+                              disabled={refundingOrder === order.id}
+                              className="ml-auto flex items-center gap-2 border border-orange-200 bg-orange-50 px-4 py-1.5 text-xs font-medium tracking-wider text-orange-700 uppercase transition-colors hover:bg-orange-100 disabled:opacity-50"
+                            >
+                              <RotateCcw className="h-3.5 w-3.5" />
+                              {refundingOrder === order.id ? t('admin.orders.refunding') : t('admin.orders.refund')}
+                            </button>
+                          )}
                         </div>
                       </div>
                     )}
