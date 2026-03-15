@@ -512,6 +512,182 @@ This means a user can have the same product in their cart multiple times **only*
 |-------|-----------|---------|
 | `cart_items_user_id_idx` | `user_id` | ⚡ Fetch the entire cart for a user |
 
+### 📦 product_variants
+
+Stores per-SKU inventory data for each size and color combination of a product. Enables granular stock tracking at the variant level rather than the product level.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique variant identifier |
+| `product_id` | `UUID` | No | | **FK** → `products.id` (CASCADE) | Parent product |
+| `size` | `VARCHAR` | No | | | Size option (e.g., `S`, `M`, `L`, `XL`) |
+| `color` | `VARCHAR` | No | | | Color option (e.g., `Black`, `Blue`, `Pink`) |
+| `stock` | `INTEGER` | No | `0` | | Available inventory count |
+| `sku` | `VARCHAR` | Yes | | | Optional stock-keeping unit code |
+
+**Unique constraint:** `(product_id, size, color)`
+
+Each product can have at most one variant record per size/color combination.
+
+**Indexes:**
+
+| Index | Column(s) | Purpose |
+|-------|-----------|---------|
+| `product_variants_product_id_idx` | `product_id` | ⚡ Fetch all variants for a product |
+| `product_variants_product_id_size_color_key` | `product_id, size, color` | Unique constraint enforcement |
+
+### 💝 wishlist_items
+
+Stores products that users have added to their wishlist. Each user can add a product to their wishlist only once.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique wishlist item identifier |
+| `user_id` | `UUID` | No | | **FK** → `users.id` (CASCADE) | Wishlist owner |
+| `product_id` | `UUID` | No | | **FK** → `products.id` (CASCADE) | Wishlisted product |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | When the product was added |
+
+**Unique constraint:** `(user_id, product_id)`
+
+**Indexes:**
+
+| Index | Column(s) | Purpose |
+|-------|-----------|---------|
+| `wishlist_items_user_id_idx` | `user_id` | ⚡ Fetch the full wishlist for a user |
+
+### 🎟️ coupons
+
+Stores discount coupon definitions. Coupons can be percentage-based or fixed-amount, with optional minimum order thresholds, usage caps, and expiration dates.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique coupon identifier |
+| `code` | `VARCHAR` | No | | **Unique** | Coupon code entered by the customer (case-sensitive) |
+| `discount_type` | `VARCHAR` | No | | | Type of discount: `percentage` or `fixed` |
+| `discount_value` | `INTEGER` | No | | | Discount amount (percentage points or cents depending on `discount_type`) |
+| `min_order_cents` | `INTEGER` | Yes | | | Minimum order total (in cents) required to use this coupon |
+| `max_uses` | `INTEGER` | Yes | | | Maximum number of times this coupon can be redeemed. `null` means unlimited |
+| `current_uses` | `INTEGER` | No | `0` | | Number of times the coupon has been redeemed |
+| `is_active` | `BOOLEAN` | No | `true` | | Whether the coupon is currently active |
+| `expires_at` | `TIMESTAMPTZ` | Yes | | | Coupon expiration date. `null` means no expiry |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Coupon creation timestamp |
+
+### ⭐ reviews
+
+Stores product reviews with ratings. Each user can submit one review per product, enforced by a unique constraint. Reviews include a numeric rating (1 to 5) and optional title and comment.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique review identifier |
+| `user_id` | `UUID` | No | | **FK** → `users.id` (CASCADE) | Review author |
+| `product_id` | `UUID` | No | | **FK** → `products.id` (CASCADE) | Reviewed product |
+| `rating` | `INTEGER` | No | | | Rating score from 1 (worst) to 5 (best) |
+| `title` | `VARCHAR` | Yes | | | Optional review headline |
+| `comment` | `TEXT` | Yes | | | Optional review body text |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Review creation timestamp |
+| `updated_at` | `TIMESTAMPTZ` | No | Auto-updated | | Last modification timestamp |
+
+**Unique constraint:** `(user_id, product_id)`
+
+One review per user per product. Updating a review replaces the existing one.
+
+**Indexes:**
+
+| Index | Column(s) | Purpose |
+|-------|-----------|---------|
+| `reviews_product_id_idx` | `product_id` | ⚡ Fetch all reviews for a product |
+| `reviews_user_id_idx` | `user_id` | ⚡ Fetch all reviews by a user |
+
+### 📧 newsletter_subscriptions
+
+Stores newsletter email subscriptions. Subscriptions can be deactivated (soft unsubscribe) and reactivated without losing the record.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique subscription identifier |
+| `email` | `VARCHAR` | No | | **Unique** | Subscriber email address |
+| `is_active` | `BOOLEAN` | No | `true` | | Whether the subscription is currently active |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Subscription creation timestamp |
+
+### 🏆 loyalty_transactions
+
+Records all loyalty point movements for users. Points are earned from completed orders and can be redeemed for store credit. Each transaction stores a signed integer: positive for earned/bonus points, negative for redemptions.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique transaction identifier |
+| `user_id` | `UUID` | No | | **FK** → `users.id` (CASCADE) | User who earned or redeemed points |
+| `points` | `INTEGER` | No | | | Point delta (positive for earned/bonus, negative for redeemed) |
+| `type` | `VARCHAR` | No | | | Transaction type: `earned`, `redeemed`, or `bonus` |
+| `description` | `VARCHAR` | No | | | Human-readable description of the transaction |
+| `order_id` | `UUID` | Yes | | | Associated order ID (for earned points) |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Transaction timestamp |
+
+**Indexes:**
+
+| Index | Column(s) | Purpose |
+|-------|-----------|---------|
+| `loyalty_transactions_user_id_idx` | `user_id` | ⚡ Fetch all transactions for a user |
+| `loyalty_transactions_order_id_idx` | `order_id` | ⚡ Look up points earned for a specific order |
+
+### 📊 order_status_history
+
+Tracks order status transitions over time. Each time an order's status changes, a new row is inserted, creating a complete audit trail of the order lifecycle.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique history entry identifier |
+| `order_id` | `UUID` | No | | **FK** → `orders.id` (CASCADE) | Parent order |
+| `status` | `VARCHAR` | No | | | The status the order transitioned to |
+| `note` | `VARCHAR` | Yes | | | Optional note about the transition (e.g., "Tracking number added") |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Timestamp of the status change |
+
+**Indexes:**
+
+| Index | Column(s) | Purpose |
+|-------|-----------|---------|
+| `order_status_history_order_id_idx` | `order_id` | ⚡ Fetch full status history for an order |
+
+### 💳 stripe_customers
+
+Maps each user to their Stripe customer record. Created lazily when a user first interacts with Stripe (saves a payment method or creates a PaymentIntent). Each user has at most one Stripe customer.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique record identifier |
+| `user_id` | `UUID` | No | | **FK** → `users.id` (CASCADE), **Unique** | Owning user (one-to-one) |
+| `stripe_customer_id` | `VARCHAR` | No | | **Unique** | Stripe customer ID (e.g., `cus_abc123`) |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Record creation timestamp |
+
+### 📩 email_preferences
+
+Stores per-user email notification preferences. Created with default values (all channels enabled) when a user first accesses or updates their preferences. Each user has at most one preference record.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique record identifier |
+| `user_id` | `UUID` | No | | **FK** → `users.id` (CASCADE), **Unique** | Owning user (one-to-one) |
+| `order_updates` | `BOOLEAN` | No | `true` | | Receive emails about order status changes |
+| `promotions` | `BOOLEAN` | No | `true` | | Receive promotional and marketing emails |
+| `newsletter` | `BOOLEAN` | No | `true` | | Receive the periodic newsletter |
+| `loyalty_alerts` | `BOOLEAN` | No | `true` | | Receive loyalty tier changes and points notifications |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Record creation timestamp |
+| `updated_at` | `TIMESTAMPTZ` | No | Auto-updated | | Last modification timestamp |
+
+### 📬 contact_messages
+
+Stores messages submitted through the public contact form. Messages are not tied to a user account (the form is public). The `read_at` column allows the admin team to track which messages have been reviewed.
+
+| Column | Type | Nullable | Default | Constraints | Description |
+|--------|------|----------|---------|-------------|-------------|
+| `id` | `UUID` | No | `uuid_generate_v4()` | **Primary Key** | Unique message identifier |
+| `name` | `VARCHAR` | No | | | Sender's name |
+| `email` | `VARCHAR` | No | | | Sender's email address |
+| `subject` | `VARCHAR` | No | | | Message subject line |
+| `message` | `TEXT` | No | | | Message body |
+| `read_at` | `TIMESTAMPTZ` | Yes | `null` | | Timestamp when the admin read the message. `null` means unread |
+| `created_at` | `TIMESTAMPTZ` | No | `now()` | | Message submission timestamp |
+
 ## 🔗 Relationships
 
 All foreign keys enforce referential integrity at the database level. The `ON DELETE` behavior varies by relationship.
@@ -524,9 +700,18 @@ All foreign keys enforce referential integrity at the database level. The `ON DE
 | `users` | `addresses` | One → Many | `CASCADE` | Addresses belong exclusively to the user |
 | `users` | `orders` | One → Many | `CASCADE` | Orders are tied to the customer |
 | `users` | `cart_items` | One → Many | `CASCADE` | Cart items belong exclusively to the user |
+| `users` | `wishlist_items` | One → Many | `CASCADE` | Wishlist items belong exclusively to the user |
+| `users` | `reviews` | One → Many | `CASCADE` | Reviews are authored by a specific user |
+| `users` | `loyalty_transactions` | One → Many | `CASCADE` | Point transactions belong to the user |
+| `users` | `stripe_customers` | One → One | `CASCADE` | Stripe mapping is meaningless without the user |
+| `users` | `email_preferences` | One → One | `CASCADE` | Preferences belong exclusively to the user |
 | `products` | `cart_items` | One → Many | `CASCADE` | If a product is removed, clear it from all carts |
+| `products` | `wishlist_items` | One → Many | `CASCADE` | If a product is removed, clear it from wishlists |
+| `products` | `reviews` | One → Many | `CASCADE` | If a product is removed, its reviews are removed |
+| `products` | `product_variants` | One → Many | `CASCADE` | Variants belong to the product |
 | `products` | `order_items` | One → Many | `SET NULL` | Preserve order history; set `product_id` to null |
 | `orders` | `order_items` | One → Many | `CASCADE` | Line items are part of the order |
+| `orders` | `order_status_history` | One → Many | `CASCADE` | Status history is part of the order |
 
 ### 🔗 Relationship Diagram (simplified)
 
@@ -538,8 +723,17 @@ graph LR
     U -->|"1:N CASCADE"| A["📫 addresses"]
     U -->|"1:N CASCADE"| O["📦 orders"]
     U -->|"1:N CASCADE"| CI["🛒 cart_items"]
+    U -->|"1:N CASCADE"| WI["💝 wishlist_items"]
+    U -->|"1:N CASCADE"| RV["⭐ reviews"]
+    U -->|"1:N CASCADE"| LT["🏆 loyalty_transactions"]
+    U -->|"1:1 CASCADE"| SC["💳 stripe_customers"]
+    U -->|"1:1 CASCADE"| EP["📩 email_preferences"]
     O -->|"1:N CASCADE"| OI["📝 order_items"]
+    O -->|"1:N CASCADE"| OSH["📊 order_status_history"]
     P["🛍️ products"] -->|"1:N CASCADE"| CI
+    P -->|"1:N CASCADE"| WI
+    P -->|"1:N CASCADE"| RV
+    P -->|"1:N CASCADE"| PV["📦 product_variants"]
     P -->|"1:N SET NULL"| OI
 
     style U fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
@@ -551,6 +745,13 @@ graph LR
     style A fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
     style CI fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
     style OI fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
+    style WI fill:#1e293b,stroke:#fb923c,stroke-width:2px,color:#e2e8f0
+    style RV fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#e2e8f0
+    style LT fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#e2e8f0
+    style SC fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style EP fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0
+    style PV fill:#1e293b,stroke:#38bdf8,stroke-width:1px,color:#e2e8f0
+    style OSH fill:#1e293b,stroke:#34d399,stroke-width:1px,color:#e2e8f0
 ```
 
 ## 📇 Indexes
@@ -577,6 +778,21 @@ Every index in the schema exists for a specific performance reason. The table be
 | `order_items` | `order_items_order_id_idx` | `order_id` | B-tree | 🔍 Fetch line items for an order |
 | `cart_items` | `cart_items_user_id_idx` | `user_id` | B-tree | 🔍 Load entire cart for a user |
 | `cart_items` | `cart_items_user_id_product_id_size_color_key` | `user_id, product_id, size, color` | Unique | 🔍 Prevent duplicate variants in the cart |
+| `wishlist_items` | `wishlist_items_user_id_idx` | `user_id` | B-tree | 🔍 Fetch the full wishlist for a user |
+| `wishlist_items` | `wishlist_items_user_id_product_id_key` | `user_id, product_id` | Unique | 🔍 Prevent duplicate wishlist entries |
+| `coupons` | `coupons_code_key` | `code` | Unique | 🔍 Coupon code lookup during validation |
+| `reviews` | `reviews_product_id_idx` | `product_id` | B-tree | 🔍 Fetch all reviews for a product |
+| `reviews` | `reviews_user_id_idx` | `user_id` | B-tree | 🔍 Fetch all reviews by a user |
+| `reviews` | `reviews_user_id_product_id_key` | `user_id, product_id` | Unique | 🔍 One review per user per product |
+| `newsletter_subscriptions` | `newsletter_subscriptions_email_key` | `email` | Unique | 🔍 Subscription lookup and duplicate prevention |
+| `product_variants` | `product_variants_product_id_idx` | `product_id` | B-tree | 🔍 Fetch all variants for a product |
+| `product_variants` | `product_variants_product_id_size_color_key` | `product_id, size, color` | Unique | 🔍 One variant per size/color combination |
+| `loyalty_transactions` | `loyalty_transactions_user_id_idx` | `user_id` | B-tree | 🔍 Fetch all transactions for a user |
+| `loyalty_transactions` | `loyalty_transactions_order_id_idx` | `order_id` | B-tree | 🔍 Points earned for a specific order |
+| `order_status_history` | `order_status_history_order_id_idx` | `order_id` | B-tree | 🔍 Fetch full status history for an order |
+| `stripe_customers` | `stripe_customers_user_id_key` | `user_id` | Unique | 🔍 Lookup Stripe customer by user |
+| `stripe_customers` | `stripe_customers_stripe_customer_id_key` | `stripe_customer_id` | Unique | 🔍 Reverse lookup by Stripe ID |
+| `email_preferences` | `email_preferences_user_id_key` | `user_id` | Unique | 🔍 Lookup preferences by user |
 
 ## 🧠 Design Decisions
 
