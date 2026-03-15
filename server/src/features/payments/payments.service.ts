@@ -58,6 +58,22 @@ export class PaymentsService {
 
       span.setAttribute('payment.amount', order.totalCents);
 
+      // If the order already has a transaction key, retrieve the existing intent
+      // to prevent duplicate charges on retries
+      if (order.transactionKey) {
+        const existingIntent = await this.stripe.paymentIntents.retrieve(order.transactionKey);
+
+        if (existingIntent.status !== 'canceled') {
+          span.setStatus({ code: SpanStatusCode.OK });
+          return {
+            clientSecret: existingIntent.client_secret!,
+            paymentIntentId: existingIntent.id,
+            amount: existingIntent.amount,
+            currency: existingIntent.currency,
+          };
+        }
+      }
+
       const paymentIntent = await this.stripe.paymentIntents.create({
         amount: order.totalCents,
         currency,
@@ -112,6 +128,13 @@ export class PaymentsService {
 
         if (orderId) {
           const order = await this.ordersRepository.findById(orderId);
+
+          // Skip if already processed (idempotency)
+          if (order && order.status === 'paid') {
+            logger.info({ orderId }, 'Payment already processed, skipping duplicate webhook');
+            break;
+          }
+
           await this.ordersRepository.updateStatus(orderId, 'paid');
           logger.info({ orderId, paymentIntentId: paymentIntent.id }, 'Payment succeeded, order marked as paid');
 
@@ -136,6 +159,20 @@ export class PaymentsService {
           logger.warn(
             { orderId, paymentIntentId: paymentIntent.id },
             'Payment failed, order marked as cancelled',
+          );
+        }
+        break;
+      }
+
+      case 'charge.refunded': {
+        const charge = event.data.object as Stripe.Charge;
+        const orderId = charge.metadata?.orderId;
+
+        if (orderId) {
+          await this.ordersRepository.updateStatus(orderId, 'cancelled');
+          logger.info(
+            { orderId, chargeId: charge.id, amountRefunded: charge.amount_refunded },
+            'Charge refunded, order marked as cancelled',
           );
         }
         break;

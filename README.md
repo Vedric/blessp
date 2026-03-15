@@ -41,7 +41,7 @@ BLE$$ P is a **full-stack e-commerce platform** purpose-built for a luxury stree
 | **ioredis** | 5.x | Redis client (cache and BullMQ transport) |
 | **BullMQ** | 5.x | Background job queue for email delivery |
 | **Argon2** | 0.41 | Password hashing with Argon2id (OWASP recommended) |
-| **jsonwebtoken** | 9.0 | JWT signing and verification (HS256) |
+| **jsonwebtoken** | 9.0 | JWT signing and verification (RS256) |
 | **Helmet** | 8.1 | HTTP security header hardening |
 | **express-rate-limit** | 7.5 | Per-IP rate limiting (global + per-endpoint) |
 | **cookie-parser** | 1.4 | Cookie parsing middleware |
@@ -324,7 +324,7 @@ blessp/
 │   │   │   ├── 📂 router/
 │   │   │   │   └── 📄 index.ts        Central router mounting all 6 feature routers
 │   │   │   ├── 📂 security/
-│   │   │   │   ├── 📄 token.service.ts JWT sign/verify for access and refresh tokens (HS256)
+│   │   │   │   ├── 📄 token.service.ts JWT sign/verify for access and refresh tokens (RS256)
 │   │   │   │   └── 📄 hash.service.ts  Argon2id password hashing (64 MB memory, 3 iterations)
 │   │   │   └── 📂 types/
 │   │   │       ├── 📄 pagination.ts   Pagination params, meta builder, skip calculator
@@ -337,7 +337,8 @@ blessp/
 │   │       │   ├── 📄 auth.service.ts
 │   │       │   ├── 📄 auth.repository.ts
 │   │       │   ├── 📄 auth.schema.ts
-│   │       │   └── 📄 auth.types.ts
+│   │       │   ├── 📄 auth.types.ts
+│   │       │   └── 📄 auth.emails.ts  Welcome and password reset email templates
 │   │       ├── 📂 users/              👤 Profile management, password change
 │   │       │   ├── 📄 users.router.ts
 │   │       │   ├── 📄 users.controller.ts
@@ -366,12 +367,19 @@ blessp/
 │   │       │   ├── 📄 orders.repository.ts
 │   │       │   ├── 📄 orders.schema.ts
 │   │       │   └── 📄 orders.types.ts
-│   │       └── 📂 payments/           💳 Stripe PaymentIntent creation, webhook handling
-│   │           ├── 📄 payments.router.ts
-│   │           ├── 📄 payments.controller.ts
-│   │           ├── 📄 payments.service.ts
-│   │           ├── 📄 payments.schema.ts
-│   │           └── 📄 payments.types.ts
+│   │       ├── 📂 payments/           💳 Stripe PaymentIntent creation, webhook handling
+│   │       │   ├── 📄 payments.router.ts
+│   │       │   ├── 📄 payments.controller.ts
+│   │       │   ├── 📄 payments.service.ts
+│   │       │   ├── 📄 payments.schema.ts
+│   │       │   └── 📄 payments.types.ts
+│   │       ├── 📂 wishlist/           💝 Wishlist toggle, list, remove
+│   │       ├── 📂 reviews/            ⭐ Product reviews with ratings (1-5)
+│   │       ├── 📂 coupons/            🎟️ Coupon validation, application, admin CRUD
+│   │       ├── 📂 loyalty/            🏆 Loyalty points, tiers, redemption
+│   │       ├── 📂 currency/           💱 Multi-currency exchange rates
+│   │       ├── 📂 newsletter/         📧 Email subscription management
+│   │       └── 📂 analytics/          📊 Admin dashboard analytics
 │   │
 │   └── 📂 tests/
 │       ├── 📂 fixtures/
@@ -431,15 +439,22 @@ blessp/
 │           └── 📄 globals.css         Tailwind base, components, utilities, scrollbar styling
 │
 ├── 📂 docs/                           📚 Project documentation
-│   ├── 📄 api.md                      Full API reference
+│   ├── 📄 api.md                      Full API reference (all 61 endpoints)
+│   ├── 📄 openapi.yaml                OpenAPI 3.1 specification (single source of truth)
 │   ├── 📄 database.md                 Database schema documentation
 │   ├── 📄 deployment.md              Deployment guide
-│   └── 📂 adr/                        Architecture Decision Records
-│       ├── 📄 001-use-postgresql.md
-│       ├── 📄 002-jwt-refresh-rotation.md
-│       ├── 📄 003-monorepo-structure.md
-│       ├── 📄 004-react-vite-tailwind.md
-│       └── 📄 005-redis-caching-email-queue.md
+│   ├── 📂 adr/                        Architecture Decision Records
+│   │   ├── 📄 001-use-postgresql.md
+│   │   ├── 📄 002-jwt-refresh-rotation.md
+│   │   ├── 📄 003-monorepo-structure.md
+│   │   ├── 📄 004-react-vite-tailwind.md
+│   │   └── 📄 005-redis-caching-email-queue.md
+│   └── 📂 runbooks/                   Operational runbooks
+│       ├── 📄 001-deployment.md
+│       ├── 📄 002-database-backup-restore.md
+│       ├── 📄 003-incident-response.md
+│       ├── 📄 004-redis-operations.md
+│       └── 📄 005-secret-rotation.md
 │
 ├── 📂 .github/
 │   ├── 📂 workflows/
@@ -516,7 +531,67 @@ Base path: `/api/v1`
 | Method | Path | Description | Auth |
 |---|---|---|---|
 | `POST` | `/payments/create-intent` | Create Stripe PaymentIntent for an order | ✅ Bearer |
-| `POST` | `/payments/webhook` | Handle Stripe webhook events | 🔏 Stripe signature |
+| `POST` | `/payments/webhook` | Handle Stripe webhook events (succeeded, failed, refunded) | 🔏 Stripe signature |
+
+### 💝 Wishlist
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `GET` | `/wishlist` | Get user's wishlist | ✅ Bearer |
+| `POST` | `/wishlist` | Toggle product in wishlist | ✅ Bearer |
+| `DELETE` | `/wishlist/:productId` | Remove from wishlist | ✅ Bearer |
+
+### ⭐ Reviews
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `GET` | `/reviews` | List product reviews (paginated) | ❌ |
+| `GET` | `/reviews/summary/:productId` | Review summary (avg rating, distribution) | ❌ |
+| `POST` | `/reviews` | Create a review (one per user per product) | ✅ Bearer |
+| `PATCH` | `/reviews/:id` | Update own review | ✅ Bearer |
+| `DELETE` | `/reviews/:id` | Delete own review | ✅ Bearer |
+| `GET` | `/reviews/admin/all` | List all reviews | 🔒 Admin |
+| `DELETE` | `/reviews/admin/:id` | Delete any review (moderation) | 🔒 Admin |
+
+### 🎟️ Coupons
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `POST` | `/coupons/validate` | Validate a coupon code | ✅ Bearer |
+| `POST` | `/coupons/apply` | Apply coupon and calculate discount | ✅ Bearer |
+| `POST` | `/coupons` | Create a coupon | 🔒 Admin |
+| `GET` | `/coupons` | List all coupons | 🔒 Admin |
+| `PATCH` | `/coupons/:id` | Update a coupon | 🔒 Admin |
+
+### 💱 Currency
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `GET` | `/currencies/rates` | Get exchange rates (CAD base) | ❌ |
+
+### 📧 Newsletter
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `POST` | `/newsletter/subscribe` | Subscribe to newsletter | ❌ |
+| `POST` | `/newsletter/unsubscribe` | Unsubscribe from newsletter | ❌ |
+
+### 🏆 Loyalty
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `GET` | `/loyalty/balance` | Get points balance, tier, redemption value | ✅ Bearer |
+| `GET` | `/loyalty/transactions` | List point transactions (paginated) | ✅ Bearer |
+| `POST` | `/loyalty/redeem` | Redeem points for store credit | ✅ Bearer |
+
+### 📊 Analytics (Admin)
+
+| Method | Path | Description | Auth |
+|---|---|---|---|
+| `GET` | `/analytics/overview` | Business overview metrics | 🔒 Admin |
+| `GET` | `/analytics/revenue` | Revenue by day (7d, 30d, 90d) | 🔒 Admin |
+| `GET` | `/analytics/top-products` | Top-selling products | 🔒 Admin |
+| `GET` | `/analytics/recent-orders` | Most recent orders | 🔒 Admin |
 
 ### ❤️ Health Checks
 
@@ -556,6 +631,16 @@ cd server && npm run test:all
 | `products.service.test.ts` | Products service | CRUD operations, featured listing, soft delete |
 | `cart.service.test.ts` | Cart service | Add/update/remove items, ownership checks, cart clearing |
 | `orders.service.test.ts` | Orders service | Order creation from cart, ownership checks, status updates |
+| `payments.service.test.ts` | Payments service | Payment intent creation, webhook handling, idempotency, refunds |
+| `wishlist.service.test.ts` | Wishlist service | Toggle, add/remove, product validation |
+| `currency.service.test.ts` | Currency service | Exchange rates, currency conversion, rounding |
+| `analytics.service.test.ts` | Analytics service | Overview, revenue, top products, limit clamping |
+| `reviews.service.test.ts` | Reviews service | CRUD, rating validation, one review per user |
+| `coupons.service.test.ts` | Coupons service | Validation, application, discount calculation |
+| `loyalty.service.test.ts` | Loyalty service | Balance, tiers, point redemption, order rewards |
+| `newsletter.service.test.ts` | Newsletter service | Subscribe, unsubscribe, reactivation |
+| `cache.service.test.ts` | Cache service | Get/set/delete, no-op mode, error resilience |
+| `email.producer.test.ts` | Email producer | Queue enqueue, synchronous fallback, idempotency key |
 
 ### Test architecture 🏗️
 
@@ -580,7 +665,7 @@ The GitHub Actions CI pipeline runs on every pull request and push to `develop`/
 
 ### 🔐 Authentication
 
-- **Short-lived access tokens** (15-minute TTL by default) signed with HS256
+- **Short-lived access tokens** (15-minute TTL by default) signed with RS256 (asymmetric keys)
 - **Refresh token rotation** with family-based reuse detection
 - If a previously consumed refresh token is reused, the entire token family is revoked, forcing re-authentication
 - **Password hashing** with Argon2id (64 MB memory cost, 3 time iterations, 4 parallelism)
@@ -849,6 +934,12 @@ For the complete deployment guide, see [docs/deployment.md](docs/deployment.md).
 | [📦 ADR 003: Monorepo Structure](docs/adr/003-monorepo-structure.md) | Single repo for server and client |
 | [🎨 ADR 004: React + Vite + Tailwind](docs/adr/004-react-vite-tailwind.md) | Frontend technology choices |
 | [🗄️ ADR 005: Redis for Caching and Email Queue](docs/adr/005-redis-caching-email-queue.md) | Optional Redis for product caching and BullMQ email delivery |
+| [📋 OpenAPI Specification](docs/openapi.yaml) | Complete OpenAPI 3.1 spec (61 operations, single source of truth) |
+| [🚀 Runbook: Deployment](docs/runbooks/001-deployment.md) | Production deployment procedure with rollback |
+| [🗄️ Runbook: Database Backup](docs/runbooks/002-database-backup-restore.md) | Backup, restore, and point-in-time recovery |
+| [🚨 Runbook: Incident Response](docs/runbooks/003-incident-response.md) | Severity classification, investigation, post-mortem |
+| [🔴 Runbook: Redis Operations](docs/runbooks/004-redis-operations.md) | Cache flush, queue monitoring, troubleshooting |
+| [🔑 Runbook: Secret Rotation](docs/runbooks/005-secret-rotation.md) | JWT keys, DB passwords, Stripe keys rotation |
 
 ---
 

@@ -8,6 +8,7 @@ import { RegisterDto, LoginDto, TokenPair, AccessTokenPayload, AuthUserResponse 
 import { HashService } from '../../core/security/hash.service';
 import { TokenService } from '../../core/security/token.service';
 import { logger } from '../../core/observability/logger';
+import { sendWelcomeEmail, sendPasswordResetEmail } from './auth.emails';
 
 export class AuthService {
   constructor(
@@ -37,6 +38,10 @@ export class AuthService {
     });
 
     const tokens = await this.issueTokenPair(user.id, user.email, user.isAdmin);
+
+    sendWelcomeEmail({ email: user.email, firstName: user.firstName }).catch((err) => {
+      logger.error({ err, userId: user.id }, 'Failed to send welcome email');
+    });
 
     return {
       user: this.toAuthUserResponse(user),
@@ -137,10 +142,16 @@ export class AuthService {
 
     await this.authRepository.createPasswordResetToken(user.id, token, expiresAt);
 
-    // In production, this would send an email with the reset link.
-    // For now, we log the URL so it can be used during development.
     const resetUrl = `${process.env.CLIENT_URL ?? 'http://localhost:5173'}/reset-password?token=${token}`;
     logger.info({ userId: user.id, resetUrl }, 'Password reset requested');
+
+    sendPasswordResetEmail({
+      email: user.email,
+      firstName: user.firstName,
+      resetUrl,
+    }).catch((err) => {
+      logger.error({ err, userId: user.id }, 'Failed to send password reset email');
+    });
   }
 
   async resetPassword(token: string, newPassword: string): Promise<void> {
