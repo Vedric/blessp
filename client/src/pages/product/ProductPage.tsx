@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Minus, Plus, ShoppingBag, ChevronDown, Ruler } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ChevronDown, Ruler, Truck, RotateCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
@@ -431,6 +431,37 @@ export default function ProductPage() {
             <ShoppingBag className="h-4 w-4" />
             {isOutOfStock ? t('product.outOfStock') : isAdding ? t('product.adding') : t('product.addToCart')}
           </motion.button>
+
+          {/* Delivery estimation: surface shipping expectations early to reduce purchase hesitation */}
+          <div className="mt-8 space-y-3 border border-neutral-100 px-5 py-4">
+            <div className="flex items-center gap-3">
+              <Truck className="h-4 w-4 flex-shrink-0 text-neutral-400" />
+              <div>
+                <p className="text-sm tracking-wide text-neutral-700">
+                  {t('delivery.freeShipping')}
+                </p>
+                <p className="text-xs tracking-wider text-neutral-400">
+                  {t('delivery.estimatedDelivery', {
+                    range: (() => {
+                      const start = new Date();
+                      start.setDate(start.getDate() + 5);
+                      const end = new Date();
+                      end.setDate(end.getDate() + 7);
+                      const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+                      return `${start.toLocaleDateString(undefined, opts)} – ${end.toLocaleDateString(undefined, opts)}`;
+                    })(),
+                  })}
+                </p>
+              </div>
+            </div>
+            <div className="h-px bg-neutral-100" />
+            <div className="flex items-center gap-3">
+              <RotateCcw className="h-4 w-4 flex-shrink-0 text-neutral-400" />
+              <p className="text-sm tracking-wide text-neutral-700">
+                {t('delivery.returns')}
+              </p>
+            </div>
+          </div>
 
           {/* Description accordion */}
           <div className="mt-10 border-t border-neutral-100">

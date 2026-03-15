@@ -15,9 +15,17 @@
 9. [Cart Endpoints](#-cart-endpoints)
 10. [Orders Endpoints](#-orders-endpoints)
 11. [Payments Endpoints](#-payments-endpoints)
-12. [Health Check Endpoints](#-health-check-endpoints)
-13. [Error Codes Reference](#-error-codes-reference)
-14. [HTTP Status Codes](#-http-status-codes)
+12. [Wishlist Endpoints](#-wishlist-endpoints)
+13. [Coupons Endpoints](#-coupons-endpoints)
+14. [Currency Endpoints](#-currency-endpoints)
+15. [Reviews Endpoints](#-reviews-endpoints)
+16. [Newsletter Endpoints](#-newsletter-endpoints)
+17. [Loyalty Endpoints](#-loyalty-endpoints)
+18. [Analytics Endpoints (Admin)](#-analytics-endpoints-admin)
+19. [Contact Endpoints](#-contact-endpoints)
+20. [Health Check Endpoints](#-health-check-endpoints)
+21. [Error Codes Reference](#-error-codes-reference)
+22. [HTTP Status Codes](#-http-status-codes)
 
 ---
 
@@ -531,6 +539,92 @@ No response body.
 | `401` | `UNAUTHORIZED` | Not authenticated |
 | `401` | `INVALID_CREDENTIALS` | Current password is incorrect |
 | `422` | `VALIDATION_ERROR` | New password does not meet complexity requirements |
+
+---
+
+### DELETE /api/v1/users/account
+
+Permanently delete the authenticated user's account (GDPR compliant). This performs a soft delete, setting `deleted_at` on the user record. Requires the user's current password as confirmation to prevent accidental deletion.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `password` | string | ✅ Yes | Must match the user's current password |
+
+> ⚠️ **Strict mode:** Extra fields are rejected.
+
+#### Success response: `204 No Content`
+
+No response body.
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `401` | `INVALID_CREDENTIALS` | Password confirmation does not match |
+| `422` | `VALIDATION_ERROR` | Missing or empty password field |
+
+---
+
+### GET /api/v1/users/email-preferences
+
+Get the authenticated user's email notification preferences. If the user has not previously configured preferences, default values are returned (all channels enabled).
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "orderUpdates": true,
+    "promotions": true,
+    "newsletter": true,
+    "loyaltyAlerts": true
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+
+---
+
+### PATCH /api/v1/users/email-preferences
+
+Update the authenticated user's email notification preferences. All fields are optional; only the provided fields are updated.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `orderUpdates` | boolean | ❌ No | Enable/disable order status emails |
+| `promotions` | boolean | ❌ No | Enable/disable promotional emails |
+| `newsletter` | boolean | ❌ No | Enable/disable newsletter emails |
+| `loyaltyAlerts` | boolean | ❌ No | Enable/disable loyalty tier and points emails |
+
+> ⚠️ **Strict mode:** Extra fields are rejected.
+
+#### Success response: `200 OK`
+
+Returns the full updated preferences object (same shape as `GET /users/email-preferences`).
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `422` | `VALIDATION_ERROR` | Invalid field types or extra fields in body |
 
 ---
 
@@ -1178,6 +1272,161 @@ Raw JSON (Stripe event payload). The route uses `express.raw()` middleware to re
 
 ---
 
+### GET /api/v1/payments/methods
+
+List the authenticated user's saved payment methods from Stripe. If the user does not yet have a Stripe customer record, one is created automatically.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": [
+    {
+      "id": "pm_1abc123",
+      "brand": "visa",
+      "last4": "4242",
+      "expMonth": 12,
+      "expYear": 2027,
+      "isDefault": true
+    }
+  ],
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+
+---
+
+### POST /api/v1/payments/methods
+
+Attach a Stripe payment method to the authenticated user's Stripe customer. The payment method must already be created on the client side using Stripe Elements or the Stripe API.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `paymentMethodId` | string | ✅ Yes | Valid Stripe payment method ID (e.g., `pm_1abc123`), trimmed |
+
+> ⚠️ **Strict mode:** Extra fields are rejected.
+
+#### Success response: `201 Created`
+
+Returns the attached payment method details (same shape as individual items in `GET /payments/methods`).
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `422` | `VALIDATION_ERROR` | Missing or invalid payment method ID |
+
+---
+
+### DELETE /api/v1/payments/methods/:id
+
+Detach a saved payment method from the authenticated user's Stripe customer.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Path parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `id` | string | Stripe payment method ID (e.g., `pm_1abc123`) |
+
+#### Success response: `204 No Content`
+
+No response body.
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `404` | `RESOURCE_NOT_FOUND` | Payment method not found or does not belong to this user |
+
+---
+
+### POST /api/v1/payments/methods/:id/default
+
+Set a saved payment method as the default for the authenticated user's Stripe customer.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Path parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `id` | string | Stripe payment method ID (e.g., `pm_1abc123`) |
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "message": "Default payment method updated."
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `404` | `RESOURCE_NOT_FOUND` | Payment method not found or does not belong to this user |
+
+---
+
+### POST /api/v1/payments/refund
+
+Refund a paid order. This endpoint is restricted to admin users. The refund is processed through Stripe using the order's `transactionKey` (PaymentIntent ID).
+
+**🔒 Auth required:** Yes (Bearer token, Admin only)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `orderId` | string (UUID) | ✅ Yes | Must reference an existing paid order |
+| `reason` | string | ❌ No | Optional refund reason, max 500 characters, trimmed |
+
+> ⚠️ **Strict mode:** Extra fields are rejected.
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "refundId": "re_1abc123",
+    "orderId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "status": "succeeded"
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `403` | `FORBIDDEN` | User is not an admin |
+| `404` | `RESOURCE_NOT_FOUND` | Order not found |
+| `422` | `VALIDATION_ERROR` | Order is not in a refundable state (not `paid`) or has no transaction key |
+
+---
+
 ## 💝 Wishlist Endpoints
 
 All wishlist endpoints require authentication. Each user has their own wishlist scoped to their account.
@@ -1662,6 +1911,48 @@ Get the most recent orders across all users.
 | Parameter | Type | Default | Max |
 | --- | --- | --- | --- |
 | `limit` | integer | 10 | 50 |
+
+---
+
+## 📬 Contact Endpoints
+
+### POST /api/v1/contact
+
+Submit a message through the public contact form. The message is stored in the database and a notification email is sent to the admin team. This endpoint is rate-limited to **5 submissions per 15 minutes** per IP to prevent abuse.
+
+**🔓 Auth required:** No
+
+**⏱️ Rate limit:** 5 requests per 15-minute window per IP
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `name` | string | ✅ Yes | 2 to 100 characters, trimmed |
+| `email` | string | ✅ Yes | Valid email format, max 254 characters, normalised to lowercase, trimmed |
+| `subject` | string | ✅ Yes | 2 to 200 characters, trimmed |
+| `message` | string | ✅ Yes | 10 to 5000 characters, trimmed |
+
+> ⚠️ **Strict mode:** Extra fields are rejected.
+
+#### Success response: `201 Created`
+
+```json
+{
+  "data": {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "message": "Your message has been received. We will get back to you shortly."
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `422` | `VALIDATION_ERROR` | Missing required fields, field constraints violated, or extra fields in body |
+| `429` | `RATE_LIMIT_EXCEEDED` | More than 5 submissions in a 15-minute window |
 
 ---
 

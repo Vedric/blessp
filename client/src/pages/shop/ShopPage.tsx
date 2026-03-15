@@ -86,7 +86,8 @@ export default function ShopPage() {
       setProducts(res.data);
       setTotalPages(res.pagination.totalPages);
       setTotalItems(res.pagination.totalItems);
-    } catch {
+    } catch (err) {
+      console.error('[ShopPage] Failed to fetch products:', err);
       setProducts([]);
     } finally {
       setIsLoading(false);

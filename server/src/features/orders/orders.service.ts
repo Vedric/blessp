@@ -9,6 +9,18 @@ import { enqueueOrderConfirmationEmail } from '../../core/queue/email.producer';
 import { logger } from '../../core/observability/logger';
 import { getTracer } from '../../core/observability/tracer';
 
+// Only forward transitions are allowed to prevent inconsistent order states
+const VALID_STATUS_TRANSITIONS: Record<string, string[]> = {
+  pending: ['confirmed', 'cancelled'],
+  confirmed: ['processing', 'cancelled'],
+  processing: ['shipped', 'cancelled'],
+  shipped: ['delivered'],
+  delivered: ['refunded'],
+  paid: ['confirmed', 'cancelled', 'refunded'],
+  cancelled: [],
+  refunded: [],
+};
+
 export class OrdersService {
   constructor(
     private readonly ordersRepository: OrdersRepository,
@@ -215,17 +227,25 @@ export class OrdersService {
     };
   }
 
-  async updateOrderStatus(orderId: string, status: string): Promise<OrderResponse> {
+  async updateOrderStatus(orderId: string, status: string, note?: string): Promise<OrderResponse> {
     const order = await this.ordersRepository.findById(orderId);
 
     if (!order) {
       throw new NotFoundError('Order', orderId);
     }
 
+    const allowedNext = VALID_STATUS_TRANSITIONS[order.status];
+    if (allowedNext && !allowedNext.includes(status)) {
+      throw new ValidationError(
+        `Cannot transition order from '${order.status}' to '${status}'. Allowed transitions: ${allowedNext.join(', ') || 'none'}.`,
+      );
+    }
+
     const updated = await this.ordersRepository.updateStatus(orderId, status);
 
-    // Record status change in history
-    await this.ordersRepository.createStatusHistoryEntry(orderId, status);
+    await this.ordersRepository.createStatusHistoryEntry(orderId, status, note);
+
+    logger.info({ orderId, from: order.status, to: status }, 'Order status updated');
 
     return this.toOrderResponse(updated);
   }

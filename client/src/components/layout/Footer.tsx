@@ -4,8 +4,6 @@ import { Facebook, Instagram, ChevronDown, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { CurrencySelector } from '@/components/common/CurrencySelector';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 import { api } from '@/lib/api';
 
 function TikTokIcon({ size = 20 }: { size?: number }) {
@@ -227,8 +225,6 @@ export function Footer() {
             &copy; {year} BLE$$ P. {t('common.allRightsReserved')}
           </p>
           <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <CurrencySelector />
             {/* Payment badges */}
             <span className="flex h-7 items-center rounded border border-neutral-700 px-2.5 text-[10px] font-semibold tracking-wider text-neutral-400">
               VISA

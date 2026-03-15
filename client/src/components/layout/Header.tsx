@@ -18,6 +18,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { SearchOverlay } from '@/components/common/SearchOverlay';
+import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { CurrencySelector } from '@/components/common/CurrencySelector';
 import { cn } from '@/lib/utils';
 
 export function Header() {
@@ -116,7 +118,13 @@ export function Header() {
           </Link>
 
           {/* Right: icons */}
-          <div className="flex items-center justify-end gap-5 md:w-1/3">
+          <div className="flex items-center justify-end gap-4 md:w-1/3 md:gap-5">
+            {/* Language & Currency (desktop) */}
+            <div className="hidden items-center gap-4 md:flex">
+              <LanguageSwitcher />
+              <CurrencySelector />
+            </div>
+
             <button
               onClick={() => setSearchOpen(true)}
               className="text-neutral-600 transition-colors hover:text-neutral-900"
@@ -347,6 +355,13 @@ export function Header() {
                     />
                   </>
                 )}
+              </div>
+
+              {/* Language & Currency (mobile) */}
+              <div className="mt-auto flex items-center gap-4 border-t border-neutral-100 pt-6">
+                <LanguageSwitcher />
+                <span className="text-neutral-200">|</span>
+                <CurrencySelector />
               </div>
             </motion.nav>
           </>

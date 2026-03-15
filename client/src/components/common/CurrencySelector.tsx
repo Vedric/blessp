@@ -5,16 +5,15 @@ import { useCurrency, type CurrencyCode } from '@/context/CurrencyContext';
 
 interface CurrencyOption {
   code: CurrencyCode;
-  flag: string;
   symbol: string;
 }
 
 const currencies: CurrencyOption[] = [
-  { code: 'CAD', flag: '\ud83c\udde8\ud83c\udde6', symbol: '$' },
-  { code: 'USD', flag: '\ud83c\uddfa\ud83c\uddf8', symbol: '$' },
-  { code: 'EUR', flag: '\ud83c\uddea\ud83c\uddfa', symbol: '\u20ac' },
-  { code: 'GBP', flag: '\ud83c\uddec\ud83c\udde7', symbol: '\u00a3' },
-  { code: 'CHF', flag: '\ud83c\udde8\ud83c\udded', symbol: 'CHF' },
+  { code: 'CAD', symbol: '$' },
+  { code: 'USD', symbol: '$' },
+  { code: 'EUR', symbol: '€' },
+  { code: 'GBP', symbol: '£' },
+  { code: 'CHF', symbol: 'CHF' },
 ];
 
 export function CurrencySelector() {
@@ -38,10 +37,9 @@ export function CurrencySelector() {
     <div ref={containerRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 rounded border border-neutral-700 px-2.5 py-1.5 text-xs font-medium tracking-wider text-neutral-400 transition-colors hover:border-neutral-500 hover:text-neutral-300"
+        className="flex h-5 items-center gap-1 text-[13px] font-medium tracking-wider text-neutral-600 transition-colors hover:text-neutral-900"
         aria-label="Select currency"
       >
-        <span>{current.flag}</span>
         <span>{current.code}</span>
         <ChevronDown
           className={`h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -51,11 +49,11 @@ export function CurrencySelector() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute bottom-full left-0 z-50 mb-2 w-40 overflow-hidden border border-neutral-700 bg-neutral-900 shadow-xl"
-            initial={{ opacity: 0, y: 4 }}
+            className="absolute right-0 top-full z-50 mt-2 w-28 overflow-hidden border border-neutral-100 bg-white shadow-lg"
+            initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 0.15 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.12 }}
           >
             {currencies.map((opt) => (
               <button
@@ -64,15 +62,14 @@ export function CurrencySelector() {
                   setCurrency(opt.code);
                   setIsOpen(false);
                 }}
-                className={`flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-sm transition-colors ${
+                className={`flex w-full items-center justify-between px-3 py-2 text-xs font-medium tracking-wider transition-colors ${
                   currency === opt.code
-                    ? 'bg-neutral-800 text-white'
-                    : 'text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200'
+                    ? 'bg-neutral-50 text-neutral-900'
+                    : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-900'
                 }`}
               >
-                <span>{opt.flag}</span>
-                <span className="font-medium">{opt.code}</span>
-                <span className="ml-auto text-xs text-neutral-500">{opt.symbol}</span>
+                <span>{opt.code}</span>
+                <span className="text-neutral-400">{opt.symbol}</span>
               </button>
             ))}
           </motion.div>

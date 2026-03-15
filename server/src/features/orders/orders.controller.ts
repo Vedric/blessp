@@ -85,8 +85,8 @@ export class OrdersController {
   updateStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { id } = OrderParamsSchema.parse(req.params);
-      const { status } = UpdateOrderStatusSchema.parse(req.body);
-      const order = await this.ordersService.updateOrderStatus(id, status);
+      const { status, note } = UpdateOrderStatusSchema.parse(req.body);
+      const order = await this.ordersService.updateOrderStatus(id, status, note);
 
       sendSuccess(res, req, order);
     } catch (error) {

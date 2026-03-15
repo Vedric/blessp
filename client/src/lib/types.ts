@@ -77,7 +77,7 @@ export interface Order {
   id: string;
   userId: string;
   totalCents: number;
-  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'paid' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
   transactionKey: string | null;
   shippingAddress: ShippingAddress;
   items: OrderItem[];

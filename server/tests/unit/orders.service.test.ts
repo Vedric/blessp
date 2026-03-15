@@ -293,18 +293,53 @@ describe('OrdersService', () => {
   });
 
   describe('updateOrderStatus', () => {
-    it('updates the order status and returns the updated order', async () => {
-      const order = makeOrderFixture();
-      const updatedOrder = makeOrderFixture({ status: 'shipped' });
+    it('updates the order status for a valid transition', async () => {
+      const order = makeOrderFixture({ status: 'pending' });
+      const updatedOrder = makeOrderFixture({ status: 'confirmed' });
 
       ordersRepository.findById.mockResolvedValueOnce(order as any);
       ordersRepository.updateStatus.mockResolvedValueOnce(updatedOrder as any);
       ordersRepository.createStatusHistoryEntry.mockResolvedValueOnce(undefined as any);
 
-      const result = await service.updateOrderStatus(order.id, 'shipped');
+      const result = await service.updateOrderStatus(order.id, 'confirmed');
 
-      expect(result.status).toBe('shipped');
-      expect(ordersRepository.updateStatus).toHaveBeenCalledWith(order.id, 'shipped');
+      expect(result.status).toBe('confirmed');
+      expect(ordersRepository.updateStatus).toHaveBeenCalledWith(order.id, 'confirmed');
+    });
+
+    it('records a note in the status history when provided', async () => {
+      const order = makeOrderFixture({ status: 'pending' });
+      const updatedOrder = makeOrderFixture({ status: 'cancelled' });
+
+      ordersRepository.findById.mockResolvedValueOnce(order as any);
+      ordersRepository.updateStatus.mockResolvedValueOnce(updatedOrder as any);
+      ordersRepository.createStatusHistoryEntry.mockResolvedValueOnce(undefined as any);
+
+      await service.updateOrderStatus(order.id, 'cancelled', 'Customer requested cancellation');
+
+      expect(ordersRepository.createStatusHistoryEntry).toHaveBeenCalledWith(
+        order.id,
+        'cancelled',
+        'Customer requested cancellation',
+      );
+    });
+
+    it('rejects invalid status transitions', async () => {
+      const order = makeOrderFixture({ status: 'pending' });
+      ordersRepository.findById.mockResolvedValueOnce(order as any);
+
+      await expect(
+        service.updateOrderStatus(order.id, 'shipped'),
+      ).rejects.toThrow(ValidationError);
+    });
+
+    it('rejects transitions from terminal states', async () => {
+      const order = makeOrderFixture({ status: 'cancelled' });
+      ordersRepository.findById.mockResolvedValueOnce(order as any);
+
+      await expect(
+        service.updateOrderStatus(order.id, 'confirmed'),
+      ).rejects.toThrow(ValidationError);
     });
 
     it('throws NotFoundError when the order does not exist', async () => {

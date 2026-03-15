@@ -103,14 +103,27 @@ Before you begin, make sure you have the following installed:
 
 ## 🚀 Quick Start
 
-### Step 1: Clone the repository
+### Automated setup (recommended)
+
+For a quick start, run the automated setup script. It generates JWT keys, creates the `.env` file, installs dependencies, and seeds the database:
+
+```bash
+git clone <repository-url>
+cd blessp
+bash scripts/setup-local.sh
+npm run dev
+```
+
+### Manual setup
+
+#### Step 1: Clone the repository
 
 ```bash
 git clone <repository-url>
 cd blessp
 ```
 
-### Step 2: Install dependencies
+#### Step 2: Install dependencies
 
 There are three `package.json` files (root, server, client). Install all of them:
 
@@ -125,7 +138,7 @@ cd server && npm install && cd ..
 cd client && npm install && cd ..
 ```
 
-### Step 3: Configure environment variables
+#### Step 3: Configure environment variables
 
 ```bash
 cp server/.env.example server/.env
@@ -151,14 +164,14 @@ STRIPE_WEBHOOK_SECRET=whsec_changeme
 
 > 📝 See the full [Environment Variables Reference](docs/deployment.md) for every configurable option.
 
-### Step 4: Create the database
+#### Step 4: Create the database
 
 ```bash
 # If using a local PostgreSQL installation
 createdb blessp
 ```
 
-### Step 5: Generate the Prisma client and push the schema
+#### Step 5: Generate the Prisma client and push the schema
 
 ```bash
 cd server
@@ -167,7 +180,7 @@ npx prisma db push
 cd ..
 ```
 
-### Step 6: Seed the database with sample products
+#### Step 6: Seed the database with sample products
 
 ```bash
 npm run db:seed
@@ -177,7 +190,7 @@ This creates:
 - 🔑 An admin user (`admin@blessp.com` / `Admin123456!`)
 - 👕 7 products (hoodies, pants, and sets in black, blue, and pink)
 
-### Step 7: Start the development servers
+#### Step 7: Start the development servers
 
 ```bash
 npm run dev
@@ -288,7 +301,7 @@ blessp/
 │   ├── 📄 jest.config.ts              Jest configuration (80% coverage threshold)
 │   │
 │   ├── 📂 prisma/
-│   │   ├── 📄 schema.prisma           Database schema (9 models, indexes, relations)
+│   │   ├── 📄 schema.prisma           Database schema (19 models, indexes, relations)
 │   │   └── 📄 seed.ts                 Dev seed script (admin user + 7 products)
 │   │
 │   ├── 📂 src/
@@ -322,7 +335,7 @@ blessp/
 │   │   │   ├── 📂 observability/
 │   │   │   │   └── 📄 logger.ts       Pino structured logger with field redaction
 │   │   │   ├── 📂 router/
-│   │   │   │   └── 📄 index.ts        Central router mounting all 6 feature routers
+│   │   │   │   └── 📄 index.ts        Central router mounting all 14 feature routers
 │   │   │   ├── 📂 security/
 │   │   │   │   ├── 📄 token.service.ts JWT sign/verify for access and refresh tokens (RS256)
 │   │   │   │   └── 📄 hash.service.ts  Argon2id password hashing (64 MB memory, 3 iterations)
@@ -379,7 +392,8 @@ blessp/
 │   │       ├── 📂 loyalty/            🏆 Loyalty points, tiers, redemption
 │   │       ├── 📂 currency/           💱 Multi-currency exchange rates
 │   │       ├── 📂 newsletter/         📧 Email subscription management
-│   │       └── 📂 analytics/          📊 Admin dashboard analytics
+│   │       ├── 📂 analytics/          📊 Admin dashboard analytics
+│   │       └── 📂 contact/            📬 Public contact form with rate limiting
 │   │
 │   └── 📂 tests/
 │       ├── 📂 fixtures/
@@ -439,7 +453,7 @@ blessp/
 │           └── 📄 globals.css         Tailwind base, components, utilities, scrollbar styling
 │
 ├── 📂 docs/                           📚 Project documentation
-│   ├── 📄 api.md                      Full API reference (all 61 endpoints)
+│   ├── 📄 api.md                      Full API reference (14 feature modules)
 │   ├── 📄 openapi.yaml                OpenAPI 3.1 specification (single source of truth)
 │   ├── 📄 database.md                 Database schema documentation
 │   ├── 📄 deployment.md              Deployment guide
@@ -494,6 +508,9 @@ Base path: `/api/v1`
 | `GET` | `/users/profile` | Get authenticated user's profile | ✅ Bearer |
 | `PATCH` | `/users/profile` | Update profile (firstName, lastName, email) | ✅ Bearer |
 | `POST` | `/users/change-password` | Change password (requires current password) | ✅ Bearer |
+| `DELETE` | `/users/account` | GDPR account deletion (requires password confirmation) | ✅ Bearer |
+| `GET` | `/users/email-preferences` | Get email notification preferences | ✅ Bearer |
+| `PATCH` | `/users/email-preferences` | Update email notification preferences | ✅ Bearer |
 
 ### 🛍️ Products
 
@@ -531,6 +548,11 @@ Base path: `/api/v1`
 | Method | Path | Description | Auth |
 |---|---|---|---|
 | `POST` | `/payments/create-intent` | Create Stripe PaymentIntent for an order | ✅ Bearer |
+| `GET` | `/payments/methods` | List saved payment methods | ✅ Bearer |
+| `POST` | `/payments/methods` | Attach a payment method to customer | ✅ Bearer |
+| `DELETE` | `/payments/methods/:id` | Detach a saved payment method | ✅ Bearer |
+| `POST` | `/payments/methods/:id/default` | Set a payment method as default | ✅ Bearer |
+| `POST` | `/payments/refund` | Refund a paid order | 🔒 Admin |
 | `POST` | `/payments/webhook` | Handle Stripe webhook events (succeeded, failed, refunded) | 🔏 Stripe signature |
 
 ### 💝 Wishlist
@@ -592,6 +614,12 @@ Base path: `/api/v1`
 | `GET` | `/analytics/revenue` | Revenue by day (7d, 30d, 90d) | 🔒 Admin |
 | `GET` | `/analytics/top-products` | Top-selling products | 🔒 Admin |
 | `GET` | `/analytics/recent-orders` | Most recent orders | 🔒 Admin |
+
+### 📬 Contact
+
+| Method | Path | Description | Auth | Rate Limit |
+|---|---|---|---|---|
+| `POST` | `/contact` | Submit a contact form message | ❌ | 5/15min |
 
 ### ❤️ Health Checks
 
@@ -720,7 +748,7 @@ graph TB
             MW6 --> MW7["rateLimiter"]
         end
 
-        subgraph FEAT["🗂️ Feature Modules"]
+        subgraph FEAT["🗂️ Feature Modules (14)"]
             direction LR
             F1["🔑 Auth"]
             F2["👤 Users"]
@@ -728,6 +756,14 @@ graph TB
             F4["🛒 Cart"]
             F5["📦 Orders"]
             F6["💳 Payments"]
+            F7["💝 Wishlist"]
+            F8["⭐ Reviews"]
+            F9["🎟️ Coupons"]
+            F10["🏆 Loyalty"]
+            F11["💱 Currency"]
+            F12["📧 Newsletter"]
+            F13["📊 Analytics"]
+            F14["📬 Contact"]
         end
 
         subgraph LAYER["📐 Clean Layered Architecture"]
@@ -749,7 +785,7 @@ graph TB
     end
 
     subgraph DB["🐘 PostgreSQL 16"]
-        DB1["9 tables · JSONB · arrays · UUID PKs · soft deletes"]
+        DB1["19 tables · JSONB · arrays · UUID PKs · soft deletes"]
     end
 
     subgraph REDIS["🗄️ Redis 7 · optional"]
@@ -819,6 +855,8 @@ The Tailwind configuration defines a custom design system:
 | `ProductCard` | Product thumbnail with image, name, and price |
 | `CartDrawer` | Slide-in cart panel (right side) |
 | `CookieBanner` | GDPR-style cookie consent banner |
+| `LanguageSwitcher` | i18n locale toggle (EN/FR) |
+| `CurrencySelector` | Multi-currency display selector |
 
 ### Route structure 🗺️
 
@@ -839,7 +877,19 @@ The Tailwind configuration defines a custom design system:
 | `/admin` | 🔒 Admin | Admin dashboard |
 | `/admin/products` | 🔒 Admin | Product management |
 | `/admin/products/:id/edit` | 🔒 Admin | Product editor |
+| `/profile/wishlist` | 🔒 Auth | Wishlist management |
+| `/profile/loyalty` | 🔒 Auth | Loyalty points and tier |
+| `/profile/email-preferences` | 🔒 Auth | Email notification preferences |
+| `/contact` | Public | Contact form |
 | `/admin/orders` | 🔒 Admin | Order management |
+
+### Internationalization (i18n) 🌍
+
+The frontend supports **English (EN)** and **French (FR)** via a locale-based translation system. Translations live in `client/src/i18n/locales/` as JSON files (`en.json`, `fr.json`). Users switch languages through the `LanguageSwitcher` component in the header.
+
+### GDPR and privacy 🔒
+
+The platform includes GDPR-aligned features: cookie consent banner, account deletion (`DELETE /api/v1/users/account`) with password confirmation, and granular email notification preferences that users can manage from their profile.
 
 ### API client 🔌
 
@@ -926,7 +976,7 @@ For the complete deployment guide, see [docs/deployment.md](docs/deployment.md).
 
 | Document | Description |
 |---|---|
-| [📡 API Reference](docs/api.md) | Full endpoint reference with schemas and examples |
+| [📡 API Reference](docs/api.md) | Full endpoint reference with schemas and examples (all 14 feature modules) |
 | [🗄️ Database Schema](docs/database.md) | Every table, column, constraint, index, and relationship |
 | [🚢 Deployment Guide](docs/deployment.md) | Docker deployment, env vars, migrations, security checklist |
 | [📐 ADR 001: PostgreSQL](docs/adr/001-use-postgresql.md) | Why we chose PostgreSQL as the primary database |
@@ -934,7 +984,7 @@ For the complete deployment guide, see [docs/deployment.md](docs/deployment.md).
 | [📦 ADR 003: Monorepo Structure](docs/adr/003-monorepo-structure.md) | Single repo for server and client |
 | [🎨 ADR 004: React + Vite + Tailwind](docs/adr/004-react-vite-tailwind.md) | Frontend technology choices |
 | [🗄️ ADR 005: Redis for Caching and Email Queue](docs/adr/005-redis-caching-email-queue.md) | Optional Redis for product caching and BullMQ email delivery |
-| [📋 OpenAPI Specification](docs/openapi.yaml) | Complete OpenAPI 3.1 spec (61 operations, single source of truth) |
+| [📋 OpenAPI Specification](docs/openapi.yaml) | Complete OpenAPI 3.1 spec (single source of truth) |
 | [🚀 Runbook: Deployment](docs/runbooks/001-deployment.md) | Production deployment procedure with rollback |
 | [🗄️ Runbook: Database Backup](docs/runbooks/002-database-backup-restore.md) | Backup, restore, and point-in-time recovery |
 | [🚨 Runbook: Incident Response](docs/runbooks/003-incident-response.md) | Severity classification, investigation, post-mortem |

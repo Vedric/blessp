@@ -177,7 +177,7 @@
     "collectionDesc": "Explorez notre sélection de pièces streetwear d'exception, soigneusement choisies.",
     "categories": {
       "all": "Tout",
-      "hoodies": "Chandails à capuchon",
+      "hoodies": "Sweats à capuche",
       "pants": "Pantalons",
       "sets": "Ensembles"
     },
@@ -208,6 +208,11 @@
     "inStock": "En stock",
     "addToCart": "Ajouter au panier",
     "adding": "Ajout..."
+  },
+  "delivery": {
+    "freeShipping": "Livraison offerte pour toute commande de plus de 100 $",
+    "estimatedDelivery": "Livraison estimée : {{range}}",
+    "returns": "Retours gratuits sous 30 jours"
   },
   "checkout": {
     "steps": {
@@ -250,7 +255,16 @@
     "invalidOrExpiredCode": "Code invalide ou expiré",
     "payment": "Paiement",
     "billingSameAsShipping": "L'adresse de facturation est identique à l'adresse de livraison",
-    "billingAddress": "Adresse de facturation"
+    "billingAddress": "Adresse de facturation",
+    "confirmation": {
+      "emailNotice": "Un courriel de confirmation a \u00e9t\u00e9 envoy\u00e9 \u00e0 {{email}}. Veuillez consulter votre bo\u00eete de r\u00e9ception pour retrouver les d\u00e9tails de votre commande.",
+      "itemsOrdered": "Articles command\u00e9s",
+      "qty": "Qt\u00e9\u00a0: {{count}}",
+      "shippingAddress": "Adresse de livraison",
+      "estimatedDelivery": "Livraison estim\u00e9e",
+      "deliveryTimeframe": "5 \u00e0 7 jours ouvrables",
+      "paymentSummary": "R\u00e9capitulatif du paiement"
+    }
   },
   "profile": {
     "myAccount": "Mon compte",
@@ -297,11 +311,13 @@
     "itemCount_one": "{{count}} article",
     "status": {
       "pending": "En attente",
+      "paid": "Payée",
       "confirmed": "Confirmée",
       "processing": "En traitement",
       "shipped": "Expédiée",
       "delivered": "Livrée",
-      "cancelled": "Annulée"
+      "cancelled": "Annulée",
+      "refunded": "Remboursée"
     }
   },
   "orderDetail": {
@@ -545,7 +561,7 @@
     "brandDesc": "Streetwear de luxe pour ceux qui avancent avec intention. Chaque pièce est confectionnée à partir de matières d'exception, conçue pour sublimer votre quotidien.",
     "shop": "Boutique",
     "allProducts": "Tous les produits",
-    "hoodies": "Chandails à capuchon",
+    "hoodies": "Sweats à capuche",
     "pants": "Pantalons",
     "sets": "Ensembles",
     "customerCare": "Service à la clientèle",
@@ -613,7 +629,7 @@
       "colors": "Couleurs",
       "images": "Images",
       "imageUrlPlaceholder": "URL de l'image (ex. /img/black_hoody_1.jpeg)",
-      "productNamePlaceholder": "ex. Chandail à capuchon noir premium",
+      "productNamePlaceholder": "ex. Sweat à capuche noir premium",
       "descriptionPlaceholder": "Description du produit...",
       "pricePlaceholder": "49.99",
       "failedSave": "Impossible d'enregistrer le produit.",
@@ -628,7 +644,10 @@
       "shipTo": "Livrer à :",
       "updateStatus": "Mettre à jour le statut :",
       "itemCount": "{{count}} articles",
-      "itemCount_one": "{{count}} article"
+      "itemCount_one": "{{count}} article",
+      "refund": "Rembourser",
+      "refunding": "Remboursement...",
+      "confirmRefund": "Êtes-vous sûr de vouloir rembourser cette commande ? Cette action est irréversible."
     },
     "reviews": {
       "title": "Avis",

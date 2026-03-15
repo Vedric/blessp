@@ -8,3 +8,8 @@ export const CreatePaymentIntentSchema = z.object({
 export const AttachPaymentMethodSchema = z.object({
   paymentMethodId: z.string().min(1, 'A valid payment method ID is required.').trim(),
 }).strict();
+
+export const RefundOrderSchema = z.object({
+  orderId: z.string().uuid('A valid order ID is required.'),
+  reason: z.string().max(500).trim().optional(),
+}).strict();
