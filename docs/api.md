@@ -353,7 +353,7 @@ No response body.
 
 ### POST /api/v1/auth/forgot-password
 
-Request a password reset link. In development, the reset URL is logged to the server console. In production, this would send an email.
+Request a password reset link. A password reset email is sent to the user with a link that expires after 1 hour. In development, the reset URL is also logged to the server console for convenience.
 
 **🔓 Auth required:** No
 **⏱️ Rate limit:** 10 requests per 15 minutes per IP
@@ -1158,8 +1158,9 @@ Raw JSON (Stripe event payload). The route uses `express.raw()` middleware to re
 
 | Stripe Event | Action |
 | --- | --- |
-| `payment_intent.succeeded` | Order status updated to `paid` |
+| `payment_intent.succeeded` | Order status updated to `paid`, loyalty points awarded |
 | `payment_intent.payment_failed` | Order status updated to `cancelled` |
+| `charge.refunded` | Order status updated to `cancelled` |
 | All other events | Logged at debug level, no action taken |
 
 #### Success response: `200 OK`
@@ -1174,6 +1175,493 @@ Raw JSON (Stripe event payload). The route uses `express.raw()` middleware to re
 | --- | --- | --- |
 | `400` | `MISSING_SIGNATURE` | Missing `stripe-signature` header |
 | `422` | `VALIDATION_ERROR` | Signature verification failed |
+
+---
+
+## 💝 Wishlist Endpoints
+
+All wishlist endpoints require authentication. Each user has their own wishlist scoped to their account.
+
+### GET /api/v1/wishlist
+
+Get all items in the authenticated user's wishlist, ordered by creation date (newest first).
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": [
+    {
+      "id": "wishlist-item-uuid",
+      "productId": "product-uuid",
+      "createdAt": "2026-03-13T14:00:00.000Z",
+      "product": {
+        "id": "product-uuid",
+        "name": "Classic Black Hoodie",
+        "price": 8999,
+        "picture": "/img/black_hoody_1.jpeg",
+        "images": ["/img/black_hoody_1.jpeg"],
+        "category": "hoodies",
+        "isActive": true
+      }
+    }
+  ],
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+---
+
+### POST /api/v1/wishlist
+
+Toggle a product in the wishlist. If the product is not in the wishlist, it is added. If it is already present, it is removed.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `productId` | string (UUID) | ✅ Yes | Must reference an existing, active product |
+
+#### Success response: `201 Created`
+
+```json
+{
+  "data": {
+    "added": true,
+    "item": {
+      "id": "wishlist-item-uuid",
+      "productId": "product-uuid",
+      "createdAt": "2026-03-13T14:00:00.000Z",
+      "product": { "..." : "..." }
+    }
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+When removing: `{ "data": { "added": false, "item": null } }`
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `404` | `RESOURCE_NOT_FOUND` | Product not found or not active |
+
+---
+
+### DELETE /api/v1/wishlist/:productId
+
+Remove a product from the wishlist.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Success response: `204 No Content`
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `404` | `RESOURCE_NOT_FOUND` | Product not in wishlist |
+
+---
+
+## 🎟️ Coupons Endpoints
+
+### POST /api/v1/coupons/validate
+
+Validate a coupon code against an order total without applying it.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `code` | string | ✅ Yes | Coupon code (case-insensitive) |
+| `orderTotalCents` | integer | ✅ Yes | Order total in cents |
+
+#### Success response: `200 OK`
+
+Returns the coupon details (discount type, value, validity).
+
+---
+
+### POST /api/v1/coupons/apply
+
+Apply a coupon code to an order total and return the calculated discount.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+Same as `/coupons/validate`.
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "discountCents": 1500,
+    "finalTotalCents": 8499
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+---
+
+### POST /api/v1/coupons (Admin)
+
+Create a new coupon code.
+
+**🔒 Auth required:** Admin only
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `code` | string | ✅ Yes | 1 to 50 characters, uppercase |
+| `discountType` | string | ✅ Yes | `percentage` or `fixed` |
+| `discountValue` | number | ✅ Yes | Positive number |
+| `minOrderCents` | integer | ❌ No | Minimum order total for coupon eligibility |
+| `maxUses` | integer | ❌ No | Maximum number of times the coupon can be used |
+| `expiresAt` | string | ❌ No | ISO 8601 date string |
+
+#### Success response: `201 Created`
+
+---
+
+### GET /api/v1/coupons (Admin)
+
+List all coupons. **Admin only.**
+
+**🔒 Auth required:** Admin only
+
+#### Success response: `200 OK`
+
+---
+
+### PATCH /api/v1/coupons/:id (Admin)
+
+Update a coupon (activate/deactivate, change limits).
+
+**🔒 Auth required:** Admin only
+
+#### Request body
+
+| Field | Type | Required |
+| --- | --- | --- |
+| `isActive` | boolean | ❌ No |
+| `maxUses` | integer | ❌ No |
+| `expiresAt` | string | ❌ No |
+
+#### Success response: `200 OK`
+
+---
+
+## 💱 Currency Endpoints
+
+### GET /api/v1/currencies/rates
+
+Get current exchange rates with CAD as the base currency.
+
+**🔓 Auth required:** No
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "base": "CAD",
+    "rates": {
+      "CAD": 1.0,
+      "USD": 0.74,
+      "EUR": 0.68,
+      "GBP": 0.58,
+      "CHF": 0.65
+    },
+    "updatedAt": "2026-03-01T00:00:00Z"
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+---
+
+## ⭐ Reviews Endpoints
+
+### GET /api/v1/reviews
+
+List reviews for a product with pagination.
+
+**🔓 Auth required:** No
+
+#### Query parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `productId` | string (UUID) | ✅ Yes | Product to retrieve reviews for |
+| `page` | integer | ❌ No | Page number (default 1) |
+| `perPage` | integer | ❌ No | Items per page (default 20, max 100) |
+
+#### Success response: `200 OK` (paginated)
+
+---
+
+### GET /api/v1/reviews/summary/:productId
+
+Get review summary statistics for a product (average rating, total count, distribution).
+
+**🔓 Auth required:** No
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "averageRating": 4.3,
+    "totalReviews": 12,
+    "distribution": { "1": 0, "2": 1, "3": 2, "4": 4, "5": 5 }
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+---
+
+### POST /api/v1/reviews
+
+Create a review for a product. Each user can only review a product once.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `productId` | string (UUID) | ✅ Yes | Must reference an existing product |
+| `rating` | integer | ✅ Yes | 1 to 5 |
+| `title` | string | ✅ Yes | Non-empty, trimmed |
+| `comment` | string | ✅ Yes | Non-empty, trimmed |
+
+#### Success response: `201 Created`
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `409` | `CONFLICT` | User has already reviewed this product |
+| `422` | `VALIDATION_ERROR` | Invalid field values |
+
+---
+
+### PATCH /api/v1/reviews/:id
+
+Update your own review.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+---
+
+### DELETE /api/v1/reviews/:id
+
+Delete your own review.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+---
+
+### GET /api/v1/reviews/admin/all (Admin)
+
+List all reviews across all products. **Admin only.**
+
+**🔒 Auth required:** Admin only
+
+---
+
+### DELETE /api/v1/reviews/admin/:id (Admin)
+
+Delete any review (moderation). **Admin only.**
+
+**🔒 Auth required:** Admin only
+
+---
+
+## 📧 Newsletter Endpoints
+
+### POST /api/v1/newsletter/subscribe
+
+Subscribe an email address to the newsletter. If the email was previously unsubscribed, it is reactivated.
+
+**🔓 Auth required:** No
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `email` | string | ✅ Yes | Valid email, max 254 characters, normalised to lowercase, trimmed |
+
+#### Success response: `201 Created` (new) or `200 OK` (already subscribed)
+
+---
+
+### POST /api/v1/newsletter/unsubscribe
+
+Unsubscribe an email from the newsletter (soft delete).
+
+**🔓 Auth required:** No
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `email` | string | ✅ Yes | Valid email, normalised to lowercase, trimmed |
+
+#### Success response: `204 No Content`
+
+> 🛡️ **Security note:** The endpoint returns `204` regardless of whether the email exists, preventing user enumeration.
+
+---
+
+## 🏆 Loyalty Endpoints
+
+All loyalty endpoints require authentication. Points are earned automatically when orders are paid via Stripe.
+
+### GET /api/v1/loyalty/balance
+
+Get the authenticated user's loyalty points balance, tier, and redemption value.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "points": 450,
+    "tier": "Silver",
+    "nextTier": "Gold",
+    "pointsToNextTier": 550,
+    "redeemableValueCents": 2000
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+---
+
+### GET /api/v1/loyalty/transactions
+
+List the authenticated user's loyalty point transactions (earned, redeemed, bonus) with pagination.
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Query parameters
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `page` | integer | 1 | Page number |
+| `perPage` | integer | 20 | Items per page (max 100) |
+
+#### Success response: `200 OK` (paginated)
+
+---
+
+### POST /api/v1/loyalty/redeem
+
+Redeem loyalty points for store credit. Points must be redeemed in multiples of 100 (each 100 points = $5.00).
+
+**🔒 Auth required:** Yes (Bearer token)
+
+#### Request body
+
+| Field | Type | Required | Constraints |
+| --- | --- | --- | --- |
+| `points` | integer | ✅ Yes | Minimum 100, must be a multiple of 100 |
+
+#### Success response: `200 OK`
+
+#### Error responses
+
+| Status | Code | When |
+| --- | --- | --- |
+| `401` | `UNAUTHORIZED` | Not authenticated |
+| `422` | `VALIDATION_ERROR` | Insufficient points or invalid amount |
+
+---
+
+## 📊 Analytics Endpoints (Admin)
+
+All analytics endpoints require admin authentication. These provide business intelligence data for the admin dashboard.
+
+### GET /api/v1/analytics/overview
+
+Get high-level business metrics.
+
+**🔒 Auth required:** Admin only
+
+#### Success response: `200 OK`
+
+```json
+{
+  "data": {
+    "totalRevenueCents": 1250000,
+    "totalOrders": 142,
+    "totalCustomers": 89,
+    "averageOrderValueCents": 8802
+  },
+  "meta": { "requestId": "...", "timestamp": "..." }
+}
+```
+
+---
+
+### GET /api/v1/analytics/revenue
+
+Get daily revenue data for a given period.
+
+**🔒 Auth required:** Admin only
+
+#### Query parameters
+
+| Parameter | Type | Default | Allowed values |
+| --- | --- | --- | --- |
+| `period` | string | `30d` | `7d`, `30d`, `90d` |
+
+---
+
+### GET /api/v1/analytics/top-products
+
+Get top-selling products by quantity.
+
+**🔒 Auth required:** Admin only
+
+#### Query parameters
+
+| Parameter | Type | Default | Max |
+| --- | --- | --- | --- |
+| `limit` | integer | 10 | 50 |
+
+---
+
+### GET /api/v1/analytics/recent-orders
+
+Get the most recent orders across all users.
+
+**🔒 Auth required:** Admin only
+
+#### Query parameters
+
+| Parameter | Type | Default | Max |
+| --- | --- | --- | --- |
+| `limit` | integer | 10 | 50 |
 
 ---
 

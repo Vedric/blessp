@@ -1,0 +1,3682 @@
+openapi: '3.1.0'
+info:
+  title: BLE$$ P API
+  version: '3.0.0'
+  description: >
+    RESTful API for the BLE$$ P luxury streetwear e-commerce platform.
+    Provides endpoints for product catalog browsing, user authentication,
+    order management, payment processing, and administrative operations.
+  contact:
+    name: Engineering Team
+  license:
+    name: Private
+
+servers:
+  - url: /api/v1
+    description: Version 1 API
+
+tags:
+  - name: Auth
+    description: Authentication, registration, and session management
+  - name: Users
+    description: User profile and account management
+  - name: Products
+    description: Product catalog browsing and administration
+  - name: Cart
+    description: Shopping cart operations
+  - name: Orders
+    description: Order placement and lifecycle management
+  - name: Payments
+    description: Payment processing via Stripe
+  - name: Wishlist
+    description: Product wishlist management
+  - name: Coupons
+    description: Coupon validation, application, and administration
+  - name: Currency
+    description: Currency exchange rates
+  - name: Reviews
+    description: Product reviews and ratings
+  - name: Newsletter
+    description: Newsletter subscription management
+  - name: Loyalty
+    description: Loyalty points, tiers, and redemption
+  - name: Analytics
+    description: Administrative dashboard analytics
+  - name: Health
+    description: Service health and readiness probes
+
+security: []
+
+paths:
+  # ──────────────────────────────────────────────
+  # Auth
+  # ──────────────────────────────────────────────
+  /auth/register:
+    post:
+      operationId: registerUser
+      tags: [Auth]
+      summary: Register a new user account
+      description: >
+        Creates a new user account and returns the user profile along with
+        an access/refresh token pair. Rate limited to 10 requests per 15 minutes
+        per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/login:
+    post:
+      operationId: loginUser
+      tags: [Auth]
+      summary: Authenticate with email and password
+      description: >
+        Validates user credentials and returns an access/refresh token pair.
+        Returns a generic error message for both invalid email and invalid password
+        to prevent user enumeration. Rate limited to 10 requests per 15 minutes
+        per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/refresh:
+    post:
+      operationId: refreshTokens
+      tags: [Auth]
+      summary: Rotate the refresh token and issue a new token pair
+      description: >
+        Consumes the provided refresh token, invalidates it, and returns
+        a new access/refresh token pair. Detects token reuse and revokes
+        the entire token family when reuse is identified. Rate limited
+        to 10 requests per 15 minutes per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Tokens rotated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPairResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/logout:
+    post:
+      operationId: logoutUser
+      tags: [Auth]
+      summary: Revoke a refresh token and end the session
+      description: >
+        Invalidates the provided refresh token so it can no longer be used
+        to obtain new access tokens.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+      responses:
+        '204':
+          description: Session terminated successfully
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/forgot-password:
+    post:
+      operationId: forgotPassword
+      tags: [Auth]
+      summary: Request a password reset email
+      description: >
+        Sends a password reset link to the provided email address if an account
+        exists. Always returns a success response regardless of whether the email
+        is registered to prevent user enumeration. Rate limited to 10 requests
+        per 15 minutes per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Reset instructions sent (if account exists)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/reset-password:
+    post:
+      operationId: resetPassword
+      tags: [Auth]
+      summary: Set a new password using a reset token
+      description: >
+        Validates the password reset token and updates the user's password.
+        The token is single-use and expires after a configured time window.
+        Rate limited to 10 requests per 15 minutes per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [Auth]
+      summary: Retrieve the authenticated user's profile
+      description: >
+        Returns the profile of the currently authenticated user based on the
+        Bearer token provided in the Authorization header.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Users
+  # ──────────────────────────────────────────────
+  /users/profile:
+    get:
+      operationId: getUserProfile
+      tags: [Users]
+      summary: Retrieve the authenticated user's full profile
+      description: >
+        Returns the full profile of the currently authenticated user,
+        including timestamps.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      operationId: updateUserProfile
+      tags: [Users]
+      summary: Update the authenticated user's profile
+      description: >
+        Partially updates the authenticated user's profile fields.
+        Only the provided fields are modified.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /users/change-password:
+    post:
+      operationId: changeUserPassword
+      tags: [Users]
+      summary: Change the authenticated user's password
+      description: >
+        Verifies the current password and updates it to the new value.
+        Requires the user to provide their existing password for confirmation.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Products
+  # ──────────────────────────────────────────────
+  /products:
+    get:
+      operationId: listProducts
+      tags: [Products]
+      summary: List products with filtering, sorting, and pagination
+      description: >
+        Returns a paginated list of products. Supports filtering by category,
+        price range, colors, sizes, and active status. Supports full-text search
+        and configurable sort order.
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: category
+          in: query
+          schema:
+            type: string
+            maxLength: 100
+          description: Filter by product category
+        - name: search
+          in: query
+          schema:
+            type: string
+            maxLength: 200
+          description: Full-text search across product name and description
+        - name: sort
+          in: query
+          schema:
+            type: string
+            maxLength: 100
+          description: 'Sort expression (e.g. "price:asc", "createdAt:desc")'
+        - name: isActive
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+          description: Filter by active status
+        - name: minPrice
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+          description: Minimum price filter (in cents)
+        - name: maxPrice
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+          description: Maximum price filter (in cents)
+        - name: colors
+          in: query
+          schema:
+            type: string
+            maxLength: 500
+          description: Comma-separated list of color values to filter by
+        - name: sizes
+          in: query
+          schema:
+            type: string
+            maxLength: 200
+          description: Comma-separated list of size values to filter by
+      responses:
+        '200':
+          description: Paginated product list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      operationId: createProduct
+      tags: [Products]
+      summary: Create a new product (admin only)
+      description: >
+        Adds a new product to the catalog. Requires administrator privileges.
+        Price is specified in cents as a positive integer.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '201':
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /products/featured:
+    get:
+      operationId: listFeaturedProducts
+      tags: [Products]
+      summary: List featured products for the storefront
+      description: >
+        Returns products that have been assigned a front-page display order,
+        sorted by their onfrontOrder value. Used for the homepage showcase.
+      responses:
+        '200':
+          description: Featured product list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductArrayResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /products/filters:
+    get:
+      operationId: getProductFilters
+      tags: [Products]
+      summary: Retrieve available filter options for the product catalog
+      description: >
+        Returns the distinct categories, colors, sizes, and the overall
+        price range across all active products. Used to populate filter
+        controls on the storefront.
+      responses:
+        '200':
+          description: Available filter values
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ProductFilters'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /products/{id}:
+    get:
+      operationId: getProduct
+      tags: [Products]
+      summary: Retrieve a single product by ID
+      description: >
+        Returns the full product details including images, category,
+        available colors, sizes, and stock information.
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDataResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      operationId: updateProduct
+      tags: [Products]
+      summary: Partially update a product (admin only)
+      description: >
+        Updates the specified fields of an existing product.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      operationId: deleteProduct
+      tags: [Products]
+      summary: Delete a product (admin only)
+      description: >
+        Removes a product from the catalog. Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '204':
+          description: Product deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /products/{id}/complete-look:
+    get:
+      operationId: getCompleteLook
+      tags: [Products]
+      summary: Retrieve complementary products for a complete look
+      description: >
+        Returns a curated set of products that pair well with the specified
+        product, enabling "complete the look" styling recommendations on
+        the product detail page.
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Complementary products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductArrayResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /products/{id}/variants:
+    get:
+      operationId: getProductVariants
+      tags: [Products]
+      summary: List all variants for a product
+      description: >
+        Returns all size/color/stock combinations (variants) available
+        for the specified product.
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Product variant list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProductVariant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    put:
+      operationId: replaceProductVariants
+      tags: [Products]
+      summary: Replace all variants for a product (admin only)
+      description: >
+        Replaces the full set of variants for a product. Any existing
+        variants not present in the request body are removed.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVariantsRequest'
+      responses:
+        '200':
+          description: Variants replaced
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProductVariant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Cart
+  # ──────────────────────────────────────────────
+  /cart:
+    get:
+      operationId: getCart
+      tags: [Cart]
+      summary: Retrieve the authenticated user's shopping cart
+      description: >
+        Returns all items in the user's cart, including product details,
+        the total price in cents, and the item count.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Cart contents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      operationId: addToCart
+      tags: [Cart]
+      summary: Add a product to the cart
+      description: >
+        Adds the specified product with a given quantity, size, and color
+        to the authenticated user's shopping cart.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToCartRequest'
+      responses:
+        '201':
+          description: Item added to cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItemDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      operationId: clearCart
+      tags: [Cart]
+      summary: Remove all items from the cart
+      description: >
+        Empties the authenticated user's shopping cart entirely.
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Cart cleared
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /cart/{itemId}:
+    patch:
+      operationId: updateCartItem
+      tags: [Cart]
+      summary: Update the quantity of a cart item
+      description: >
+        Changes the quantity of an existing item in the authenticated
+        user's cart.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Cart item identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCartItemRequest'
+      responses:
+        '200':
+          description: Cart item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItemDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      operationId: removeCartItem
+      tags: [Cart]
+      summary: Remove a single item from the cart
+      description: >
+        Deletes a specific item from the authenticated user's cart.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Cart item identifier
+      responses:
+        '204':
+          description: Item removed from cart
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Orders
+  # ──────────────────────────────────────────────
+  /orders:
+    post:
+      operationId: createOrder
+      tags: [Orders]
+      summary: Place a new order from the current cart
+      description: >
+        Converts the authenticated user's shopping cart into an order.
+        Captures the shipping address and optionally applies a coupon code.
+        Decrements variant stock for each line item.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order placed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDataResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    get:
+      operationId: listAllOrders
+      tags: [Orders]
+      summary: List all orders (admin only)
+      description: >
+        Returns a paginated list of all orders across all users.
+        Supports filtering by order status. Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+          description: Filter by order status
+      responses:
+        '200':
+          description: Paginated order list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orders/mine:
+    get:
+      operationId: listMyOrders
+      tags: [Orders]
+      summary: List the authenticated user's orders
+      description: >
+        Returns a paginated list of orders belonging to the authenticated user.
+        Supports filtering by order status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+          description: Filter by order status
+      responses:
+        '200':
+          description: Paginated order list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      tags: [Orders]
+      summary: Retrieve a single order by ID
+      description: >
+        Returns the full details of an order including line items and
+        shipping address. Regular users can only access their own orders;
+        administrators can access any order.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orders/{id}/timeline:
+    get:
+      operationId: getOrderTimeline
+      tags: [Orders]
+      summary: Retrieve the status history for an order
+      description: >
+        Returns a chronological list of status changes for the specified
+        order, enabling customers to track their order's progression.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Order timeline entries
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/OrderTimelineEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orders/{id}/status:
+    patch:
+      operationId: updateOrderStatus
+      tags: [Orders]
+      summary: Update the status of an order (admin only)
+      description: >
+        Transitions an order to a new status. Creates a timeline entry
+        recording the status change. Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderStatusRequest'
+      responses:
+        '200':
+          description: Order status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Payments
+  # ──────────────────────────────────────────────
+  /payments/create-intent:
+    post:
+      operationId: createPaymentIntent
+      tags: [Payments]
+      summary: Create a Stripe payment intent for an order
+      description: >
+        Initiates a payment intent with Stripe for the specified order.
+        Returns the client secret required to confirm payment on the frontend.
+        Defaults to CAD if no currency is specified.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentIntentRequest'
+      responses:
+        '200':
+          description: Payment intent created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/PaymentIntent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /payments/webhook:
+    post:
+      operationId: handlePaymentWebhook
+      tags: [Payments]
+      summary: Process incoming Stripe webhook events
+      description: >
+        Receives and processes webhook events from Stripe. Verifies the
+        webhook signature before processing. Updates order status based
+        on payment outcomes.
+      parameters:
+        - name: stripe-signature
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Stripe webhook signature for payload verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Raw Stripe event payload
+      responses:
+        '200':
+          description: Webhook processed
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Wishlist
+  # ──────────────────────────────────────────────
+  /wishlist:
+    get:
+      operationId: getWishlist
+      tags: [Wishlist]
+      summary: Retrieve the authenticated user's wishlist
+      description: >
+        Returns all products saved to the authenticated user's wishlist,
+        including product details.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Wishlist items
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/WishlistItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      operationId: toggleWishlistItem
+      tags: [Wishlist]
+      summary: Add a product to the wishlist (toggle behavior)
+      description: >
+        Adds the specified product to the authenticated user's wishlist.
+        Returns whether the item was added along with the wishlist item
+        details.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToWishlistRequest'
+      responses:
+        '201':
+          description: Item added to wishlist
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ToggleWishlistResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /wishlist/{productId}:
+    delete:
+      operationId: removeWishlistItem
+      tags: [Wishlist]
+      summary: Remove a product from the wishlist
+      description: >
+        Removes the specified product from the authenticated user's wishlist.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Product identifier to remove from wishlist
+      responses:
+        '204':
+          description: Item removed from wishlist
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Coupons
+  # ──────────────────────────────────────────────
+  /coupons/validate:
+    post:
+      operationId: validateCoupon
+      tags: [Coupons]
+      summary: Validate a coupon code against an order total
+      description: >
+        Checks whether a coupon code is valid for the given order total.
+        Returns the coupon details if valid without consuming any usage.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateCouponRequest'
+      responses:
+        '200':
+          description: Coupon is valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /coupons/apply:
+    post:
+      operationId: applyCoupon
+      tags: [Coupons]
+      summary: Calculate the discount for a coupon applied to an order total
+      description: >
+        Validates the coupon and calculates the discount amount and final
+        total in cents. Does not permanently consume a coupon usage (that
+        happens at order creation).
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplyCouponRequest'
+      responses:
+        '200':
+          description: Discount calculated
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        required:
+                          - discountCents
+                          - finalTotalCents
+                        properties:
+                          discountCents:
+                            type: integer
+                            description: Discount amount in cents
+                            example: 1500
+                          finalTotalCents:
+                            type: integer
+                            description: Order total after discount in cents
+                            example: 8500
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /coupons:
+    post:
+      operationId: createCoupon
+      tags: [Coupons]
+      summary: Create a new coupon (admin only)
+      description: >
+        Creates a new discount coupon with the specified parameters.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCouponRequest'
+      responses:
+        '201':
+          description: Coupon created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    get:
+      operationId: listCoupons
+      tags: [Coupons]
+      summary: List all coupons (admin only)
+      description: >
+        Returns all coupons in the system including usage statistics.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Coupon list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Coupon'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /coupons/{id}:
+    patch:
+      operationId: updateCoupon
+      tags: [Coupons]
+      summary: Update a coupon (admin only)
+      description: >
+        Partially updates a coupon's configuration. Allows toggling
+        active status, adjusting maximum uses, and changing expiration.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCouponRequest'
+      responses:
+        '200':
+          description: Coupon updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Currency
+  # ──────────────────────────────────────────────
+  /currencies/rates:
+    get:
+      operationId: getExchangeRates
+      tags: [Currency]
+      summary: Retrieve current exchange rates
+      description: >
+        Returns the latest exchange rates relative to the base currency (CAD).
+        Supported currencies include USD, EUR, GBP, and CHF.
+      responses:
+        '200':
+          description: Exchange rates
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ExchangeRates'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Reviews
+  # ──────────────────────────────────────────────
+  /reviews:
+    get:
+      operationId: listProductReviews
+      tags: [Reviews]
+      summary: List reviews for a specific product
+      description: >
+        Returns a paginated list of reviews for the specified product,
+        including reviewer names.
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Product identifier to fetch reviews for
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+      responses:
+        '200':
+          description: Paginated review list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      operationId: createReview
+      tags: [Reviews]
+      summary: Submit a product review
+      description: >
+        Creates a new review for a product. Each user may only submit
+        one review per product.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReviewRequest'
+      responses:
+        '201':
+          description: Review created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /reviews/summary/{productId}:
+    get:
+      operationId: getReviewSummary
+      tags: [Reviews]
+      summary: Retrieve the rating summary for a product
+      description: >
+        Returns aggregate review statistics including average rating,
+        total review count, and the distribution of ratings (1 through 5).
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Product identifier
+      responses:
+        '200':
+          description: Review summary
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ReviewSummary'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /reviews/admin/all:
+    get:
+      operationId: listAllReviews
+      tags: [Reviews]
+      summary: List all reviews across all products (admin only)
+      description: >
+        Returns all reviews in the system for administrative moderation.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: All reviews
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Review'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /reviews/admin/{id}:
+    delete:
+      operationId: adminDeleteReview
+      tags: [Reviews]
+      summary: Delete any review (admin only)
+      description: >
+        Removes a review regardless of ownership. Used for content
+        moderation. Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '204':
+          description: Review deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /reviews/{id}:
+    patch:
+      operationId: updateReview
+      tags: [Reviews]
+      summary: Update an existing review
+      description: >
+        Partially updates a review authored by the authenticated user.
+        Only the review owner may modify it.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReviewRequest'
+      responses:
+        '200':
+          description: Review updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      operationId: deleteReview
+      tags: [Reviews]
+      summary: Delete a review authored by the authenticated user
+      description: >
+        Removes a review that belongs to the authenticated user.
+        Users may only delete their own reviews.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '204':
+          description: Review deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Newsletter
+  # ──────────────────────────────────────────────
+  /newsletter/subscribe:
+    post:
+      operationId: subscribeNewsletter
+      tags: [Newsletter]
+      summary: Subscribe an email to the newsletter
+      description: >
+        Adds an email address to the newsletter mailing list. Returns 201
+        for new subscriptions and 200 if the email is already subscribed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterEmailRequest'
+      responses:
+        '201':
+          description: Newly subscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '200':
+          description: Already subscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /newsletter/unsubscribe:
+    post:
+      operationId: unsubscribeNewsletter
+      tags: [Newsletter]
+      summary: Unsubscribe an email from the newsletter
+      description: >
+        Removes an email address from the newsletter mailing list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterEmailRequest'
+      responses:
+        '204':
+          description: Unsubscribed successfully
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Loyalty
+  # ──────────────────────────────────────────────
+  /loyalty/balance:
+    get:
+      operationId: getLoyaltyBalance
+      tags: [Loyalty]
+      summary: Retrieve the authenticated user's loyalty balance and tier
+      description: >
+        Returns the user's current loyalty points balance, tier level
+        (Bronze, Silver, Gold, Platinum), progress toward the next tier,
+        and the redeemable monetary value of accumulated points.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Loyalty balance
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/LoyaltyBalance'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /loyalty/transactions:
+    get:
+      operationId: listLoyaltyTransactions
+      tags: [Loyalty]
+      summary: List the authenticated user's loyalty point transactions
+      description: >
+        Returns a paginated history of loyalty point earnings,
+        redemptions, and bonus awards.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+      responses:
+        '200':
+          description: Paginated loyalty transaction list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyTransactionListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /loyalty/redeem:
+    post:
+      operationId: redeemLoyaltyPoints
+      tags: [Loyalty]
+      summary: Redeem loyalty points for store credit
+      description: >
+        Converts the specified number of loyalty points into a discount.
+        Minimum redemption is 100 points. Conversion rate is
+        100 points = $5.00 CAD.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemPointsRequest'
+      responses:
+        '200':
+          description: Points redeemed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/LoyaltyTransaction'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Analytics
+  # ──────────────────────────────────────────────
+  /analytics/overview:
+    get:
+      operationId: getAnalyticsOverview
+      tags: [Analytics]
+      summary: Retrieve high-level business metrics (admin only)
+      description: >
+        Returns aggregate statistics including total revenue, order count,
+        customer count, and average order value. Requires administrator
+        privileges.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Overview statistics
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/OverviewStats'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /analytics/revenue:
+    get:
+      operationId: getRevenueAnalytics
+      tags: [Analytics]
+      summary: Retrieve revenue data over a time period (admin only)
+      description: >
+        Returns daily revenue and order count data points for the
+        specified period. Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ['7d', '30d', '90d']
+          description: Time period for revenue aggregation
+      responses:
+        '200':
+          description: Revenue time series
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/RevenueDataPoint'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /analytics/top-products:
+    get:
+      operationId: getTopProducts
+      tags: [Analytics]
+      summary: Retrieve best-selling products (admin only)
+      description: >
+        Returns the top-selling products ranked by total quantity sold.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          description: Maximum number of products to return
+      responses:
+        '200':
+          description: Top-selling products
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TopProduct'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /analytics/recent-orders:
+    get:
+      operationId: getRecentOrders
+      tags: [Analytics]
+      summary: Retrieve the most recent orders (admin only)
+      description: >
+        Returns the latest orders for the admin dashboard overview.
+        Requires administrator privileges.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          description: Maximum number of orders to return
+      responses:
+        '200':
+          description: Recent orders
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/DataEnvelope'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/RecentOrder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ──────────────────────────────────────────────
+  # Health (not under /api/v1)
+  # ──────────────────────────────────────────────
+  /health/live:
+    servers:
+      - url: /
+        description: Root path (not under /api/v1)
+    get:
+      operationId: healthLive
+      tags: [Health]
+      summary: Liveness probe
+      description: >
+        Returns 200 if the process is running. Used by container
+        orchestrators to determine whether the process should be
+        restarted.
+      responses:
+        '200':
+          description: Process is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /health/ready:
+    servers:
+      - url: /
+        description: Root path (not under /api/v1)
+    get:
+      operationId: healthReady
+      tags: [Health]
+      summary: Readiness probe
+      description: >
+        Returns 200 if all critical dependencies (database, cache) are
+        reachable and the service can accept traffic. Returns 503 if
+        any dependency is unavailable.
+      responses:
+        '200':
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+        '503':
+          description: One or more dependencies are unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+
+  /metrics:
+    servers:
+      - url: /
+        description: Root path (not under /api/v1)
+    get:
+      operationId: getMetrics
+      tags: [Health]
+      summary: Prometheus metrics endpoint
+      description: >
+        Exposes application metrics in Prometheus text exposition format.
+        Includes HTTP request durations, request counts, database pool
+        statistics, and job queue depth.
+      responses:
+        '200':
+          description: Prometheus metrics
+          content:
+            text/plain:
+              schema:
+                type: string
+
+# ════════════════════════════════════════════════
+# Components
+# ════════════════════════════════════════════════
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        RS256-signed JWT access token with a 15-minute TTL.
+        Obtain via POST /auth/login or POST /auth/register.
+
+  parameters:
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Resource identifier
+
+    PageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for pagination
+
+    PerPageParam:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Number of items per page (maximum 100)
+
+  schemas:
+    # ── Envelope ──────────────────────────────────
+    Meta:
+      type: object
+      required:
+        - requestId
+        - timestamp
+      properties:
+        requestId:
+          type: string
+          description: Unique identifier for request tracing
+          example: 01J3K8QV7B2XHYZT
+        timestamp:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp of the response
+          example: '2025-11-04T14:32:00Z'
+
+    Pagination:
+      type: object
+      required:
+        - page
+        - perPage
+        - totalItems
+        - totalPages
+      properties:
+        page:
+          type: integer
+          example: 1
+        perPage:
+          type: integer
+          example: 20
+        totalItems:
+          type: integer
+          example: 143
+        totalPages:
+          type: integer
+          example: 8
+
+    DataEnvelope:
+      type: object
+      required:
+        - meta
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    ErrorEnvelope:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+            - requestId
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+              example: RESOURCE_NOT_FOUND
+            message:
+              type: string
+              description: Human-readable error description
+              example: "User with id 'abc' does not exist."
+            requestId:
+              type: string
+              description: Request identifier for troubleshooting
+              example: 01J3K8QV7B2XHYZT
+
+    ValidationErrorEnvelope:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+            - requestId
+          properties:
+            code:
+              type: string
+              example: VALIDATION_ERROR
+            message:
+              type: string
+              example: Input validation failed.
+            fields:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: Field-level validation error messages
+              example:
+                email: ['A valid email address is required.']
+                password: ['Password must be at least 12 characters long.']
+            requestId:
+              type: string
+              example: 01J3K8QV7B2XHYZT
+
+    # ── Auth ──────────────────────────────────────
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: Email address (normalized to lowercase)
+          example: jane.doe@example.com
+        password:
+          type: string
+          format: password
+          minLength: 12
+          maxLength: 128
+          description: Must contain at least one uppercase letter and one number
+          example: SecureP4ssword!
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Jane
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Doe
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: jane.doe@example.com
+        password:
+          type: string
+          format: password
+          minLength: 1
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          minLength: 1
+          description: The refresh token from the previous token pair
+
+    LogoutRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          minLength: 1
+
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+          minLength: 1
+          description: Single-use password reset token received via email
+        password:
+          type: string
+          format: password
+          minLength: 12
+          maxLength: 128
+          description: Must contain at least one uppercase letter and one number
+
+    TokenPair:
+      type: object
+      required:
+        - accessToken
+        - refreshToken
+      properties:
+        accessToken:
+          type: string
+          description: Short-lived JWT access token (15-minute TTL)
+        refreshToken:
+          type: string
+          description: Long-lived refresh token for obtaining new access tokens
+
+    # ── User ──────────────────────────────────────
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - firstName
+        - lastName
+        - isAdmin
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440000
+        email:
+          type: string
+          format: email
+          example: jane.doe@example.com
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Doe
+        isAdmin:
+          type: boolean
+          example: false
+        createdAt:
+          type: string
+          format: date-time
+
+    UserProfile:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          required:
+            - updatedAt
+          properties:
+            updatedAt:
+              type: string
+              format: date-time
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+      additionalProperties: false
+
+    ChangePasswordRequest:
+      type: object
+      required:
+        - currentPassword
+        - newPassword
+      properties:
+        currentPassword:
+          type: string
+          minLength: 1
+        newPassword:
+          type: string
+          format: password
+          minLength: 12
+          maxLength: 128
+          description: Must contain at least one uppercase letter and one number
+      additionalProperties: false
+
+    # ── Product ───────────────────────────────────
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - images
+        - colors
+        - sizes
+        - isActive
+        - hasLowStock
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Velvet Bomber Jacket
+        price:
+          type: integer
+          description: Price in cents
+          example: 29900
+        description:
+          type: string
+          nullable: true
+          example: Premium velvet bomber with silk lining
+        details:
+          type: string
+          nullable: true
+        picture:
+          type: string
+          format: uri
+          nullable: true
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+        category:
+          type: string
+          nullable: true
+          example: Outerwear
+        colors:
+          type: array
+          items:
+            type: string
+          example: ['Black', 'Navy']
+        sizes:
+          type: array
+          items:
+            type: string
+          example: ['S', 'M', 'L', 'XL']
+        isActive:
+          type: boolean
+        onfrontOrder:
+          type: integer
+          nullable: true
+          description: Display position on the storefront homepage (null if not featured)
+        hasLowStock:
+          type: boolean
+          description: Indicates whether any variant has critically low inventory
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        price:
+          type: integer
+          minimum: 1
+          description: Price in cents
+        description:
+          type: string
+          maxLength: 2000
+        details:
+          type: string
+          maxLength: 5000
+        picture:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          maxItems: 20
+        category:
+          type: string
+          maxLength: 100
+        colors:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          maxItems: 30
+        sizes:
+          type: array
+          items:
+            type: string
+            maxLength: 20
+          maxItems: 20
+        isActive:
+          type: boolean
+        onfrontOrder:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+
+    UpdateProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        price:
+          type: integer
+          minimum: 1
+          description: Price in cents
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        details:
+          type: string
+          maxLength: 5000
+          nullable: true
+        picture:
+          type: string
+          format: uri
+          nullable: true
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          maxItems: 20
+        category:
+          type: string
+          maxLength: 100
+          nullable: true
+        colors:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          maxItems: 30
+        sizes:
+          type: array
+          items:
+            type: string
+            maxLength: 20
+          maxItems: 20
+        isActive:
+          type: boolean
+        onfrontOrder:
+          type: integer
+          minimum: 0
+          nullable: true
+      additionalProperties: false
+
+    ProductFilters:
+      type: object
+      required:
+        - categories
+        - colors
+        - sizes
+        - priceRange
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+        colors:
+          type: array
+          items:
+            type: string
+        sizes:
+          type: array
+          items:
+            type: string
+        priceRange:
+          type: object
+          required:
+            - min
+            - max
+          properties:
+            min:
+              type: integer
+              description: Lowest price in cents
+            max:
+              type: integer
+              description: Highest price in cents
+
+    ProductVariant:
+      type: object
+      required:
+        - id
+        - productId
+        - size
+        - color
+        - stock
+      properties:
+        id:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        size:
+          type: string
+          example: M
+        color:
+          type: string
+          example: Black
+        stock:
+          type: integer
+          minimum: 0
+          example: 25
+        sku:
+          type: string
+          nullable: true
+          example: VBJ-BLK-M
+
+    UpdateVariantsRequest:
+      type: object
+      required:
+        - variants
+      properties:
+        variants:
+          type: array
+          items:
+            type: object
+            required:
+              - size
+              - color
+              - stock
+            properties:
+              size:
+                type: string
+                minLength: 1
+                maxLength: 20
+              color:
+                type: string
+                minLength: 1
+                maxLength: 50
+              stock:
+                type: integer
+                minimum: 0
+              sku:
+                type: string
+                maxLength: 100
+                nullable: true
+          minItems: 1
+          maxItems: 200
+      additionalProperties: false
+
+    # ── Cart ──────────────────────────────────────
+    CartItem:
+      type: object
+      required:
+        - id
+        - productId
+        - quantity
+        - product
+      properties:
+        id:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 99
+        size:
+          type: string
+          nullable: true
+        color:
+          type: string
+          nullable: true
+        product:
+          type: object
+          required:
+            - id
+            - name
+            - price
+            - isActive
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+            price:
+              type: integer
+              description: Price in cents
+            picture:
+              type: string
+              format: uri
+              nullable: true
+            isActive:
+              type: boolean
+
+    Cart:
+      type: object
+      required:
+        - items
+        - totalCents
+        - itemCount
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        totalCents:
+          type: integer
+          description: Total cart value in cents
+          example: 59800
+        itemCount:
+          type: integer
+          description: Number of distinct items in the cart
+          example: 3
+
+    AddToCartRequest:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 99
+        size:
+          type: string
+          maxLength: 20
+        color:
+          type: string
+          maxLength: 50
+      additionalProperties: false
+
+    UpdateCartItemRequest:
+      type: object
+      required:
+        - quantity
+      properties:
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 99
+      additionalProperties: false
+
+    # ── Order ─────────────────────────────────────
+    OrderStatus:
+      type: string
+      enum:
+        - pending
+        - confirmed
+        - processing
+        - shipped
+        - delivered
+        - cancelled
+
+    OrderItem:
+      type: object
+      required:
+        - id
+        - productKey
+        - productName
+        - quantity
+        - unitPriceCents
+      properties:
+        id:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+          nullable: true
+          description: References the product (null if the product has been deleted)
+        productKey:
+          type: string
+          description: Immutable product identifier captured at order time
+        productName:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+        unitPriceCents:
+          type: integer
+          description: Price per unit at the time of purchase, in cents
+        size:
+          type: string
+          nullable: true
+        color:
+          type: string
+          nullable: true
+
+    Order:
+      type: object
+      required:
+        - id
+        - userId
+        - totalCents
+        - discountCents
+        - status
+        - items
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        totalCents:
+          type: integer
+          description: Order total in cents (after discount)
+          example: 45000
+        discountCents:
+          type: integer
+          description: Discount amount in cents
+          example: 5000
+        couponCode:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        transactionKey:
+          type: string
+          nullable: true
+          description: Payment transaction reference
+        shippingAddress:
+          type: object
+          nullable: true
+          description: Shipping address captured at order placement
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateOrderRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - addressLine1
+        - city
+        - postalCode
+        - country
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        phone:
+          type: string
+          maxLength: 30
+        addressLine1:
+          type: string
+          minLength: 1
+          maxLength: 200
+        addressLine2:
+          type: string
+          maxLength: 200
+        city:
+          type: string
+          minLength: 1
+          maxLength: 100
+        postalCode:
+          type: string
+          minLength: 1
+          maxLength: 20
+        province:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          minLength: 1
+          maxLength: 100
+        couponCode:
+          type: string
+          maxLength: 50
+          description: Optional coupon code (automatically uppercased)
+      additionalProperties: false
+
+    UpdateOrderStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+      additionalProperties: false
+
+    OrderTimelineEntry:
+      type: object
+      required:
+        - status
+        - timestamp
+      properties:
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        timestamp:
+          type: string
+          format: date-time
+        note:
+          type: string
+          nullable: true
+
+    # ── Payment ───────────────────────────────────
+    PaymentIntent:
+      type: object
+      required:
+        - clientSecret
+        - paymentIntentId
+        - amount
+        - currency
+      properties:
+        clientSecret:
+          type: string
+          description: Stripe client secret for frontend payment confirmation
+        paymentIntentId:
+          type: string
+          description: Stripe payment intent identifier
+        amount:
+          type: integer
+          description: Amount in the smallest currency unit (e.g. cents)
+          example: 29900
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: cad
+
+    CreatePaymentIntentRequest:
+      type: object
+      required:
+        - orderId
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          default: cad
+          description: ISO 4217 currency code
+      additionalProperties: false
+
+    # ── Wishlist ──────────────────────────────────
+    WishlistItem:
+      type: object
+      required:
+        - id
+        - productId
+        - createdAt
+        - product
+      properties:
+        id:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        product:
+          type: object
+          required:
+            - id
+            - name
+            - price
+            - images
+            - isActive
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+            price:
+              type: integer
+              description: Price in cents
+            picture:
+              type: string
+              format: uri
+              nullable: true
+            images:
+              type: array
+              items:
+                type: string
+                format: uri
+            category:
+              type: string
+              nullable: true
+            isActive:
+              type: boolean
+
+    ToggleWishlistResult:
+      type: object
+      required:
+        - added
+      properties:
+        added:
+          type: boolean
+          description: Whether the item was added (true) or already existed (false)
+        item:
+          $ref: '#/components/schemas/WishlistItem'
+          nullable: true
+
+    AddToWishlistRequest:
+      type: object
+      required:
+        - productId
+      properties:
+        productId:
+          type: string
+          format: uuid
+      additionalProperties: false
+
+    # ── Coupon ────────────────────────────────────
+    Coupon:
+      type: object
+      required:
+        - id
+        - code
+        - discountType
+        - discountValue
+        - currentUses
+        - isActive
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+          example: SUMMER25
+        discountType:
+          type: string
+          enum:
+            - percentage
+            - fixed
+        discountValue:
+          type: integer
+          description: >
+            Percentage points (1 to 100) for percentage type, or
+            fixed amount in cents for fixed type
+          example: 25
+        minOrderCents:
+          type: integer
+          nullable: true
+          description: Minimum order total required to use this coupon (in cents)
+        maxUses:
+          type: integer
+          nullable: true
+          description: Maximum number of times the coupon can be redeemed
+        currentUses:
+          type: integer
+          description: Number of times the coupon has been redeemed
+        isActive:
+          type: boolean
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateCouponRequest:
+      type: object
+      required:
+        - code
+        - discountType
+        - discountValue
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Coupon code (automatically uppercased)
+        discountType:
+          type: string
+          enum:
+            - percentage
+            - fixed
+        discountValue:
+          type: integer
+          minimum: 1
+        minOrderCents:
+          type: integer
+          minimum: 0
+        maxUses:
+          type: integer
+          minimum: 1
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+
+    ValidateCouponRequest:
+      type: object
+      required:
+        - code
+        - orderTotalCents
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 50
+        orderTotalCents:
+          type: integer
+          minimum: 1
+      additionalProperties: false
+
+    ApplyCouponRequest:
+      type: object
+      required:
+        - code
+        - orderTotalCents
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 50
+        orderTotalCents:
+          type: integer
+          minimum: 1
+      additionalProperties: false
+
+    UpdateCouponRequest:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+        maxUses:
+          type: integer
+          minimum: 1
+          nullable: true
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+
+    # ── Currency ──────────────────────────────────
+    ExchangeRates:
+      type: object
+      required:
+        - base
+        - rates
+        - updatedAt
+      properties:
+        base:
+          type: string
+          enum: ['CAD', 'USD', 'EUR', 'GBP', 'CHF']
+          example: CAD
+        rates:
+          type: object
+          additionalProperties:
+            type: number
+          example:
+            CAD: 1.0
+            USD: 0.74
+            EUR: 0.68
+            GBP: 0.58
+            CHF: 0.65
+        updatedAt:
+          type: string
+          format: date-time
+
+    # ── Review ────────────────────────────────────
+    Review:
+      type: object
+      required:
+        - id
+        - userId
+        - productId
+        - rating
+        - user
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        title:
+          type: string
+          nullable: true
+          maxLength: 200
+        comment:
+          type: string
+          nullable: true
+          maxLength: 2000
+        user:
+          type: object
+          required:
+            - firstName
+            - lastName
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateReviewRequest:
+      type: object
+      required:
+        - productId
+        - rating
+      properties:
+        productId:
+          type: string
+          format: uuid
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        title:
+          type: string
+          maxLength: 200
+        comment:
+          type: string
+          maxLength: 2000
+      additionalProperties: false
+
+    UpdateReviewRequest:
+      type: object
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        title:
+          type: string
+          maxLength: 200
+        comment:
+          type: string
+          maxLength: 2000
+      additionalProperties: false
+
+    ReviewSummary:
+      type: object
+      required:
+        - averageRating
+        - totalReviews
+        - distribution
+      properties:
+        averageRating:
+          type: number
+          format: float
+          example: 4.3
+        totalReviews:
+          type: integer
+          example: 87
+        distribution:
+          type: object
+          description: Count of reviews per rating (keys 1 through 5)
+          additionalProperties:
+            type: integer
+          example:
+            '1': 2
+            '2': 5
+            '3': 10
+            '4': 30
+            '5': 40
+
+    # ── Newsletter ────────────────────────────────
+    NewsletterEmailRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+      additionalProperties: false
+
+    # ── Loyalty ───────────────────────────────────
+    LoyaltyBalance:
+      type: object
+      required:
+        - points
+        - tier
+        - pointsToNextTier
+        - redeemableValue
+      properties:
+        points:
+          type: integer
+          description: Current loyalty point balance
+          example: 1250
+        tier:
+          type: string
+          enum: ['Bronze', 'Silver', 'Gold', 'Platinum']
+          example: Silver
+        nextTier:
+          type: string
+          enum: ['Bronze', 'Silver', 'Gold', 'Platinum']
+          nullable: true
+          description: The next tier to unlock (null if at Platinum)
+          example: Gold
+        pointsToNextTier:
+          type: integer
+          description: Points remaining until the next tier
+          example: 750
+        redeemableValue:
+          type: integer
+          description: Monetary value of redeemable points in cents
+          example: 6000
+
+    LoyaltyTransaction:
+      type: object
+      required:
+        - id
+        - points
+        - type
+        - description
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        points:
+          type: integer
+          description: Points earned or redeemed (positive for earned, negative for redeemed)
+          example: 150
+        type:
+          type: string
+          enum: ['earned', 'redeemed', 'bonus']
+        description:
+          type: string
+          example: Points earned from order #ORD-2025-0042
+        orderId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Associated order (if applicable)
+        createdAt:
+          type: string
+          format: date-time
+
+    RedeemPointsRequest:
+      type: object
+      required:
+        - points
+      properties:
+        points:
+          type: integer
+          minimum: 100
+          description: Number of points to redeem (minimum 100)
+      additionalProperties: false
+
+    # ── Analytics ─────────────────────────────────
+    OverviewStats:
+      type: object
+      required:
+        - totalRevenueCents
+        - totalOrders
+        - totalCustomers
+        - averageOrderValueCents
+      properties:
+        totalRevenueCents:
+          type: integer
+          example: 12500000
+        totalOrders:
+          type: integer
+          example: 847
+        totalCustomers:
+          type: integer
+          example: 312
+        averageOrderValueCents:
+          type: integer
+          example: 14760
+
+    RevenueDataPoint:
+      type: object
+      required:
+        - date
+        - revenueCents
+        - orderCount
+      properties:
+        date:
+          type: string
+          format: date
+          example: '2025-10-15'
+        revenueCents:
+          type: integer
+          example: 450000
+        orderCount:
+          type: integer
+          example: 32
+
+    TopProduct:
+      type: object
+      required:
+        - productName
+        - totalQuantity
+        - totalRevenueCents
+      properties:
+        productId:
+          type: string
+          format: uuid
+          nullable: true
+        productName:
+          type: string
+          example: Velvet Bomber Jacket
+        totalQuantity:
+          type: integer
+          example: 156
+        totalRevenueCents:
+          type: integer
+          example: 4664400
+
+    RecentOrder:
+      type: object
+      required:
+        - id
+        - customerName
+        - customerEmail
+        - totalCents
+        - discountCents
+        - status
+        - itemCount
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        customerName:
+          type: string
+          example: Jane Doe
+        customerEmail:
+          type: string
+          format: email
+        totalCents:
+          type: integer
+          example: 59800
+        discountCents:
+          type: integer
+          example: 0
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        itemCount:
+          type: integer
+          example: 3
+        createdAt:
+          type: string
+          format: date-time
+
+    # ── Health ────────────────────────────────────
+    ReadinessResponse:
+      type: object
+      required:
+        - status
+        - checks
+      properties:
+        status:
+          type: string
+          enum: ['ready', 'unavailable']
+        checks:
+          type: object
+          properties:
+            database:
+              type: string
+              enum: ['fulfilled', 'rejected']
+            cache:
+              type: string
+              enum: ['fulfilled', 'rejected']
+
+    # ── Shared ────────────────────────────────────
+    MessageResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              type: object
+              required:
+                - message
+              properties:
+                message:
+                  type: string
+                  example: Operation completed successfully.
+
+    # ── Composed Response Types ───────────────────
+    AuthResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              type: object
+              required:
+                - user
+                - tokens
+              properties:
+                user:
+                  $ref: '#/components/schemas/User'
+                tokens:
+                  $ref: '#/components/schemas/TokenPair'
+
+    TokenPairResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/TokenPair'
+
+    UserDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/User'
+
+    UserProfileResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/UserProfile'
+
+    ProductDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Product'
+
+    ProductArrayResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+
+    ProductListResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          required:
+            - data
+            - pagination
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+    CartDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Cart'
+
+    CartItemDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/CartItem'
+
+    OrderDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Order'
+
+    OrderListResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          required:
+            - data
+            - pagination
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Order'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+    CouponDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Coupon'
+
+    ReviewDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Review'
+
+    ReviewListResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          required:
+            - data
+            - pagination
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Review'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+    LoyaltyTransactionListResponse:
+      allOf:
+        - $ref: '#/components/schemas/DataEnvelope'
+        - type: object
+          required:
+            - data
+            - pagination
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/LoyaltyTransaction'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+  responses:
+    BadRequest:
+      description: The request is malformed or contains invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: BAD_REQUEST
+              message: Invalid query parameters.
+              requestId: 01J3K8QV7B2XHYZT
+
+    Unauthorized:
+      description: Authentication is required or credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: UNAUTHORIZED
+              message: Invalid email or password.
+              requestId: 01J3K8QV7B2XHYZT
+
+    Forbidden:
+      description: Authenticated but insufficient permissions for this action
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: FORBIDDEN
+              message: You do not have permission to perform this action.
+              requestId: 01J3K8QV7B2XHYZT
+
+    NotFound:
+      description: The requested resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: RESOURCE_NOT_FOUND
+              message: "The requested resource does not exist."
+              requestId: 01J3K8QV7B2XHYZT
+
+    Conflict:
+      description: The request conflicts with existing state (e.g. duplicate resource)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: CONFLICT
+              message: A resource with this identifier already exists.
+              requestId: 01J3K8QV7B2XHYZT
+
+    ValidationError:
+      description: Request body failed schema validation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorEnvelope'
+
+    RateLimitExceeded:
+      description: Too many requests within the allowed window
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+          description: Seconds until the rate limit window resets
+        RateLimit-Limit:
+          schema:
+            type: integer
+          description: Maximum number of requests allowed in the window
+        RateLimit-Remaining:
+          schema:
+            type: integer
+          description: Number of requests remaining in the current window
+        RateLimit-Reset:
+          schema:
+            type: integer
+          description: Unix timestamp when the rate limit window resets
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: RATE_LIMIT_EXCEEDED
+              message: Too many requests. Please wait before trying again.
+              requestId: 01J3K8QV7B2XHYZT
+
+    InternalError:
+      description: An unexpected server error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          example:
+            error:
+              code: INTERNAL_ERROR
+              message: An unexpected error occurred. The team has been notified.
+              requestId: 01J3K8QV7B2XHYZT
