@@ -13,6 +13,12 @@ const router = Router();
 
 router.post('/create-intent', authenticate, paymentsController.createIntent);
 
+// Saved payment methods (all require authentication)
+router.get('/methods', authenticate, paymentsController.listMethods);
+router.post('/methods', authenticate, paymentsController.attachMethod);
+router.delete('/methods/:id', authenticate, paymentsController.detachMethod);
+router.post('/methods/:id/default', authenticate, paymentsController.setDefaultMethod);
+
 // Webhook route must receive raw body for Stripe signature verification
 router.post(
   '/webhook',

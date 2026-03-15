@@ -1,7 +1,8 @@
 import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ChevronRight, Tag, X } from 'lucide-react';
+import { Check, ChevronRight, Tag, X, CreditCard } from 'lucide-react';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { stripePromise } from '@/lib/stripe';
 import { api } from '@/lib/api';
@@ -12,7 +13,16 @@ import { useAuth } from '@/context/AuthContext';
 import type { Address, CouponValidation } from '@/lib/types';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
-const steps = ['Shipping', 'Payment', 'Confirmation'];
+interface SavedPaymentMethod {
+  id: string;
+  brand: string;
+  last4: string;
+  expMonth: number;
+  expYear: number;
+  isDefault: boolean;
+}
+
+const stepKeys = ['checkout.steps.shipping', 'checkout.steps.payment', 'checkout.steps.confirmation'];
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -50,12 +60,7 @@ const emptyShipping: ShippingForm = {
   country: 'CA',
 };
 
-const countries = [
-  { code: 'CA', label: 'Canada' },
-  { code: 'US', label: 'United States' },
-  { code: 'GB', label: 'United Kingdom' },
-  { code: 'FR', label: 'France' },
-];
+const countryCodes = ['CA', 'US', 'GB', 'FR'];
 
 const cardStyle = {
   style: {
@@ -69,12 +74,30 @@ const cardStyle = {
   },
 };
 
+function CardBrandIcon({ brand }: { brand: string }) {
+  const brandMap: Record<string, { label: string; color: string }> = {
+    visa: { label: 'VISA', color: 'bg-blue-600 text-white' },
+    mastercard: { label: 'MC', color: 'bg-red-600 text-white' },
+    amex: { label: 'AMEX', color: 'bg-blue-800 text-white' },
+    discover: { label: 'DISC', color: 'bg-orange-500 text-white' },
+  };
+
+  const info = brandMap[brand.toLowerCase()] || { label: brand.toUpperCase(), color: 'bg-neutral-600 text-white' };
+
+  return (
+    <span className={cn('inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold tracking-wider', info.color)}>
+      {info.label}
+    </span>
+  );
+}
+
 interface PaymentStepProps {
   shipping: ShippingForm;
   orderNumber: string;
   clientSecret: string;
   isProcessing: boolean;
   error: string;
+  savedMethods: SavedPaymentMethod[];
   onPaymentSuccess: () => void;
   onError: (msg: string) => void;
   onProcessingChange: (val: boolean) => void;
@@ -86,26 +109,64 @@ function PaymentStep({
   clientSecret,
   isProcessing,
   error,
+  savedMethods,
   onPaymentSuccess,
   onError,
   onProcessingChange,
   goBack,
 }: PaymentStepProps) {
+  const { t } = useTranslation();
   const stripe = useStripe();
   const elements = useElements();
 
+  const [selectedMethod, setSelectedMethod] = useState<string>(
+    savedMethods.length > 0
+      ? (savedMethods.find((m) => m.isDefault)?.id ?? savedMethods[0].id)
+      : 'new',
+  );
+  const [saveNewCard, setSaveNewCard] = useState(false);
+
   const handlePayment = async () => {
-    if (!stripe || !elements) {
-      onError('Payment system is still loading. Please wait a moment.');
+    if (!stripe) {
+      onError(t('checkout.paymentLoading'));
       return;
     }
 
     onProcessingChange(true);
     onError('');
 
+    if (selectedMethod !== 'new') {
+      // Pay with a saved payment method
+      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        { payment_method: selectedMethod },
+      );
+
+      if (stripeError) {
+        onError(stripeError.message || t('checkout.paymentError'));
+        onProcessingChange(false);
+        return;
+      }
+
+      if (paymentIntent?.status === 'succeeded') {
+        onPaymentSuccess();
+      } else {
+        onError(t('checkout.paymentNotCompleted'));
+        onProcessingChange(false);
+      }
+      return;
+    }
+
+    // Pay with a new card
+    if (!elements) {
+      onError(t('checkout.paymentLoading'));
+      onProcessingChange(false);
+      return;
+    }
+
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
-      onError('Unable to load the card form. Please refresh and try again.');
+      onError(t('checkout.cardFormError'));
       onProcessingChange(false);
       return;
     }
@@ -123,15 +184,25 @@ function PaymentStep({
     );
 
     if (stripeError) {
-      onError(stripeError.message || 'Payment failed. Please try again.');
+      onError(stripeError.message || t('checkout.paymentError'));
       onProcessingChange(false);
       return;
     }
 
     if (paymentIntent?.status === 'succeeded') {
+      // Save the card if requested
+      if (saveNewCard && paymentIntent.payment_method) {
+        try {
+          await api.post('/payments/methods', {
+            paymentMethodId: paymentIntent.payment_method,
+          });
+        } catch {
+          // Non-critical: card save failure should not block order confirmation
+        }
+      }
       onPaymentSuccess();
     } else {
-      onError('Payment was not completed. Please try again.');
+      onError(t('checkout.paymentNotCompleted'));
       onProcessingChange(false);
     }
   };
@@ -140,7 +211,7 @@ function PaymentStep({
     <>
       <div className="mt-8 border border-neutral-100 p-6">
         <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-          Shipping to
+          {t('checkout.shippingTo')}
         </p>
         <p className="mt-2 text-sm text-neutral-700">
           {shipping.firstName} {shipping.lastName}
@@ -154,21 +225,142 @@ function PaymentStep({
           onClick={goBack}
           className="mt-3 text-xs font-medium text-brand-600 underline underline-offset-2"
         >
-          Edit
+          {t('common.edit')}
         </button>
       </div>
 
-      <div className="mt-8">
-        <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-          Card Details
-        </p>
-        <div className="mt-3 border border-neutral-200 bg-white px-4 py-4">
-          <CardElement options={cardStyle} />
+      {/* Saved Payment Methods */}
+      {savedMethods.length > 0 && (
+        <div className="mt-8">
+          <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
+            {t('checkout.savedCards')}
+          </p>
+          <div className="mt-3 space-y-2">
+            {savedMethods.map((method) => (
+              <label
+                key={method.id}
+                className={cn(
+                  'flex cursor-pointer items-center gap-4 border px-4 py-3 transition-colors',
+                  selectedMethod === method.id
+                    ? 'border-neutral-900 bg-neutral-50'
+                    : 'border-neutral-200 hover:border-neutral-400',
+                )}
+              >
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value={method.id}
+                  checked={selectedMethod === method.id}
+                  onChange={() => setSelectedMethod(method.id)}
+                  className="sr-only"
+                />
+                <div className={cn(
+                  'flex h-4 w-4 items-center justify-center rounded-full border-2 transition-colors',
+                  selectedMethod === method.id ? 'border-neutral-900' : 'border-neutral-300',
+                )}>
+                  {selectedMethod === method.id && (
+                    <div className="h-2 w-2 rounded-full bg-neutral-900" />
+                  )}
+                </div>
+                <CardBrandIcon brand={method.brand} />
+                <span className="text-sm text-neutral-900">
+                  {t('checkout.cardEnding')} {method.last4}
+                </span>
+                <span className="text-xs text-neutral-500">
+                  {String(method.expMonth).padStart(2, '0')}/{method.expYear}
+                </span>
+                {method.isDefault && (
+                  <span className="ml-auto text-[10px] font-medium tracking-widest text-[#c8a97e] uppercase">
+                    {t('checkout.default')}
+                  </span>
+                )}
+              </label>
+            ))}
+
+            {/* New card option */}
+            <label
+              className={cn(
+                'flex cursor-pointer items-center gap-4 border px-4 py-3 transition-colors',
+                selectedMethod === 'new'
+                  ? 'border-neutral-900 bg-neutral-50'
+                  : 'border-neutral-200 hover:border-neutral-400',
+              )}
+            >
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="new"
+                checked={selectedMethod === 'new'}
+                onChange={() => setSelectedMethod('new')}
+                className="sr-only"
+              />
+              <div className={cn(
+                'flex h-4 w-4 items-center justify-center rounded-full border-2 transition-colors',
+                selectedMethod === 'new' ? 'border-neutral-900' : 'border-neutral-300',
+              )}>
+                {selectedMethod === 'new' && (
+                  <div className="h-2 w-2 rounded-full bg-neutral-900" />
+                )}
+              </div>
+              <CreditCard className="h-4 w-4 text-neutral-500" />
+              <span className="text-sm text-neutral-900">
+                {t('checkout.useNewCard')}
+              </span>
+            </label>
+          </div>
         </div>
-        <p className="mt-2 text-xs text-neutral-400">
-          Your payment is processed securely via Stripe.
-        </p>
-      </div>
+      )}
+
+      {/* Card Element (only when using a new card) */}
+      <AnimatePresence>
+        {selectedMethod === 'new' && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-8">
+              <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                {t('checkout.cardDetails')}
+              </p>
+              <div className="mt-3 border border-neutral-200 bg-white px-4 py-4">
+                <CardElement options={cardStyle} />
+              </div>
+              <p className="mt-2 text-xs text-neutral-400">
+                {t('checkout.cardSecure')}
+              </p>
+
+              {/* Save card checkbox */}
+              <label className="mt-4 flex cursor-pointer items-center gap-3">
+                <div
+                  className={cn(
+                    'flex h-5 w-5 items-center justify-center border-2 transition-colors',
+                    saveNewCard
+                      ? 'border-[#c8a97e] bg-[#c8a97e]'
+                      : 'border-neutral-300 bg-transparent',
+                  )}
+                  onClick={() => setSaveNewCard(!saveNewCard)}
+                  role="checkbox"
+                  aria-checked={saveNewCard}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                      e.preventDefault();
+                      setSaveNewCard(!saveNewCard);
+                    }
+                  }}
+                >
+                  {saveNewCard && <Check className="h-3 w-3 text-white" />}
+                </div>
+                <span className="text-sm text-neutral-700">
+                  {t('checkout.saveCardForFuture')}
+                </span>
+              </label>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {error && (
         <div className="mt-4 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -182,14 +374,14 @@ function PaymentStep({
           disabled={isProcessing}
           className="flex-1 border border-neutral-200 px-8 py-4 text-sm font-medium tracking-widest text-neutral-700 uppercase transition-colors hover:bg-neutral-50 disabled:opacity-50"
         >
-          Back
+          {t('common.back')}
         </button>
         <button
           onClick={handlePayment}
           disabled={isProcessing || !stripe}
           className="flex-1 bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
         >
-          {isProcessing ? 'Processing...' : 'Place Order'}
+          {isProcessing ? t('checkout.processing') : t('checkout.placeOrder')}
         </button>
       </div>
     </>
@@ -198,6 +390,7 @@ function PaymentStep({
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { items, total, clearCart } = useCart();
   const { formatPrice } = useCurrency();
   const { isAuthenticated } = useAuth();
@@ -205,7 +398,10 @@ export default function CheckoutPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);
   const [shipping, setShipping] = useState<ShippingForm>(emptyShipping);
+  const [billing, setBilling] = useState<ShippingForm>(emptyShipping);
+  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
+  const [savedPaymentMethods, setSavedPaymentMethods] = useState<SavedPaymentMethod[]>([]);
   const [orderNumber, setOrderNumber] = useState('');
   const [clientSecret, setClientSecret] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -229,6 +425,10 @@ export default function CheckoutPage() {
         .get<Address[]>('/addresses')
         .then((data) => setSavedAddresses(data))
         .catch(() => {});
+      api
+        .get<SavedPaymentMethod[]>('/payments/methods')
+        .then((data) => setSavedPaymentMethods(data))
+        .catch(() => {});
     }
   }, [isAuthenticated]);
 
@@ -240,7 +440,7 @@ export default function CheckoutPage() {
 
   const goNext = () => {
     setDirection(1);
-    setCurrentStep((s) => Math.min(s + 1, steps.length - 1));
+    setCurrentStep((s) => Math.min(s + 1, stepKeys.length - 1));
   };
 
   const goBack = () => {
@@ -254,6 +454,7 @@ export default function CheckoutPage() {
     setIsPreparingPayment(true);
 
     try {
+      const billingAddr = billingSameAsShipping ? shipping : billing;
       const orderPayload: Record<string, unknown> = {
         firstName: shipping.firstName,
         lastName: shipping.lastName,
@@ -264,6 +465,17 @@ export default function CheckoutPage() {
         province: shipping.province || undefined,
         postalCode: shipping.postalCode,
         country: shipping.country,
+        billingAddress: {
+          firstName: billingAddr.firstName,
+          lastName: billingAddr.lastName,
+          phone: billingAddr.phone || undefined,
+          addressLine1: billingAddr.addressLine1,
+          addressLine2: billingAddr.addressLine2 || undefined,
+          city: billingAddr.city,
+          province: billingAddr.province || undefined,
+          postalCode: billingAddr.postalCode,
+          country: billingAddr.country,
+        },
       };
 
       if (appliedCoupon) {
@@ -282,7 +494,7 @@ export default function CheckoutPage() {
       goNext();
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setError(apiErr.message || 'Failed to prepare payment. Please try again.');
+      setError(apiErr.message || t('checkout.failedPrepare'));
     } finally {
       setIsPreparingPayment(false);
     }
@@ -321,7 +533,7 @@ export default function CheckoutPage() {
       setAppliedCoupon(result);
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setPromoError(apiErr.message || 'Invalid or expired code');
+      setPromoError(apiErr.message || t('checkout.invalidOrExpiredCode'));
       setAppliedCoupon(null);
     } finally {
       setPromoLoading(false);
@@ -344,15 +556,15 @@ export default function CheckoutPage() {
           <div className="mb-8">
             <Breadcrumbs
               items={[
-                { label: 'Home', href: '/' },
-                { label: 'Checkout' },
+                { label: t('common.home'), href: '/' },
+                { label: t('common.checkout') },
               ]}
             />
           </div>
           {/* Step indicator */}
           <div className="mb-12 flex items-center justify-center gap-4">
-            {steps.map((step, i) => (
-              <div key={step} className="flex items-center gap-4">
+            {stepKeys.map((stepKey, i) => (
+              <div key={stepKey} className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <div
                     className={cn(
@@ -376,10 +588,10 @@ export default function CheckoutPage() {
                       i <= currentStep ? 'text-neutral-900' : 'text-neutral-400',
                     )}
                   >
-                    {step}
+                    {t(stepKey)}
                   </span>
                 </div>
-                {i < steps.length - 1 && (
+                {i < stepKeys.length - 1 && (
                   <ChevronRight className="h-4 w-4 text-neutral-300" />
                 )}
               </div>
@@ -402,13 +614,13 @@ export default function CheckoutPage() {
                     onSubmit={handleShippingSubmit}
                   >
                     <h2 className="font-display text-2xl font-light text-neutral-900">
-                      Shipping Address
+                      {t('checkout.shippingAddress')}
                     </h2>
 
                     {savedAddresses.length > 0 && (
                       <div className="mt-6">
                         <p className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Saved Addresses
+                          {t('checkout.savedAddresses')}
                         </p>
                         <div className="mt-3 space-y-2">
                           {savedAddresses.map((addr) => (
@@ -429,7 +641,7 @@ export default function CheckoutPage() {
                     <div className="mt-8 grid gap-4 sm:grid-cols-2">
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          First Name
+                          {t('common.firstName')}
                         </label>
                         <input
                           required
@@ -442,7 +654,7 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Last Name
+                          {t('common.lastName')}
                         </label>
                         <input
                           required
@@ -457,7 +669,7 @@ export default function CheckoutPage() {
 
                     <div className="mt-4">
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Phone
+                        {t('common.phone')}
                       </label>
                       <input
                         type="tel"
@@ -471,7 +683,7 @@ export default function CheckoutPage() {
 
                     <div className="mt-4">
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Address Line 1
+                        {t('common.addressLine1')}
                       </label>
                       <input
                         required
@@ -485,7 +697,7 @@ export default function CheckoutPage() {
 
                     <div className="mt-4">
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Address Line 2
+                        {t('common.addressLine2')}
                       </label>
                       <input
                         value={shipping.addressLine2}
@@ -493,14 +705,14 @@ export default function CheckoutPage() {
                           setShipping({ ...shipping, addressLine2: e.target.value })
                         }
                         className={cn(inputClass, 'mt-2')}
-                        placeholder="Apartment, suite, etc. (optional)"
+                        placeholder={t('checkout.addressLine2Placeholder')}
                       />
                     </div>
 
                     <div className="mt-4 grid gap-4 sm:grid-cols-3">
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          City
+                          {t('common.city')}
                         </label>
                         <input
                           required
@@ -513,7 +725,7 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Postal Code
+                          {t('common.postalCode')}
                         </label>
                         <input
                           required
@@ -526,7 +738,7 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                          Province / State
+                          {t('common.provinceState')}
                         </label>
                         <input
                           required
@@ -541,7 +753,7 @@ export default function CheckoutPage() {
 
                     <div className="mt-4">
                       <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                        Country
+                        {t('common.country')}
                       </label>
                       <select
                         value={shipping.country}
@@ -550,13 +762,192 @@ export default function CheckoutPage() {
                         }
                         className={cn(inputClass, 'mt-2')}
                       >
-                        {countries.map((c) => (
-                          <option key={c.code} value={c.code}>
-                            {c.label}
+                        {countryCodes.map((code) => (
+                          <option key={code} value={code}>
+                            {t(`countries.${code}`)}
                           </option>
                         ))}
                       </select>
                     </div>
+
+                    {/* Billing address toggle */}
+                    <div className="mt-8">
+                      <label className="flex cursor-pointer items-center gap-3">
+                        <div
+                          className={cn(
+                            'flex h-5 w-5 items-center justify-center border-2 transition-colors',
+                            billingSameAsShipping
+                              ? 'border-[#c8a97e] bg-[#c8a97e]'
+                              : 'border-neutral-300 bg-transparent',
+                          )}
+                          onClick={() => setBillingSameAsShipping(!billingSameAsShipping)}
+                          role="checkbox"
+                          aria-checked={billingSameAsShipping}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === ' ' || e.key === 'Enter') {
+                              e.preventDefault();
+                              setBillingSameAsShipping(!billingSameAsShipping);
+                            }
+                          }}
+                        >
+                          {billingSameAsShipping && <Check className="h-3 w-3 text-white" />}
+                        </div>
+                        <span className="text-sm text-neutral-700">
+                          {t('checkout.billingSameAsShipping')}
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* Billing address form */}
+                    <AnimatePresence>
+                      {!billingSameAsShipping && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="mt-8">
+                            <h3 className="font-display text-lg font-light text-neutral-900">
+                              {t('checkout.billingAddress')}
+                            </h3>
+
+                            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                              <div>
+                                <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                  {t('common.firstName')}
+                                </label>
+                                <input
+                                  required={!billingSameAsShipping}
+                                  value={billing.firstName}
+                                  onChange={(e) =>
+                                    setBilling({ ...billing, firstName: e.target.value })
+                                  }
+                                  className={cn(inputClass, 'mt-2')}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                  {t('common.lastName')}
+                                </label>
+                                <input
+                                  required={!billingSameAsShipping}
+                                  value={billing.lastName}
+                                  onChange={(e) =>
+                                    setBilling({ ...billing, lastName: e.target.value })
+                                  }
+                                  className={cn(inputClass, 'mt-2')}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="mt-4">
+                              <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                {t('common.phone')}
+                              </label>
+                              <input
+                                type="tel"
+                                value={billing.phone}
+                                onChange={(e) =>
+                                  setBilling({ ...billing, phone: e.target.value })
+                                }
+                                className={cn(inputClass, 'mt-2')}
+                              />
+                            </div>
+
+                            <div className="mt-4">
+                              <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                {t('common.addressLine1')}
+                              </label>
+                              <input
+                                required={!billingSameAsShipping}
+                                value={billing.addressLine1}
+                                onChange={(e) =>
+                                  setBilling({ ...billing, addressLine1: e.target.value })
+                                }
+                                className={cn(inputClass, 'mt-2')}
+                              />
+                            </div>
+
+                            <div className="mt-4">
+                              <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                {t('common.addressLine2')}
+                              </label>
+                              <input
+                                value={billing.addressLine2}
+                                onChange={(e) =>
+                                  setBilling({ ...billing, addressLine2: e.target.value })
+                                }
+                                className={cn(inputClass, 'mt-2')}
+                                placeholder={t('checkout.addressLine2Placeholder')}
+                              />
+                            </div>
+
+                            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                              <div>
+                                <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                  {t('common.city')}
+                                </label>
+                                <input
+                                  required={!billingSameAsShipping}
+                                  value={billing.city}
+                                  onChange={(e) =>
+                                    setBilling({ ...billing, city: e.target.value })
+                                  }
+                                  className={cn(inputClass, 'mt-2')}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                  {t('common.postalCode')}
+                                </label>
+                                <input
+                                  required={!billingSameAsShipping}
+                                  value={billing.postalCode}
+                                  onChange={(e) =>
+                                    setBilling({ ...billing, postalCode: e.target.value })
+                                  }
+                                  className={cn(inputClass, 'mt-2')}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                  Province / State
+                                </label>
+                                <input
+                                  required={!billingSameAsShipping}
+                                  value={billing.province}
+                                  onChange={(e) =>
+                                    setBilling({ ...billing, province: e.target.value })
+                                  }
+                                  className={cn(inputClass, 'mt-2')}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="mt-4">
+                              <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                                {t('common.country')}
+                              </label>
+                              <select
+                                value={billing.country}
+                                onChange={(e) =>
+                                  setBilling({ ...billing, country: e.target.value })
+                                }
+                                className={cn(inputClass, 'mt-2')}
+                              >
+                                {countryCodes.map((code) => (
+                                  <option key={code} value={code}>
+                                    {t(`countries.${code}`)}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                     {error && (
                       <div className="mt-4 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -569,7 +960,7 @@ export default function CheckoutPage() {
                       disabled={isPreparingPayment}
                       className="mt-8 w-full bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
                     >
-                      {isPreparingPayment ? 'Preparing...' : 'Continue to Payment'}
+                      {isPreparingPayment ? t('checkout.preparing') : t('checkout.continueToPayment')}
                     </button>
                   </motion.form>
                 )}
@@ -585,7 +976,7 @@ export default function CheckoutPage() {
                     transition={{ duration: 0.3 }}
                   >
                     <h2 className="font-display text-2xl font-light text-neutral-900">
-                      Payment
+                      {t('checkout.steps.payment')}
                     </h2>
 
                     <PaymentStep
@@ -594,6 +985,7 @@ export default function CheckoutPage() {
                       clientSecret={clientSecret}
                       isProcessing={isProcessing}
                       error={error}
+                      savedMethods={savedPaymentMethods}
                       onPaymentSuccess={handlePaymentSuccess}
                       onError={setError}
                       onProcessingChange={setIsProcessing}
@@ -633,14 +1025,14 @@ export default function CheckoutPage() {
                       transition={{ delay: 0.4 }}
                     >
                       <h2 className="mt-8 font-display text-3xl font-light text-neutral-900">
-                        Order Confirmed
+                        {t('checkout.orderConfirmed')}
                       </h2>
                       <p className="mt-3 text-neutral-500">
-                        Thank you for your purchase.
+                        {t('checkout.thankYou')}
                       </p>
                       {orderNumber && (
                         <p className="mt-2 text-sm text-neutral-700">
-                          Order number:{' '}
+                          {t('checkout.orderNumber')}{' '}
                           <span className="font-mono font-medium">
                             {orderNumber.slice(0, 8).toUpperCase()}
                           </span>
@@ -651,13 +1043,13 @@ export default function CheckoutPage() {
                           onClick={() => navigate('/profile/orders')}
                           className="border border-neutral-200 px-8 py-3 text-sm font-medium tracking-widest text-neutral-700 uppercase transition-colors hover:bg-neutral-50"
                         >
-                          View Orders
+                          {t('checkout.viewOrders')}
                         </button>
                         <button
                           onClick={() => navigate('/shop')}
                           className="bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
                         >
-                          Continue Shopping
+                          {t('common.continueShopping')}
                         </button>
                       </div>
                     </motion.div>
@@ -671,7 +1063,7 @@ export default function CheckoutPage() {
               <div className="lg:sticky lg:top-32 lg:self-start">
                 <div className="border border-neutral-100 p-6">
                   <h3 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-                    Order Summary
+                    {t('checkout.orderSummary')}
                   </h3>
 
                   <div className="mt-6 space-y-4">
@@ -714,14 +1106,14 @@ export default function CheckoutPage() {
                           </span>
                           <span className="text-xs text-green-600">
                             ({appliedCoupon.coupon.discountType === 'percentage'
-                              ? `${appliedCoupon.coupon.discountValue}% off`
-                              : `${formatPrice(appliedCoupon.coupon.discountValue)} off`})
+                              ? t('checkout.percentOff', { value: appliedCoupon.coupon.discountValue })
+                              : t('checkout.amountOff', { value: formatPrice(appliedCoupon.coupon.discountValue) })})
                           </span>
                         </div>
                         <button
                           onClick={handleRemovePromo}
                           className="text-green-600 transition-colors hover:text-green-800"
-                          aria-label="Remove promo code"
+                          aria-label={t('checkout.removePromoCode')}
                         >
                           <X className="h-4 w-4" />
                         </button>
@@ -734,7 +1126,7 @@ export default function CheckoutPage() {
                           className="flex items-center gap-1.5 text-xs font-medium tracking-widest text-neutral-500 uppercase transition-colors hover:text-neutral-700"
                         >
                           <Tag className="h-3.5 w-3.5" />
-                          Have a promo code?
+                          {t('checkout.havePromoCode')}
                         </button>
 
                         {promoOpen && (
@@ -745,7 +1137,7 @@ export default function CheckoutPage() {
                                 setPromoCode(e.target.value);
                                 setPromoError('');
                               }}
-                              placeholder="Enter code"
+                              placeholder={t('checkout.enterCode')}
                               className="flex-1 border border-neutral-200 bg-transparent px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none transition-colors"
                             />
                             <button
@@ -754,7 +1146,7 @@ export default function CheckoutPage() {
                               disabled={promoLoading || !promoCode.trim()}
                               className="border border-neutral-900 bg-neutral-900 px-4 py-2 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
                             >
-                              {promoLoading ? '...' : 'Apply'}
+                              {promoLoading ? '...' : t('common.apply')}
                             </button>
                           </div>
                         )}
@@ -768,25 +1160,25 @@ export default function CheckoutPage() {
 
                   <div className="mt-4 space-y-2 border-t border-neutral-100 pt-4">
                     <div className="flex justify-between text-sm">
-                      <span className="text-neutral-500">Subtotal</span>
+                      <span className="text-neutral-500">{t('common.subtotal')}</span>
                       <span className="text-neutral-900">{formatPrice(total)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-neutral-500">Shipping</span>
+                      <span className="text-neutral-500">{t('common.shipping')}</span>
                       <span className="text-neutral-900">
-                        {shippingCents === 0 ? 'Free' : formatPrice(shippingCents)}
+                        {shippingCents === 0 ? t('common.free') : formatPrice(shippingCents)}
                       </span>
                     </div>
                     {appliedCoupon && discountCents > 0 && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-green-600">Discount</span>
+                        <span className="text-green-600">{t('common.discount')}</span>
                         <span className="text-green-600">
                           -{formatPrice(discountCents)}
                         </span>
                       </div>
                     )}
                     <div className="flex justify-between border-t border-neutral-100 pt-2 text-sm font-medium">
-                      <span className="text-neutral-900">Total</span>
+                      <span className="text-neutral-900">{t('common.total')}</span>
                       <span className="text-neutral-900">
                         {formatPrice(grandTotal)}
                       </span>

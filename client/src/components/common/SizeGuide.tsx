@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 interface SizeGuideProps {
@@ -26,6 +27,7 @@ const bottomsData = [
 ];
 
 export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<Tab>('Tops');
 
   return (
@@ -60,7 +62,7 @@ export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
               {/* Header */}
               <div className="flex items-center justify-between border-b border-neutral-100 px-6 py-5">
                 <h2 className="font-display text-lg font-medium text-neutral-900">
-                  Size Guide
+                  {t('sizeGuide.title')}
                 </h2>
                 <button
                   onClick={onClose}
@@ -84,7 +86,7 @@ export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
                         : 'text-neutral-400 hover:text-neutral-600',
                     )}
                   >
-                    {tab}
+                    {tab === 'Tops' ? t('sizeGuide.tops') : t('sizeGuide.bottoms')}
                     {activeTab === tab && (
                       <motion.div
                         layoutId="sizeGuideTab"
@@ -102,11 +104,11 @@ export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
                   <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-neutral-100 text-xs font-medium tracking-wider text-neutral-500 uppercase">
-                        <th className="pb-3 pr-4">Size</th>
-                        <th className="pb-3 pr-4">Chest</th>
-                        <th className="pb-3 pr-4">Waist</th>
-                        <th className="pb-3 pr-4">Hips</th>
-                        <th className="pb-3">Length</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.size')}</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.chest')}</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.waist')}</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.hips')}</th>
+                        <th className="pb-3">{t('sizeGuide.length')}</th>
                       </tr>
                     </thead>
                     <tbody className="text-neutral-700">
@@ -125,11 +127,11 @@ export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
                   <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-neutral-100 text-xs font-medium tracking-wider text-neutral-500 uppercase">
-                        <th className="pb-3 pr-4">Size</th>
-                        <th className="pb-3 pr-4">Waist</th>
-                        <th className="pb-3 pr-4">Hips</th>
-                        <th className="pb-3 pr-4">Inseam</th>
-                        <th className="pb-3">Length</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.size')}</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.waist')}</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.hips')}</th>
+                        <th className="pb-3 pr-4">{t('sizeGuide.inseam')}</th>
+                        <th className="pb-3">{t('sizeGuide.length')}</th>
                       </tr>
                     </thead>
                     <tbody className="text-neutral-700">
@@ -149,24 +151,20 @@ export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
                 {/* How to Measure */}
                 <div className="mt-8 border-t border-neutral-100 pt-6">
                   <h3 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-                    How to Measure
+                    {t('sizeGuide.howToMeasure')}
                   </h3>
                   <ul className="mt-4 space-y-2 text-sm leading-relaxed text-neutral-600">
                     <li>
-                      <span className="font-medium text-neutral-800">Chest:</span> Measure around
-                      the fullest part of your chest, keeping the tape level.
+                      <span className="font-medium text-neutral-800">{t('sizeGuide.chest')}:</span> {t('sizeGuide.chestDesc')}
                     </li>
                     <li>
-                      <span className="font-medium text-neutral-800">Waist:</span> Measure around
-                      your natural waistline, just above the hip bone.
+                      <span className="font-medium text-neutral-800">{t('sizeGuide.waist')}:</span> {t('sizeGuide.waistDesc')}
                     </li>
                     <li>
-                      <span className="font-medium text-neutral-800">Hips:</span> Stand with feet
-                      together and measure around the fullest part of your hips.
+                      <span className="font-medium text-neutral-800">{t('sizeGuide.hips')}:</span> {t('sizeGuide.hipsDesc')}
                     </li>
                     <li>
-                      <span className="font-medium text-neutral-800">Inseam:</span> Measure from
-                      the crotch seam to the bottom of the leg.
+                      <span className="font-medium text-neutral-800">{t('sizeGuide.inseam')}:</span> {t('sizeGuide.inseamDesc')}
                     </li>
                   </ul>
                 </div>

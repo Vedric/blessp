@@ -1,5 +1,6 @@
 import { useState, useMemo, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, AlertCircle, Check, Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -13,11 +14,11 @@ interface PasswordCheck {
 function usePasswordStrength(password: string) {
   return useMemo(() => {
     const checks: PasswordCheck[] = [
-      { label: 'At least 12 characters', met: password.length >= 12 },
-      { label: 'One uppercase letter', met: /[A-Z]/.test(password) },
-      { label: 'One lowercase letter', met: /[a-z]/.test(password) },
-      { label: 'One number', met: /[0-9]/.test(password) },
-      { label: 'One special character', met: /[^A-Za-z0-9]/.test(password) },
+      { label: 'auth.signUp.checks.minLength', met: password.length >= 12 },
+      { label: 'auth.signUp.checks.uppercase', met: /[A-Z]/.test(password) },
+      { label: 'auth.signUp.checks.lowercase', met: /[a-z]/.test(password) },
+      { label: 'auth.signUp.checks.number', met: /[0-9]/.test(password) },
+      { label: 'auth.signUp.checks.special', met: /[^A-Za-z0-9]/.test(password) },
     ];
 
     const metCount = checks.filter((c) => c.met).length;
@@ -43,13 +44,16 @@ function usePasswordStrength(password: string) {
 
 export default function SignUpPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { register } = useAuth();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [generalError, setGeneralError] = useState('');
@@ -57,20 +61,25 @@ export default function SignUpPage() {
 
   const { checks, strength, color, percent } = usePasswordStrength(password);
 
+  const passwordsMatch = password === confirmPassword;
+  const confirmTouched = touched.confirmPassword ?? false;
+
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
     if (firstName.trim().length < 2)
-      errs.firstName = 'First name must be at least 2 characters.';
+      errs.firstName = t('auth.signUp.firstNameMin');
     if (lastName.trim().length < 2)
-      errs.lastName = 'Last name must be at least 2 characters.';
-    if (!email.trim()) errs.email = 'Email is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Please enter a valid email.';
+      errs.lastName = t('auth.signUp.lastNameMin');
+    if (!email.trim()) errs.email = t('auth.signUp.emailRequired');
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = t('auth.signUp.emailInvalid');
     if (password.length < 12)
-      errs.password = 'Password must be at least 12 characters.';
+      errs.password = t('auth.signUp.passwordMin');
     else if (!/[A-Z]/.test(password))
-      errs.password = 'Password must contain an uppercase letter.';
+      errs.password = t('auth.signUp.passwordUppercase');
     else if (!/[0-9]/.test(password))
-      errs.password = 'Password must contain a number.';
+      errs.password = t('auth.signUp.passwordNumber');
+    if (confirmPassword && password !== confirmPassword)
+      errs.confirmPassword = t('auth.signUp.passwordsMismatch');
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -92,7 +101,7 @@ export default function SignUpPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setGeneralError('');
-    setTouched({ firstName: true, lastName: true, email: true, password: true });
+    setTouched({ firstName: true, lastName: true, email: true, password: true, confirmPassword: true });
     if (!validate()) return;
     setIsLoading(true);
 
@@ -113,7 +122,7 @@ export default function SignUpPage() {
         }
         setErrors(mapped);
       } else {
-        setGeneralError(apiErr.message || 'An error occurred. Please try again.');
+        setGeneralError(apiErr.message || t('auth.signUp.genericError'));
       }
     } finally {
       setIsLoading(false);
@@ -133,10 +142,10 @@ export default function SignUpPage() {
 
         <div className="text-center">
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            Create Account
+            {t('auth.signUp.title')}
           </h1>
           <p className="mt-2 text-sm text-neutral-500">
-            Join the BLE$$ P community
+            {t('auth.signUp.subtitle')}
           </p>
         </div>
 
@@ -163,7 +172,7 @@ export default function SignUpPage() {
                 htmlFor="firstName"
                 className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
               >
-                First Name
+                {t('common.firstName')}
               </label>
               <input
                 id="firstName"
@@ -176,7 +185,7 @@ export default function SignUpPage() {
                   'mt-2 block w-full border bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
                   errors.firstName && touched.firstName ? 'border-red-300' : 'border-neutral-200',
                 )}
-                placeholder="First name"
+                placeholder={t('auth.signUp.firstNamePlaceholder')}
               />
               <AnimatePresence>
                 {errors.firstName && touched.firstName && (
@@ -196,7 +205,7 @@ export default function SignUpPage() {
                 htmlFor="lastName"
                 className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
               >
-                Last Name
+                {t('common.lastName')}
               </label>
               <input
                 id="lastName"
@@ -209,7 +218,7 @@ export default function SignUpPage() {
                   'mt-2 block w-full border bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
                   errors.lastName && touched.lastName ? 'border-red-300' : 'border-neutral-200',
                 )}
-                placeholder="Last name"
+                placeholder={t('auth.signUp.lastNamePlaceholder')}
               />
               <AnimatePresence>
                 {errors.lastName && touched.lastName && (
@@ -231,7 +240,7 @@ export default function SignUpPage() {
               htmlFor="email"
               className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
             >
-              Email
+              {t('common.email')}
             </label>
             <input
               id="email"
@@ -244,7 +253,7 @@ export default function SignUpPage() {
                 'mt-2 block w-full border bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
                 errors.email && touched.email ? 'border-red-300' : 'border-neutral-200',
               )}
-              placeholder="you@example.com"
+              placeholder={t('auth.signIn.emailPlaceholder')}
             />
             <AnimatePresence>
               {errors.email && touched.email && (
@@ -265,7 +274,7 @@ export default function SignUpPage() {
               htmlFor="password"
               className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
             >
-              Password
+              {t('common.password')}
             </label>
             <div className="relative">
               <input
@@ -279,7 +288,7 @@ export default function SignUpPage() {
                   'mt-2 block w-full border bg-transparent px-4 py-3 pr-12 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
                   errors.password && touched.password ? 'border-red-300' : 'border-neutral-200',
                 )}
-                placeholder="Create a strong password"
+                placeholder={t('auth.signUp.passwordPlaceholder')}
               />
               <button
                 type="button"
@@ -318,7 +327,7 @@ export default function SignUpPage() {
                         strength === 'fair' && 'text-yellow-600',
                         strength === 'weak' && 'text-red-500',
                       )}>
-                        {strength}
+                        {t(`auth.signUp.strength.${strength}`)}
                       </span>
                     </div>
 
@@ -337,7 +346,7 @@ export default function SignUpPage() {
                             'text-xs transition-colors',
                             check.met ? 'text-neutral-600' : 'text-neutral-400',
                           )}>
-                            {check.label}
+                            {t(check.label)}
                           </span>
                         </div>
                       ))}
@@ -361,37 +370,102 @@ export default function SignUpPage() {
             </AnimatePresence>
           </div>
 
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
+            >
+              {t('auth.signUp.confirmPassword')}
+            </label>
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                required
+                value={confirmPassword}
+                onChange={(e) => { setConfirmPassword(e.target.value); clearFieldError('confirmPassword'); }}
+                onBlur={() => handleBlur('confirmPassword')}
+                className={cn(
+                  'mt-2 block w-full border bg-transparent px-4 py-3 pr-12 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors',
+                  (errors.confirmPassword && confirmTouched) || (confirmTouched && !passwordsMatch && confirmPassword)
+                    ? 'border-red-300'
+                    : confirmTouched && passwordsMatch && confirmPassword
+                      ? 'border-green-300'
+                      : 'border-neutral-200',
+                )}
+                placeholder={t('auth.signUp.confirmPassword')}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 mt-1 -translate-y-1/2 text-neutral-400 transition-colors hover:text-neutral-600"
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            <AnimatePresence>
+              {confirmTouched && confirmPassword && passwordsMatch && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="mt-1.5 flex items-center gap-1"
+                >
+                  <Check size={12} className="text-green-500" />
+                  <span className="text-xs text-green-600">
+                    {t('auth.signUp.passwordsMatch')}
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {confirmTouched && confirmPassword && !passwordsMatch && (
+                <motion.p
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="mt-1.5 text-xs text-red-500"
+                >
+                  {t('auth.signUp.passwordsMismatch')}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
           <motion.button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || (confirmPassword.length > 0 && !passwordsMatch)}
             className="flex w-full items-center justify-center bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-all hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
             whileTap={{ scale: 0.98 }}
           >
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating account...
+                {t('auth.signUp.submitting')}
               </>
             ) : (
-              'Create Account'
+              t('auth.signUp.submitButton')
             )}
           </motion.button>
 
           <p className="text-center text-xs text-neutral-400">
-            By creating an account, you agree to our{' '}
+            {t('auth.signUp.termsAgreement')}{' '}
             <Link to="/terms" className="underline underline-offset-2 transition-colors hover:text-neutral-600">
-              Terms & Conditions
+              {t('auth.signUp.termsLink')}
             </Link>
           </p>
         </form>
 
         <p className="mt-8 text-center text-sm text-neutral-500">
-          Already have an account?{' '}
+          {t('auth.signUp.hasAccount')}{' '}
           <Link
             to="/signin"
             className="font-medium text-neutral-900 underline underline-offset-4 transition-colors hover:text-[#c8a97e]"
           >
-            Sign In
+            {t('common.signIn')}
           </Link>
         </p>
       </motion.div>

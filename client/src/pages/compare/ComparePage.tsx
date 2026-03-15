@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Columns3, ShoppingBag, X, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useCompare } from '@/context/CompareContext';
@@ -15,6 +16,7 @@ const fadeUp = {
 };
 
 export default function ComparePage() {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const { compareIds, removeFromCompare, clearCompare } = useCompare();
   const { addToCart } = useCart();
@@ -51,7 +53,7 @@ export default function ComparePage() {
       <div className="min-h-screen">
         <div className="bg-neutral-50 pt-32 pb-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Compare' }]} />
+            <Breadcrumbs items={[{ label: t('common.home'), href: '/' }, { label: t('compare.title') }]} />
           </div>
         </div>
         <motion.div
@@ -64,17 +66,16 @@ export default function ComparePage() {
             <Columns3 className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
           </div>
           <h3 className="mt-6 text-lg font-medium text-neutral-900">
-            No products to compare
+            {t('compare.noProducts')}
           </h3>
           <p className="mt-2 max-w-sm text-sm text-neutral-500">
-            Add products to your comparison list from the shop to see them
-            side by side.
+            {t('compare.noProductsDesc')}
           </p>
           <Link
             to="/shop"
             className="mt-6 flex items-center gap-2 text-sm font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:text-[#b89a6f]"
           >
-            Browse Collection
+            {t('compare.browseCollection')}
             <ArrowRight size={14} />
           </Link>
         </motion.div>
@@ -87,7 +88,7 @@ export default function ComparePage() {
     render: (product: Product) => React.ReactNode;
   }[] = [
     {
-      label: 'Image',
+      label: t('compare.image'),
       render: (product) => (
         <Link to={`/products/${product.id}`} className="block">
           <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
@@ -101,7 +102,7 @@ export default function ComparePage() {
       ),
     },
     {
-      label: 'Name',
+      label: t('compare.name'),
       render: (product) => (
         <Link
           to={`/products/${product.id}`}
@@ -112,7 +113,7 @@ export default function ComparePage() {
       ),
     },
     {
-      label: 'Price',
+      label: t('compare.price'),
       render: (product) => (
         <span className="text-sm font-semibold text-neutral-900">
           {formatPrice(product.price)}
@@ -120,15 +121,15 @@ export default function ComparePage() {
       ),
     },
     {
-      label: 'Description',
+      label: t('compare.description'),
       render: (product) => (
         <p className="text-xs leading-relaxed text-neutral-500">
-          {product.description || 'No description available.'}
+          {product.description || t('compare.noDescription')}
         </p>
       ),
     },
     {
-      label: 'Category',
+      label: t('compare.category'),
       render: (product) => (
         <span className="inline-block border border-neutral-200 px-3 py-1 text-xs font-medium tracking-wider text-neutral-600 uppercase">
           {product.category}
@@ -136,7 +137,7 @@ export default function ComparePage() {
       ),
     },
     {
-      label: 'Sizes',
+      label: t('compare.sizes'),
       render: (product) =>
         product.sizes?.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
@@ -154,7 +155,7 @@ export default function ComparePage() {
         ),
     },
     {
-      label: 'Colors',
+      label: t('compare.colors'),
       render: (product) =>
         product.colors?.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
@@ -179,7 +180,7 @@ export default function ComparePage() {
       <div className="bg-neutral-50 pt-32 pb-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
-            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Compare' }]} />
+            <Breadcrumbs items={[{ label: t('common.home'), href: '/' }, { label: t('compare.title') }]} />
           </div>
           <motion.p
             className="text-xs font-medium tracking-[0.3em] text-[#c8a97e] uppercase"
@@ -187,7 +188,7 @@ export default function ComparePage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            Side by Side
+            {t('compare.sideBySide')}
           </motion.p>
           <motion.h1
             className="mt-3 font-display text-4xl font-light tracking-tight text-neutral-900 md:text-5xl"
@@ -195,7 +196,7 @@ export default function ComparePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Compare Products
+            {t('compare.compareProducts')}
           </motion.h1>
           <motion.div
             className="mt-3 h-[2px] w-16 bg-[#c8a97e]"
@@ -211,13 +212,13 @@ export default function ComparePage() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <p className="text-sm text-neutral-500">
-              Comparing {products.length} {products.length === 1 ? 'product' : 'products'}
+              {t('compare.comparingCount', { count: products.length })}
             </p>
             <button
               onClick={clearCompare}
               className="text-xs font-medium text-neutral-400 transition-colors hover:text-neutral-900"
             >
-              Clear all
+              {t('compare.clearAll')}
             </button>
           </motion.div>
         </div>
@@ -279,7 +280,7 @@ export default function ComparePage() {
                 <tr className="border-t border-neutral-100">
                   <td className="p-4 align-top">
                     <span className="text-xs font-medium tracking-wider text-neutral-400 uppercase">
-                      Actions
+                      {t('compare.actions')}
                     </span>
                   </td>
                   {products.map((product) => (
@@ -289,13 +290,13 @@ export default function ComparePage() {
                         className="flex w-full items-center justify-center gap-2 bg-neutral-900 px-4 py-3 text-xs font-medium tracking-wider text-white uppercase transition-colors hover:bg-neutral-800"
                       >
                         <ShoppingBag size={14} />
-                        Add to Cart
+                        {t('product.addToCart')}
                       </button>
                       <Link
                         to={`/products/${product.id}`}
                         className="block w-full border border-neutral-200 px-4 py-3 text-center text-xs font-medium tracking-wider text-neutral-600 uppercase transition-colors hover:border-neutral-900 hover:text-neutral-900"
                       >
-                        View Product
+                        {t('shop.viewProduct')}
                       </Link>
                     </td>
                   ))}

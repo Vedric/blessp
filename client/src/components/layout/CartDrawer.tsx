@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useScrollLock } from '@/hooks/useScrollLock';
 import { Button } from '@/components/ui/Button';
 
 export function CartDrawer() {
+  const { t } = useTranslation();
   const {
     items,
     total,
@@ -43,7 +45,7 @@ export function CartDrawer() {
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-neutral-100 px-6 py-5">
-              <h2 className="font-display text-lg font-medium">Cart</h2>
+              <h2 className="font-display text-lg font-medium">{t('cart.title')}</h2>
               <button
                 onClick={closeCart}
                 className="text-neutral-400 transition-colors duration-200 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
@@ -61,14 +63,14 @@ export function CartDrawer() {
                 </div>
                 <div className="text-center">
                   <p className="text-sm font-medium text-neutral-900">
-                    Your cart is empty
+                    {t('cart.empty')}
                   </p>
                   <p className="mt-1 text-xs text-neutral-400">
-                    Discover something you love in our collection.
+                    {t('cart.emptyDesc')}
                   </p>
                 </div>
                 <Button variant="secondary" size="sm" onClick={closeCart}>
-                  Explore Collection
+                  {t('common.exploreCollection')}
                 </Button>
               </div>
             ) : (
@@ -142,21 +144,21 @@ export function CartDrawer() {
                 {/* Footer */}
                 <div className="border-t border-neutral-100 px-6 py-5">
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm text-neutral-600">Subtotal</span>
+                    <span className="text-sm text-neutral-600">{t('common.subtotal')}</span>
                     <span className="text-base font-medium">
                       {formatPrice(total)}
                     </span>
                   </div>
                   <Link to="/checkout" onClick={closeCart}>
                     <Button variant="primary" size="lg" className="w-full">
-                      Checkout
+                      {t('cart.checkout')}
                     </Button>
                   </Link>
                   <button
                     onClick={closeCart}
                     className="mt-3 block w-full text-center text-xs text-neutral-500 underline-offset-4 transition-colors hover:text-neutral-900 hover:underline"
                   >
-                    Continue Shopping
+                    {t('common.continueShopping')}
                   </button>
                 </div>
               </>

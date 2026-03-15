@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package, CheckCircle, Clock, Truck, ShoppingBag } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { formatDate } from '@/lib/utils';
 import type { OrderStatusHistoryEntry } from '@/lib/types';
 
 const TIMELINE_STEPS = [
-  { status: 'pending', label: 'Order Placed', icon: ShoppingBag },
-  { status: 'confirmed', label: 'Confirmed', icon: CheckCircle },
-  { status: 'processing', label: 'Processing', icon: Clock },
-  { status: 'shipped', label: 'Shipped', icon: Truck },
-  { status: 'delivered', label: 'Delivered', icon: Package },
+  { status: 'pending', labelKey: 'orderTimeline.orderPlaced', icon: ShoppingBag },
+  { status: 'confirmed', labelKey: 'orderTimeline.confirmed', icon: CheckCircle },
+  { status: 'processing', labelKey: 'orderTimeline.processing', icon: Clock },
+  { status: 'shipped', labelKey: 'orderTimeline.shipped', icon: Truck },
+  { status: 'delivered', labelKey: 'orderTimeline.delivered', icon: Package },
 ] as const;
 
 const BRAND_GOLD = '#c8a97e';
@@ -21,6 +22,7 @@ interface OrderTimelineProps {
 }
 
 export function OrderTimeline({ orderId, currentStatus }: OrderTimelineProps) {
+  const { t } = useTranslation();
   const [history, setHistory] = useState<OrderStatusHistoryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -45,10 +47,10 @@ export function OrderTimeline({ orderId, currentStatus }: OrderTimelineProps) {
     return (
       <div className="border border-neutral-100 p-6">
         <h2 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-          Order Timeline
+          {t('orderTimeline.title')}
         </h2>
         <p className="mt-4 text-sm text-neutral-500">
-          This order has been cancelled.
+          {t('orderTimeline.cancelled')}
         </p>
       </div>
     );
@@ -58,7 +60,7 @@ export function OrderTimeline({ orderId, currentStatus }: OrderTimelineProps) {
     return (
       <div className="border border-neutral-100 p-6">
         <h2 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-          Order Timeline
+          {t('orderTimeline.title')}
         </h2>
         <div className="mt-6 animate-pulse space-y-6">
           {[...Array(5)].map((_, i) => (
@@ -89,7 +91,7 @@ export function OrderTimeline({ orderId, currentStatus }: OrderTimelineProps) {
   return (
     <div className="border border-neutral-100 p-6">
       <h2 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-        Order Timeline
+        {t('orderTimeline.title')}
       </h2>
 
       <div className="relative mt-8">
@@ -172,7 +174,7 @@ export function OrderTimeline({ orderId, currentStatus }: OrderTimelineProps) {
                     color: isCompleted || isCurrent ? '#171717' : '#a3a3a3',
                   }}
                 >
-                  {step.label}
+                  {t(step.labelKey)}
                 </p>
                 {entry && (
                   <motion.div
@@ -192,7 +194,7 @@ export function OrderTimeline({ orderId, currentStatus }: OrderTimelineProps) {
                 )}
                 {isCurrent && !entry && (
                   <p className="mt-0.5 text-xs text-neutral-400">
-                    In progress
+                    {t('orderTimeline.inProgress')}
                   </p>
                 )}
               </div>

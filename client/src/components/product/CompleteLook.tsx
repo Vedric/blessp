@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -22,6 +23,7 @@ const staggerContainer = {
 };
 
 export function CompleteLook({ productId, currentProduct }: CompleteLookProps) {
+  const { t } = useTranslation();
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
 
@@ -98,7 +100,7 @@ export function CompleteLook({ productId, currentProduct }: CompleteLookProps) {
         className="font-display text-2xl font-light tracking-tight text-neutral-900 md:text-3xl"
         variants={fadeSlideUp}
       >
-        Complete the Look
+        {t('completeLook.title')}
       </motion.h2>
       <motion.div className="mt-2 h-px w-12 bg-[#c8a97e]" variants={fadeSlideUp} />
 
@@ -110,7 +112,7 @@ export function CompleteLook({ productId, currentProduct }: CompleteLookProps) {
         <Sparkles className="h-5 w-5 text-[#c8a97e]" />
         <div className="flex flex-wrap items-baseline gap-2">
           <span className="text-sm font-medium tracking-wide text-neutral-900 uppercase">
-            Shop the Set
+            {t('completeLook.shopTheSet')}
           </span>
           <span className="text-sm text-neutral-500 line-through">
             {formatPrice(setTotalBeforeDiscount)}
@@ -119,7 +121,7 @@ export function CompleteLook({ productId, currentProduct }: CompleteLookProps) {
             {formatPrice(setTotalAfterDiscount)}
           </span>
           <span className="rounded-sm bg-[#c8a97e]/10 px-2 py-0.5 text-xs font-medium text-[#c8a97e]">
-            Save {formatPrice(setDiscount)}
+            {t('completeLook.save', { amount: formatPrice(setDiscount) })}
           </span>
         </div>
         <motion.button
@@ -130,7 +132,7 @@ export function CompleteLook({ productId, currentProduct }: CompleteLookProps) {
           whileTap={{ scale: 0.98 }}
         >
           <ShoppingBag className="h-3.5 w-3.5" />
-          {addingSet ? 'Adding...' : 'Add Both to Cart'}
+          {addingSet ? t('common.adding') : t('completeLook.addBoth')}
         </motion.button>
       </motion.div>
 
@@ -175,7 +177,7 @@ export function CompleteLook({ productId, currentProduct }: CompleteLookProps) {
               whileTap={{ scale: 0.98 }}
             >
               <ShoppingBag className="h-3.5 w-3.5" />
-              {addingId === product.id ? 'Adding...' : 'Add to Cart'}
+              {addingId === product.id ? t('common.adding') : t('common.addToCart')}
             </motion.button>
           </motion.div>
         ))}

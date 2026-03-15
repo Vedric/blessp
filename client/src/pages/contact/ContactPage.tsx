@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
@@ -11,6 +12,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
+import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 const fadeUp = {
@@ -22,43 +24,20 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const subjectOptions = [
-  'General Inquiry',
-  'Order Support',
-  'Returns & Exchanges',
-  'Collaboration',
-  'Other',
+const subjectOptionKeys = [
+  'contact.subjects.generalInquiry',
+  'contact.subjects.orderSupport',
+  'contact.subjects.returnsExchanges',
+  'contact.subjects.collaboration',
+  'contact.subjects.other',
 ];
 
-const faqs = [
-  {
-    question: 'How long does shipping take?',
-    answer:
-      'Standard shipping within Canada takes 5 to 7 business days. Expedited shipping is available at checkout for 2 to 3 business day delivery. Orders to the United States typically arrive within 7 to 14 business days.',
-  },
-  {
-    question: 'What is your return policy?',
-    answer:
-      'We offer a 30-day return window from the date of delivery. Items must be unworn, unwashed, and in their original condition with all tags attached. Visit our Return Policy page for full details.',
-    hasLink: true,
-    linkTo: '/return-policy',
-    linkText: 'View Return Policy',
-  },
-  {
-    question: 'Do you offer international shipping?',
-    answer:
-      'We currently ship within Canada and the United States. International shipping to additional regions is planned for future expansion. Sign up for our newsletter to stay informed about updates.',
-  },
-  {
-    question: 'How can I track my order?',
-    answer:
-      'Once your order has shipped, you will receive an email with a tracking number and a link to the carrier\u2019s tracking page. You can also view your order status by logging into your account and visiting the Orders section.',
-  },
-  {
-    question: 'Are your products true to size?',
-    answer:
-      'Our garments are designed with a relaxed, contemporary fit. We recommend consulting the size guide available on each product page. If you are between sizes, we suggest sizing up for a more relaxed look or sizing down for a fitted silhouette.',
-  },
+const faqKeys = [
+  { questionKey: 'contact.faq.shippingQ', answerKey: 'contact.faq.shippingA' },
+  { questionKey: 'contact.faq.returnPolicyQ', answerKey: 'contact.faq.returnPolicyA', hasLink: true, linkTo: '/return-policy', linkTextKey: 'contact.faq.viewReturnPolicy' },
+  { questionKey: 'contact.faq.internationalQ', answerKey: 'contact.faq.internationalA' },
+  { questionKey: 'contact.faq.trackOrderQ', answerKey: 'contact.faq.trackOrderA' },
+  { questionKey: 'contact.faq.trueSizeQ', answerKey: 'contact.faq.trueSizeA' },
 ];
 
 interface FormData {
@@ -76,6 +55,7 @@ interface FormErrors {
 }
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -86,6 +66,7 @@ export default function ContactPage() {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -93,23 +74,23 @@ export default function ContactPage() {
     const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required.';
+      newErrors.name = t('contact.validation.nameRequired');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required.';
+      newErrors.email = t('contact.validation.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('contact.validation.emailInvalid');
     }
 
     if (!formData.subject) {
-      newErrors.subject = 'Please select a subject.';
+      newErrors.subject = t('contact.validation.subjectRequired');
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required.';
+      newErrors.message = t('contact.validation.messageRequired');
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters.';
+      newErrors.message = t('contact.validation.messageMinLength');
     }
 
     setErrors(newErrors);
@@ -118,10 +99,10 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError('');
 
     setTouched({ name: true, email: true, subject: true, message: true });
     if (!validate()) {
-      // Scroll to first error field
       const firstErrorField = formRef.current?.querySelector('[data-error="true"]');
       firstErrorField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
@@ -129,11 +110,30 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // Simulate submission delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      await api.post('/contact', {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject,
+        message: formData.message.trim(),
+      });
+      setIsSubmitted(true);
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string; fields?: Record<string, string[]> };
+      if (apiErr.fields) {
+        const mapped: FormErrors = {};
+        for (const [key, msgs] of Object.entries(apiErr.fields)) {
+          if (key in formData) {
+            mapped[key as keyof FormErrors] = msgs[0];
+          }
+        }
+        setErrors(mapped);
+      } else {
+        setSubmitError(apiErr.message || t('contact.submitError'));
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -154,20 +154,20 @@ export default function ContactPage() {
     // Validate the specific field on blur for immediate feedback
     const fieldErrors: FormErrors = {};
     if (name === 'name' && !formData.name.trim()) {
-      fieldErrors.name = 'Name is required.';
+      fieldErrors.name = t('contact.validation.nameRequired');
     }
     if (name === 'email') {
-      if (!formData.email.trim()) fieldErrors.email = 'Email is required.';
+      if (!formData.email.trim()) fieldErrors.email = t('contact.validation.emailRequired');
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-        fieldErrors.email = 'Please enter a valid email address.';
+        fieldErrors.email = t('contact.validation.emailInvalid');
     }
     if (name === 'subject' && !formData.subject) {
-      fieldErrors.subject = 'Please select a subject.';
+      fieldErrors.subject = t('contact.validation.subjectRequired');
     }
     if (name === 'message') {
-      if (!formData.message.trim()) fieldErrors.message = 'Message is required.';
+      if (!formData.message.trim()) fieldErrors.message = t('contact.validation.messageRequired');
       else if (formData.message.trim().length < 10)
-        fieldErrors.message = 'Message must be at least 10 characters.';
+        fieldErrors.message = t('contact.validation.messageMinLength');
     }
     if (fieldErrors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: fieldErrors[name as keyof FormErrors] }));
@@ -182,7 +182,7 @@ export default function ContactPage() {
     <div className="min-h-screen">
       {/* Breadcrumbs */}
       <div className="mx-auto max-w-5xl px-4 pt-6 sm:px-6 lg:px-8">
-        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+        <Breadcrumbs items={[{ label: t('common.home'), href: '/' }, { label: t('common.contact') }]} />
       </div>
 
       {/* Hero */}
@@ -201,13 +201,13 @@ export default function ContactPage() {
               className="font-display mt-4 text-4xl font-light tracking-tight text-neutral-900 md:text-5xl"
               variants={fadeUp}
             >
-              Contact Us
+              {t('contact.title')}
             </motion.h1>
             <motion.p
               className="mt-4 text-base text-neutral-500"
               variants={fadeUp}
             >
-              We would love to hear from you. Reach out with any questions, feedback, or collaboration inquiries.
+              {t('contact.subtitle')}
             </motion.p>
           </motion.div>
         </div>
@@ -228,7 +228,7 @@ export default function ContactPage() {
               className="font-display text-2xl font-light tracking-tight text-neutral-900"
               variants={fadeUp}
             >
-              Send a Message
+              {t('contact.sendMessage')}
             </motion.h2>
             <motion.div className="mt-2 h-px w-10 bg-brand-500" variants={fadeUp} />
 
@@ -254,7 +254,7 @@ export default function ContactPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    Message Sent
+                    {t('contact.messageSent')}
                   </motion.h3>
                   <motion.p
                     className="mt-3 max-w-sm text-neutral-500"
@@ -262,7 +262,7 @@ export default function ContactPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    Thank you for reaching out. Our team will get back to you within 24 to 48 business hours.
+                    {t('contact.messageSentDesc')}
                   </motion.p>
                   <motion.button
                     className="mt-8 text-sm font-medium tracking-widest text-brand-600 uppercase transition-colors hover:text-brand-700"
@@ -276,7 +276,7 @@ export default function ContactPage() {
                       setErrors({});
                     }}
                   >
-                    Send Another Message
+                    {t('contact.sendAnother')}
                   </motion.button>
                 </motion.div>
               ) : (
@@ -294,7 +294,7 @@ export default function ContactPage() {
                       htmlFor="name"
                       className="block text-sm font-medium text-neutral-700"
                     >
-                      Name
+                      {t('contact.form.name')}
                     </label>
                     <input
                       type="text"
@@ -309,7 +309,7 @@ export default function ContactPage() {
                           ? 'border-red-400'
                           : 'border-neutral-200',
                       )}
-                      placeholder="Your full name"
+                      placeholder={t('contact.form.namePlaceholder')}
                     />
                     <AnimatePresence>
                       {errors.name && touched.name && (
@@ -332,7 +332,7 @@ export default function ContactPage() {
                       htmlFor="email"
                       className="block text-sm font-medium text-neutral-700"
                     >
-                      Email
+                      {t('common.email')}
                     </label>
                     <input
                       type="email"
@@ -347,7 +347,7 @@ export default function ContactPage() {
                           ? 'border-red-400'
                           : 'border-neutral-200',
                       )}
-                      placeholder="your@email.com"
+                      placeholder={t('contact.form.emailPlaceholder')}
                     />
                     <AnimatePresence>
                       {errors.email && touched.email && (
@@ -370,7 +370,7 @@ export default function ContactPage() {
                       htmlFor="subject"
                       className="block text-sm font-medium text-neutral-700"
                     >
-                      Subject
+                      {t('contact.form.subject')}
                     </label>
                     <div className="relative">
                       <select
@@ -388,11 +388,11 @@ export default function ContactPage() {
                         )}
                       >
                         <option value="" disabled>
-                          Select a subject
+                          {t('contact.form.selectSubject')}
                         </option>
-                        {subjectOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
+                        {subjectOptionKeys.map((key) => (
+                          <option key={key} value={t(key)}>
+                            {t(key)}
                           </option>
                         ))}
                       </select>
@@ -420,7 +420,7 @@ export default function ContactPage() {
                         htmlFor="message"
                         className="block text-sm font-medium text-neutral-700"
                       >
-                        Message
+                        {t('contact.form.message')}
                       </label>
                       <span className={cn(
                         'text-xs transition-colors',
@@ -445,7 +445,7 @@ export default function ContactPage() {
                           ? 'border-red-400'
                           : 'border-neutral-200',
                       )}
-                      placeholder="Tell us how we can help..."
+                      placeholder={t('contact.form.messagePlaceholder')}
                     />
                     <AnimatePresence>
                       {errors.message && touched.message && (
@@ -461,6 +461,23 @@ export default function ContactPage() {
                       )}
                     </AnimatePresence>
                   </div>
+
+                  {/* API Error */}
+                  <AnimatePresence>
+                    {submitError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -10, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="flex items-start gap-3 border border-red-200 bg-red-50 px-4 py-3">
+                          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-500" />
+                          <p className="text-sm text-red-700">{submitError}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   {/* Submit */}
                   <motion.button
@@ -478,15 +495,19 @@ export default function ContactPage() {
                           animate={{ rotate: 360 }}
                           transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
                         />
-                        Sending...
+                        {t('contact.form.sending')}
                       </>
                     ) : (
                       <>
-                        Send Message
+                        {t('contact.form.sendMessage')}
                         <Send className="h-4 w-4" />
                       </>
                     )}
                   </motion.button>
+
+                  <p className="text-xs text-neutral-400">
+                    {t('contact.rateLimitNotice')}
+                  </p>
                 </motion.form>
               )}
             </AnimatePresence>
@@ -504,14 +525,14 @@ export default function ContactPage() {
               className="font-display text-2xl font-light tracking-tight text-neutral-900"
               variants={fadeUp}
             >
-              Get in Touch
+              {t('contact.getInTouch')}
             </motion.h2>
             <motion.div className="mt-2 h-px w-10 bg-brand-500" variants={fadeUp} />
 
             <motion.div className="mt-8 space-y-8" variants={fadeUp}>
               <div>
                 <p className="text-sm font-medium tracking-widest text-neutral-900 uppercase">
-                  Email
+                  {t('common.email')}
                 </p>
                 <a
                   href="mailto:hello@blessp.com"
@@ -523,7 +544,7 @@ export default function ContactPage() {
 
               <div>
                 <p className="text-sm font-medium tracking-widest text-neutral-900 uppercase">
-                  Returns
+                  {t('contact.info.returns')}
                 </p>
                 <a
                   href="mailto:returns@blessp.com"
@@ -535,7 +556,7 @@ export default function ContactPage() {
 
               <div>
                 <p className="text-sm font-medium tracking-widest text-neutral-900 uppercase">
-                  Follow Us
+                  {t('contact.info.followUs')}
                 </p>
                 <div className="mt-3 flex gap-4">
                   <a
@@ -561,10 +582,10 @@ export default function ContactPage() {
 
               <div>
                 <p className="text-sm font-medium tracking-widest text-neutral-900 uppercase">
-                  Response Time
+                  {t('contact.info.responseTime')}
                 </p>
                 <p className="mt-2 text-neutral-600">
-                  We aim to respond to all inquiries within 24 to 48 business hours.
+                  {t('contact.info.responseTimeDesc')}
                 </p>
               </div>
             </motion.div>
@@ -583,20 +604,20 @@ export default function ContactPage() {
           >
             <motion.div className="text-center" variants={fadeUp}>
               <h2 className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl">
-                Frequently Asked Questions
+                {t('contact.faqTitle')}
               </h2>
               <div className="mx-auto mt-2 h-px w-12 bg-brand-500" />
             </motion.div>
 
             <motion.div className="mt-12 space-y-0 divide-y divide-neutral-200" variants={fadeUp}>
-              {faqs.map((faq, index) => (
+              {faqKeys.map((faq, index) => (
                 <div key={index}>
                   <button
                     onClick={() => toggleFaq(index)}
                     className="flex w-full items-center justify-between py-6 text-left transition-colors hover:text-brand-600"
                   >
                     <span className="pr-8 text-base font-medium text-neutral-900">
-                      {faq.question}
+                      {t(faq.questionKey)}
                     </span>
                     <motion.div
                       animate={{ rotate: openFaq === index ? 180 : 0 }}
@@ -615,13 +636,13 @@ export default function ContactPage() {
                         className="overflow-hidden"
                       >
                         <div className="pb-6 text-base leading-relaxed text-neutral-600">
-                          <p>{faq.answer}</p>
+                          <p>{t(faq.answerKey)}</p>
                           {faq.hasLink && (
                             <Link
                               to={faq.linkTo!}
                               className="mt-3 inline-flex text-sm text-brand-600 underline underline-offset-4 transition-colors hover:text-brand-700"
                             >
-                              {faq.linkText}
+                              {t(faq.linkTextKey!)}
                             </Link>
                           )}
                         </div>
@@ -645,21 +666,21 @@ export default function ContactPage() {
             variants={stagger}
           >
             <motion.p className="text-sm text-neutral-500" variants={fadeUp}>
-              Looking for something else?
+              {t('contact.lookingForMore')}
             </motion.p>
             <motion.div className="mt-4 flex items-center justify-center gap-6" variants={fadeUp}>
               <Link
                 to="/terms"
                 className="text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:text-brand-600"
               >
-                Terms & Conditions
+                {t('footer.termsConditions')}
               </Link>
               <span className="text-neutral-300">|</span>
               <Link
                 to="/return-policy"
                 className="text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:text-brand-600"
               >
-                Return Policy
+                {t('footer.returnPolicy')}
               </Link>
             </motion.div>
           </motion.div>

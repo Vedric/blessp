@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, PackageOpen } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import { WishlistButton } from '@/components/common/WishlistButton';
@@ -18,6 +19,7 @@ const stagger = {
 };
 
 export default function SearchPage() {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -74,7 +76,7 @@ export default function SearchPage() {
       {/* Search header */}
       <div className="bg-neutral-50 pt-32 pb-10">
         <div className="mx-auto max-w-3xl px-4 pb-4 sm:px-6">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Search' }]} />
+          <Breadcrumbs items={[{ label: t('common.home'), href: '/' }, { label: t('search.title') }]} />
         </div>
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <div className="relative">
@@ -84,13 +86,13 @@ export default function SearchPage() {
               type="text"
               defaultValue={query}
               onChange={(e) => handleInputChange(e.target.value)}
-              placeholder="Search our collection..."
+              placeholder={t('search.placeholder')}
               className="w-full border border-neutral-200 bg-white py-4 pl-12 pr-4 text-lg text-neutral-900 placeholder:text-neutral-400 transition-colors duration-200 focus:border-[#c8a97e] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e]/20"
             />
           </div>
           {hasSearched && !isLoading && (
             <p className="mt-4 text-sm text-neutral-500">
-              {totalItems} {totalItems === 1 ? 'result' : 'results'} for &ldquo;{query}&rdquo;
+              {t('search.resultsCount', { count: totalItems, query })}
             </p>
           )}
         </div>
@@ -119,10 +121,10 @@ export default function SearchPage() {
               <Search className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
             </div>
             <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
-              Search our collection
+              {t('search.searchCollection')}
             </h3>
             <p className="mt-2 max-w-sm text-sm text-neutral-500">
-              Find exactly what you&apos;re looking for by name, category, or description.
+              {t('search.searchDesc')}
             </p>
           </motion.div>
         ) : products.length === 0 ? (
@@ -136,16 +138,16 @@ export default function SearchPage() {
               <PackageOpen className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
             </div>
             <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
-              No results for &ldquo;{query}&rdquo;
+              {t('search.noResults', { query })}
             </h3>
             <p className="mt-2 max-w-sm text-sm text-neutral-500">
-              We couldn&apos;t find a match. Try adjusting your keywords or explore our full collection.
+              {t('search.noResultsDesc')}
             </p>
             <Link
               to="/shop"
               className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#c8a97e] hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8a97e] focus-visible:ring-offset-2"
             >
-              Browse Collection
+              {t('search.browseCollection')}
             </Link>
           </motion.div>
         ) : (
@@ -168,7 +170,7 @@ export default function SearchPage() {
                       />
                       <div className="absolute inset-0 flex items-end justify-center bg-black/0 transition-all duration-500 group-hover:bg-black/10">
                         <span className="mb-6 translate-y-4 text-xs font-medium tracking-[0.2em] text-white uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                          View Product
+                          {t('shop.viewProduct')}
                         </span>
                       </div>
                     </div>

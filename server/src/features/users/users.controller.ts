@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { UsersService } from './users.service';
-import { UpdateUserSchema, ChangePasswordSchema } from './users.schema';
+import {
+  UpdateUserSchema,
+  ChangePasswordSchema,
+  DeleteAccountSchema,
+  UpdateEmailPreferencesSchema,
+} from './users.schema';
 import { sendSuccess, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
@@ -40,6 +45,41 @@ export class UsersController {
       await this.usersService.changePassword(authReq.user!.userId, dto);
 
       sendNoContent(res);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  deleteAccount = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      const dto = DeleteAccountSchema.parse(req.body);
+      await this.usersService.deleteAccount(authReq.user!.userId, dto);
+
+      sendNoContent(res);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getEmailPreferences = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      const prefs = await this.usersService.getEmailPreferences(authReq.user!.userId);
+
+      sendSuccess(res, req, prefs);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  updateEmailPreferences = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      const dto = UpdateEmailPreferencesSchema.parse(req.body);
+      const prefs = await this.usersService.updateEmailPreferences(authReq.user!.userId, dto);
+
+      sendSuccess(res, req, prefs);
     } catch (error) {
       next(error);
     }

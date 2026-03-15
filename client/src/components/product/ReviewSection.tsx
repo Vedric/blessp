@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { StarRating } from '@/components/common/StarRating';
@@ -22,6 +23,7 @@ const fadeSlideUp = {
 };
 
 export function ReviewSection({ productId }: ReviewSectionProps) {
+  const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
 
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -111,7 +113,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
     setFormError('');
 
     if (formRating < 1 || formRating > 5) {
-      setFormError('Please select a rating.');
+      setFormError(t('reviews.selectRating'));
       return;
     }
 
@@ -184,7 +186,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
         className="font-display text-2xl font-light tracking-tight text-neutral-900 md:text-3xl"
         variants={fadeSlideUp}
       >
-        Customer Reviews
+        {t('reviews.customerReviews')}
       </motion.h2>
       <motion.div className="mt-2 h-px w-12 bg-[#c8a97e]" variants={fadeSlideUp} />
 
@@ -201,7 +203,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
             </span>
             <StarRating rating={summary.averageRating} size={18} className="mt-2" />
             <span className="mt-1 text-sm text-neutral-500">
-              {summary.totalReviews} {summary.totalReviews === 1 ? 'review' : 'reviews'}
+              {summary.totalReviews} {summary.totalReviews === 1 ? t('reviews.review') : t('reviews.reviewPlural')}
             </span>
           </div>
 
@@ -239,7 +241,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                 onClick={openCreateForm}
                 className="border border-neutral-900 px-6 py-3 text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
               >
-                Write a Review
+                {t('reviews.writeReview')}
               </button>
             )}
             {isAuthenticated && userReview && (
@@ -248,13 +250,13 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                   onClick={openEditForm}
                   className="border border-neutral-900 px-6 py-3 text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:bg-neutral-900 hover:text-white"
                 >
-                  Edit Review
+                  {t('reviews.editButton')}
                 </button>
                 <button
                   onClick={handleDelete}
                   className="px-6 py-2 text-xs font-medium tracking-wider text-neutral-400 uppercase transition-colors hover:text-red-500"
                 >
-                  Delete Review
+                  {t('reviews.deleteReview')}
                 </button>
               </div>
             )}
@@ -263,7 +265,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                 to="/signin"
                 className="border border-[#c8a97e] px-6 py-3 text-sm font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:bg-[#c8a97e] hover:text-white"
               >
-                Sign in to Review
+                {t('reviews.signInToReview')}
               </Link>
             )}
           </div>
@@ -296,14 +298,14 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
               </button>
 
               <h3 className="font-display text-xl font-light tracking-tight text-neutral-900">
-                {isEditing ? 'Edit Your Review' : 'Write a Review'}
+                {isEditing ? t('reviews.editReview') : t('reviews.writeReview')}
               </h3>
 
               <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                 {/* Rating */}
                 <div>
                   <label className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                    Rating
+                    {t('reviews.rating')}
                   </label>
                   <StarRating
                     rating={formRating}
@@ -320,7 +322,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                     htmlFor="review-title"
                     className="text-xs font-medium tracking-widest text-neutral-500 uppercase"
                   >
-                    Title (optional)
+                    {t('reviews.titleOptional')}
                   </label>
                   <input
                     id="review-title"
@@ -329,7 +331,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                     onChange={(e) => setFormTitle(e.target.value)}
                     maxLength={200}
                     className="mt-2 w-full border border-neutral-200 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition-colors focus:border-[#c8a97e]"
-                    placeholder="Summarize your experience"
+                    placeholder={t('reviews.titlePlaceholder')}
                   />
                 </div>
 
@@ -339,7 +341,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                     htmlFor="review-comment"
                     className="text-xs font-medium tracking-widest text-neutral-500 uppercase"
                   >
-                    Comment (optional)
+                    {t('reviews.commentOptional')}
                   </label>
                   <textarea
                     id="review-comment"
@@ -348,7 +350,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                     maxLength={2000}
                     rows={4}
                     className="mt-2 w-full resize-none border border-neutral-200 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition-colors focus:border-[#c8a97e]"
-                    placeholder="Share your thoughts about this product"
+                    placeholder={t('reviews.commentPlaceholder')}
                   />
                 </div>
 
@@ -367,10 +369,10 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
                   )}
                 >
                   {isSubmitting
-                    ? 'Submitting...'
+                    ? t('reviews.submitting')
                     : isEditing
-                      ? 'Update Review'
-                      : 'Submit Review'}
+                      ? t('reviews.updateReview')
+                      : t('reviews.submitReview')}
                 </button>
               </form>
             </motion.div>
@@ -385,7 +387,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
             className="py-8 text-center text-sm text-neutral-400"
             variants={fadeSlideUp}
           >
-            No reviews yet. Be the first to share your thoughts.
+            {t('reviews.noReviews')}
           </motion.p>
         )}
 
@@ -437,7 +439,7 @@ export function ReviewSection({ productId }: ReviewSectionProps) {
             onClick={handleLoadMore}
             className="border border-neutral-200 px-8 py-3 text-sm font-medium tracking-widest text-neutral-600 uppercase transition-colors hover:border-neutral-900 hover:text-neutral-900"
           >
-            Load More Reviews
+            {t('reviews.loadMore')}
           </button>
         </motion.div>
       )}

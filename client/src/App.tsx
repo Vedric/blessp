@@ -1,3 +1,4 @@
+import '@/i18n';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -26,6 +27,8 @@ const OrdersPage = lazy(() => import('@/pages/profile/OrdersPage'));
 const OrderDetailPage = lazy(() => import('@/pages/profile/OrderDetailPage'));
 const AddressesPage = lazy(() => import('@/pages/profile/AddressesPage'));
 const LoyaltyPage = lazy(() => import('@/pages/profile/LoyaltyPage'));
+const PaymentMethodsPage = lazy(() => import('@/pages/profile/PaymentMethodsPage'));
+const EmailPreferencesPage = lazy(() => import('@/pages/profile/EmailPreferencesPage'));
 const AdminDashboardPage = lazy(() => import('@/pages/admin/AdminDashboardPage'));
 const AdminProductsPage = lazy(() => import('@/pages/admin/AdminProductsPage'));
 const AdminProductEditPage = lazy(() => import('@/pages/admin/AdminProductEditPage'));
@@ -111,6 +114,22 @@ export default function App() {
                     element={
                       <ProtectedRoute>
                         <AddressesPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile/payment-methods"
+                    element={
+                      <ProtectedRoute>
+                        <PaymentMethodsPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile/email-preferences"
+                    element={
+                      <ProtectedRoute>
+                        <EmailPreferencesPage />
                       </ProtectedRoute>
                     }
                   />

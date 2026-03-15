@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { api } from '@/lib/api';
@@ -38,6 +39,7 @@ const emptyForm: ProductForm = {
 };
 
 export default function AdminProductEditPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isNew = id === 'new';
@@ -124,7 +126,7 @@ export default function AdminProductEditPage() {
       navigate('/admin/products');
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setError(apiErr.message || 'Failed to save product.');
+      setError(apiErr.message || t('admin.productEdit.failedSave'));
     } finally {
       setIsSaving(false);
     }
@@ -158,16 +160,16 @@ export default function AdminProductEditPage() {
           <div className="mb-6">
             <Breadcrumbs
               items={[
-                { label: 'Home', href: '/' },
-                { label: 'Admin', href: '/admin' },
-                { label: 'Products', href: '/admin/products' },
-                { label: isNew ? 'New Product' : 'Edit Product' },
+                { label: t('common.home'), href: '/' },
+                { label: t('nav.admin'), href: '/admin' },
+                { label: t('admin.products.title'), href: '/admin/products' },
+                { label: isNew ? t('admin.productEdit.newProduct') : t('admin.productEdit.editProduct') },
               ]}
             />
           </div>
 
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            {isNew ? 'New Product' : 'Edit Product'}
+            {isNew ? t('admin.productEdit.newProduct') : t('admin.productEdit.editProduct')}
           </h1>
           <div className="mt-2 h-px w-12 bg-brand-500" />
 
@@ -181,14 +183,14 @@ export default function AdminProductEditPage() {
             {/* Name */}
             <div>
               <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Product Name
+                {t('admin.productEdit.productName')}
               </label>
               <input
                 required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className={cn(inputClass, 'mt-2')}
-                placeholder="e.g. Premium Black Hoodie"
+                placeholder={t('admin.productEdit.productNamePlaceholder')}
               />
             </div>
 
@@ -196,7 +198,7 @@ export default function AdminProductEditPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                  Price (USD)
+                  {t('admin.productEdit.price')}
                 </label>
                 <input
                   type="number"
@@ -206,7 +208,7 @@ export default function AdminProductEditPage() {
                   value={priceDisplay}
                   onChange={(e) => handlePriceChange(e.target.value)}
                   className={cn(inputClass, 'mt-2')}
-                  placeholder="49.99"
+                  placeholder={t('admin.productEdit.pricePlaceholder')}
                 />
               </div>
             </div>
@@ -214,7 +216,7 @@ export default function AdminProductEditPage() {
             {/* Category */}
             <div>
               <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Category
+                {t('admin.productEdit.category')}
               </label>
               <select
                 value={form.category}
@@ -232,7 +234,7 @@ export default function AdminProductEditPage() {
             {/* Description */}
             <div>
               <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Description
+                {t('admin.productEdit.description')}
               </label>
               <textarea
                 value={form.description}
@@ -241,14 +243,14 @@ export default function AdminProductEditPage() {
                 }
                 rows={4}
                 className={cn(inputClass, 'mt-2 resize-y')}
-                placeholder="Product description..."
+                placeholder={t('admin.productEdit.descriptionPlaceholder')}
               />
             </div>
 
             {/* Sizes */}
             <div>
               <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Sizes
+                {t('admin.productEdit.sizes')}
               </label>
               <div className="mt-3 flex flex-wrap gap-2">
                 {allSizes.map((size) => (
@@ -272,7 +274,7 @@ export default function AdminProductEditPage() {
             {/* Colors */}
             <div>
               <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Colors
+                {t('admin.productEdit.colors')}
               </label>
               <div className="mt-3 flex flex-wrap gap-2">
                 {allColors.map((color) => (
@@ -296,14 +298,14 @@ export default function AdminProductEditPage() {
             {/* Images */}
             <div>
               <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
-                Images
+                {t('admin.productEdit.images')}
               </label>
               <div className="mt-3 flex gap-2">
                 <input
                   value={imageInput}
                   onChange={(e) => setImageInput(e.target.value)}
                   className={cn(inputClass, 'flex-1')}
-                  placeholder="Image URL (e.g. /img/black_hoody_1.jpeg)"
+                  placeholder={t('admin.productEdit.imageUrlPlaceholder')}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
@@ -316,7 +318,7 @@ export default function AdminProductEditPage() {
                   onClick={addImage}
                   className="bg-neutral-900 px-4 py-3 text-sm text-white transition-colors hover:bg-neutral-800"
                 >
-                  Add
+                  {t('common.add')}
                 </button>
               </div>
               {form.images.length > 0 && (
@@ -355,7 +357,7 @@ export default function AdminProductEditPage() {
                 className="h-4 w-4 border-neutral-300"
               />
               <span className="text-sm text-neutral-700">
-                Product is active and visible in the shop
+                {t('admin.productEdit.activeVisible')}
               </span>
             </label>
 
@@ -367,17 +369,17 @@ export default function AdminProductEditPage() {
                 className="bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
               >
                 {isSaving
-                  ? 'Saving...'
+                  ? t('common.saving')
                   : isNew
-                    ? 'Create Product'
-                    : 'Save Changes'}
+                    ? t('admin.productEdit.createProduct')
+                    : t('admin.productEdit.saveChanges')}
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/admin/products')}
                 className="px-8 py-3 text-sm font-medium tracking-widest text-neutral-600 uppercase transition-colors hover:text-neutral-900"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
             </div>
           </form>

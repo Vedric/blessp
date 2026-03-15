@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Package, ChevronRight, ArrowLeft, ShoppingBag, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import { formatDate, cn } from '@/lib/utils';
@@ -26,6 +27,7 @@ const stagger = {
 };
 
 export default function OrdersPage() {
+  const { t } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -63,11 +65,11 @@ export default function OrdersPage() {
             className="mb-6 inline-flex items-center gap-1 text-xs font-medium tracking-widest text-neutral-500 uppercase transition-colors hover:text-neutral-900"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Account
+            {t('profile.account')}
           </Link>
 
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            My Orders
+            {t('orders.myOrders')}
           </h1>
           <div className="mt-2 h-px w-12 bg-[#c8a97e]" />
 
@@ -109,10 +111,10 @@ export default function OrdersPage() {
                 </motion.div>
               </div>
               <h3 className="font-display mt-6 text-xl font-light text-neutral-900">
-                No orders yet
+                {t('orders.noOrders')}
               </h3>
               <p className="mt-2 max-w-xs text-sm text-neutral-500">
-                Your order history will appear here once you make your first purchase. Browse our curated collection to get started.
+                {t('orders.noOrdersDesc')}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
@@ -120,13 +122,13 @@ export default function OrdersPage() {
                   className="inline-flex items-center justify-center gap-2 bg-neutral-900 px-8 py-3.5 text-sm font-medium tracking-widest text-white uppercase transition-all hover:bg-[#c8a97e] hover:text-neutral-950"
                 >
                   <ShoppingBag className="h-4 w-4" />
-                  Browse Collection
+                  {t('orders.browseCollection')}
                 </Link>
                 <Link
                   to="/wishlist"
                   className="inline-flex items-center justify-center gap-2 border border-neutral-200 px-8 py-3.5 text-sm font-medium tracking-widest text-neutral-900 uppercase transition-colors hover:border-neutral-900"
                 >
-                  View Wishlist
+                  {t('orders.viewWishlist')}
                 </Link>
               </div>
             </motion.div>
@@ -162,7 +164,7 @@ export default function OrdersPage() {
                         </div>
                         <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-neutral-500">
                           <span>{formatDate(order.createdAt)}</span>
-                          <span>{order.items.length} item{order.items.length !== 1 ? 's' : ''}</span>
+                          <span>{t('orders.itemCount', { count: order.items.length })}</span>
                           <span className="font-medium text-neutral-900">
                             {formatPrice(order.totalCents)}
                           </span>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, SlidersHorizontal } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import { cn } from '@/lib/utils';
@@ -34,6 +35,7 @@ interface FilterPanelProps {
 }
 
 export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [filtersData, setFiltersData] = useState<FiltersData | null>(null);
@@ -81,7 +83,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
       {/* Price range */}
       <div>
         <h4 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-          Price Range
+          {t('filters.priceRange')}
         </h4>
         <div className="mt-3 flex items-center gap-3">
           <div className="relative flex-1">
@@ -129,7 +131,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
       {filtersData.colors.length > 0 && (
         <div>
           <h4 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-            Colors
+            {t('filters.colors')}
           </h4>
           <div className="mt-3 flex flex-wrap gap-3">
             {filtersData.colors.map((color) => (
@@ -161,7 +163,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
       {filtersData.sizes.length > 0 && (
         <div>
           <h4 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-            Sizes
+            {t('filters.sizes')}
           </h4>
           <div className="mt-3 flex flex-wrap gap-2">
             {filtersData.sizes.map((size) => (
@@ -188,7 +190,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
           onClick={clearAll}
           className="text-xs font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:text-[#b89a6f]"
         >
-          Clear All Filters
+          {t('filters.clearAllFilters')}
         </button>
       )}
     </div>
@@ -202,7 +204,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         className="flex items-center gap-2 text-xs font-medium tracking-wider text-neutral-600 uppercase lg:hidden"
       >
         <SlidersHorizontal className="h-4 w-4" />
-        Filters
+        {t('filters.title')}
         {activeCount > 0 && (
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-neutral-900 text-[10px] text-white">
             {activeCount}
@@ -214,7 +216,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
       <div className="hidden w-60 flex-shrink-0 lg:block">
         <div className="sticky top-24">
           <h3 className="text-xs font-medium tracking-[0.2em] text-neutral-900 uppercase">
-            Filters
+            {t('filters.title')}
           </h3>
           <div className="mt-6">
             {filterContent}
@@ -242,7 +244,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
             >
               <div className="flex items-center justify-between border-b border-neutral-100 px-6 py-5">
                 <h3 className="text-xs font-medium tracking-[0.2em] text-neutral-900 uppercase">
-                  Filters
+                  {t('filters.title')}
                 </h3>
                 <button
                   onClick={() => setMobileOpen(false)}
@@ -259,7 +261,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
                   onClick={() => setMobileOpen(false)}
                   className="w-full bg-neutral-900 py-3 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-[#c8a97e] hover:text-neutral-950"
                 >
-                  Show Results
+                  {t('filters.showResults')}
                 </button>
               </div>
             </motion.div>

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, PackageOpen, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -13,10 +14,16 @@ import { RecentlyViewed } from '@/components/common/RecentlyViewed';
 import { FilterPanel, type ActiveFilters } from '@/components/shop/FilterPanel';
 
 const categories = ['All', 'Hoodies', 'Pants', 'Sets'];
+const categoryTranslationKeys: Record<string, string> = {
+  All: 'shop.categories.all',
+  Hoodies: 'shop.categories.hoodies',
+  Pants: 'shop.categories.pants',
+  Sets: 'shop.categories.sets',
+};
 const sortOptions = [
-  { label: 'Newest', value: 'createdAt:desc' },
-  { label: 'Price: Low to High', value: 'price:asc' },
-  { label: 'Price: High to Low', value: 'price:desc' },
+  { labelKey: 'shop.sort.newest', value: 'createdAt:desc' },
+  { labelKey: 'shop.sort.priceLowHigh', value: 'price:asc' },
+  { labelKey: 'shop.sort.priceHighLow', value: 'price:desc' },
 ];
 
 const fadeUp = {
@@ -29,6 +36,7 @@ const stagger = {
 };
 
 export default function ShopPage() {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -142,13 +150,13 @@ export default function ShopPage() {
   });
   advancedFilters.sizes.forEach((size) => {
     activeFilterTags.push({
-      label: `Size ${size}`,
+      label: `${t('shop.sizePrefix')} ${size}`,
       onRemove: () => handleFiltersChange({ ...advancedFilters, sizes: advancedFilters.sizes.filter((s) => s !== size) }),
     });
   });
 
-  const currentSortLabel =
-    sortOptions.find((s) => s.value === currentSort)?.label || 'Newest';
+  const currentSortOption = sortOptions.find((s) => s.value === currentSort);
+  const currentSortLabel = currentSortOption ? t(currentSortOption.labelKey) : t('shop.sort.newest');
 
   return (
     <div className="min-h-screen">
@@ -158,10 +166,10 @@ export default function ShopPage() {
           <div className="mb-6">
             <Breadcrumbs
               items={[
-                { label: 'Home', href: '/' },
-                { label: 'Collection' },
+                { label: t('common.home'), href: '/' },
+                { label: t('shop.collection') },
                 ...(currentCategory !== 'All'
-                  ? [{ label: currentCategory }]
+                  ? [{ label: t(categoryTranslationKeys[currentCategory] || currentCategory) }]
                   : []),
               ]}
             />
@@ -180,7 +188,7 @@ export default function ShopPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Collection
+            {t('shop.collection')}
           </motion.h1>
           <motion.div
             className="mt-3 h-[2px] w-16 bg-[#c8a97e]"
@@ -195,7 +203,7 @@ export default function ShopPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Explore our curated selection of premium streetwear essentials.
+            {t('shop.collectionDesc')}
           </motion.p>
         </div>
       </div>
@@ -223,7 +231,7 @@ export default function ShopPage() {
                       : 'bg-neutral-50 text-neutral-600 hover:bg-neutral-100',
                   )}
                 >
-                  {cat}
+                  {t(categoryTranslationKeys[cat] || cat)}
                   {currentCategory === cat && (
                     <motion.div
                       layoutId="categoryIndicator"
@@ -240,7 +248,7 @@ export default function ShopPage() {
             {/* Product count */}
             {!isLoading && (
               <span className="hidden text-xs text-neutral-400 md:block">
-                {totalItems} {totalItems === 1 ? 'product' : 'products'}
+                {t('shop.productCount', { count: totalItems })}
               </span>
             )}
 
@@ -276,7 +284,7 @@ export default function ShopPage() {
                             : 'text-neutral-600 hover:bg-neutral-50',
                         )}
                       >
-                        {opt.label}
+                        {t(opt.labelKey)}
                       </button>
                     ))}
                   </motion.div>
@@ -304,7 +312,7 @@ export default function ShopPage() {
               onClick={() => handleFiltersChange({ colors: [], sizes: [], minPrice: undefined, maxPrice: undefined })}
               className="whitespace-nowrap text-xs text-[#c8a97e] hover:text-[#b89a6f]"
             >
-              Clear all
+              {t('filters.clearAll')}
             </button>
           </div>
         )}
@@ -334,7 +342,7 @@ export default function ShopPage() {
                       : 'bg-neutral-50 text-neutral-600',
                   )}
                 >
-                  {cat}
+                  {t(categoryTranslationKeys[cat] || cat)}
                 </button>
               ))}
             </div>
@@ -360,11 +368,10 @@ export default function ShopPage() {
                   <PackageOpen className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
                 </div>
                 <h3 className="mt-6 text-lg font-medium text-neutral-900">
-                  No products found
+                  {t('shop.noProductsFound')}
                 </h3>
                 <p className="mt-2 max-w-sm text-sm text-neutral-500">
-                  We couldn&apos;t find any products matching your filters.
-                  Try adjusting your selection or browse our full collection.
+                  {t('shop.noProductsDesc')}
                 </p>
                 <button
                   onClick={() => {
@@ -373,7 +380,7 @@ export default function ShopPage() {
                   }}
                   className="mt-6 text-sm font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:text-[#b89a6f]"
                 >
-                  View All Products
+                  {t('shop.viewAllProducts')}
                 </button>
               </motion.div>
             ) : (
@@ -401,12 +408,12 @@ export default function ShopPage() {
                               transition={{ duration: 0.3 }}
                               className="absolute top-3 left-3 z-10 bg-[#c8a97e]/90 px-2.5 py-1 text-[10px] font-semibold tracking-widest text-white uppercase backdrop-blur-sm"
                             >
-                              Low Stock
+                              {t('shop.lowStock')}
                             </motion.span>
                           )}
                           <div className="absolute inset-0 flex items-end justify-center bg-black/0 transition-all duration-500 group-hover:bg-black/10">
                             <span className="mb-6 translate-y-4 text-xs font-medium tracking-[0.2em] text-white uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                              View Product
+                              {t('shop.viewProduct')}
                             </span>
                           </div>
                         </div>

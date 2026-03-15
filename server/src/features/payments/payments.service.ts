@@ -5,20 +5,181 @@ import { NotFoundError, ForbiddenError, ValidationError } from '../../core/error
 import { OrdersRepository } from '../orders/orders.repository';
 import { LoyaltyService } from '../loyalty/loyalty.service';
 import { LoyaltyRepository } from '../loyalty/loyalty.repository';
-import { PaymentIntentResponse } from './payments.types';
+import { PaymentIntentResponse, PaymentMethodResponse } from './payments.types';
 import { logger } from '../../core/observability/logger';
 import { getTracer } from '../../core/observability/tracer';
+import { prisma } from '../../core/database/client';
 
 export class PaymentsService {
-  private readonly stripe: Stripe;
+  private readonly stripe: Stripe | null;
   private readonly loyaltyService: LoyaltyService;
 
   constructor(private readonly ordersRepository: OrdersRepository) {
-    if (!Env.STRIPE_SECRET_KEY) {
-      throw new Error('STRIPE_SECRET_KEY is not configured.');
+    if (Env.STRIPE_SECRET_KEY) {
+      this.stripe = new Stripe(Env.STRIPE_SECRET_KEY);
+    } else {
+      this.stripe = null;
+      logger.warn('STRIPE_SECRET_KEY is not configured; payment features are disabled');
     }
-    this.stripe = new Stripe(Env.STRIPE_SECRET_KEY);
     this.loyaltyService = new LoyaltyService(new LoyaltyRepository());
+  }
+
+  private requireStripe(): Stripe {
+    if (!this.stripe) {
+      throw new ValidationError('Payment processing is not configured.');
+    }
+    return this.stripe;
+  }
+
+  async getOrCreateStripeCustomer(userId: string, email: string): Promise<string> {
+    const stripe = this.requireStripe();
+
+    const existing = await prisma.stripeCustomer.findUnique({
+      where: { userId },
+    });
+
+    if (existing) {
+      return existing.stripeCustomerId;
+    }
+
+    const customer = await stripe.customers.create({
+      email,
+      metadata: { userId },
+    });
+
+    await prisma.stripeCustomer.create({
+      data: {
+        userId,
+        stripeCustomerId: customer.id,
+      },
+    });
+
+    logger.info({ userId, stripeCustomerId: customer.id }, 'Stripe customer created');
+
+    return customer.id;
+  }
+
+  async listPaymentMethods(userId: string, email: string): Promise<PaymentMethodResponse[]> {
+    const stripe = this.requireStripe();
+    const stripeCustomerId = await this.getOrCreateStripeCustomer(userId, email);
+
+    const customer = await stripe.customers.retrieve(stripeCustomerId) as Stripe.Customer;
+    const defaultPaymentMethodId = typeof customer.invoice_settings?.default_payment_method === 'string'
+      ? customer.invoice_settings.default_payment_method
+      : customer.invoice_settings?.default_payment_method?.id ?? null;
+
+    const methods = await stripe.paymentMethods.list({
+      customer: stripeCustomerId,
+      type: 'card',
+    });
+
+    return methods.data.map((pm) => ({
+      id: pm.id,
+      brand: pm.card?.brand ?? 'unknown',
+      last4: pm.card?.last4 ?? '****',
+      expMonth: pm.card?.exp_month ?? 0,
+      expYear: pm.card?.exp_year ?? 0,
+      isDefault: pm.id === defaultPaymentMethodId,
+    }));
+  }
+
+  async attachPaymentMethod(userId: string, email: string, paymentMethodId: string): Promise<PaymentMethodResponse> {
+    const stripe = this.requireStripe();
+    const stripeCustomerId = await this.getOrCreateStripeCustomer(userId, email);
+
+    const pm = await stripe.paymentMethods.attach(paymentMethodId, {
+      customer: stripeCustomerId,
+    });
+
+    logger.info({ userId, paymentMethodId }, 'Payment method attached');
+
+    return {
+      id: pm.id,
+      brand: pm.card?.brand ?? 'unknown',
+      last4: pm.card?.last4 ?? '****',
+      expMonth: pm.card?.exp_month ?? 0,
+      expYear: pm.card?.exp_year ?? 0,
+      isDefault: false,
+    };
+  }
+
+  async detachPaymentMethod(userId: string, paymentMethodId: string): Promise<void> {
+    const stripe = this.requireStripe();
+
+    const stripeCustomer = await prisma.stripeCustomer.findUnique({
+      where: { userId },
+    });
+
+    if (!stripeCustomer) {
+      throw new NotFoundError('PaymentMethod', paymentMethodId);
+    }
+
+    // Verify the payment method belongs to this customer before detaching
+    const pm = await stripe.paymentMethods.retrieve(paymentMethodId);
+
+    if (pm.customer !== stripeCustomer.stripeCustomerId) {
+      throw new ForbiddenError('You do not have access to this payment method.');
+    }
+
+    await stripe.paymentMethods.detach(paymentMethodId);
+
+    logger.info({ userId, paymentMethodId }, 'Payment method detached');
+  }
+
+  async setDefaultPaymentMethod(userId: string, paymentMethodId: string): Promise<void> {
+    const stripe = this.requireStripe();
+
+    const stripeCustomer = await prisma.stripeCustomer.findUnique({
+      where: { userId },
+    });
+
+    if (!stripeCustomer) {
+      throw new NotFoundError('PaymentMethod', paymentMethodId);
+    }
+
+    // Verify ownership before updating
+    const pm = await stripe.paymentMethods.retrieve(paymentMethodId);
+
+    if (pm.customer !== stripeCustomer.stripeCustomerId) {
+      throw new ForbiddenError('You do not have access to this payment method.');
+    }
+
+    await stripe.customers.update(stripeCustomer.stripeCustomerId, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId,
+      },
+    });
+
+    logger.info({ userId, paymentMethodId }, 'Default payment method updated');
+  }
+
+  /**
+   * Detaches all payment methods for a user. Used during account deletion
+   * to ensure no orphaned payment methods remain on the Stripe side.
+   */
+  async detachAllPaymentMethods(userId: string): Promise<void> {
+    if (!this.stripe) {
+      return;
+    }
+
+    const stripeCustomer = await prisma.stripeCustomer.findUnique({
+      where: { userId },
+    });
+
+    if (!stripeCustomer) {
+      return;
+    }
+
+    const methods = await this.stripe.paymentMethods.list({
+      customer: stripeCustomer.stripeCustomerId,
+      type: 'card',
+    });
+
+    for (const pm of methods.data) {
+      await this.stripe.paymentMethods.detach(pm.id);
+    }
+
+    logger.info({ userId, count: methods.data.length }, 'All payment methods detached for account deletion');
   }
 
   async createPaymentIntent(
@@ -26,6 +187,7 @@ export class PaymentsService {
     orderId: string,
     currency: string = 'eur',
   ): Promise<PaymentIntentResponse> {
+    const stripe = this.requireStripe();
     const tracer = getTracer('payments-service');
     const span = tracer.startSpan('createPaymentIntent', {
       attributes: {
@@ -61,7 +223,7 @@ export class PaymentsService {
       // If the order already has a transaction key, retrieve the existing intent
       // to prevent duplicate charges on retries
       if (order.transactionKey) {
-        const existingIntent = await this.stripe.paymentIntents.retrieve(order.transactionKey);
+        const existingIntent = await stripe.paymentIntents.retrieve(order.transactionKey);
 
         if (existingIntent.status !== 'canceled') {
           span.setStatus({ code: SpanStatusCode.OK });
@@ -74,14 +236,25 @@ export class PaymentsService {
         }
       }
 
-      const paymentIntent = await this.stripe.paymentIntents.create({
+      // Pass the Stripe customer ID when available so saved cards can be reused
+      const stripeCustomer = await prisma.stripeCustomer.findUnique({
+        where: { userId },
+      });
+
+      const intentParams: Stripe.PaymentIntentCreateParams = {
         amount: order.totalCents,
         currency,
         metadata: {
           orderId: order.id,
           userId,
         },
-      });
+      };
+
+      if (stripeCustomer) {
+        intentParams.customer = stripeCustomer.stripeCustomerId;
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create(intentParams);
 
       // Store the Stripe payment intent ID as the transaction key
       await this.ordersRepository.updateTransactionKey(orderId, paymentIntent.id);
@@ -104,6 +277,8 @@ export class PaymentsService {
   }
 
   async handleWebhook(rawBody: Buffer, signature: string): Promise<void> {
+    const stripe = this.requireStripe();
+
     if (!Env.STRIPE_WEBHOOK_SECRET) {
       throw new Error('STRIPE_WEBHOOK_SECRET is not configured.');
     }
@@ -111,7 +286,7 @@ export class PaymentsService {
     let event: Stripe.Event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(
+      event = stripe.webhooks.constructEvent(
         rawBody,
         signature,
         Env.STRIPE_WEBHOOK_SECRET,

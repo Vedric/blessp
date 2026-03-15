@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Package, MapPin, CreditCard } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -9,13 +10,13 @@ import { formatDate, cn } from '@/lib/utils';
 import { OrderTimeline } from '@/components/order/OrderTimeline';
 import type { Order } from '@/lib/types';
 
-const statusConfig: Record<string, { label: string; className: string; dot: string }> = {
-  pending: { label: 'Pending', className: 'bg-yellow-50 text-yellow-700 border-yellow-200', dot: 'bg-yellow-400' },
-  confirmed: { label: 'Confirmed', className: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-400' },
-  processing: { label: 'Processing', className: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-400' },
-  shipped: { label: 'Shipped', className: 'bg-indigo-50 text-indigo-700 border-indigo-200', dot: 'bg-indigo-400' },
-  delivered: { label: 'Delivered', className: 'bg-green-50 text-green-700 border-green-200', dot: 'bg-green-500' },
-  cancelled: { label: 'Cancelled', className: 'bg-neutral-50 text-neutral-500 border-neutral-200', dot: 'bg-neutral-400' },
+const statusStyles: Record<string, { className: string; dot: string }> = {
+  pending: { className: 'bg-yellow-50 text-yellow-700 border-yellow-200', dot: 'bg-yellow-400' },
+  confirmed: { className: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-400' },
+  processing: { className: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-400' },
+  shipped: { className: 'bg-indigo-50 text-indigo-700 border-indigo-200', dot: 'bg-indigo-400' },
+  delivered: { className: 'bg-green-50 text-green-700 border-green-200', dot: 'bg-green-500' },
+  cancelled: { className: 'bg-neutral-50 text-neutral-500 border-neutral-200', dot: 'bg-neutral-400' },
 };
 
 const fadeUp = {
@@ -28,6 +29,7 @@ const stagger = {
 };
 
 export default function OrderDetailPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,18 +72,18 @@ export default function OrderDetailPage() {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
         <Package className="h-12 w-12 text-neutral-200" />
-        <p className="text-neutral-500">Order not found.</p>
+        <p className="text-neutral-500">{t('orderDetail.notFound')}</p>
         <Link
           to="/profile/orders"
           className="text-sm font-medium text-[#c8a97e] underline underline-offset-4 transition-colors hover:text-neutral-900"
         >
-          Back to Orders
+          {t('orderDetail.backToOrders')}
         </Link>
       </div>
     );
   }
 
-  const status = statusConfig[order.status] || statusConfig.pending;
+  const status = statusStyles[order.status] || statusStyles.pending;
   const subtotal = order.items.reduce(
     (sum, item) => sum + item.unitPriceCents * item.quantity,
     0,
@@ -96,8 +98,8 @@ export default function OrderDetailPage() {
         <div className="mb-8">
           <Breadcrumbs
             items={[
-              { label: 'Home', href: '/' },
-              { label: 'Orders', href: '/profile/orders' },
+              { label: t('common.home'), href: '/' },
+              { label: t('nav.orders'), href: '/profile/orders' },
               { label: `#${orderRef}` },
             ]}
           />
@@ -118,7 +120,7 @@ export default function OrderDetailPage() {
                 Order #{orderRef}
               </h1>
               <p className="mt-1 text-sm text-neutral-500">
-                Placed on {formatDate(order.createdAt)}
+                {t('orderDetail.placedOn', { date: formatDate(order.createdAt) })}
               </p>
             </div>
             <span
@@ -128,7 +130,7 @@ export default function OrderDetailPage() {
               )}
             >
               <span className={cn('h-1.5 w-1.5 rounded-full', status.dot)} />
-              {status.label}
+              {t(`orders.status.${order.status}`)}
             </span>
           </motion.div>
 
@@ -139,7 +141,7 @@ export default function OrderDetailPage() {
             <div className="flex items-center gap-2 border-b border-neutral-100 px-6 py-4">
               <Package className="h-4 w-4 text-neutral-400" />
               <h2 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-                Items ({order.items.length})
+                {t('orderDetail.items', { count: order.items.length })}
               </h2>
             </div>
             <div className="divide-y divide-neutral-100">
@@ -159,7 +161,7 @@ export default function OrderDetailPage() {
                         </p>
                       )}
                       <p className="mt-1 text-sm text-neutral-400">
-                        Qty: {item.quantity}
+                        {t('orderDetail.qty', { count: item.quantity })}
                       </p>
                     </div>
                     <p className="text-sm font-medium text-neutral-900">
@@ -183,7 +185,7 @@ export default function OrderDetailPage() {
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-neutral-400" />
                 <h2 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-                  Shipping Address
+                  {t('checkout.shippingAddress')}
                 </h2>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-neutral-600">
@@ -209,25 +211,25 @@ export default function OrderDetailPage() {
               <div className="flex items-center gap-2">
                 <CreditCard className="h-4 w-4 text-neutral-400" />
                 <h2 className="text-xs font-medium tracking-widest text-neutral-900 uppercase">
-                  Order Summary
+                  {t('checkout.orderSummary')}
                 </h2>
               </div>
               <div className="mt-4 space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-neutral-500">Subtotal</span>
+                  <span className="text-neutral-500">{t('common.subtotal')}</span>
                   <span className="text-neutral-900">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-neutral-500">Shipping</span>
+                  <span className="text-neutral-500">{t('common.shipping')}</span>
                   <span className={cn(
                     'text-neutral-900',
                     shipping <= 0 && 'text-green-600',
                   )}>
-                    {shipping <= 0 ? 'Free' : formatPrice(shipping)}
+                    {shipping <= 0 ? t('common.free') : formatPrice(shipping)}
                   </span>
                 </div>
                 <div className="flex justify-between border-t border-neutral-100 pt-3 text-sm font-medium">
-                  <span className="text-neutral-900">Total</span>
+                  <span className="text-neutral-900">{t('common.total')}</span>
                   <span className="text-neutral-900">
                     {formatPrice(order.totalCents)}
                   </span>
@@ -239,12 +241,12 @@ export default function OrderDetailPage() {
           {/* Help link */}
           <motion.div className="mt-8 text-center" variants={fadeUp}>
             <p className="text-sm text-neutral-400">
-              Need help with this order?{' '}
+              {t('orderDetail.needHelp')}{' '}
               <Link
                 to="/contact"
                 className="text-[#c8a97e] underline underline-offset-4 transition-colors hover:text-neutral-900"
               >
-                Contact us
+                {t('orderDetail.contactUs')}
               </Link>
             </p>
           </motion.div>

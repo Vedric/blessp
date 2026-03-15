@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { PaymentsService } from './payments.service';
-import { CreatePaymentIntentSchema } from './payments.schema';
-import { sendSuccess, sendCreated } from '../../core/types/response';
+import { CreatePaymentIntentSchema, AttachPaymentMethodSchema } from './payments.schema';
+import { sendSuccess, sendCreated, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
   user?: { userId: string; email: string; isAdmin: boolean };
@@ -22,6 +22,65 @@ export class PaymentsController {
       );
 
       sendCreated(res, req, paymentIntent);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  listMethods = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      const methods = await this.paymentsService.listPaymentMethods(
+        authReq.user!.userId,
+        authReq.user!.email,
+      );
+
+      sendSuccess(res, req, methods);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  attachMethod = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      const { paymentMethodId } = AttachPaymentMethodSchema.parse(req.body);
+
+      const method = await this.paymentsService.attachPaymentMethod(
+        authReq.user!.userId,
+        authReq.user!.email,
+        paymentMethodId,
+      );
+
+      sendCreated(res, req, method);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  detachMethod = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      await this.paymentsService.detachPaymentMethod(
+        authReq.user!.userId,
+        req.params.id as string,
+      );
+
+      sendNoContent(res);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  setDefaultMethod = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const authReq = req as AuthenticatedRequest;
+      await this.paymentsService.setDefaultPaymentMethod(
+        authReq.user!.userId,
+        req.params.id as string,
+      );
+
+      sendSuccess(res, req, { message: 'Default payment method updated.' });
     } catch (error) {
       next(error);
     }

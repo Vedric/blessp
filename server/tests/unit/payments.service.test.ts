@@ -1,4 +1,11 @@
-jest.mock('@core/database/client', () => ({ prisma: {} }));
+jest.mock('@core/database/client', () => ({
+  prisma: {
+    stripeCustomer: {
+      findUnique: jest.fn().mockResolvedValue(null),
+      create: jest.fn(),
+    },
+  },
+}));
 jest.mock('@core/observability/logger', () => ({
   logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
 }));
@@ -31,6 +38,17 @@ const mockStripeInstance = {
   webhooks: {
     constructEvent: jest.fn(),
   },
+  customers: {
+    create: jest.fn(),
+    retrieve: jest.fn(),
+    update: jest.fn(),
+  },
+  paymentMethods: {
+    list: jest.fn(),
+    attach: jest.fn(),
+    detach: jest.fn(),
+    retrieve: jest.fn(),
+  },
 };
 
 jest.mock('stripe', () => {
@@ -46,8 +64,12 @@ jest.mock('@features/loyalty/loyalty.repository');
 import { PaymentsService } from '@features/payments/payments.service';
 import { OrdersRepository } from '@features/orders/orders.repository';
 import { NotFoundError, ForbiddenError, ValidationError } from '@core/errors/http.errors';
+import { prisma } from '@core/database/client';
 
 jest.mock('@features/orders/orders.repository');
+
+const mockStripeCustomerFindUnique = prisma.stripeCustomer.findUnique as jest.Mock;
+const mockStripeCustomerCreate = (prisma.stripeCustomer as any).create as jest.Mock;
 
 describe('PaymentsService', () => {
   let service: PaymentsService;
@@ -247,6 +269,246 @@ describe('PaymentsService', () => {
       await service.handleWebhook(rawBody, signature);
 
       expect(ordersRepository.updateStatus).toHaveBeenCalledWith(orderId, 'cancelled');
+    });
+  });
+
+  describe('getOrCreateStripeCustomer', () => {
+    it('returns the existing Stripe customer ID when one exists', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_existing',
+      });
+
+      const result = await service.getOrCreateStripeCustomer(userId, 'buyer@example.com');
+
+      expect(result).toBe('cus_existing');
+      expect(mockStripeInstance.customers.create).not.toHaveBeenCalled();
+    });
+
+    it('creates a new Stripe customer and stores the mapping when none exists', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce(null);
+      mockStripeInstance.customers.create.mockResolvedValueOnce({ id: 'cus_new_123' });
+      mockStripeCustomerCreate.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_new_123',
+      });
+
+      const result = await service.getOrCreateStripeCustomer(userId, 'buyer@example.com');
+
+      expect(result).toBe('cus_new_123');
+      expect(mockStripeInstance.customers.create).toHaveBeenCalledWith({
+        email: 'buyer@example.com',
+        metadata: { userId },
+      });
+      expect(mockStripeCustomerCreate).toHaveBeenCalledWith({
+        data: {
+          userId,
+          stripeCustomerId: 'cus_new_123',
+        },
+      });
+    });
+  });
+
+  describe('listPaymentMethods', () => {
+    it('returns a formatted list of payment methods from Stripe', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_existing',
+      });
+      mockStripeInstance.customers.retrieve.mockResolvedValueOnce({
+        id: 'cus_existing',
+        invoice_settings: {
+          default_payment_method: 'pm_default',
+        },
+      });
+      mockStripeInstance.paymentMethods.list.mockResolvedValueOnce({
+        data: [
+          {
+            id: 'pm_default',
+            card: { brand: 'visa', last4: '4242', exp_month: 12, exp_year: 2028 },
+          },
+          {
+            id: 'pm_other',
+            card: { brand: 'mastercard', last4: '5555', exp_month: 6, exp_year: 2027 },
+          },
+        ],
+      });
+
+      const result = await service.listPaymentMethods(userId, 'buyer@example.com');
+
+      expect(result).toEqual([
+        {
+          id: 'pm_default',
+          brand: 'visa',
+          last4: '4242',
+          expMonth: 12,
+          expYear: 2028,
+          isDefault: true,
+        },
+        {
+          id: 'pm_other',
+          brand: 'mastercard',
+          last4: '5555',
+          expMonth: 6,
+          expYear: 2027,
+          isDefault: false,
+        },
+      ]);
+    });
+
+    it('returns an empty array when the customer has no payment methods', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_empty',
+      });
+      mockStripeInstance.customers.retrieve.mockResolvedValueOnce({
+        id: 'cus_empty',
+        invoice_settings: {
+          default_payment_method: null,
+        },
+      });
+      mockStripeInstance.paymentMethods.list.mockResolvedValueOnce({ data: [] });
+
+      const result = await service.listPaymentMethods(userId, 'buyer@example.com');
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('attachPaymentMethod', () => {
+    it('attaches a payment method to an existing Stripe customer', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_existing',
+      });
+      mockStripeInstance.paymentMethods.attach.mockResolvedValueOnce({
+        id: 'pm_new',
+        card: { brand: 'visa', last4: '1234', exp_month: 3, exp_year: 2029 },
+      });
+
+      const result = await service.attachPaymentMethod(userId, 'buyer@example.com', 'pm_new');
+
+      expect(result).toEqual({
+        id: 'pm_new',
+        brand: 'visa',
+        last4: '1234',
+        expMonth: 3,
+        expYear: 2029,
+        isDefault: false,
+      });
+      expect(mockStripeInstance.paymentMethods.attach).toHaveBeenCalledWith('pm_new', {
+        customer: 'cus_existing',
+      });
+    });
+
+    it('creates a Stripe customer first if none exists, then attaches', async () => {
+      // First call (from getOrCreateStripeCustomer): no customer found
+      mockStripeCustomerFindUnique.mockResolvedValueOnce(null);
+      mockStripeInstance.customers.create.mockResolvedValueOnce({ id: 'cus_new' });
+      mockStripeCustomerCreate.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_new',
+      });
+      mockStripeInstance.paymentMethods.attach.mockResolvedValueOnce({
+        id: 'pm_attached',
+        card: { brand: 'amex', last4: '9999', exp_month: 11, exp_year: 2030 },
+      });
+
+      const result = await service.attachPaymentMethod(userId, 'buyer@example.com', 'pm_attached');
+
+      expect(result.id).toBe('pm_attached');
+      expect(mockStripeInstance.customers.create).toHaveBeenCalled();
+      expect(mockStripeInstance.paymentMethods.attach).toHaveBeenCalledWith('pm_attached', {
+        customer: 'cus_new',
+      });
+    });
+  });
+
+  describe('detachPaymentMethod', () => {
+    it('throws NotFoundError when the user has no Stripe customer', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce(null);
+
+      await expect(
+        service.detachPaymentMethod(userId, 'pm_orphan'),
+      ).rejects.toThrow(NotFoundError);
+    });
+
+    it('throws ForbiddenError when the payment method does not belong to the user', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_mine',
+      });
+      mockStripeInstance.paymentMethods.retrieve.mockResolvedValueOnce({
+        id: 'pm_theirs',
+        customer: 'cus_someone_else',
+      });
+
+      await expect(
+        service.detachPaymentMethod(userId, 'pm_theirs'),
+      ).rejects.toThrow(ForbiddenError);
+      expect(mockStripeInstance.paymentMethods.detach).not.toHaveBeenCalled();
+    });
+
+    it('detaches the payment method on success', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_mine',
+      });
+      mockStripeInstance.paymentMethods.retrieve.mockResolvedValueOnce({
+        id: 'pm_mine',
+        customer: 'cus_mine',
+      });
+      mockStripeInstance.paymentMethods.detach.mockResolvedValueOnce({ id: 'pm_mine' });
+
+      await service.detachPaymentMethod(userId, 'pm_mine');
+
+      expect(mockStripeInstance.paymentMethods.detach).toHaveBeenCalledWith('pm_mine');
+    });
+  });
+
+  describe('setDefaultPaymentMethod', () => {
+    it('throws NotFoundError when the user has no Stripe customer', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce(null);
+
+      await expect(
+        service.setDefaultPaymentMethod(userId, 'pm_any'),
+      ).rejects.toThrow(NotFoundError);
+    });
+
+    it('throws ForbiddenError when the payment method does not belong to the user', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_mine',
+      });
+      mockStripeInstance.paymentMethods.retrieve.mockResolvedValueOnce({
+        id: 'pm_theirs',
+        customer: 'cus_someone_else',
+      });
+
+      await expect(
+        service.setDefaultPaymentMethod(userId, 'pm_theirs'),
+      ).rejects.toThrow(ForbiddenError);
+      expect(mockStripeInstance.customers.update).not.toHaveBeenCalled();
+    });
+
+    it('sets the default payment method on the Stripe customer', async () => {
+      mockStripeCustomerFindUnique.mockResolvedValueOnce({
+        userId,
+        stripeCustomerId: 'cus_mine',
+      });
+      mockStripeInstance.paymentMethods.retrieve.mockResolvedValueOnce({
+        id: 'pm_preferred',
+        customer: 'cus_mine',
+      });
+      mockStripeInstance.customers.update.mockResolvedValueOnce({ id: 'cus_mine' });
+
+      await service.setDefaultPaymentMethod(userId, 'pm_preferred');
+
+      expect(mockStripeInstance.customers.update).toHaveBeenCalledWith('cus_mine', {
+        invoice_settings: {
+          default_payment_method: 'pm_preferred',
+        },
+      });
     });
   });
 });

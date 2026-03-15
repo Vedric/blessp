@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import type { Product, PaginatedResponse } from '@/lib/types';
@@ -12,6 +13,7 @@ interface SearchOverlayProps {
 }
 
 export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Product[]>([]);
@@ -100,7 +102,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-xs font-medium tracking-[0.2em] text-neutral-400 uppercase">
-                  Search
+                  {t('searchOverlay.title')}
                 </span>
                 <button
                   onClick={onClose}
@@ -119,7 +121,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                     type="text"
                     value={query}
                     onChange={(e) => handleInputChange(e.target.value)}
-                    placeholder="What are you looking for?"
+                    placeholder={t('searchOverlay.placeholder')}
                     className="w-full border-b-2 border-neutral-200 bg-transparent py-4 pl-8 pr-4 text-xl text-neutral-900 placeholder:text-neutral-300 focus:border-[#c8a97e] focus:outline-none"
                   />
                 </div>
@@ -173,12 +175,12 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                         onClick={handleResultClick}
                         className="mt-4 block py-3 text-center text-sm font-medium tracking-widest text-[#c8a97e] uppercase transition-colors hover:text-[#b89a6f]"
                       >
-                        View all results
+                        {t('searchOverlay.viewAllResults')}
                       </Link>
                     </>
                   ) : (
                     <p className="py-8 text-center text-sm text-neutral-500">
-                      No results for &ldquo;{query}&rdquo;
+                      {t('searchOverlay.noResults', { query })}
                     </p>
                   )}
                 </div>

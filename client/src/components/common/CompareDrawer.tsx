@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import { useCompare } from '@/context/CompareContext';
 import type { Product } from '@/lib/types';
 
 export function CompareDrawer() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { compareIds, removeFromCompare, clearCompare } = useCompare();
   const [products, setProducts] = useState<Record<string, Product>>({});
@@ -59,7 +61,7 @@ export function CompareDrawer() {
             {/* Product thumbnails */}
             <div className="flex items-center gap-3">
               <span className="hidden text-xs font-medium tracking-wider text-neutral-500 uppercase sm:block">
-                Compare ({compareIds.length}/3)
+                {t('compareDrawer.compare', { count: compareIds.length })}
               </span>
 
               <div className="flex items-center gap-2">
@@ -112,14 +114,14 @@ export function CompareDrawer() {
                 onClick={clearCompare}
                 className="text-xs font-medium text-neutral-400 transition-colors hover:text-neutral-900"
               >
-                Clear
+                {t('compareDrawer.clear')}
               </button>
               <button
                 onClick={handleCompareNow}
                 disabled={compareIds.length < 2}
                 className="flex items-center gap-2 bg-neutral-900 px-5 py-2.5 text-xs font-medium tracking-wider text-white uppercase transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:bg-neutral-300"
               >
-                Compare Now
+                {t('compareDrawer.compareNow')}
                 <ArrowRight size={14} />
               </button>
             </div>

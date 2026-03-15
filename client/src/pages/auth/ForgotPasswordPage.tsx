@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -19,7 +21,7 @@ export default function ForgotPasswordPage() {
       setIsSubmitted(true);
     } catch (err: unknown) {
       const apiErr = err as { message?: string };
-      setError(apiErr.message || 'Something went wrong. Please try again.');
+      setError(apiErr.message || t('auth.forgotPassword.genericError'));
     } finally {
       setIsLoading(false);
     }
@@ -35,10 +37,10 @@ export default function ForgotPasswordPage() {
       >
         <div className="text-center">
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
-            Forgot Password
+            {t('auth.forgotPassword.title')}
           </h1>
           <p className="mt-2 text-sm text-neutral-500">
-            Enter your email and we&apos;ll send you a reset link
+            {t('auth.forgotPassword.subtitle')}
           </p>
         </div>
 
@@ -50,14 +52,14 @@ export default function ForgotPasswordPage() {
             transition={{ duration: 0.4 }}
           >
             <div className="border border-green-200 bg-green-50 px-4 py-4 text-sm text-green-700">
-              If an account with that email exists, we have sent a password reset link.
+              {t('auth.forgotPassword.successMessage')}
             </div>
 
             <Link
               to="/signin"
               className="flex w-full items-center justify-center bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
             >
-              Back to Sign In
+              {t('auth.forgotPassword.backToSignIn')}
             </Link>
           </motion.div>
         ) : (
@@ -77,7 +79,7 @@ export default function ForgotPasswordPage() {
                 htmlFor="email"
                 className="block text-xs font-medium tracking-widest text-neutral-500 uppercase"
               >
-                Email
+                {t('common.email')}
               </label>
               <input
                 id="email"
@@ -95,18 +97,18 @@ export default function ForgotPasswordPage() {
               disabled={isLoading}
               className="flex w-full items-center justify-center bg-neutral-900 px-8 py-4 text-sm font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
             >
-              {isLoading ? 'Sending...' : 'Send Reset Link'}
+              {isLoading ? t('auth.forgotPassword.submitting') : t('auth.forgotPassword.submitButton')}
             </button>
           </form>
         )}
 
         <p className="mt-8 text-center text-sm text-neutral-500">
-          Remember your password?{' '}
+          {t('auth.forgotPassword.rememberPassword')}{' '}
           <Link
             to="/signin"
             className="font-medium text-neutral-900 underline underline-offset-4 transition-colors hover:text-brand-600"
           >
-            Sign In
+            {t('common.signIn')}
           </Link>
         </p>
       </motion.div>

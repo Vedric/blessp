@@ -15,3 +15,14 @@ export const ChangePasswordSchema = z.object({
     .regex(/[A-Z]/, 'New password must contain at least one uppercase letter.')
     .regex(/[0-9]/, 'New password must contain at least one number.'),
 }).strict();
+
+export const DeleteAccountSchema = z.object({
+  password: z.string().min(1, 'Password confirmation is required.'),
+}).strict();
+
+export const UpdateEmailPreferencesSchema = z.object({
+  orderUpdates: z.boolean().optional(),
+  promotions: z.boolean().optional(),
+  newsletter: z.boolean().optional(),
+  loyaltyAlerts: z.boolean().optional(),
+}).strict();

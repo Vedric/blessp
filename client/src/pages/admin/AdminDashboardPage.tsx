@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
   DollarSign,
@@ -78,13 +79,13 @@ const stagger = {
 
 /* ── Status config ── */
 
-const statusConfig: Record<string, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
-  confirmed: { label: 'Confirmed', className: 'bg-blue-50 text-blue-700 border-blue-200' },
-  processing: { label: 'Processing', className: 'bg-blue-50 text-blue-700 border-blue-200' },
-  shipped: { label: 'Shipped', className: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
-  delivered: { label: 'Delivered', className: 'bg-green-50 text-green-700 border-green-200' },
-  cancelled: { label: 'Cancelled', className: 'bg-neutral-50 text-neutral-500 border-neutral-200' },
+const statusStyles: Record<string, string> = {
+  pending: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+  confirmed: 'bg-blue-50 text-blue-700 border-blue-200',
+  processing: 'bg-blue-50 text-blue-700 border-blue-200',
+  shipped: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+  delivered: 'bg-green-50 text-green-700 border-green-200',
+  cancelled: 'bg-neutral-50 text-neutral-500 border-neutral-200',
 };
 
 /* ── Skeleton components ── */
@@ -143,11 +144,13 @@ function RevenueChart({
   period,
   onPeriodChange,
   formatPrice,
+  t,
 }: {
   data: RevenueDataPoint[];
   period: RevenuePeriod;
   onPeriodChange: (p: RevenuePeriod) => void;
   formatPrice: (cents: number) => string;
+  t: (key: string, opts?: Record<string, unknown>) => string;
 }) {
   const maxRevenue = Math.max(...data.map((d) => d.revenueCents), 1);
   const totalRevenue = data.reduce((sum, d) => sum + d.revenueCents, 0);
@@ -161,13 +164,13 @@ function RevenueChart({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-sm font-medium tracking-widest text-neutral-500 uppercase">
-            Revenue
+            {t('admin.dashboard.revenue')}
           </h2>
           <p className="mt-1 text-2xl font-light text-neutral-900">
             {formatPrice(totalRevenue)}
           </p>
           <p className="text-xs text-neutral-400">
-            {totalOrders} order{totalOrders !== 1 ? 's' : ''} in period
+            {t('admin.dashboard.ordersInPeriod', { count: totalOrders })}
           </p>
         </div>
         <div className="flex gap-1">
@@ -263,6 +266,7 @@ function Stars({ rating }: { rating: number }) {
 /* ── Main component ── */
 
 export default function AdminDashboardPage() {
+  const { t } = useTranslation();
   const { formatPrice } = useCurrency();
 
   // Overview stats
@@ -370,28 +374,28 @@ export default function AdminDashboardPage() {
   }> = overview
     ? [
         {
-          label: 'Total Revenue',
+          label: t('admin.dashboard.totalRevenue'),
           value: formatPrice(overview.totalRevenueCents),
           icon: DollarSign,
-          trend: { direction: 'up', label: 'All time' },
+          trend: { direction: 'up', label: t('admin.dashboard.allTime') },
         },
         {
-          label: 'Total Orders',
+          label: t('admin.dashboard.totalOrders'),
           value: overview.totalOrders.toLocaleString(),
           icon: ShoppingBag,
-          trend: { direction: 'up' as const, label: 'All time' },
+          trend: { direction: 'up' as const, label: t('admin.dashboard.allTime') },
         },
         {
-          label: 'Customers',
+          label: t('admin.dashboard.customers'),
           value: overview.totalCustomers.toLocaleString(),
           icon: Users,
-          trend: { direction: 'up' as const, label: 'Registered' },
+          trend: { direction: 'up' as const, label: t('admin.dashboard.registered') },
         },
         {
-          label: 'Avg Order Value',
+          label: t('admin.dashboard.avgOrderValue'),
           value: formatPrice(overview.averageOrderValueCents),
           icon: TrendingUp,
-          trend: { direction: 'neutral' as const, label: 'Per order' },
+          trend: { direction: 'neutral' as const, label: t('admin.dashboard.perOrder') },
         },
       ]
     : [];
@@ -405,7 +409,7 @@ export default function AdminDashboardPage() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl">
-            Dashboard
+            {t('admin.dashboard.title')}
           </h1>
           <div className="mt-2 h-px w-12 bg-[#c8a97e]" />
 
@@ -465,6 +469,7 @@ export default function AdminDashboardPage() {
                 period={revenuePeriod}
                 onPeriodChange={handlePeriodChange}
                 formatPrice={formatPrice}
+                t={t}
               />
             )}
           </motion.div>
@@ -483,13 +488,13 @@ export default function AdminDashboardPage() {
                 <div className="border border-neutral-100 p-6">
                   <div className="flex items-center justify-between">
                     <h2 className="text-sm font-medium tracking-widest text-neutral-500 uppercase">
-                      Top Products
+                      {t('admin.dashboard.topProducts')}
                     </h2>
                     <Link
                       to="/admin/products"
                       className="flex items-center gap-1 text-xs text-neutral-400 transition-colors hover:text-neutral-900"
                     >
-                      View all
+                      {t('admin.dashboard.viewAll')}
                       <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -497,7 +502,7 @@ export default function AdminDashboardPage() {
                   <div className="mt-6 space-y-3">
                     {topProducts.length === 0 ? (
                       <p className="py-8 text-center text-sm text-neutral-400">
-                        No product data yet
+                        {t('admin.dashboard.noProductData')}
                       </p>
                     ) : (
                       topProducts.map((product, i) => (
@@ -513,7 +518,7 @@ export default function AdminDashboardPage() {
                               {product.productName}
                             </p>
                             <p className="text-xs text-neutral-400">
-                              {product.totalQuantity} sold
+                              {t('admin.dashboard.sold', { count: product.totalQuantity })}
                             </p>
                           </div>
                           <span className="flex-shrink-0 text-sm font-medium text-neutral-700">
@@ -539,13 +544,13 @@ export default function AdminDashboardPage() {
                 <div className="border border-neutral-100 p-6">
                   <div className="flex items-center justify-between">
                     <h2 className="text-sm font-medium tracking-widest text-neutral-500 uppercase">
-                      Recent Orders
+                      {t('admin.dashboard.recentOrders')}
                     </h2>
                     <Link
                       to="/admin/orders"
                       className="flex items-center gap-1 text-xs text-neutral-400 transition-colors hover:text-neutral-900"
                     >
-                      View all
+                      {t('admin.dashboard.viewAll')}
                       <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -553,11 +558,11 @@ export default function AdminDashboardPage() {
                   <div className="mt-6 space-y-3">
                     {recentOrders.length === 0 ? (
                       <p className="py-8 text-center text-sm text-neutral-400">
-                        No orders yet
+                        {t('admin.dashboard.noOrders')}
                       </p>
                     ) : (
                       recentOrders.map((order) => {
-                        const status = statusConfig[order.status] ?? statusConfig.pending;
+                        const statusClass = statusStyles[order.status] ?? statusStyles.pending;
                         return (
                           <div
                             key={order.id}
@@ -571,7 +576,7 @@ export default function AdminDashboardPage() {
                                 {order.customerName}
                               </p>
                               <p className="text-xs text-neutral-400">
-                                {order.itemCount} item{order.itemCount !== 1 ? 's' : ''}
+                                {t('admin.orders.itemCount', { count: order.itemCount })}
                                 {' \u00b7 '}
                                 {new Date(order.createdAt).toLocaleDateString('en-US', {
                                   month: 'short',
@@ -582,10 +587,10 @@ export default function AdminDashboardPage() {
                             <span
                               className={cn(
                                 'flex-shrink-0 border px-2 py-0.5 text-[10px] font-medium uppercase',
-                                status.className,
+                                statusClass,
                               )}
                             >
-                              {status.label}
+                              {t(`orders.status.${order.status}`)}
                             </span>
                             <span className="flex-shrink-0 text-sm font-medium text-neutral-700">
                               {formatPrice(order.totalCents)}
@@ -613,17 +618,17 @@ export default function AdminDashboardPage() {
               <div className="border border-neutral-100 p-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-sm font-medium tracking-widest text-neutral-500 uppercase">
-                    Recent Reviews
+                    {t('admin.dashboard.recentReviews')}
                   </h2>
                   <span className="text-xs text-neutral-400">
-                    {reviews.length} review{reviews.length !== 1 ? 's' : ''}
+                    {t('admin.dashboard.reviewCount', { count: reviews.length })}
                   </span>
                 </div>
 
                 <div className="mt-6 space-y-4">
                   {reviews.length === 0 ? (
                     <p className="py-8 text-center text-sm text-neutral-400">
-                      No reviews yet
+                      {t('admin.dashboard.noReviews')}
                     </p>
                   ) : (
                     reviews.map((review) => (
@@ -670,7 +675,7 @@ export default function AdminDashboardPage() {
                             'flex-shrink-0 p-2 text-neutral-300 transition-colors hover:text-red-500',
                             deletingReviewId === review.id && 'cursor-not-allowed opacity-50',
                           )}
-                          title="Delete review"
+                          title={t('admin.reviews.deleteReview')}
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -685,7 +690,7 @@ export default function AdminDashboardPage() {
           {/* ── Quick navigation ── */}
           <div className="mt-12">
             <h2 className="text-xs font-medium tracking-widest text-neutral-500 uppercase">
-              Manage
+              {t('admin.dashboard.manage')}
             </h2>
             <div className="mt-4 space-y-2">
               <Link
@@ -695,7 +700,7 @@ export default function AdminDashboardPage() {
                 <div className="flex items-center gap-3">
                   <ShoppingBag className="h-5 w-5 text-neutral-400" />
                   <span className="text-sm font-medium text-neutral-900">
-                    Products
+                    {t('admin.dashboard.products')}
                   </span>
                 </div>
                 <ChevronRight className="h-4 w-4 text-neutral-400" />
@@ -707,7 +712,7 @@ export default function AdminDashboardPage() {
                 <div className="flex items-center gap-3">
                   <Package className="h-5 w-5 text-neutral-400" />
                   <span className="text-sm font-medium text-neutral-900">
-                    Orders
+                    {t('admin.dashboard.orders')}
                   </span>
                 </div>
                 <ChevronRight className="h-4 w-4 text-neutral-400" />
