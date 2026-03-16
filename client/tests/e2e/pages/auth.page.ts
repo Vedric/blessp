@@ -32,19 +32,19 @@ export class AuthPage {
 
     // Sign In
     this.signInHeading = page.locator('h1');
-    this.signInEmail = page.locator('#email');
-    this.signInPassword = page.locator('#password');
-    this.signInSubmit = page.locator('form button[type="submit"]');
+    this.signInEmail = page.locator('input#email');
+    this.signInPassword = page.locator('input#password');
+    this.signInSubmit = page.locator('button[type="submit"]');
     this.signInError = page.locator('.bg-red-50');
 
     // Sign Up
     this.signUpHeading = page.locator('h1');
-    this.signUpFirstName = page.locator('#firstName');
-    this.signUpLastName = page.locator('#lastName');
-    this.signUpEmail = page.locator('#email');
-    this.signUpPassword = page.locator('#password');
-    this.signUpConfirmPassword = page.locator('#confirmPassword');
-    this.signUpSubmit = page.locator('form button[type="submit"]');
+    this.signUpFirstName = page.locator('input#firstName');
+    this.signUpLastName = page.locator('input#lastName');
+    this.signUpEmail = page.locator('input#email');
+    this.signUpPassword = page.locator('input#password');
+    this.signUpConfirmPassword = page.locator('input#confirmPassword');
+    this.signUpSubmit = page.locator('button[type="submit"]');
     this.signUpError = page.locator('.bg-red-50');
 
     // Password strength (visible when password has content)
@@ -58,11 +58,15 @@ export class AuthPage {
   async navigateToSignIn() {
     await this.page.goto('/signin');
     await this.page.waitForLoadState('networkidle');
+    // Wait for the form to be visible
+    await this.signInSubmit.waitFor({ state: 'visible', timeout: 10_000 });
   }
 
   async navigateToSignUp() {
     await this.page.goto('/signup');
     await this.page.waitForLoadState('networkidle');
+    // Wait for the form to be visible
+    await this.signUpSubmit.waitFor({ state: 'visible', timeout: 10_000 });
   }
 
   async signIn(email: string, password: string) {
@@ -84,14 +88,5 @@ export class AuthPage {
     await this.signUpPassword.fill(data.password);
     await this.signUpConfirmPassword.fill(data.confirmPassword);
     await this.signUpSubmit.click();
-  }
-
-  async getFieldValidationError(fieldId: string): Promise<string | null> {
-    // Field errors appear as sibling .text-red-500 elements after the input
-    const errorEl = this.page.locator(`#${fieldId} ~ .text-red-500, #${fieldId} + * .text-red-500`).first();
-    if (await errorEl.isVisible({ timeout: 2000 }).catch(() => false)) {
-      return errorEl.textContent();
-    }
-    return null;
   }
 }
