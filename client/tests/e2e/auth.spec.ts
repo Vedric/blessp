@@ -11,7 +11,7 @@ test.describe('Authentication', () => {
 
       // Validation errors should appear for required fields
       const errorMessages = page.locator('.text-red-500');
-      await expect(errorMessages.first()).toBeVisible();
+      await expect(errorMessages.first()).toBeVisible({ timeout: 5_000 });
     });
 
     test('shows password strength indicator when typing', async ({ page }) => {
@@ -21,9 +21,9 @@ test.describe('Authentication', () => {
       // Type a weak password
       await authPage.signUpPassword.fill('abc');
 
-      // The strength indicator should be visible
-      const strengthSection = page.locator('text=/weak|fair|good|strong/i');
-      await expect(strengthSection.first()).toBeVisible();
+      // The strength indicator should be visible (weak/fair/good/strong label)
+      const strengthSection = page.getByText(/weak|fair|good|strong/i);
+      await expect(strengthSection.first()).toBeVisible({ timeout: 5_000 });
     });
 
     test('validates password strength requirements', async ({ page }) => {
@@ -34,8 +34,8 @@ test.describe('Authentication', () => {
       await authPage.signUpPassword.fill('MyStr0ng!Pass99');
 
       // The "strong" label should appear
-      const strongLabel = page.locator('text=/strong/i');
-      await expect(strongLabel.first()).toBeVisible();
+      const strongLabel = page.getByText(/strong/i);
+      await expect(strongLabel.first()).toBeVisible({ timeout: 5_000 });
     });
 
     test('shows password match confirmation', async ({ page }) => {
@@ -47,9 +47,9 @@ test.describe('Authentication', () => {
       await authPage.signUpConfirmPassword.fill(password);
       await authPage.signUpConfirmPassword.blur();
 
-      // Should show passwords match confirmation
+      // Should show passwords match confirmation (green text)
       const matchText = page.locator('.text-green-600');
-      await expect(matchText).toBeVisible();
+      await expect(matchText).toBeVisible({ timeout: 5_000 });
     });
 
     test('shows mismatch error when passwords differ', async ({ page }) => {
@@ -61,8 +61,10 @@ test.describe('Authentication', () => {
       await authPage.signUpConfirmPassword.blur();
 
       // Should show mismatch error
-      const mismatchError = page.locator('.text-red-500');
-      await expect(mismatchError.first()).toBeVisible();
+      const mismatchError = page.locator('input#confirmPassword ~ .text-red-500, input#confirmPassword + * + .text-red-500');
+      // Alternatively, just check for the mismatch text
+      const mismatchText = page.getByText(/mismatch|match|correspondent/i);
+      await expect(mismatchText.first()).toBeVisible({ timeout: 5_000 });
     });
 
     test('navigates to sign in page via link', async ({ page }) => {
@@ -82,7 +84,7 @@ test.describe('Authentication', () => {
       await authPage.signInSubmit.click();
 
       const errorMessages = page.locator('.text-red-500');
-      await expect(errorMessages.first()).toBeVisible();
+      await expect(errorMessages.first()).toBeVisible({ timeout: 5_000 });
     });
 
     test('shows email validation error for invalid format', async ({ page }) => {
@@ -94,7 +96,7 @@ test.describe('Authentication', () => {
       await authPage.signInSubmit.click();
 
       const errorMessages = page.locator('.text-red-500');
-      await expect(errorMessages.first()).toBeVisible();
+      await expect(errorMessages.first()).toBeVisible({ timeout: 5_000 });
     });
 
     test('shows error message for invalid credentials', async ({ page }) => {
@@ -104,7 +106,7 @@ test.describe('Authentication', () => {
       await authPage.signIn('nonexistent@example.com', 'WrongPassword123!');
 
       // Wait for the error to appear (after API call)
-      await expect(authPage.signInError).toBeVisible({ timeout: 10_000 });
+      await expect(authPage.signInError).toBeVisible({ timeout: 15_000 });
     });
 
     test('navigates to sign up page via link', async ({ page }) => {

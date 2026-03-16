@@ -26,21 +26,25 @@ test.describe('Shop', () => {
   });
 
   test('category filter buttons are visible on desktop', async ({ page }) => {
+    // Set desktop viewport to ensure desktop buttons are visible
+    await page.setViewportSize({ width: 1280, height: 720 });
     const shopPage = new ShopPage(page);
     await shopPage.navigate();
 
-    // Desktop category buttons should include All, Hoodies, Pants, Sets
-    const buttons = page.locator('.hidden.gap-2.sm\\:flex button');
-    await expect(buttons).toHaveCount(4);
+    // Each category button should be present
+    await expect(page.getByRole('button', { name: 'All' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Hoodies' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Pants' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Sets' })).toBeVisible();
   });
 
   test('clicking a category updates the URL', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
     const shopPage = new ShopPage(page);
     await shopPage.navigate();
 
-    // Click on a specific category (Hoodies)
-    const hoodiesButton = page.locator('.hidden.gap-2.sm\\:flex button').nth(1);
-    await hoodiesButton.click();
+    // Click on Hoodies category
+    await page.getByRole('button', { name: 'Hoodies' }).click();
 
     await expect(page).toHaveURL(/category=Hoodies/);
   });
