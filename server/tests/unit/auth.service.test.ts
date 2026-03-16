@@ -1,5 +1,5 @@
 import { EmailAlreadyTakenError, InvalidCredentialsError } from '@core/errors/domain.errors';
-import { UnauthorizedError } from '@core/errors/http.errors';
+import { UnauthorizedError, ValidationError } from '@core/errors/http.errors';
 import { makeUserFixture } from '../fixtures/user.fixture';
 
 // Mock the prisma client used directly in AuthService.
@@ -10,8 +10,12 @@ jest.mock('@core/database/client', () => {
     create: jest.fn(),
     update: jest.fn(),
   };
+  const mockOAuthAccount = {
+    findUnique: jest.fn(),
+    create: jest.fn(),
+  };
   return {
-    prisma: { user: mockUser },
+    prisma: { user: mockUser, oAuthAccount: mockOAuthAccount },
     getPrismaClient: jest.fn(),
   };
 });
@@ -23,6 +27,11 @@ jest.mock('@core/observability/logger', () => ({
     warn: jest.fn(),
     error: jest.fn(),
   },
+}));
+
+jest.mock('@features/auth/auth.emails', () => ({
+  sendWelcomeEmail: jest.fn().mockResolvedValue(undefined),
+  sendPasswordResetEmail: jest.fn().mockResolvedValue(undefined),
 }));
 
 // Import after mock registration so the mock is in place
@@ -37,6 +46,11 @@ const mockPrismaUser = prisma.user as unknown as {
   findUnique: jest.Mock;
   create: jest.Mock;
   update: jest.Mock;
+};
+
+const mockPrismaOAuthAccount = (prisma as any).oAuthAccount as {
+  findUnique: jest.Mock;
+  create: jest.Mock;
 };
 
 describe('AuthService', () => {
@@ -383,6 +397,148 @@ describe('AuthService', () => {
         service.resetPassword('bad-token', 'NewStr0ngP@ssword'),
       ).rejects.toThrow(UnauthorizedError);
       expect(hashService.hash).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('oauthLogin', () => {
+    const oauthDto = {
+      provider: 'google' as const,
+      providerAccountId: 'google-uid-123',
+      email: 'oauth@example.com',
+      firstName: 'OAuth',
+      lastName: 'User',
+    };
+
+    it('returns the existing user when the OAuth account is already linked', async () => {
+      const existingUser = makeUserFixture({
+        id: 'usr_oauth-0001',
+        email: oauthDto.email,
+        firstName: oauthDto.firstName,
+        lastName: oauthDto.lastName,
+      });
+
+      mockPrismaOAuthAccount.findUnique.mockResolvedValueOnce({
+        id: 'oauth_001',
+        provider: oauthDto.provider,
+        providerAccountId: oauthDto.providerAccountId,
+        userId: existingUser.id,
+        user: existingUser,
+      });
+
+      tokenService.signAccessToken.mockReturnValueOnce('access-token');
+      tokenService.signRefreshToken.mockReturnValueOnce('refresh-token');
+      authRepository.createRefreshToken.mockResolvedValueOnce(undefined as any);
+
+      const result = await service.oauthLogin(oauthDto);
+
+      expect(result.user.email).toBe(oauthDto.email);
+      expect(result.tokens.accessToken).toBe('access-token');
+      expect(mockPrismaUser.create).not.toHaveBeenCalled();
+      expect(mockPrismaOAuthAccount.create).not.toHaveBeenCalled();
+    });
+
+    it('links OAuth to an existing email user when the provider is new', async () => {
+      const existingUser = makeUserFixture({
+        id: 'usr_existing-0001',
+        email: oauthDto.email,
+      });
+
+      // No existing OAuth link
+      mockPrismaOAuthAccount.findUnique.mockResolvedValueOnce(null);
+      // Existing user by email
+      mockPrismaUser.findUnique.mockResolvedValueOnce(existingUser);
+      // Create the OAuth link
+      mockPrismaOAuthAccount.create.mockResolvedValueOnce({
+        id: 'oauth_002',
+        provider: oauthDto.provider,
+        providerAccountId: oauthDto.providerAccountId,
+        userId: existingUser.id,
+      });
+
+      tokenService.signAccessToken.mockReturnValueOnce('access-token');
+      tokenService.signRefreshToken.mockReturnValueOnce('refresh-token');
+      authRepository.createRefreshToken.mockResolvedValueOnce(undefined as any);
+
+      const result = await service.oauthLogin(oauthDto);
+
+      expect(result.user.id).toBe(existingUser.id);
+      expect(mockPrismaOAuthAccount.create).toHaveBeenCalledWith({
+        data: {
+          userId: existingUser.id,
+          provider: oauthDto.provider,
+          providerAccountId: oauthDto.providerAccountId,
+        },
+      });
+      expect(mockPrismaUser.create).not.toHaveBeenCalled();
+    });
+
+    it('creates a new user and OAuth link when neither exist', async () => {
+      const newUser = makeUserFixture({
+        id: 'usr_new-oauth',
+        email: oauthDto.email,
+        firstName: oauthDto.firstName!,
+        lastName: oauthDto.lastName!,
+      });
+
+      mockPrismaOAuthAccount.findUnique.mockResolvedValueOnce(null);
+      mockPrismaUser.findUnique.mockResolvedValueOnce(null);
+      mockPrismaUser.create.mockResolvedValueOnce(newUser);
+
+      tokenService.signAccessToken.mockReturnValueOnce('access-token');
+      tokenService.signRefreshToken.mockReturnValueOnce('refresh-token');
+      authRepository.createRefreshToken.mockResolvedValueOnce(undefined as any);
+
+      const result = await service.oauthLogin(oauthDto);
+
+      expect(result.user.email).toBe(oauthDto.email);
+      expect(mockPrismaUser.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          email: oauthDto.email,
+          firstName: oauthDto.firstName,
+          lastName: oauthDto.lastName,
+          oauthAccounts: {
+            create: {
+              provider: oauthDto.provider,
+              providerAccountId: oauthDto.providerAccountId,
+            },
+          },
+        }),
+      });
+    });
+
+    it('throws UnauthorizedError when the existing OAuth user has been deleted', async () => {
+      const deletedUser = makeUserFixture({
+        id: 'usr_deleted-oauth',
+        email: oauthDto.email,
+        deletedAt: new Date('2025-12-01T00:00:00Z'),
+      });
+
+      mockPrismaOAuthAccount.findUnique.mockResolvedValueOnce({
+        id: 'oauth_003',
+        provider: oauthDto.provider,
+        providerAccountId: oauthDto.providerAccountId,
+        userId: deletedUser.id,
+        user: deletedUser,
+      });
+
+      const error = await service.oauthLogin(oauthDto).catch((e) => e);
+
+      expect(error).toBeInstanceOf(UnauthorizedError);
+      expect(error.message).toMatch(/deactivated/);
+    });
+
+    it('throws ValidationError when creating a new user without a name', async () => {
+      const dtoWithoutName = {
+        provider: 'google' as const,
+        providerAccountId: 'google-uid-no-name',
+        email: 'noname@example.com',
+      };
+
+      mockPrismaOAuthAccount.findUnique.mockResolvedValueOnce(null);
+      mockPrismaUser.findUnique.mockResolvedValueOnce(null);
+
+      await expect(service.oauthLogin(dtoWithoutName)).rejects.toThrow(ValidationError);
+      expect(mockPrismaUser.create).not.toHaveBeenCalled();
     });
   });
 });

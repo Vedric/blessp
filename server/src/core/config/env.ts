@@ -23,6 +23,9 @@ const EnvSchema = z.object({
 
   REDIS_URL: z.string().optional(),
 
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  APPLE_CLIENT_ID: z.string().optional(),
+
   OTEL_ENABLED: z
     .string()
     .transform((val) => val === 'true')

@@ -38,3 +38,13 @@ export const ResetPasswordSchema = z.object({
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter.')
     .regex(/[0-9]/, 'Password must contain at least one number.'),
 });
+
+export const GoogleOAuthSchema = z.object({
+  idToken: z.string().min(1, 'Google ID token is required.'),
+});
+
+export const AppleOAuthSchema = z.object({
+  idToken: z.string().min(1, 'Apple ID token is required.'),
+  firstName: z.string().max(100).trim().optional(),
+  lastName: z.string().max(100).trim().optional(),
+});

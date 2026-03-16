@@ -170,6 +170,14 @@
       "tokenMissing": "Reset token is missing. Please use the link from your email.",
       "genericError": "Something went wrong. The token may be invalid or expired.",
       "rememberPassword": "Remember your password?"
+    },
+    "social": {
+      "continueWithGoogle": "Continue with Google",
+      "continueWithApple": "Continue with Apple",
+      "or": "or",
+      "googleError": "Google sign-in failed. Please try again.",
+      "appleError": "Apple sign-in failed. Please try again.",
+      "appleNotAvailable": "Apple sign-in is not available."
     }
   },
   "shop": {

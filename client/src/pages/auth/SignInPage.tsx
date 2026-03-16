@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
+import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
 import { cn } from '@/lib/utils';
 
 export default function SignInPage() {
@@ -64,7 +65,11 @@ export default function SignInPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-10 space-y-6" noValidate>
+        <div className="mt-10 space-y-6">
+          <SocialLoginButtons onError={(msg) => setError(msg)} />
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-6 space-y-6" noValidate>
           <AnimatePresence>
             {error && (
               <motion.div

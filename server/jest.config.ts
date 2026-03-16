@@ -12,7 +12,13 @@ const config: Config = {
     '^.+\\.ts$': ['ts-jest', {
       diagnostics: false,
     }],
+    '^.+\\.js$': ['ts-jest', {
+      diagnostics: false,
+    }],
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(jose)/)',
+  ],
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'src/**/*.ts',

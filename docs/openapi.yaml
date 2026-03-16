@@ -253,6 +253,71 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /auth/google:
+    post:
+      operationId: signInWithGoogle
+      tags: [Auth]
+      summary: Sign in or register with Google
+      description: >
+        Authenticates a user via a Google ID token. If the Google account is not
+        yet linked to an existing user, a new account is created automatically.
+        Returns the user profile and an access token. Rate limited to 10 requests
+        per 15 minutes per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleOAuthRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /auth/apple:
+    post:
+      operationId: signInWithApple
+      tags: [Auth]
+      summary: Sign in or register with Apple
+      description: >
+        Authenticates a user via an Apple ID token. If the Apple account is not
+        yet linked to an existing user, a new account is created automatically.
+        The optional firstName and lastName fields are provided by Apple only on
+        the first sign-in and should be forwarded by the client. Rate limited to
+        10 requests per 15 minutes per IP address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppleOAuthRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
   # ──────────────────────────────────────────────
   # Users
   # ──────────────────────────────────────────────
@@ -2402,6 +2467,61 @@ components:
           type: string
           format: password
           minLength: 1
+
+    GoogleOAuthRequest:
+      type: object
+      required:
+        - idToken
+      properties:
+        idToken:
+          type: string
+          minLength: 1
+          description: Google ID token obtained from the client-side sign-in flow
+
+    AppleOAuthRequest:
+      type: object
+      required:
+        - idToken
+      properties:
+        idToken:
+          type: string
+          minLength: 1
+          description: Apple ID token obtained from the client-side sign-in flow
+        firstName:
+          type: string
+          maxLength: 100
+          description: >
+            User's first name, provided by Apple only on the initial sign-in.
+            The client must forward this value when available.
+        lastName:
+          type: string
+          maxLength: 100
+          description: >
+            User's last name, provided by Apple only on the initial sign-in.
+            The client must forward this value when available.
+
+    OAuthAccount:
+      type: object
+      description: Represents a linked OAuth provider account
+      required:
+        - provider
+        - providerUserId
+      properties:
+        provider:
+          type: string
+          enum: [google, apple]
+          description: The OAuth provider name
+        providerUserId:
+          type: string
+          description: Unique user identifier from the OAuth provider
+        email:
+          type: string
+          format: email
+          description: Email address associated with the OAuth account
+        createdAt:
+          type: string
+          format: date-time
+          description: When the OAuth account was linked
 
     RefreshTokenRequest:
       type: object

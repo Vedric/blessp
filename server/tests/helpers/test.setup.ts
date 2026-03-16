@@ -40,6 +40,7 @@ export async function cleanDatabase(): Promise<void> {
   await prisma.cartItem.deleteMany();
   await prisma.wishlistItem.deleteMany();
   await prisma.review.deleteMany();
+  await prisma.oAuthAccount.deleteMany();
   await prisma.refreshToken.deleteMany();
   await prisma.passwordResetToken.deleteMany();
   await prisma.session.deleteMany();

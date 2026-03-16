@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, AlertCircle, Check, Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
 import { cn } from '@/lib/utils';
 
 interface PasswordCheck {
@@ -149,7 +150,11 @@ export default function SignUpPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-10 space-y-6" noValidate>
+        <div className="mt-10 space-y-6">
+          <SocialLoginButtons onError={(msg) => setGeneralError(msg)} />
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-6 space-y-6" noValidate>
           <AnimatePresence>
             {generalError && (
               <motion.div

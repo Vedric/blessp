@@ -2,6 +2,7 @@ import '@/i18n';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
@@ -54,6 +55,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
       <CurrencyProvider>
         <AuthProvider>
           <CartProvider>
@@ -242,6 +244,7 @@ export default function App() {
           </CartProvider>
         </AuthProvider>
       </CurrencyProvider>
+      </GoogleOAuthProvider>
     </BrowserRouter>
   );
 }

@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { Env } from '../../core/config/env';
 import { AuthService } from './auth.service';
-import { RegisterSchema, LoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from './auth.schema';
+import { OAuthService } from './oauth.service';
+import { RegisterSchema, LoginSchema, ForgotPasswordSchema, ResetPasswordSchema, GoogleOAuthSchema, AppleOAuthSchema } from './auth.schema';
 import { sendSuccess, sendCreated, sendNoContent } from '../../core/types/response';
 
 interface AuthenticatedRequest extends Request {
@@ -19,7 +20,10 @@ const REFRESH_COOKIE_OPTIONS = {
 };
 
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly oauthService: OAuthService,
+  ) {}
 
   register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -126,6 +130,54 @@ export class AuthController {
       const user = await this.authService.getMe(userId);
 
       sendSuccess(res, req, user);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  googleLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { idToken } = GoogleOAuthSchema.parse(req.body);
+      const oauthUser = await this.oauthService.verifyGoogleToken(idToken);
+
+      const result = await this.authService.oauthLogin({
+        provider: 'google',
+        providerAccountId: oauthUser.providerAccountId,
+        email: oauthUser.email,
+        firstName: oauthUser.firstName,
+        lastName: oauthUser.lastName,
+      });
+
+      res.cookie(REFRESH_TOKEN_COOKIE, result.tokens.refreshToken, REFRESH_COOKIE_OPTIONS);
+
+      sendSuccess(res, req, {
+        user: result.user,
+        tokens: { accessToken: result.tokens.accessToken },
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  appleLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { idToken, firstName, lastName } = AppleOAuthSchema.parse(req.body);
+      const oauthUser = await this.oauthService.verifyAppleToken(idToken);
+
+      const result = await this.authService.oauthLogin({
+        provider: 'apple',
+        providerAccountId: oauthUser.providerAccountId,
+        email: oauthUser.email,
+        firstName: firstName ?? oauthUser.firstName,
+        lastName: lastName ?? oauthUser.lastName,
+      });
+
+      res.cookie(REFRESH_TOKEN_COOKIE, result.tokens.refreshToken, REFRESH_COOKIE_OPTIONS);
+
+      sendSuccess(res, req, {
+        user: result.user,
+        tokens: { accessToken: result.tokens.accessToken },
+      });
     } catch (error) {
       next(error);
     }

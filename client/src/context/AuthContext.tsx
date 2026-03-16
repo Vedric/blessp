@@ -16,6 +16,8 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: { email: string; password: string; firstName: string; lastName: string }) => Promise<void>;
+  loginWithGoogle: (idToken: string) => Promise<void>;
+  loginWithApple: (idToken: string, firstName?: string, lastName?: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
@@ -88,6 +90,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const loginWithGoogle = useCallback(async (idToken: string) => {
+    const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
+      '/auth/google',
+      { idToken },
+    );
+    setAccessToken(data.tokens.accessToken);
+    setUser(data.user);
+  }, []);
+
+  const loginWithApple = useCallback(async (idToken: string, firstName?: string, lastName?: string) => {
+    const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
+      '/auth/apple',
+      { idToken, firstName, lastName },
+    );
+    setAccessToken(data.tokens.accessToken);
+    setUser(data.user);
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await api.post('/auth/logout');
@@ -107,6 +127,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading,
         login,
         register,
+        loginWithGoogle,
+        loginWithApple,
         logout,
         refreshUser,
       }}
