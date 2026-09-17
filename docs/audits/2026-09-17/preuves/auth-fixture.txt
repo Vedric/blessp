@@ -1,0 +1,33 @@
+
+> blessp-client@3.0.0 test:e2e
+> playwright test auth.spec.ts --project chromium --workers=2 --output test-results-fixtures
+
+
+Running 14 tests using 2 workers
+
+(node:233178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:233176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:233178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:233176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   2 [chromium] › tests/e2e/auth.spec.ts:18:5 › Authentication › Sign Up › shows password strength indicator when typing (955ms)
+  ✓   1 [chromium] › tests/e2e/auth.spec.ts:7:5 › Authentication › Sign Up › displays validation errors for empty fields on submit (983ms)
+  ✓   3 [chromium] › tests/e2e/auth.spec.ts:30:5 › Authentication › Sign Up › validates password strength requirements (871ms)
+  ✓   4 [chromium] › tests/e2e/auth.spec.ts:42:5 › Authentication › Sign Up › shows password match confirmation (879ms)
+  ✓   5 [chromium] › tests/e2e/auth.spec.ts:56:5 › Authentication › Sign Up › shows mismatch error when passwords differ (905ms)
+  ✓   6 [chromium] › tests/e2e/auth.spec.ts:69:5 › Authentication › Sign Up › navigates to sign in page via link (907ms)
+  ✓   7 [chromium] › tests/e2e/auth.spec.ts:79:5 › Authentication › Sign In › displays validation errors for empty fields (1.2s)
+  ✓   8 [chromium] › tests/e2e/auth.spec.ts:89:5 › Authentication › Sign In › shows email validation error for invalid format (1.3s)
+  ✓  10 [chromium] › tests/e2e/auth.spec.ts:111:5 › Authentication › Sign In › navigates to sign up page via link (1.2s)
+  ✓   9 [chromium] › tests/e2e/auth.spec.ts:101:5 › Authentication › Sign In › shows error message for invalid credentials (1.3s)
+  ✓  12 [chromium] › tests/e2e/auth.spec.ts:129:5 › Authentication › Protected Routes › redirects to sign in when accessing profile unauthenticated (402ms)
+  ✓  13 [chromium] › tests/e2e/auth.spec.ts:134:5 › Authentication › Protected Routes › redirects to sign in when accessing wishlist unauthenticated (305ms)
+  ✓  11 [chromium] › tests/e2e/auth.spec.ts:119:5 › Authentication › Sign In › navigates to forgot password page (1.2s)
+  ✓  14 [chromium] › tests/e2e/auth.spec.ts:139:5 › Authentication › Protected Routes › does not redirect checkout to sign in (guest checkout is public) (1.2s)
+
+  14 passed (8.2s)

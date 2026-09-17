@@ -2,7 +2,7 @@
 
 > Mise à jour du 16 septembre 2026 : voir [ADR 006](006-transactional-outbox-and-invariants.md). Ce document conserve la décision historique ; les sessions et la livraison des emails critiques ont évolué.
 
-**Status**: Accepted
+**Status**: Partially superseded by ADR 006; cache retained, BullMQ producer/worker removed on 2026-09-17
 **Date**: 2026-03-14
 **Deciders**: Engineering team
 

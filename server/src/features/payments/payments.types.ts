@@ -7,7 +7,6 @@ export interface PaymentIntentResponse {
 
 export interface CreatePaymentIntentDto {
   orderId: string;
-  currency?: string;
 }
 
 export interface PaymentMethodResponse {

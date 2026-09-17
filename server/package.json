@@ -29,7 +29,6 @@
     "@opentelemetry/semantic-conventions": "^1.40.0",
     "@prisma/client": "^6.5.0",
     "argon2": "^0.41.1",
-    "bullmq": "^5.71.0",
     "compression": "^1.8.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

@@ -3,17 +3,7 @@ import { Env } from '../config/env';
 import { logger } from '../observability/logger';
 
 let client: Redis | null = null;
-let workerClient: Redis | null = null;
-
-export function getRedisClient(worker = false): Redis | null {
-  if (worker) {
-    if (!Env.REDIS_URL) return null;
-    if (!workerClient) {
-      workerClient = new Redis(Env.REDIS_URL, { maxRetriesPerRequest: null, connectTimeout: 1000 });
-      workerClient.on('error', () => logger.warn('Email worker Redis unavailable'));
-    }
-    return workerClient;
-  }
+export function getRedisClient(): Redis | null {
   if (!Env.REDIS_URL) return null;
 
   if (!client) {
@@ -43,8 +33,6 @@ export function getRedisClient(worker = false): Redis | null {
 }
 
 export async function disconnectRedis(): Promise<void> {
-  workerClient?.disconnect();
-  workerClient = null;
   if (client) {
     client.disconnect();
     client = null;

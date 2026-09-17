@@ -1,0 +1,52 @@
+
+> blessp-server@3.0.0 test
+> jest --testPathPattern=tests/unit --runTestsByPath tests/unit/mfa.service.test.ts --runInBand
+
+PASS tests/unit/mfa.service.test.ts
+  totpAt reference generator
+    ✓ matches the RFC 6238 published vector at T=59s (1 ms)
+  MfaService
+    startSetup
+      ✓ upserts a disabled setup row with a fresh base32 secret (2 ms)
+      ✓ returns a provisioning URI carrying the issuer and secret plus a QR data URL (1 ms)
+    verify
+      ✓ throws NotFoundError when no setup exists for the user (3 ms)
+      ✓ throws ValidationError when the token is not a 6-digit code (1 ms)
+      ✓ throws ValidationError when the code is outside the accepted window (9 ms)
+      ✓ enables the setup and returns ten single-use backup codes on a valid code (2 ms)
+      ✓ round-trips a code minted for a secret produced by the service itself (1 ms)
+    checkCode
+      ✓ returns false when the user has no setup
+      ✓ returns false when the setup is not enabled yet (1 ms)
+      ✓ accepts the code for the current time step
+      ✓ tolerates a code from one step behind or ahead
+      ✓ rejects a code from two steps away (1 ms)
+      ✓ consumes a matching backup code and removes it from the stored list
+      ✓ rejects a backup code that has already been consumed
+      ✓ rejects a backup code when none are stored
+    regenerateBackupCodes
+      ✓ throws ValidationError when MFA is not enabled
+      ✓ throws UnauthorizedError when the TOTP code is invalid
+      ✓ replaces the stored hashes with ten fresh codes on a valid TOTP (1 ms)
+    disable
+      ✓ throws ValidationError when MFA is not enabled (1 ms)
+      ✓ throws UnauthorizedError when neither a TOTP nor a backup code matches
+      ✓ deletes the setup on a valid TOTP code (1 ms)
+      ✓ deletes the setup on a valid backup code when the authenticator is lost
+    refuse
+      ✓ records the refusal and clears the secret
+    isEnabled
+      ✓ returns true for an enabled setup
+      ✓ returns false when no setup exists
+      ✓ returns false for a pending (not yet verified) setup
+    getStatus
+      ✓ returns not-configured when no row exists
+      ✓ returns enabled for an active setup
+      ✓ returns refused when the user opted out
+      ✓ returns pending when setup started but was never verified
+
+Test Suites: 1 passed, 1 total
+Tests:       31 passed, 31 total
+Snapshots:   0 total
+Time:        1.569 s
+Ran all test suites within paths "tests/unit/mfa.service.test.ts".

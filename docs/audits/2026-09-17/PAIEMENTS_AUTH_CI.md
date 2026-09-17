@@ -12,7 +12,7 @@ Le [guide des fournisseurs](../../runbooks/013-paypal-and-provider-testing.md) p
 
 | Contrôle | Résultat |
 | --- | --- |
-| Serveur, PostgreSQL isolé et migrations | 516 tests / 37 suites réussis, avec couverture |
+| Serveur, PostgreSQL isolé et migrations | 513 tests / 36 suites réussis après suppression de l’ancien producteur BullMQ (516 / 37 avant nettoyage), avec couverture |
 | Fournisseurs dans le navigateur | 13 scénarios × Chromium, Firefox et WebKit : 39 réussites, aucune reprise automatique |
 | Régression navigateur sur auth, checkout et lancement | 34 scénarios × trois navigateurs : 102 réussites |
 | Lint et compilation | Réussis |
@@ -36,6 +36,10 @@ Les résultats distants de CI, scans d’image et Lighthouse doivent être consu
 ## Revue des détections historiques
 
 GitGuardian a signalé deux valeurs de test dans l’historique de la branche : un mot de passe utilisé uniquement pour les validations de formulaire et le vecteur public RFC 4226. Les mots de passe de ces tests sont désormais générés ; la fixture MFA est dérivée des octets ASCII publiés dans la RFC. Les tests concernés sont rejoués. Une branche locale conserve l’historique antérieur au regroupement ; aucun historique de `main` n’est réécrit. Les nouveaux contrôles distants portent sur le commit regroupé.
+
+## Nettoyage après revue
+
+Le worker et le producteur BullMQ inutilisés, leur connexion Redis dédiée et leur dépendance ont été retirés. Les emails critiques restent envoyés par l’outbox PostgreSQL et la maintenance existante. Trois tests unitaires portaient uniquement sur ce producteur supprimé ; les tests de paiement, notification et reprise de l’outbox sont conservés. La suite finale comporte 513 tests et 36 suites. Le DTO de paiement ne déclare plus de devise client. L’animation Skeleton utilise le nom déclaré dans Tailwind et respecte explicitement la réduction des animations.
 
 ## Restant avant ouverture complète
 

@@ -7,9 +7,6 @@ jest.mock('@core/observability/logger', () => ({
   logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
 }));
 jest.mock('@features/products/variants.repository');
-jest.mock('@core/queue/email.producer', () => ({
-  enqueueOrderConfirmationEmail: jest.fn().mockResolvedValue(undefined),
-}));
 
 import { OrdersService } from '@features/orders/orders.service';
 import { OrdersRepository } from '@features/orders/orders.repository';
@@ -18,10 +15,8 @@ import { CouponsService } from '@features/coupons/coupons.service';
 import { VariantsRepository } from '@features/products/variants.repository';
 import { NotFoundError, ForbiddenError, ValidationError } from '@core/errors/http.errors';
 import { prisma } from '@core/database/client';
-import { enqueueOrderConfirmationEmail } from '@core/queue/email.producer';
 
 const mockProductFindMany = prisma.product.findMany as jest.Mock;
-const mockEnqueueEmail = enqueueOrderConfirmationEmail as jest.Mock;
 
 describe('OrdersService', () => {
   let service: OrdersService;

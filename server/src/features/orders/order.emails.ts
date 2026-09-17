@@ -1,5 +1,5 @@
 import { escapeHtml } from '../../core/email/html';
-import { emailService, type EmailPayload } from '../../core/email/email.service';
+import type { EmailPayload } from '../../core/email/email.service';
 
 interface OrderConfirmationData {
   locale?: 'en' | 'fr';
@@ -205,8 +205,4 @@ export function orderConfirmationPayload(data: OrderConfirmationData): EmailPayl
     subject: `BLE$$ P: ${copy.title} #${data.orderNumber ?? data.orderId}`,
     html,
   };
-}
-
-export async function sendOrderConfirmation(data: OrderConfirmationData): Promise<void> {
-  await emailService.send(orderConfirmationPayload(data));
 }
