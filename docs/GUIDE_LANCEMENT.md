@@ -10,7 +10,7 @@ Nous avancerons une étape à la fois. Tu fournis les décisions commerciales et
 
 - Entreprise encore en projet à Montréal (Québec) : préparer l’identité et les coordonnées qui pourront figurer sur le site.
 - Livraison au Canada uniquement au lancement ; confirmer la devise souhaitée. Le code utilise actuellement CAD ; changer de devise demanderait une adaptation et une recette.
-- Produits à vendre, prix, stock physique, dimensions/poids des colis et adresse de départ des expéditions.
+- Reprendre les photos et les huit fiches recensées dans [le catalogue existant](CATALOGUE_EXISTANT.md), puis valider prix, stock physique, dimensions/poids des colis et adresse de départ des expéditions.
 - Conditions souhaitées de livraison et de retour : tarifs, délais, frais de retour, échanges et remboursement de la livraison.
 - Budget mensuel maximal pour les services, en précisant la devise du budget, et ordre de grandeur des commandes attendues.
 
@@ -82,6 +82,6 @@ L’ouverture publique sera une étape explicite après examen du résultat. Auc
 
 ## Notre prochaine étape
 
-Montréal (Québec) est confirmé. Avec aucun budget prévu pour l’instant, poursuivre les développements et les tests locaux sans souscrire à des services. La livraison au Canada uniquement et l’entreprise encore en projet sont confirmées. Les produits sont déjà disponibles : préparer en priorité leurs fiches, photos, prix et quantités par variante. Le code conserve CAD ; les frais, délais, retours et le traitement fiscal restent à définir avant ouverture. Nous comparerons les coûts avant de choisir les comptes à ouvrir ; cette confirmation ne valide aucun abonnement ni lancement commercial. Il n’est pas nécessaire de remplir toutes les étapes aujourd’hui.
+Montréal (Québec) est confirmé. Avec aucun budget prévu pour l’instant, poursuivre les développements et les tests locaux sans souscrire à des services. La livraison au Canada uniquement et l’entreprise encore en projet sont confirmées. Les produits et leurs photos sont déjà disponibles dans le dépôt : reprendre [les huit fiches existantes](CATALOGUE_EXISTANT.md), valider leurs prix et renseigner les quantités réelles par variante. Le code conserve CAD ; les frais, délais, retours et le traitement fiscal restent à définir avant ouverture. Nous comparerons les coûts avant de choisir les comptes à ouvrir ; cette confirmation ne valide aucun abonnement ni lancement commercial. Il n’est pas nécessaire de remplir toutes les étapes aujourd’hui.
 
 La [checklist de lancement](LAUNCH_CHECKLIST.md) reste la liste de référence des points ouverts. Ce guide donne leur ordre de traitement et ne coche aucune validation à ta place.
