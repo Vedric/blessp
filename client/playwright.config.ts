@@ -4,6 +4,8 @@ const CI = !!process.env.CI;
 export default defineConfig({
   testDir: './tests/e2e', fullyParallel: true, forbidOnly: CI,
   testIgnore: '**/providers.spec.ts',
+  // A retry preserves diagnostics but must not turn an unstable journey green.
+  failOnFlakyTests: CI,
   retries: CI ? 1 : 0, workers: 2,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {

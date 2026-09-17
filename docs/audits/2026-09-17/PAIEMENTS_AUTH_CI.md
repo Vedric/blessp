@@ -18,7 +18,7 @@ Le [guide des fournisseurs](../../runbooks/013-paypal-and-provider-testing.md) p
 | Lint et compilation | Réussis |
 | OpenAPI | Document valide après ajout des routes PayPal et du complément de profil |
 | Workflows | Actionlint réussi |
-| Image Docker locale | 11 contrôles de démarrage/migration/HTTP/arrêt réussis sur l’image de la révision 1331834, avant regroupement des commits et ajustement des seules fixtures de test |
+| Image Docker locale | 11 contrôles de démarrage/migration/HTTP/arrêt réussis sur l’image initiale puis sur l’image finale après retrait de BullMQ (révision applicative 30090f6, étiquette locale `review-cleanup`) |
 | Dépendances npm | Aucune vulnérabilité signalée à la racine, dans le serveur ou le client lors du contrôle |
 
 Les [preuves locales](preuves/) conservent les sorties et leurs SHA-256. Les essais exploratoires ont révélé une erreur de syntaxe dans le SDK Apple simulé et une mesure de largeur prise pendant l’animation d’entrée. Le simulateur a été corrigé, la mesure attend la stabilisation, puis la suite complète des 39 cas a réussi. Les essais serveur ont également nécessité la correction de fixtures partagées et des assertions des nouveaux contrats.
@@ -27,11 +27,13 @@ Les fournisseurs sont simulés aux limites des tests. Les routes applicatives, s
 
 ## CI/CD et Git
 
-Les contrôles ordinaires continuent à exécuter la suite navigateur complète. Un job distinct construit avec des identifiants OAuth synthétiques et exécute les contrats fournisseurs sur trois navigateurs, sans secret externe. Les preuves sont conservées en artifacts. Le simulateur est limité au lanceur de recette et exclu du contexte Docker.
+Les contrôles ordinaires exécutent la suite navigateur complète dans trois jobs parallèles, avec une base et un processus applicatif isolés pour chaque moteur. Un test qui ne réussit qu’à la reprise automatique fait échouer la CI ; la reprise conserve seulement les éléments de diagnostic. Un job distinct construit avec des identifiants OAuth synthétiques et exécute les contrats fournisseurs sur trois navigateurs, sans secret externe. Les preuves sont conservées en artifacts. Le simulateur est limité au lanceur de recette et exclu du contexte Docker.
 
 La release commerciale devient manuelle, uniquement depuis `main`, avec la revue de lancement obligatoire. Fusionner les correctifs ne déploie donc pas une boutique non configurée. La détection de secrets conserve les règles par défaut, avec exclusions ciblées des manifestes SHA-256 et des exemples historiques documentés ; les fichiers source restent inspectés.
 
-Les résultats distants de CI, scans d’image et Lighthouse doivent être consultés sur la pull request correspondant à la révision publiée. Les résultats locaux ci-dessus ne sont pas une attestation de leur succès.
+La protection de `main` impose dix contrôles liés à leurs applications GitHub, une branche à jour, les conversations résolues et un historique linéaire. Les poussées forcées et suppressions sont interdites, y compris pour les administrateurs. Lighthouse reste conditionnel aux modifications applicatives afin de ne pas bloquer les PR de documentation seules.
+
+Les résultats distants de CI, scans d’image et Lighthouse doivent être consultés sur la [PR #67](https://github.com/Vedric/blessp/pull/67) et sa révision publiée. Les résultats locaux ci-dessus ne sont pas une attestation de leur succès.
 
 ## Revue des détections historiques
 
