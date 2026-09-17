@@ -14,7 +14,7 @@ export const ShippingRatesSchema = z.array(ShippingRateSchema).min(1).max(250).s
 });
 export type ShippingRate = z.infer<typeof ShippingRateSchema>;
 // Synthetic defaults preserve local demos only. Production requires explicit rates.
-export const demoShippingRates: ShippingRate[] = ['CA', 'US', 'GB', 'FR'].map(country => ({ country, feeCents: 995, freeThresholdCents: 10000 }));
+export const demoShippingRates: ShippingRate[] = [{ country: 'CA', feeCents: 995, freeThresholdCents: 10000 }];
 export const ShippingRatesJsonSchema = z.string().transform((value, context) => {
   try { return JSON.parse(value); }
   catch { context.addIssue({ code: z.ZodIssueCode.custom, message: 'SHIPPING_RATES_JSON must contain valid JSON.' }); return z.NEVER; }

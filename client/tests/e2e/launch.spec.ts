@@ -86,6 +86,14 @@ test('ordinary customers cannot open the support inbox', async ({ page }) => {
   await fixture(page, false); await page.goto('/admin/contact'); await expect(page).not.toHaveURL(/\/admin\/contact/); await expect(page.locator('#support-search')).toHaveCount(0);
 });
 
+test('default checkout offers delivery within Canada only', async ({ page }) => {
+  await checkout(page);
+  await expect(page.locator('#shipping-country option')).toHaveCount(1);
+  await expect(page.locator('#shipping-country')).toHaveValue('CA');
+  await expect(page.locator('#shipping-country option')).toHaveText('Canada');
+  await expect(page.locator('main')).toContainText('$59.95');
+});
+
 test('checkout uses configured countries and their different delivery fees', async ({ page }) => {
   await page.route('**/commerce/config', route => route.fulfill({ json: { success: true, data: { currency: 'CAD', shippingRates: [{ country: 'CA', feeCents: 750, freeThresholdCents: 10000 }, { country: 'FR', feeCents: 2400, freeThresholdCents: null }] } } }));
   await checkout(page); await expect(page.locator('#shipping-country option')).toHaveCount(2); await expect(page.locator('main')).toContainText('$57.50');

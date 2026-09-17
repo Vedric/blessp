@@ -64,9 +64,9 @@ async function seedProductAndCart(user: TestUser): Promise<{
       lastName: 'Dupont',
       phone: '+33612345678',
       addressLine1: '12 Rue de Paris',
-      city: 'Paris',
-      postalCode: '75001',
-      country: 'FR',
+      city: 'Montreal',
+      postalCode: 'H2X 1Y4',
+      country: 'CA',
     })
     .expect(201);
 
@@ -105,9 +105,9 @@ describe('Orders API integration tests', () => {
           firstName: 'Alice',
           lastName: 'Dupont',
           addressLine1: '10 Rue Bleue',
-          city: 'Lyon',
-          postalCode: '69001',
-          country: 'FR',
+          city: 'Montreal',
+          postalCode: 'H2X 1Y4',
+          country: 'CA',
         })
         .expect(201);
 
@@ -137,7 +137,7 @@ describe('Orders API integration tests', () => {
           addressLine1: '1 Street',
           city: 'City',
           postalCode: '00000',
-          country: 'US',
+          country: 'CA',
         })
         .expect(422);
 
@@ -155,7 +155,7 @@ describe('Orders API integration tests', () => {
           addressLine1: '1 Street',
           city: 'City',
           postalCode: '00000',
-          country: 'US',
+          country: 'CA',
         })
         .expect(401);
     });
