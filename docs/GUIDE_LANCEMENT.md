@@ -1,6 +1,6 @@
 # Lancer BLE$$ P en partant de zéro
 
-Guide du 17 septembre 2026. Le pays confirmé est le Canada. Aucun domaine, hébergement, compte Stripe ou service email n’est encore disponible. Les étapes ci-dessous sont à réaliser ; elles ne constituent pas une validation de production.
+Guide mis à jour le 18 septembre 2026. L’établissement prévu est à Montréal, au Québec, Canada, selon la confirmation du porteur du projet. Aucun budget n’est prévu pour l’instant ; aucun domaine, hébergement, compte Stripe ou service email n’est encore disponible. Le statut juridique, l’adresse exacte et les inscriptions fiscales restent à préciser. Les étapes ci-dessous sont à réaliser ; elles ne constituent pas une validation de production.
 
 Nous avancerons une étape à la fois. Tu fournis les décisions commerciales et ouvres les comptes à ton nom ; je prépare la configuration, les modifications du projet et les vérifications. Les achats et l’ouverture publique auront lieu après choix explicite du service et du coût. Aucun abonnement n’est nécessaire pour commencer à préciser le projet.
 
@@ -8,7 +8,7 @@ Nous avancerons une étape à la fois. Tu fournis les décisions commerciales et
 
 À préparer, même si certaines réponses sont encore « à décider » :
 
-- Province d’établissement et état de création de l’entreprise ; identité et coordonnées qui pourront figurer sur le site.
+- État de création de l’entreprise à Montréal (Québec) ; identité et coordonnées qui pourront figurer sur le site.
 - Pays à livrer au lancement et devise souhaitée. Le code utilise actuellement CAD ; changer de devise demanderait une adaptation et une recette.
 - Produits à vendre, prix, stock physique, dimensions/poids des colis et adresse de départ des expéditions.
 - Conditions souhaitées de livraison et de retour : tarifs, délais, frais de retour, échanges et remboursement de la livraison.
@@ -82,6 +82,6 @@ L’ouverture publique sera une étape explicite après examen du résultat. Auc
 
 ## Notre prochaine étape
 
-Commencer par préciser la province, l’état de création de l’entreprise et le budget envisagé. Si le budget est encore inconnu, nous partirons des coûts à comparer avant de choisir les comptes à ouvrir. Il n’est pas nécessaire de remplir toutes les étapes aujourd’hui.
+Montréal (Québec) est confirmé. Avec aucun budget prévu pour l’instant, poursuivre les développements et les tests locaux sans souscrire à des services. Préciser ensuite les pays à livrer au lancement, la devise d’encaissement et l’état de création de l’entreprise. Le Canada comme lieu d’établissement ne confirme ni les destinations de livraison ni la devise. Nous comparerons les coûts avant de choisir les comptes à ouvrir ; cette confirmation ne valide aucun abonnement ni lancement commercial. Il n’est pas nécessaire de remplir toutes les étapes aujourd’hui.
 
 La [checklist de lancement](LAUNCH_CHECKLIST.md) reste la liste de référence des points ouverts. Ce guide donne leur ordre de traitement et ne coche aucune validation à ta place.
