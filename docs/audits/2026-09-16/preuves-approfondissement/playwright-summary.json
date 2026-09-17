@@ -1,0 +1,3105 @@
+{
+  "generatedAt": "2026-09-16T22:50:33.170571+00:00",
+  "stats": {
+    "startTime": "2026-09-16T22:36:55.327Z",
+    "duration": 741038.923,
+    "expected": 342,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browsers": {
+    "chromium": "145.0.7632.6",
+    "firefox": "146.0.1",
+    "webkit": "26.0"
+  },
+  "automatedRunHeaded": false,
+  "separateVisibleChromiumSession": true,
+  "perBrowser": {
+    "chromium": 114,
+    "firefox": 114,
+    "webkit": 114
+  },
+  "routeInspectionVisits": 198,
+  "additionalResponsivePageVisits": 144,
+  "tests": [
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1139,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1108,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1068,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1135,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1098,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1085,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2070,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1102,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1942,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1143,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1084,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1213,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2049,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1762,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1717,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1785,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1791,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1976,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1438,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1238,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1593,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1386,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1414,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1495,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1490,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1469,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1444,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1398,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1894,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2053,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2019,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1895,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1942,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 399,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 649,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1379,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 574,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 516,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1394,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 872,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 874,
+      "imageAttachments": 0
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1890,
+      "imageAttachments": 0
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2597,
+      "imageAttachments": 0
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2386,
+      "imageAttachments": 0
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2585,
+      "imageAttachments": 0
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3093,
+      "imageAttachments": 0
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3434,
+      "imageAttachments": 0
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3131,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3349,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12568,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12203,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5643,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1899,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1986,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 36358,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 33441,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 37026,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 32436,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30175,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30134,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13373,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1950,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7845,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1399,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2212,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1779,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3476,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 14075,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12720,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6961,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2568,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2022,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 38305,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 35346,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 37514,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 34407,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30708,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30106,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 14283,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2170,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 8995,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2225,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2429,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1903,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4157,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13611,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12862,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6542,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2374,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2517,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 42283,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 38853,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 42161,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 38387,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 34752,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 38493,
+      "imageAttachments": 8
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 14152,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2763,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 8596,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1833,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2737,
+      "imageAttachments": 0
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2175,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 49070,
+      "imageAttachments": 19
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 20100,
+      "imageAttachments": 8
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 18254,
+      "imageAttachments": 6
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 47465,
+      "imageAttachments": 19
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 19776,
+      "imageAttachments": 8
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 17918,
+      "imageAttachments": 6
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3300,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3179,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1784,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4293,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1854,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3097,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 52282,
+      "imageAttachments": 19
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 22387,
+      "imageAttachments": 8
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 23235,
+      "imageAttachments": 6
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 56200,
+      "imageAttachments": 19
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 24744,
+      "imageAttachments": 8
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 27346,
+      "imageAttachments": 6
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3217,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3725,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1856,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3942,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2939,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2822,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 57828,
+      "imageAttachments": 19
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 23627,
+      "imageAttachments": 8
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 21083,
+      "imageAttachments": 6
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 53067,
+      "imageAttachments": 19
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 22006,
+      "imageAttachments": 8
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 19843,
+      "imageAttachments": 6
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3735,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3111,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2126,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3644,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2857,
+      "imageAttachments": 0
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3254,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1082,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 720,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1446,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 541,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 583,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 894,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1515,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 930,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1548,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 777,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 769,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 940,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1598,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1413,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2216,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1126,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1264,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1516,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 593,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 862,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 825,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1168,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 875,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1486,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 471,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1262,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1251,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 511,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 683,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1402,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1846,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 671,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1004,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1682,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1756,
+      "imageAttachments": 0
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 922,
+      "imageAttachments": 0
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 877,
+      "imageAttachments": 0
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 879,
+      "imageAttachments": 0
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 927,
+      "imageAttachments": 0
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 926,
+      "imageAttachments": 0
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1662,
+      "imageAttachments": 0
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1661,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3937,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4776,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3409,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2634,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1359,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1706,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1724,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1708,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1364,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3117,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2660,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2535,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2611,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4812,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5075,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3553,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2456,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2079,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2198,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2677,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2057,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2548,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4472,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2899,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2790,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2742,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4022,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4912,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3361,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2908,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1801,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1987,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2115,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2479,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1843,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3807,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3264,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3409,
+      "imageAttachments": 0
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3306,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1208,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1273,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1293,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1301,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1506,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 873,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1819,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1659,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2075,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1536,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2844,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 957,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1798,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1763,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1807,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2084,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2513,
+      "imageAttachments": 0
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1646,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 964,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3633,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2533,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2448,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 889,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2439,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2556,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2541,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 667,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2545,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2460,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2469,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2381,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2385,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2416,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2336,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2414,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2416,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1137,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6952,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3952,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4272,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1090,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2627,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3344,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3562,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 826,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3177,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3540,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4278,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3184,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2606,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3944,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3149,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2685,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3244,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1498,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5077,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3232,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3122,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1359,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2780,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3032,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3044,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1012,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3281,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3288,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3128,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3167,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2963,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3088,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3127,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3196,
+      "imageAttachments": 0
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3198,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16418,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6743,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6190,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5263,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5095,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7384,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 912,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2044,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3678,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1754,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1785,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6298,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4723,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5488,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5974,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3582,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "browser": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3959,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16444,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6047,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6680,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5338,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6518,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9625,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2055,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1964,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6016,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3310,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2359,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9655,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 10440,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 8567,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12195,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5314,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "browser": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 8119,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16016,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6076,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6395,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5104,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5845,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9091,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2283,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2209,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3750,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2258,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3770,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6693,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5610,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5759,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5908,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4401,
+      "imageAttachments": 0
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "browser": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5543,
+      "imageAttachments": 0
+    }
+  ]
+}

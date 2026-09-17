@@ -1,0 +1,201 @@
+{
+  "stats": {
+    "startTime": "2026-09-17T06:36:52.131Z",
+    "duration": 77959.089,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "results": [
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 26857,
+      "errors": []
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 25728,
+      "errors": []
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30007,
+      "errors": []
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 29300,
+      "errors": []
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30067,
+      "errors": []
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 29694,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/orders (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3194,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/products (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3142,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/reviews (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3056,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/orders (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3361,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/loyalty (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3359,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/orders (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3607,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/products (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2815,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/reviews (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3800,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/orders (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2736,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/loyalty (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2626,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/orders (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3323,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/products (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3145,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/reviews (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3597,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/orders (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3259,
+      "errors": []
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/loyalty (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3137,
+      "errors": []
+    }
+  ]
+}

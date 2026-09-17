@@ -1,28 +1,44 @@
-# Environment and secrets
-.env
-.env.*
-!.env.example
-
-# Dependencies
 node_modules/
-vendor/
-
-# IDE
-.vscode/
-.idea/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+*.log
+*.tsbuildinfo
+.DS_Store
+coverage/
+.vite/
+.nyc_output/
 *.swp
 *.swo
 *~
+.vscode/
+!.vscode/extensions.json
+.idea/
+pgdata/
 
-# OS
-.DS_Store
+# Docker volumes
+docker/pgdata/
+docker/redis-data/
+
+# Credentials and secrets
+*.pem
+*.key
+credentials.json
+.env.production
+.env.staging
+
+# OS files
 Thumbs.db
 
-# Logs
-*.log
+# Prisma
+prisma/*.db
+prisma/*.db-journal
 
-# Build artifacts
-dist/
+# Playwright artifacts
+client/test-results*/
+client/playwright-report*/
 
-# PHPUnit
-.phpunit.cache/
+# Local audit/performance artifacts
+artifacts/

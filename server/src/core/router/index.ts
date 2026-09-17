@@ -1,0 +1,43 @@
+import { Router } from 'express';
+import { commerceRouter } from '../../features/commerce/commerce.router';
+import { authRouter } from '../../features/auth/auth.router';
+import { usersRouter } from '../../features/users/users.router';
+import { addressesRouter } from '../../features/addresses/addresses.router';
+import { productsRouter, adminProductsRouter } from '../../features/products/products.router';
+import { cartRouter } from '../../features/cart/cart.router';
+import { ordersRouter } from '../../features/orders/orders.router';
+import { paymentsRouter } from '../../features/payments/payments.router';
+import { wishlistRouter } from '../../features/wishlist/wishlist.router';
+import { couponsRouter } from '../../features/coupons/coupons.router';
+import { currencyRouter } from '../../features/currency/currency.router';
+import { reviewsRouter } from '../../features/reviews/reviews.router';
+import { newsletterRouter } from '../../features/newsletter/newsletter.router';
+import { loyaltyRouter } from '../../features/loyalty/loyalty.router';
+import { analyticsRouter } from '../../features/analytics/analytics.router';
+import { contactRouter } from '../../features/contact/contact.router';
+import { adminContactRouter } from '../../features/contact/contact.admin.router';
+import { inventoryRouter } from '../../features/inventory/inventory.router';
+
+const router = Router();
+router.use('/commerce', commerceRouter);
+
+router.use('/auth', authRouter);
+router.use('/users', usersRouter);
+router.use('/products', productsRouter);
+router.use('/admin/products', adminProductsRouter);
+router.use('/admin/inventory', inventoryRouter);
+router.use('/addresses', addressesRouter);
+router.use('/cart', cartRouter);
+router.use('/orders', ordersRouter);
+router.use('/payments', paymentsRouter);
+router.use('/wishlist', wishlistRouter);
+router.use('/coupons', couponsRouter);
+router.use('/currencies', currencyRouter);
+router.use('/reviews', reviewsRouter);
+router.use('/newsletter', newsletterRouter);
+router.use('/loyalty', loyaltyRouter);
+router.use('/analytics', analyticsRouter);
+router.use('/contact', contactRouter);
+router.use('/admin/contact', adminContactRouter);
+
+export { router as apiRouter };

@@ -1,0 +1,47 @@
+{
+  "rules": 74,
+  "scannedFiles": 210,
+  "findings": 0,
+  "errors": [
+    {
+      "code": 3,
+      "level": "warn",
+      "type": [
+        "PartialParsing",
+        [
+          {
+            "path": "client/src/components/common/DevResetPanel.tsx",
+            "start": {
+              "line": 126,
+              "col": 34,
+              "offset": 0
+            },
+            "end": {
+              "line": 126,
+              "col": 42,
+              "offset": 8
+            }
+          }
+        ]
+      ],
+      "message": "Syntax error at line client/src/components/common/DevResetPanel.tsx:126:\n `& reload` was unexpected",
+      "path": "client/src/components/common/DevResetPanel.tsx",
+      "spans": [
+        {
+          "file": "client/src/components/common/DevResetPanel.tsx",
+          "start": {
+            "line": 126,
+            "col": 34,
+            "offset": 0
+          },
+          "end": {
+            "line": 126,
+            "col": 42,
+            "offset": 8
+          }
+        }
+      ]
+    }
+  ],
+  "scope": "server/src et client/src"
+}

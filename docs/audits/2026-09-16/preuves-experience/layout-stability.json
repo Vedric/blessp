@@ -1,0 +1,21 @@
+{
+  "before": {
+    "fetchTime": "2026-09-17T00:23:05.111Z",
+    "lighthouseVersion": "13.4.1",
+    "url": "http://127.0.0.1:3107/shop",
+    "cls": 0.10241613869188337,
+    "performance": 89,
+    "lcpMs": 1914
+  },
+  "after": {
+    "fetchTime": "2026-09-17T00:27:31.359Z",
+    "lighthouseVersion": "13.4.1",
+    "url": "http://127.0.0.1:3107/shop",
+    "cls": 0,
+    "performance": 92,
+    "lcpMs": 1814
+  },
+  "change": "Reserve sidebar and toolbar footprint before filter facets arrive.",
+  "functionalRegression": "Delayed facets keep the first card x-coordinate and width stable within 1px at 1440px and 390px in all three engines.",
+  "conditions": "Local optimized app, desktop Lighthouse config, separate runs without the E2E suite running; scores are lab samples, not an SLA."
+}

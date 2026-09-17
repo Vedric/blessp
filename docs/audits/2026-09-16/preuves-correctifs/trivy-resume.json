@@ -1,0 +1,18 @@
+{
+  "image": "blessp:fixes-20260916",
+  "createdAt": "2026-09-16T14:04:31.960664907+02:00",
+  "imageId": "sha256:21ced173c9d1e3ec08928dec4a8f95a9de93cbf5a60dd2038735eecaf30d0274",
+  "targets": [
+    {
+      "target": "blessp:fixes-20260916 (alpine 3.24.1)",
+      "type": "alpine",
+      "vulnerabilities": 0
+    },
+    {
+      "target": "Node.js",
+      "type": "node-pkg",
+      "vulnerabilities": 0
+    }
+  ],
+  "vulnerabilities": 0
+}

@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-09-17T00:43:56.970473+00:00",
+  "baseURL": "http://127.0.0.1:3107",
+  "entry": "/assets/index-DuHq_cIN.js",
+  "entrySha256": "1cbfcc6198e282d1cc8c9d7f0955f0f97618c9324bac0dc405b9df90e16faf0a",
+  "servedEntryMatchesBuild": true,
+  "projects": [
+    "chromium",
+    "firefox",
+    "webkit"
+  ],
+  "node": "v24.13.1"
+}

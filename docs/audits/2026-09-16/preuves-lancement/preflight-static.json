@@ -1,0 +1,10 @@
+{
+  "ready": false,
+  "scope": "repository-review",
+  "blockers": [
+    "Create and complete config/launch.json from config/launch.example.json.",
+    "Unfinished public legal information in en.",
+    "Unfinished public legal information in fr."
+  ],
+  "note": "This check does not prove provider delivery, tax correctness, infrastructure security or production availability."
+}

@@ -1,0 +1,41 @@
+Loaded Prisma config from prisma.config.ts.
+
+Prisma config detected, skipping environment variable loading.
+Prisma schema loaded from ../../../../../../tmp/blessp-legacy-migration-Yz9IZx/schema.prisma
+Datasource "db": PostgreSQL database "blessp_audit", schema "legacy_check_d31402b5d8c14c398d8420a42f736513" at "127.0.0.1:55439"
+
+3 migrations found in prisma/migrations
+
+Applying migration `00000000000000_init`
+Applying migration `20260415172448_add_mfa_backup_codes`
+Applying migration `20260713154935_add_shipping_and_billing_to_orders`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 00000000000000_init/
+    └─ migration.sql
+  └─ 20260415172448_add_mfa_backup_codes/
+    └─ migration.sql
+  └─ 20260713154935_add_shipping_and_billing_to_orders/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+Loaded Prisma config from prisma.config.ts.
+
+Prisma config detected, skipping environment variable loading.
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "blessp_audit", schema "legacy_check_d31402b5d8c14c398d8420a42f736513" at "127.0.0.1:55439"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20260916000000_audit_remediation`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260916000000_audit_remediation/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+{"result":"PASS","mergedQuantity":9,"financialBackfill":"paid","legacyReservationExpiresAt":null,"verifiedEmail":null}

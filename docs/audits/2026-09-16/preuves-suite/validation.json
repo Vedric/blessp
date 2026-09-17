@@ -1,0 +1,84 @@
+{
+  "server": {
+    "tests": 418,
+    "suites": 29,
+    "coverage": {
+      "lines": {
+        "total": 3011,
+        "covered": 2639,
+        "skipped": 0,
+        "pct": 87.64
+      },
+      "statements": {
+        "total": 3200,
+        "covered": 2763,
+        "skipped": 0,
+        "pct": 86.34
+      },
+      "functions": {
+        "total": 528,
+        "covered": 435,
+        "skipped": 0,
+        "pct": 82.38
+      },
+      "branches": {
+        "total": 968,
+        "covered": 708,
+        "skipped": 0,
+        "pct": 73.14
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "browser": {
+    "tests": 67,
+    "failed": 0,
+    "skipped": 0
+  },
+  "semgrep": {
+    "rules": 74,
+    "files": 213,
+    "findings": 0,
+    "errors": 0
+  },
+  "trivy": {
+    "imageId": "sha256:470be75b500c36a62c22625b2bd134b4305dda8b60afd3d4014d5f6e525a3cf4",
+    "vulnerabilities": 0
+  },
+  "gitleaks": {
+    "exportedFiles": 346,
+    "findings": 1,
+    "review": "public RFC test vector; no real secret confirmed"
+  },
+  "npm": {
+    "root": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "server": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "client": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  }
+}

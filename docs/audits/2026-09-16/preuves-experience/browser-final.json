@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-17T00:42:26.567Z",
+  "conditions": {
+    "browser": "145.0.7632.6",
+    "catalogueDelayMs": 250,
+    "productDelayMs": 200,
+    "typed": "123",
+    "keystrokeDelayMs": 80
+  },
+  "filtersRequests": 2,
+  "priceRequests": [
+    "12300"
+  ],
+  "beforeCards": 8,
+  "duringCards": 8,
+  "productVariantsStartGapMs": 0,
+  "pagination": {
+    "pages": 1000,
+    "numericButtons": 5,
+    "overflowPx": 0
+  }
+}

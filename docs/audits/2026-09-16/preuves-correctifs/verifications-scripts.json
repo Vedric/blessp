@@ -1,0 +1,10 @@
+{
+  "actionlint-final.log": {
+    "status": "PASS",
+    "outputBytes": 0
+  },
+  "shellcheck-final.log": {
+    "status": "PASS",
+    "outputBytes": 0
+  }
+}

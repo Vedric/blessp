@@ -1,0 +1,78 @@
+
+> blessp-client@3.0.0 test:e2e
+> playwright test --config playwright.providers.config.ts --workers=2
+
+
+Running 39 tests using 2 workers
+
+(node:158047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:158048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:158047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:158048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   1 [chromium] › tests/e2e/providers.spec.ts:21:3 › Google: creates account and preserves protected destination (1.7s)
+  ✓   2 [chromium] › tests/e2e/providers.spec.ts:28:3 › Google: missing names can be completed on a mobile screen (2.2s)
+  ✓   3 [chromium] › tests/e2e/providers.spec.ts:37:3 › Google: popup cancellation releases the button without an error (1.5s)
+  ✓   4 [chromium] › tests/e2e/providers.spec.ts:41:3 › Google: profile completion can be cancelled and retried (1.7s)
+  ✓   5 [chromium] › tests/e2e/providers.spec.ts:21:3 › Apple: creates account and preserves protected destination (1.6s)
+  ✓   6 [chromium] › tests/e2e/providers.spec.ts:28:3 › Apple: missing names can be completed on a mobile screen (2.1s)
+  ✓   7 [chromium] › tests/e2e/providers.spec.ts:37:3 › Apple: popup cancellation releases the button without an error (1.4s)
+  ✓   8 [chromium] › tests/e2e/providers.spec.ts:41:3 › Apple: profile completion can be cancelled and retried (1.7s)
+  ✓   9 [chromium] › tests/e2e/providers.spec.ts:47:1 › SDK failures leave password login usable and allow retry (1.5s)
+  ✓  10 [chromium] › tests/e2e/providers.spec.ts:55:1 › blocked Google popup shows an actionable error and allows another attempt (1.5s)
+  ✓  11 [chromium] › tests/e2e/providers.spec.ts:72:1 › PayPal guest checkout approves, captures, confirms and restores the real order (3.9s)
+  ✓  12 [chromium] › tests/e2e/providers.spec.ts:83:1 › PayPal cancellation on mobile preserves the order and permits releasing its reservation (4.7s)
+(node:159474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:159474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [chromium] › tests/e2e/providers.spec.ts:91:1 › a forged PayPal return does not mark an unapproved order paid (2.9s)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+(node:159548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:159548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓  14 [firefox] › tests/e2e/providers.spec.ts:21:3 › Google: creates account and preserves protected destination (2.5s)
+  ✓  15 [firefox] › tests/e2e/providers.spec.ts:28:3 › Google: missing names can be completed on a mobile screen (3.0s)
+  ✓  16 [firefox] › tests/e2e/providers.spec.ts:37:3 › Google: popup cancellation releases the button without an error (1.6s)
+  ✓  17 [firefox] › tests/e2e/providers.spec.ts:41:3 › Google: profile completion can be cancelled and retried (1.8s)
+  ✓  18 [firefox] › tests/e2e/providers.spec.ts:21:3 › Apple: creates account and preserves protected destination (1.9s)
+  ✓  20 [firefox] › tests/e2e/providers.spec.ts:37:3 › Apple: popup cancellation releases the button without an error (1.6s)
+  ✓  19 [firefox] › tests/e2e/providers.spec.ts:28:3 › Apple: missing names can be completed on a mobile screen (2.4s)
+  ✓  22 [firefox] › tests/e2e/providers.spec.ts:47:1 › SDK failures leave password login usable and allow retry (1.2s)
+  ✓  21 [firefox] › tests/e2e/providers.spec.ts:41:3 › Apple: profile completion can be cancelled and retried (1.8s)
+  ✓  23 [firefox] › tests/e2e/providers.spec.ts:55:1 › blocked Google popup shows an actionable error and allows another attempt (1.6s)
+  ✓  24 [firefox] › tests/e2e/providers.spec.ts:72:1 › PayPal guest checkout approves, captures, confirms and restores the real order (3.7s)
+  ✓  25 [firefox] › tests/e2e/providers.spec.ts:83:1 › PayPal cancellation on mobile preserves the order and permits releasing its reservation (4.0s)
+(node:161476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [firefox] › tests/e2e/providers.spec.ts:91:1 › a forged PayPal return does not mark an unapproved order paid (2.7s)
+(node:161476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+(node:161739) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:161739) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓  27 [webkit] › tests/e2e/providers.spec.ts:21:3 › Google: creates account and preserves protected destination (1.7s)
+  ✓  28 [webkit] › tests/e2e/providers.spec.ts:28:3 › Google: missing names can be completed on a mobile screen (2.5s)
+  ✓  29 [webkit] › tests/e2e/providers.spec.ts:37:3 › Google: popup cancellation releases the button without an error (2.0s)
+  ✓  31 [webkit] › tests/e2e/providers.spec.ts:21:3 › Apple: creates account and preserves protected destination (1.8s)
+  ✓  30 [webkit] › tests/e2e/providers.spec.ts:41:3 › Google: profile completion can be cancelled and retried (2.0s)
+  ✓  33 [webkit] › tests/e2e/providers.spec.ts:37:3 › Apple: popup cancellation releases the button without an error (2.1s)
+  ✓  32 [webkit] › tests/e2e/providers.spec.ts:28:3 › Apple: missing names can be completed on a mobile screen (2.8s)
+  ✓  34 [webkit] › tests/e2e/providers.spec.ts:41:3 › Apple: profile completion can be cancelled and retried (2.0s)
+  ✓  35 [webkit] › tests/e2e/providers.spec.ts:47:1 › SDK failures leave password login usable and allow retry (1.6s)
+  ✓  36 [webkit] › tests/e2e/providers.spec.ts:55:1 › blocked Google popup shows an actionable error and allows another attempt (1.6s)
+  ✓  37 [webkit] › tests/e2e/providers.spec.ts:72:1 › PayPal guest checkout approves, captures, confirms and restores the real order (5.4s)
+  ✓  38 [webkit] › tests/e2e/providers.spec.ts:83:1 › PayPal cancellation on mobile preserves the order and permits releasing its reservation (4.5s)
+  ✓  39 [webkit] › tests/e2e/providers.spec.ts:91:1 › a forged PayPal return does not mark an unapproved order paid (3.3s)
+
+  39 passed (50.7s)

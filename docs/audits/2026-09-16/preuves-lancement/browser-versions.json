@@ -1,0 +1,20 @@
+{
+  "playwright": "1.58.2",
+  "browsers": [
+    {
+      "name": "chromium",
+      "revision": "1208",
+      "browserVersion": "145.0.7632.6"
+    },
+    {
+      "name": "firefox",
+      "revision": "1509",
+      "browserVersion": "146.0.1"
+    },
+    {
+      "name": "webkit",
+      "revision": "2248",
+      "browserVersion": "26.0"
+    }
+  ]
+}

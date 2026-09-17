@@ -1,0 +1,29 @@
+# Patterns are anchored to the context root, so nested directories need the
+# **/ prefix: a bare ".env" would keep server/.env and client/.env in the
+# build context (and therefore in image layers).
+**/node_modules
+**/dist
+**/build
+**/.env
+**/.env.*
+!**/.env.example
+**/*.log
+**/.git
+**/.gitignore
+**/.vscode
+**/.idea
+**/*.md
+!README.md
+**/docker-compose*.yml
+**/Dockerfile
+**/.dockerignore
+**/coverage
+**/.nyc_output
+**/pgdata
+video
+docs
+
+artifacts
+**/test-results*
+**/playwright-report*
+scripts/provider-fixtures.cjs

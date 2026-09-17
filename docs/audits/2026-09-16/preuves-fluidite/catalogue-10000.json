@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-16T23:19:53.787Z",
+  "node": "v24.13.1",
+  "products": 10000,
+  "equivalentResults": true,
+  "runsMs": {
+    "before": [
+      56.97,
+      52.75,
+      58,
+      72.82,
+      57.21,
+      56.35,
+      61.81,
+      51.98,
+      51.59,
+      64.71
+    ],
+    "after": [
+      14.69,
+      12.01,
+      14.81,
+      13.44,
+      15.85,
+      14.01,
+      13.11,
+      11.94,
+      16.21,
+      13.72
+    ]
+  },
+  "medianMs": {
+    "before": 57.09,
+    "after": 13.87
+  },
+  "databaseRowsReturned": {
+    "before": 10000,
+    "after": 1
+  },
+  "jsonRepresentationBytes": {
+    "before": 831601,
+    "after": 139
+  },
+  "note": "Local single-process repository benchmark, warm PostgreSQL cache, no Redis. JSON sizes describe the returned data, not wire traffic."
+}

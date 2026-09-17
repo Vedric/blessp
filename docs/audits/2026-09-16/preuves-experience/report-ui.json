@@ -1,0 +1,6 @@
+{
+  "checkedAt": "2026-09-17T00:43:50.619Z",
+  "appURL": "http://127.0.0.1:3107/",
+  "reportURL": "http://127.0.0.1:9323/",
+  "reportHeader": "All426\nPassed426\nFailed0\nFlaky0\nSkipped0\n9/17/2026, 2:28:07 AM\nTotal time: 14.0m\nauth.spec.ts\nAuthentication › Sign Up › displays validation errors for empty fields on submitchromium\n1.1s\nauth.spec.ts:6\nAuthentication › Sign Up › shows password strength indicator when typingchromium\n1.1s\nauth.spec.ts:17\nAuthentication › Sign Up › validates password strength requirementschromium\n1.1s\nauth.spec.ts:2"
+}

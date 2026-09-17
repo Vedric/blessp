@@ -1,0 +1,176 @@
+{
+  "lighthouse-first": [
+    {
+      "page": "home-desktop",
+      "performance": 97,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 897,
+      "cls": 0.0009463564377024779
+    },
+    {
+      "page": "shop-desktop",
+      "performance": 87,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 1954,
+      "cls": 0.11473332282637247
+    },
+    {
+      "page": "signin-desktop",
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 66,
+      "lcpMs": 737,
+      "cls": 0.00035095237574059475
+    },
+    {
+      "page": "home-mobile",
+      "performance": 74,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 5638,
+      "cls": 0
+    }
+  ],
+  "lighthouse-final-1": [
+    {
+      "page": "home-desktop",
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 858,
+      "cls": 0
+    },
+    {
+      "page": "shop-desktop",
+      "performance": 90,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 1915,
+      "cls": 0.08483034410296822
+    },
+    {
+      "page": "signin-desktop",
+      "performance": 97,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 66,
+      "lcpMs": 1169,
+      "cls": 0
+    },
+    {
+      "page": "home-mobile",
+      "performance": 82,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 4507,
+      "cls": 0
+    }
+  ],
+  "lighthouse-final-2": [
+    {
+      "page": "home-desktop",
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 815,
+      "cls": 0
+    },
+    {
+      "page": "shop-desktop",
+      "performance": 90,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 1913,
+      "cls": 0.08483034410296822
+    },
+    {
+      "page": "signin-desktop",
+      "performance": 98,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 66,
+      "lcpMs": 1111,
+      "cls": 0
+    },
+    {
+      "page": "home-mobile",
+      "performance": 82,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 4509,
+      "cls": 0
+    }
+  ],
+  "lighthouse-final-3": [
+    {
+      "page": "home-desktop",
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 854,
+      "cls": 0
+    },
+    {
+      "page": "shop-desktop",
+      "performance": 90,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 1918,
+      "cls": 0.08483034410296822
+    },
+    {
+      "page": "signin-desktop",
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 66,
+      "lcpMs": 714,
+      "cls": 0
+    },
+    {
+      "page": "home-mobile",
+      "performance": 82,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 4510,
+      "cls": 0
+    }
+  ],
+  "without-image-preload": [
+    {
+      "page": "home-mobile",
+      "performance": 89,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 3360,
+      "cls": 0
+    }
+  ],
+  "without-font-preload": [
+    {
+      "page": "home-mobile",
+      "performance": 80,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100,
+      "lcpMs": 4364,
+      "cls": 0.0008660606731864986
+    }
+  ]
+}

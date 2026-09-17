@@ -1,0 +1,170 @@
+[
+  {
+    "rule": "generic-api-key",
+    "file": "server/tests/unit/mfa.service.test.ts",
+    "line": 56,
+    "commit": "dab0f7a96740335916732ef79aa2cbfb5dc856ea",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 1249,
+    "commit": "bcdd6cd136c6cb46326913c7046163c0cf3f1532",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docker-compose.yml",
+    "line": 33,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docker-compose.dev.yml",
+    "line": 36,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docs/deployment.md",
+    "line": 85,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docs/deployment.md",
+    "line": 179,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 213,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 214,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 262,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 263,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 304,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 305,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 1097,
+    "commit": "7258495ae4a071cae3c5a17f285bafd2218e6f9f",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docs/deployment.md",
+    "line": 85,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docs/deployment.md",
+    "line": 179,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 213,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 214,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 262,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 263,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 304,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 305,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/api.md",
+    "line": 1097,
+    "commit": "355f33d597159181b2efb5834ff8f98e83a40147",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docker-compose.yml",
+    "line": 33,
+    "commit": "ac1d22e389c25ae58ea9e4f09cc26b161e942d02",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  },
+  {
+    "rule": "stripe-access-token",
+    "file": "docker-compose.dev.yml",
+    "line": 36,
+    "commit": "ac1d22e389c25ae58ea9e4f09cc26b161e942d02",
+    "classification": "documentation_or_test_fixture_no_live_secret_confirmed"
+  }
+]

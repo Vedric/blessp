@@ -1,0 +1,7 @@
+title = "BLE$$ P secret detection"
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Generated audit checksum manifests contain file paths and SHA-256 digests, not credentials. Application source and environment files remain scanned."
+paths = ['''docs/audits/2026-09-16/preuves-[^/]+/(?:build-sha256|source-sha256|captures-sha256|SHA256)\.json$''']

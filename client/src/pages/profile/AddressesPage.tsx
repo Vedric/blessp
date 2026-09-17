@@ -1,0 +1,494 @@
+import { useDialogFocus } from '@/hooks/useDialogFocus';
+import { useEffect, useState, useRef, type FormEvent } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Pencil, Trash2, Star, X, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { api } from '@/lib/api';
+import { cn } from '@/lib/utils';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
+import type { Address } from '@/lib/types';
+
+interface AddressForm {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
+  isDefault: boolean;
+}
+
+const emptyForm: AddressForm = {
+  firstName: '',
+  lastName: '',
+  phone: '',
+  addressLine1: '',
+  addressLine2: '',
+  city: '',
+  province: '',
+  postalCode: '',
+  country: 'CA',
+  isDefault: false,
+};
+
+const countryCodes = ['CA', 'US', 'GB', 'FR'];
+
+export default function AddressesPage() {
+  const { t } = useTranslation();
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(showForm, formRef, () => setShowForm(false));
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState<AddressForm>(emptyForm);
+  const [isSaving, setIsSaving] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [error, setError] = useState('');
+
+  const fetchAddresses = async () => {
+    setIsLoading(true);
+    try {
+      const data = await api.get<Address[]>('/addresses');
+      setAddresses(data);
+    } catch {
+      setAddresses([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
+
+  const openNew = () => {
+    setForm(emptyForm);
+    setEditingId(null);
+    setShowForm(true);
+    setError('');
+  };
+
+  const openEdit = (addr: Address) => {
+    setForm({
+      firstName: addr.firstName,
+      lastName: addr.lastName,
+      phone: addr.phone || '',
+      addressLine1: addr.addressLine1,
+      addressLine2: addr.addressLine2 || '',
+      city: addr.city,
+      province: addr.province || '',
+      postalCode: addr.postalCode,
+      country: addr.country,
+      isDefault: addr.isDefault,
+    });
+    setEditingId(addr.id);
+    setShowForm(true);
+    setError('');
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+    setEditingId(null);
+    setError('');
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsSaving(true);
+    try {
+      const payload = {
+        ...form,
+        addressLine2: form.addressLine2 || undefined,
+        phone: form.phone || undefined,
+        province: form.province || undefined,
+      };
+      if (editingId) {
+        await api.patch(`/addresses/${editingId}`, payload);
+      } else {
+        await api.post('/addresses', payload);
+      }
+      await fetchAddresses();
+      closeForm();
+    } catch (err: unknown) {
+      const apiErr = err as { message?: string };
+      setError(apiErr.message || t('addresses.failedSave'));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await api.delete(`/addresses/${id}`);
+      await fetchAddresses();
+      setDeleteConfirm(null);
+    } catch {
+      // Silently handle
+    }
+  };
+
+  const handleSetDefault = async (id: string) => {
+    try {
+      await api.patch(`/addresses/${id}`, { isDefault: true });
+      await fetchAddresses();
+    } catch {
+      // Silently handle
+    }
+  };
+
+  const inputClass =
+    'block w-full border border-neutral-200 bg-transparent px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-0 transition-colors';
+
+  return (
+    <div className="min-h-screen px-4 pt-32 pb-24 sm:px-6">
+      <div className="mx-auto max-w-3xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="mb-6">
+            <Breadcrumbs
+              items={[
+                { label: t('common.home'), href: '/' },
+                { label: t('common.account'), href: '/profile' },
+                { label: t('addresses.title') },
+              ]}
+            />
+          </div>
+
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900">
+                {t('addresses.title')}
+              </h1>
+              <div className="mt-2 h-px w-12 bg-brand-500" />
+            </div>
+            <button
+              onClick={openNew}
+              className="flex items-center gap-1.5 bg-neutral-900 px-5 py-2.5 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              {t('common.add')}
+            </button>
+          </div>
+
+          {/* Address form modal */}
+          <AnimatePresence>
+            {showForm && (
+              <motion.div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={closeForm}
+              >
+                <motion.div
+                  ref={formRef}
+                  role="dialog" aria-modal="true" aria-labelledby="address-dialog-title" tabIndex={-1}
+                  className="max-h-[90vh] w-full max-w-lg overflow-y-auto bg-white p-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center justify-between">
+                    <h2 id="address-dialog-title" className="font-display text-xl font-light text-neutral-900">
+                      {editingId ? t('addresses.editAddress') : t('addresses.newAddress')}
+                    </h2>
+                    <button
+                      onClick={closeForm}
+                      aria-label={t('common.close', { defaultValue: 'Close' })}
+                      className="text-neutral-500 hover:text-neutral-700"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                    {error && (
+                      <p className="text-xs text-red-600">{error}</p>
+                    )}
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor="field-firstName" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.firstName')}
+                        </label>
+                        <input id="field-firstName"
+                          required
+                          value={form.firstName}
+                          onChange={(e) =>
+                            setForm({ ...form, firstName: e.target.value })
+                          }
+                          className={cn(inputClass, 'mt-2')}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="field-lastName" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.lastName')}
+                        </label>
+                        <input id="field-lastName"
+                          required
+                          value={form.lastName}
+                          onChange={(e) =>
+                            setForm({ ...form, lastName: e.target.value })
+                          }
+                          className={cn(inputClass, 'mt-2')}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="field-phone" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.phone')}
+                        </label>
+                        <input id="field-phone"
+                        type="tel"
+                        value={form.phone}
+                        onChange={(e) =>
+                          setForm({ ...form, phone: e.target.value })
+                        }
+                        className={cn(inputClass, 'mt-2')}
+                        placeholder={t('common.optional')}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="field-addressLine1" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.addressLine1')}
+                        </label>
+                        <input id="field-addressLine1"
+                        required
+                        value={form.addressLine1}
+                        onChange={(e) =>
+                          setForm({ ...form, addressLine1: e.target.value })
+                        }
+                        className={cn(inputClass, 'mt-2')}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="field-addressLine2" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.addressLine2')}
+                        </label>
+                        <input id="field-addressLine2"
+                        value={form.addressLine2}
+                        onChange={(e) =>
+                          setForm({ ...form, addressLine2: e.target.value })
+                        }
+                        className={cn(inputClass, 'mt-2')}
+                        placeholder={t('common.optional')}
+                      />
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-3">
+                      <div>
+                        <label htmlFor="field-city" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.city')}
+                        </label>
+                        <input id="field-city"
+                          required
+                          value={form.city}
+                          onChange={(e) =>
+                            setForm({ ...form, city: e.target.value })
+                          }
+                          className={cn(inputClass, 'mt-2')}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="field-postalCode" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.postalCode')}
+                        </label>
+                        <input id="field-postalCode"
+                          required
+                          value={form.postalCode}
+                          onChange={(e) =>
+                            setForm({ ...form, postalCode: e.target.value })
+                          }
+                          className={cn(inputClass, 'mt-2')}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="field-province" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.provinceState')}
+                        </label>
+                        <input id="field-province"
+                          value={form.province}
+                          onChange={(e) =>
+                            setForm({ ...form, province: e.target.value })
+                          }
+                          className={cn(inputClass, 'mt-2')}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="field-country" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+                          {t('common.country')}
+                        </label>
+                        <select id="field-country"
+                        value={form.country}
+                        onChange={(e) =>
+                          setForm({ ...form, country: e.target.value })
+                        }
+                        className={cn(inputClass, 'mt-2')}
+                      >
+                        {countryCodes.map((code) => (
+                          <option key={code} value={code}>
+                            {t(`countries.${code}`)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={form.isDefault}
+                        onChange={(e) =>
+                          setForm({ ...form, isDefault: e.target.checked })
+                        }
+                        className="h-4 w-4 border-neutral-300"
+                      />
+                      <span className="text-sm text-neutral-700">
+                        {t('addresses.setDefault')}
+                      </span>
+                    </label>
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        disabled={isSaving}
+                        className="flex-1 bg-neutral-900 px-6 py-3 text-xs font-medium tracking-widest text-white uppercase transition-colors hover:bg-neutral-800 disabled:opacity-50"
+                      >
+                        {isSaving ? t('common.saving') : t('addresses.saveAddress')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={closeForm}
+                        className="px-6 py-3 text-xs font-medium tracking-widest text-neutral-600 uppercase"
+                      >
+                        {t('common.cancel')}
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Addresses list */}
+          {isLoading ? (
+            <div className="mt-10 space-y-4">
+              {Array.from({ length: 2 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="animate-pulse border border-neutral-100 p-6"
+                >
+                  <div className="h-4 w-1/3 bg-neutral-100" />
+                  <div className="mt-3 h-3 w-2/3 bg-neutral-100" />
+                </div>
+              ))}
+            </div>
+          ) : addresses.length === 0 ? (
+            <motion.div
+              className="mt-16 flex flex-col items-center py-12 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50">
+                <MapPin className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
+              </div>
+              <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
+                {t('addresses.noAddresses')}
+              </h3>
+              <p className="mt-2 max-w-sm text-sm text-neutral-500">
+                {t('addresses.noAddressesDesc')}
+              </p>
+              <button
+                onClick={openNew}
+                className="mt-6 bg-neutral-900 px-8 py-3 text-sm font-medium tracking-widest text-white uppercase transition-all duration-300 hover:bg-[#a07a52] hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07a52] focus-visible:ring-offset-2"
+              >
+                {t('addresses.addAddress')}
+              </button>
+            </motion.div>
+          ) : (
+            <div className="mt-10 space-y-4">
+              {addresses.map((addr) => (
+                <div
+                  key={addr.id}
+                  className="border border-neutral-100 p-6"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="min-w-0 break-words">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium text-neutral-900">
+                          {addr.firstName} {addr.lastName}
+                        </p>
+                        {addr.isDefault && (
+                          <span className="flex items-center gap-1 text-2xs font-medium text-brand-700 uppercase">
+                            <Star className="h-3 w-3 fill-current" />
+                            {t('common.default')}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-sm text-neutral-500">
+                        {addr.addressLine1}
+                        {addr.addressLine2 ? `, ${addr.addressLine2}` : ''}
+                      </p>
+                      <p className="text-sm text-neutral-500">
+                        {addr.city}{addr.province ? `, ${addr.province}` : ''} {addr.postalCode},{' '}
+                        {addr.country}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {!addr.isDefault && (
+                        <button
+                          onClick={() => handleSetDefault(addr.id)}
+                          className="flex h-11 w-11 shrink-0 items-center justify-center text-xs text-neutral-500 transition-colors hover:text-neutral-900"
+                          aria-label={`${t('addresses.setDefault')} ${addr.addressLine1}`}
+                        >
+                          <Star className="h-4 w-4" />
+                        </button>
+                      )}
+                      <button
+                        onClick={() => openEdit(addr)}
+                        aria-label={`${t('common.edit')} ${addr.addressLine1}`}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center text-neutral-500 transition-colors hover:text-neutral-700"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      {deleteConfirm === addr.id ? (
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleDelete(addr.id)}
+                            className="text-xs font-medium text-red-600"
+                          >
+                            {t('common.confirm')}
+                          </button>
+                          <button
+                            onClick={() => setDeleteConfirm(null)}
+                            className="text-xs text-neutral-500"
+                          >
+                            {t('common.cancel')}
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setDeleteConfirm(addr.id)}
+                          aria-label={`${t('common.delete')} ${addr.addressLine1}`}
+                          className="flex h-11 w-11 shrink-0 items-center justify-center text-neutral-500 transition-colors hover:text-red-600"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </div>
+    </div>
+  );
+}

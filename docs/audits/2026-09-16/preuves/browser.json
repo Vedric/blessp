@@ -1,0 +1,188 @@
+{
+  "pages": [
+    {
+      "route": "/",
+      "title": "BLE$$ P — Luxury Streetwear",
+      "htmlLang": "en",
+      "horizontalOverflow": false,
+      "violations": []
+    },
+    {
+      "route": "/shop",
+      "title": "Shop — BLE$$ P",
+      "htmlLang": "en",
+      "horizontalOverflow": false,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 5,
+          "samples": [
+            [
+              ".hover\\:text-neutral-600"
+            ],
+            [
+              ".tracking-\\[0\\.3em\\]"
+            ],
+            [
+              ".gap-4.items-center.flex:nth-child(1) > .w-60.lg\\:block.flex-shrink-0 > .top-24.sticky > .mt-6 > .space-y-8 > div:nth-child(1) > .gap-3.mt-3.items-center > .text-neutral-400"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/signin",
+      "title": "Welcome Back — BLE$$ P",
+      "htmlLang": "en",
+      "horizontalOverflow": false,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 5,
+          "samples": [
+            [
+              ".text-\\[\\#a07a52\\]"
+            ],
+            [
+              ".leading-relaxed.text-neutral-500.text-xs"
+            ],
+            [
+              ".hover\\:text-neutral-300"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/signup",
+      "title": "Create Account — BLE$$ P",
+      "htmlLang": "en",
+      "horizontalOverflow": false,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 3,
+          "samples": [
+            [
+              "form[novalidate=\"\"] > .text-center"
+            ],
+            [
+              ".underline-offset-2.hover\\:text-neutral-600[href$=\"terms\"]"
+            ],
+            [
+              ".underline-offset-2.hover\\:text-neutral-600[href$=\"privacy\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "title": "Privacy Policy — BLE$$ P",
+      "htmlLang": "en",
+      "horizontalOverflow": false,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 2,
+          "samples": [
+            [
+              ".hover\\:text-neutral-600"
+            ],
+            [
+              ".text-brand-600"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/legal-notice",
+      "title": "Legal Notice — BLE$$ P",
+      "htmlLang": "en",
+      "horizontalOverflow": false,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 2,
+          "samples": [
+            [
+              ".hover\\:text-neutral-600"
+            ],
+            [
+              ".text-brand-600"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "consoleErrors": [
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Connecting to 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com\". The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Connecting to 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com\". The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Connecting to 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com\". The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Connecting to 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com\". The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Connecting to 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com\". The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Connecting to 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com\". The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked.",
+    "Loading the stylesheet 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap' violates the following Content Security Policy directive: \"style-src 'self' 'unsafe-inline'\". Note that 'style-src-elem' was not explicitly set, so 'style-src' is used as a fallback. The action has been blocked."
+  ],
+  "pageErrors": [],
+  "auth": {
+    "afterLogin": "http://localhost:3107/",
+    "refreshCookiePresent": true,
+    "afterHardNavigation": "http://localhost:3107/signin"
+  },
+  "apiContracts": [
+    {
+      "route": "/api/v1/addresses",
+      "status": 404
+    },
+    {
+      "route": "/api/v1/admin/products",
+      "status": 404
+    },
+    {
+      "route": "/api/v1/orders",
+      "status": 403
+    },
+    {
+      "route": "/api/v1/orders/mine",
+      "status": 200
+    }
+  ],
+  "french": {
+    "htmlLang": "en",
+    "visibleFrenchText": true
+  },
+  "mobile": {
+    "horizontalOverflow": true,
+    "viewport": 390,
+    "contentWidth": 635
+  },
+  "storageAfterReject": [
+    "preferred_language",
+    "recentlyViewed",
+    "blessp_cookie_consent"
+  ]
+}

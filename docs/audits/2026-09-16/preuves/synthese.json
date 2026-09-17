@@ -1,0 +1,79 @@
+{
+  "commit": "b20ad8f4d50418562258b461d9cec924f5c69dd0",
+  "date": "2026-09-16",
+  "checks": {
+    "lint": "passed",
+    "typescript_build": "passed",
+    "unit": {
+      "passed": 309,
+      "suites": 18,
+      "nodeVersions": [
+        "24.13.1",
+        "22.22.2"
+      ]
+    },
+    "integration_serial": {
+      "passed": 63,
+      "failed": 0
+    },
+    "integration_parallel_2_workers": {
+      "passed": 54,
+      "failed": 9
+    },
+    "e2e": {
+      "passed": 24,
+      "failed": 12,
+      "skipped": 0
+    },
+    "migrations": {
+      "applied": 3,
+      "schemaDrift": false
+    },
+    "semgrep": {
+      "rules": 74,
+      "files": 199,
+      "findings": 0
+    },
+    "coverage": {
+      "configured": {
+        "files": 34
+      },
+      "full": {
+        "files": 99
+      }
+    },
+    "docker": {
+      "build": "passed",
+      "readinessHttp": 200,
+      "user": "appuser",
+      "sizeBytes": 181335716
+    }
+  },
+  "additional_reproductions": {
+    "redis_down": {
+      "productsTimedOutMs": 2207
+    },
+    "proxy_trust": {
+      "auth11thSameIP": 429,
+      "changedXForwardedFor": 422
+    },
+    "metrics": {
+      "unauthenticatedHttp": 200,
+      "unmatchedPaths": 5,
+      "newDistinctLabels": 5
+    },
+    "malformedJsonHttp": 500
+  },
+  "limitations": [
+    "No live payment, refund, email or OAuth-provider login",
+    "No production infrastructure inspection",
+    "Lighthouse is a local single-run mobile simulation",
+    "Browser E2E uses alternate port and installed Chromium; app code unchanged"
+  ],
+  "cleanup": {
+    "temporaryApplicationStopped": true,
+    "temporaryPostgresRemoved": true,
+    "productionDataTouched": false,
+    "applicationSourceChanged": false
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "htmlSha256": "dfb673ea3d62a06c7664ffb72a7934fa110dc0ccb9034a218d523837d5213195",
+  "assets": {
+    "/assets/inter-latin-wght-normal-Dx4kXJAl.woff2": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62",
+    "/assets/playfair-display-latin-wght-normal-BOwq7MWX.woff2": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+    "/assets/index-BCKsm86r.js": "0751ecf6a4def20df92eb9de49a301f02bd1dae88d29cddb6f01220f8bafb16c",
+    "/assets/motion-By6r1sYE.js": "fea98bf07473172fbb8753eb970cc4a2e4a7b28f5c46168ef5799e0706fa020c",
+    "/assets/router-BmtGjpV_.js": "72349487ec8d0e846e1e036dfeef9599c0a5d7af155489a62180d870304a5194",
+    "/assets/i18n-DNx8bjc7.js": "55de02b486a253fbab090b9562a9e7b1f394544b663337521e6f25e8fe79424f",
+    "/assets/index-BFzBYuc_.css": "18537f04f67f3f6e3c1e90d3195d226a0d5665c4b0387184017a25fa7170d190"
+  },
+  "sourceManifestSha256": "15733f0c80b18c72c5a6d3844bc42188a1dcaeaa71f65ee287dba941c34ec0d1",
+  "localImage": {
+    "id": "sha256:af5030456498f94e0b63731719b8efb37d4120dc4076fb0a255db9921f8ab26c",
+    "user": "appuser",
+    "sizeBytes": 167799364,
+    "revision": "launch-local-audit-20260917"
+  },
+  "node": "v24.13.1",
+  "database": "PostgreSQL 16, isolated audit database",
+  "deploymentPerformed": false,
+  "containerAssetsMatchBrowserBuild": true
+}
