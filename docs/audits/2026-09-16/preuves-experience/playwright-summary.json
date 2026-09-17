@@ -1,0 +1,3420 @@
+{
+  "stats": {
+    "startTime": "2026-09-17T00:28:07.185Z",
+    "duration": 838789.992,
+    "expected": 426,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1109
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1052
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1081
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1100
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1041
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1024
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2105
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1051
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1017
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1069
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1194
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1969
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1950
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1718
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1620
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1700
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1834
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1711
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1370
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1418
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1416
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1342
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1810
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1555
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1590
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1524
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1489
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1446
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1863
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2052
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1874
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2016
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1914
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 477
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 367
+    },
+    {
+      "project": "chromium",
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1322
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 595
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 550
+    },
+    {
+      "project": "firefox",
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1412
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 988
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1048
+    },
+    {
+      "project": "webkit",
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2102
+    },
+    {
+      "project": "chromium",
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2438
+    },
+    {
+      "project": "chromium",
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2257
+    },
+    {
+      "project": "firefox",
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2693
+    },
+    {
+      "project": "firefox",
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3217
+    },
+    {
+      "project": "webkit",
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3703
+    },
+    {
+      "project": "webkit",
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3194
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3151
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 11982
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 11710
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5921
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1892
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1834
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 36015
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 33841
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 37063
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 33036
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 30341
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 30516
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 12837
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1993
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 7638
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1066
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2270
+    },
+    {
+      "project": "chromium",
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1825
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3503
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 13922
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 12896
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6505
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2301
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1770
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 38274
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 36540
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 39665
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 37775
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 30736
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 30602
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 14477
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2180
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 8995
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2109
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2516
+    },
+    {
+      "project": "firefox",
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2049
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4117
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 13062
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 12955
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6731
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2381
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2785
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 40474
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 39117
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 41579
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 37440
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 34173
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 37947
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 13669
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3254
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 8661
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1799
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3029
+    },
+    {
+      "project": "webkit",
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2259
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1429
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 727
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4423
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 882
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2285
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2186
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 715
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3080
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3008
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1567
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1450
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1523
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 661
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2545
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 14488
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 15664
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 649
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1547
+    },
+    {
+      "project": "chromium",
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2090
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2509
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 853
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4644
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1146
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2672
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2491
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 936
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3224
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3311
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2138
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1430
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1913
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1013
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2822
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 15766
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 16928
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 831
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1646
+    },
+    {
+      "project": "firefox",
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1765
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2419
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1227
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5123
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1630
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3917
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2811
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1102
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3413
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3447
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2753
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1880
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2127
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1265
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2840
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 15782
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 18829
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1134
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1660
+    },
+    {
+      "project": "webkit",
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2449
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 49097
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 20522
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 18500
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 47163
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 19465
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 17655
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3660
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3187
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1853
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4355
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1930
+    },
+    {
+      "project": "chromium",
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3136
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 62978
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 37260
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 27477
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 59254
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 28527
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 26792
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3543
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3191
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1929
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4033
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1766
+    },
+    {
+      "project": "firefox",
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2860
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 57785
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 23862
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 21409
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 52443
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 21641
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 19940
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3347
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3279
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2271
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3947
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2928
+    },
+    {
+      "project": "webkit",
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3131
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1126
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 775
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1527
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 621
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 653
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 926
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1170
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1158
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1507
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 779
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 740
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 979
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1665
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1496
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2227
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1047
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1338
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1499
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 710
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 998
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 652
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1208
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 954
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1590
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 483
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1298
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1272
+    },
+    {
+      "project": "chromium",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 512
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 745
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1431
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2174
+    },
+    {
+      "project": "firefox",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 698
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 976
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1785
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1761
+    },
+    {
+      "project": "webkit",
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1039
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 867
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1647
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1531
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1127
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1507
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1283
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1215
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1619
+    },
+    {
+      "project": "chromium",
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 769
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1085
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2857
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1721
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2404
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1396
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1629
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2351
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2295
+    },
+    {
+      "project": "firefox",
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1609
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1702
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2130
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2054
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2231
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2001
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1993
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1811
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2548
+    },
+    {
+      "project": "webkit",
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1244
+    },
+    {
+      "project": "chromium",
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 899
+    },
+    {
+      "project": "chromium",
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 877
+    },
+    {
+      "project": "firefox",
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1204
+    },
+    {
+      "project": "firefox",
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1000
+    },
+    {
+      "project": "webkit",
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1673
+    },
+    {
+      "project": "webkit",
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1639
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3913
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4667
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3365
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2734
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1275
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1716
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1724
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1713
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1339
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3210
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2759
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2575
+    },
+    {
+      "project": "chromium",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2570
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4831
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5015
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3896
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4201
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2022
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1953
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2772
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2140
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1692
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4010
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4078
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4276
+    },
+    {
+      "project": "firefox",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2921
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4185
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4196
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3303
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2953
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1824
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2022
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1982
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2137
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1835
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3909
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3272
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3333
+    },
+    {
+      "project": "webkit",
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3266
+    },
+    {
+      "project": "chromium",
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1250
+    },
+    {
+      "project": "chromium",
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1298
+    },
+    {
+      "project": "chromium",
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1271
+    },
+    {
+      "project": "chromium",
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1376
+    },
+    {
+      "project": "chromium",
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1486
+    },
+    {
+      "project": "chromium",
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 916
+    },
+    {
+      "project": "firefox",
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1378
+    },
+    {
+      "project": "firefox",
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1815
+    },
+    {
+      "project": "firefox",
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1466
+    },
+    {
+      "project": "firefox",
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1619
+    },
+    {
+      "project": "firefox",
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1714
+    },
+    {
+      "project": "firefox",
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1378
+    },
+    {
+      "project": "webkit",
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1745
+    },
+    {
+      "project": "webkit",
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1745
+    },
+    {
+      "project": "webkit",
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1834
+    },
+    {
+      "project": "webkit",
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1957
+    },
+    {
+      "project": "webkit",
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2033
+    },
+    {
+      "project": "webkit",
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1579
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1053
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3809
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2165
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2739
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1015
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2472
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2689
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2686
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 671
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2778
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2446
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2459
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2394
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2329
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2427
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2361
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2401
+    },
+    {
+      "project": "chromium",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2482
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1207
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5133
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4046
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2733
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1035
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2723
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3117
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3437
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1324
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5358
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3188
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4945
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2582
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2707
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2529
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4934
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3375
+    },
+    {
+      "project": "firefox",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2654
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1558
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4906
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3159
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3067
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1378
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2794
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3081
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3070
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 972
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3385
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3297
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3007
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3079
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2927
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3046
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3080
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3216
+    },
+    {
+      "project": "webkit",
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3121
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 16756
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6673
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6311
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5296
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5082
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 8156
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 857
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2016
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3688
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1730
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 1959
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5333
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4502
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5311
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6058
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4062
+    },
+    {
+      "project": "chromium",
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4470
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 19966
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6847
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 8242
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 7163
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6399
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 10562
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4058
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2016
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5777
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5424
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5959
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 7033
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 11065
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 8674
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 12924
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5912
+    },
+    {
+      "project": "firefox",
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 7367
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 14602
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5981
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5842
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4683
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5662
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 8713
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2228
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2193
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3476
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 2480
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 3801
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6588
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5422
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5590
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 6555
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 4089
+    },
+    {
+      "project": "webkit",
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "status": "passed",
+      "attempts": 1,
+      "durationMs": 5797
+    }
+  ]
+}

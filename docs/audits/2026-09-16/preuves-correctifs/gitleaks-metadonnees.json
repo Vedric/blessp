@@ -1,0 +1,13 @@
+{
+  "filesScanned": 341,
+  "findings": [
+    {
+      "rule": "generic-api-key",
+      "file": "server/tests/unit/mfa.service.test.ts",
+      "line": 62,
+      "assessment": "Vecteur public RFC 4226/6238, secret synthétique de test ; aucune clé réelle."
+    }
+  ],
+  "confirmedRealSecrets": 0,
+  "scope": "Fichiers du projet, sans environnements locaux, dépendances, médias ou preuves historiques."
+}

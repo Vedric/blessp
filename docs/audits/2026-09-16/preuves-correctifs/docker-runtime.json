@@ -1,0 +1,22 @@
+{
+  "result": "PASS",
+  "nonRoot": true,
+  "migrationCLI": true,
+  "compiledSeed": true,
+  "noTestTools": true,
+  "readiness": {
+    "status": "ready",
+    "revision": "audit-remediation-20260916",
+    "checks": {
+      "database": "fulfilled"
+    }
+  },
+  "indexStatus": 200,
+  "indexCache": "no-cache",
+  "assetStatus": 200,
+  "assetCache": "public, max-age=31536000, immutable",
+  "assetEncoding": "gzip",
+  "metricsUnauthorized": 404,
+  "metricsAuthorized": 200,
+  "verifiedAdmin": true
+}

@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "redisUnreachable": true,
+  "catalogueStatus": 200,
+  "elapsedMs": 76,
+  "rotatingUntrustedForwardedIpStatuses": [
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    429
+  ]
+}

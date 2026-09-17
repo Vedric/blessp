@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-09-16T23:20:53.604274+00:00",
+  "baseURL": "http://127.0.0.1:3107",
+  "entry": "/assets/index-Boybj-Y2.js",
+  "entrySha256": "81b6ec108612b15b26b7455d10966a4de8a9b6a8cf04d11e5c9fa8e0149ab40b",
+  "servedEntryMatchesBuild": true,
+  "projects": [
+    "chromium",
+    "firefox",
+    "webkit"
+  ],
+  "node": "v24.13.1"
+}

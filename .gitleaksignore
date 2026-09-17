@@ -1,0 +1,28 @@
+# Exact historical documentation placeholders (truncated JWTs, fake Stripe keys)
+# and the public RFC 4226 test vector; verified 2026-09-17. No live credentials.
+dab0f7a96740335916732ef79aa2cbfb5dc856ea:server/tests/unit/mfa.service.test.ts:generic-api-key:56
+bcdd6cd136c6cb46326913c7046163c0cf3f1532:docs/api.md:generic-api-key:1249
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docker-compose.dev.yml:stripe-access-token:36
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docker-compose.yml:stripe-access-token:33
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/deployment.md:stripe-access-token:85
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/deployment.md:stripe-access-token:179
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:213
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:214
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:262
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:263
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:304
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:305
+7258495ae4a071cae3c5a17f285bafd2218e6f9f:docs/api.md:generic-api-key:1097
+# Removal commits of the same reviewed examples above.
+379a9e1cef27eaffcd9d120819fec97582d5292c:docs/api.md:generic-api-key:1249
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:213
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:214
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:262
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:263
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:304
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:305
+355f33d597159181b2efb5834ff8f98e83a40147:docs/api.md:generic-api-key:1097
+355f33d597159181b2efb5834ff8f98e83a40147:docs/deployment.md:stripe-access-token:85
+355f33d597159181b2efb5834ff8f98e83a40147:docs/deployment.md:stripe-access-token:179
+ac1d22e389c25ae58ea9e4f09cc26b161e942d02:docker-compose.yml:stripe-access-token:33
+ac1d22e389c25ae58ea9e4f09cc26b161e942d02:docker-compose.dev.yml:stripe-access-token:36

@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-09-17T00:42:36.910Z",
+  "schema": "e2e",
+  "demoProductVariants": 4,
+  "variantRows": 52,
+  "stockBeforeRerun": 19,
+  "stockAfterRerun": 19,
+  "duplicateVariants": false,
+  "existingStockPreserved": true,
+  "originalStockRestored": true
+}

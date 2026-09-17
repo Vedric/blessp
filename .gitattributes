@@ -1,0 +1,2 @@
+# Preserve raw, checksummed audit logs, including formatter padding.
+docs/audits/**/preuves*/*.txt -whitespace

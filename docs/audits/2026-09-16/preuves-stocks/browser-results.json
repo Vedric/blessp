@@ -1,0 +1,3210 @@
+{
+  "stats": {
+    "startTime": "2026-09-17T01:11:18.843Z",
+    "duration": 856616.9,
+    "expected": 456,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "scenarios": 152,
+  "projects": {
+    "chromium": 152,
+    "firefox": 152,
+    "webkit": 152
+  },
+  "results": [
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "admin adjusts available stock, filters by SKU and sees the recorded history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a stale count is refused and explicitly refreshed before a new adjustment",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "metadata edits preserve sales made while the product editor was open",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "the product editor rejects changed stock when a concurrent sale made it stale",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a lost adjustment response can be retried without a duplicate movement",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "zero stock disables purchase in the storefront and can be replenished",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory and its dialogs are accessible and fit a 320 px French viewport",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "an ordinary customer cannot open stock management",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "large inventories and long adjustment histories stay paginated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory loading failures offer a working retry",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "admin adjusts available stock, filters by SKU and sees the recorded history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a stale count is refused and explicitly refreshed before a new adjustment",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "metadata edits preserve sales made while the product editor was open",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "the product editor rejects changed stock when a concurrent sale made it stale",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a lost adjustment response can be retried without a duplicate movement",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "zero stock disables purchase in the storefront and can be replenished",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory and its dialogs are accessible and fit a 320 px French viewport",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "an ordinary customer cannot open stock management",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "large inventories and long adjustment histories stay paginated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory loading failures offer a working retry",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "admin adjusts available stock, filters by SKU and sees the recorded history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a stale count is refused and explicitly refreshed before a new adjustment",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "metadata edits preserve sales made while the product editor was open",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "the product editor rejects changed stock when a concurrent sale made it stale",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a lost adjustment response can be retried without a duplicate movement",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "zero stock disables purchase in the storefront and can be replenished",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory and its dialogs are accessible and fit a 320 px French viewport",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "an ordinary customer cannot open stock management",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "large inventories and long adjustment histories stay paginated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory loading failures offer a working retry",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1
+    }
+  ]
+}

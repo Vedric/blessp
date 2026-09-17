@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /profile
+Disallow: /profile/
+Disallow: /checkout
+Disallow: /signin
+Disallow: /signup
+Disallow: /reset-password
+Disallow: /forgot-password
+Disallow: /api/
+
+Sitemap: https://blessp.com/sitemap.xml

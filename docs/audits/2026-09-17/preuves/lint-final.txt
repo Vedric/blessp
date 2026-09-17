@@ -1,0 +1,20 @@
+
+> blessp@3.0.0 lint
+> npm run lint:server && npm run lint:client
+
+
+> blessp@3.0.0 lint:server
+> cd server && npm run lint
+
+
+> blessp-server@3.0.0 lint
+> eslint src/ --max-warnings 0
+
+
+> blessp@3.0.0 lint:client
+> cd client && npm run lint
+
+
+> blessp-client@3.0.0 lint
+> eslint src/ --max-warnings 0
+

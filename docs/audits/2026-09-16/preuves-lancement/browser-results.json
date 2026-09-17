@@ -1,0 +1,5190 @@
+{
+  "fullRun": {
+    "startTime": "2026-09-17T06:18:50.218Z",
+    "duration": 1032792.875,
+    "expected": 510,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  },
+  "targetedRegression": {
+    "startTime": "2026-09-17T06:36:52.131Z",
+    "duration": 77959.089,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "verifiedCases": 516,
+  "unresolvedCases": 0,
+  "correctedTestFindings": 6,
+  "note": "The complete run and targeted regression are preserved separately. Test geometry is rounded to hundredths of a CSS pixel and the administrative inspection waits for its login landing page to settle. Application code did not change between these runs.",
+  "scenarios": 172,
+  "projects": {
+    "chromium": 172,
+    "firefox": 172,
+    "webkit": 172
+  },
+  "results": [
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1254,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1169,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1211,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1269,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1100,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1083,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2268,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1059,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1081,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1162,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1166,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2079,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2234,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2059,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1794,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2154,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2121,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2061,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1414,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1203,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1352,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1425,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1336,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1495,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1475,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1558,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1539,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1502,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2130,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2186,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2215,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2151,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2215,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 498,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 469,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1423,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 614,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 587,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1528,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1200,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1212,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2279,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2771,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2588,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3094,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3778,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5280,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4642,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3308,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12866,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12643,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6366,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2061,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1842,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 37730,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 35338,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 37937,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 33884,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 31676,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 32279,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13973,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2630,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7913,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1213,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2384,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1852,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3677,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13596,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13320,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6971,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3577,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1990,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 39346,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 38052,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 40709,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 35992,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 31906,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 31649,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16226,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2307,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9518,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2393,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2514,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2126,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration refuses a missing password confirmation without creating an account",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4795,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (en)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 15765,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "complete UI signup, verification, cart merge and login lifecycle (fr)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13536,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "resend invalidates the previous verification link, successful links are single use, duplicate signup is neutral",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6919,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "expired verification links cannot activate a registered account",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2882,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "registration shows server failure, preserves fields and can be retried once",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3089,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: small-phone",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 45246,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: phone",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 41282,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: landscape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 43708,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 39562,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: tablet-landscape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 36117,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "responsive navigation and filled forms: desktop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 39262,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "a UI-created address fills checkout and another account cannot inherit the member cart",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 13398,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "mobile landscape menu keeps its last link and currency choices reachable by touch",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2713,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "all password strength states and invalid signup fields remain accessible",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9079,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "language and currency dropdowns expose their state and restore keyboard focus on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2128,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "navigation does not remount the newly displayed form and erase immediate typing",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3041,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "deep-ui.spec.ts",
+      "title": "password confirmation feedback does not move the signup submit button during a click",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2416,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1662,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 745,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4540,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1023,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2489,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2162,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 759,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3171,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2759,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1631,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1240,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1679,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 878,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2603,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 14898,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 15933,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 708,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1810,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2126,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2744,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 991,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4645,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1258,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3020,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2532,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1207,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3500,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3315,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1929,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2236,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2431,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 986,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3026,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 18594,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16917,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1040,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1776,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2496,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "editorial collection links open the matching catalogue and home size guide works",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2440,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "home featured products recover from an outage without losing collection navigation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1499,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "hero playback stops on mobile resize and restarts when desktop returns",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5353,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "newsletter reports errors, retains input and prevents duplicate in-flight submissions",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1920,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "collapsed mobile footer sections do not expose hidden links to keyboard navigation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3243,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "cookie choices can be reopened and tracking consent revoked with focus restored",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2935,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "early cookie preferences do not reopen after the initial prompt delay",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1322,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (en)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3692,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product gallery supports thumbnails, arrows, zoom and focus restoration (fr)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4315,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "search reaches results beyond the first 24 and restores pagination through history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3000,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product quantity follows available variant stock when the size changes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2305,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "missing inventory cannot be purchased and a stock outage can be retried",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2469,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "product cards retain a usable link and price when an image is unavailable",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1396,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "guest order status and refunds are translated and readable on mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3028,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 320px with accessible controls",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16826,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "French editorial pages and galleries fit 1440px with accessible controls",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 20145,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "FAQ links land on the actual questions section",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1407,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in returns to the protected page originally requested",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1778,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "sign-in refuses an external destination in router history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2626,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 50680,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 20819,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 26857,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 48948,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 19704,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 25728,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3448,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3236,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1922,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4510,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1895,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3178,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 67635,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 31419,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30007,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 75549,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 43160,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 29300,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3770,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3884,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2169,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3972,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1678,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3105,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 59863,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 23667,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 30067,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 54988,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 22034,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 29694,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3359,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3877,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2433,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4400,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3074,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3053,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "admin adjusts available stock, filters by SKU and sees the recorded history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5079,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a stale count is refused and explicitly refreshed before a new adjustment",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3076,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "metadata edits preserve sales made while the product editor was open",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2918,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "the product editor rejects changed stock when a concurrent sale made it stale",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3152,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a lost adjustment response can be retried without a duplicate movement",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2915,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "zero stock disables purchase in the storefront and can be replenished",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4427,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory and its dialogs are accessible and fit a 320 px French viewport",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4029,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "an ordinary customer cannot open stock management",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2323,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "large inventories and long adjustment histories stay paginated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3470,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory loading failures offer a working retry",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2823,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "admin adjusts available stock, filters by SKU and sees the recorded history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5200,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a stale count is refused and explicitly refreshed before a new adjustment",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2789,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "metadata edits preserve sales made while the product editor was open",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2542,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "the product editor rejects changed stock when a concurrent sale made it stale",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3254,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a lost adjustment response can be retried without a duplicate movement",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2966,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "zero stock disables purchase in the storefront and can be replenished",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4792,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory and its dialogs are accessible and fit a 320 px French viewport",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4584,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "an ordinary customer cannot open stock management",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1896,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "large inventories and long adjustment histories stay paginated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4066,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory loading failures offer a working retry",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3205,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "admin adjusts available stock, filters by SKU and sees the recorded history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5635,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a stale count is refused and explicitly refreshed before a new adjustment",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3450,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "metadata edits preserve sales made while the product editor was open",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3400,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "the product editor rejects changed stock when a concurrent sale made it stale",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3142,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "a lost adjustment response can be retried without a duplicate movement",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3154,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "zero stock disables purchase in the storefront and can be replenished",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4792,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory and its dialogs are accessible and fit a 320 px French viewport",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5045,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "an ordinary customer cannot open stock management",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2528,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "large inventories and long adjustment histories stay paginated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3917,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "inventory.spec.ts",
+      "title": "inventory loading failures offer a working retry",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3205,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-email.spec.ts",
+      "title": "order email preview remains readable and accessible at 320 px (fr)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 803,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-email.spec.ts",
+      "title": "order email preview remains readable and accessible at 320 px (en)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 857,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-email.spec.ts",
+      "title": "order email preview remains readable and accessible at 320 px (fr)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1052,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-email.spec.ts",
+      "title": "order email preview remains readable and accessible at 320 px (en)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1060,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-email.spec.ts",
+      "title": "order email preview remains readable and accessible at 320 px (fr)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1189,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-email.spec.ts",
+      "title": "order email preview remains readable and accessible at 320 px (en)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1125,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-http.spec.ts",
+      "title": "direct loading /admin/inventory returns a private HTML document and redirects anonymous visitors",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 506,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-http.spec.ts",
+      "title": "direct loading /admin/contact returns a private HTML document and redirects anonymous visitors",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 501,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-http.spec.ts",
+      "title": "direct loading /admin/inventory returns a private HTML document and redirects anonymous visitors",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 637,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-http.spec.ts",
+      "title": "direct loading /admin/contact returns a private HTML document and redirects anonymous visitors",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1275,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-http.spec.ts",
+      "title": "direct loading /admin/inventory returns a private HTML document and redirects anonymous visitors",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 900,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch-http.spec.ts",
+      "title": "direct loading /admin/contact returns a private HTML document and redirects anonymous visitors",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 958,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "contact submission reaches the durable outbox and the admin inbox, with persistent read flags",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6452,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "support search stays paginated and a failed load can be retried",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4645,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "support inbox is accessible at 320 px in French",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5250,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "ordinary customers cannot open the support inbox",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2279,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "checkout uses configured countries and their different delivery fees",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4226,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "checkout does not silently choose another country when Canada is not served",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3561,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "a delivery configuration outage hides unknown totals and offers a working retry",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3616,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "refund dialog explains the full remaining amount and restores keyboard focus",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3866,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "refund retry preserves its request after a lost response (provider fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3776,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "a stale refund requires closing and refreshing the order (provider fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3914,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/orders (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3194,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/products (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3142,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/reviews (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3056,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/orders (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3361,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/loyalty (pagination fixture)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3359,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "French refund confirmation is accessible and fits 320 px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5272,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "contact submission reaches the durable outbox and the admin inbox, with persistent read flags",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9178,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "support search stays paginated and a failed load can be retried",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4755,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "support inbox is accessible at 320 px in French",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6013,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "ordinary customers cannot open the support inbox",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2105,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "checkout uses configured countries and their different delivery fees",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3179,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "checkout does not silently choose another country when Canada is not served",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3065,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "a delivery configuration outage hides unknown totals and offers a working retry",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3843,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "refund dialog explains the full remaining amount and restores keyboard focus",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4650,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "refund retry preserves its request after a lost response (provider fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3609,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "a stale refund requires closing and refreshing the order (provider fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4229,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/orders (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3607,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/products (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2815,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/reviews (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3800,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/orders (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2736,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/loyalty (pagination fixture)",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2626,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "French refund confirmation is accessible and fits 320 px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6788,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "contact submission reaches the durable outbox and the admin inbox, with persistent read flags",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7976,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "support search stays paginated and a failed load can be retried",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4120,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "support inbox is accessible at 320 px in French",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5001,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "ordinary customers cannot open the support inbox",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2675,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "checkout uses configured countries and their different delivery fees",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3873,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "checkout does not silently choose another country when Canada is not served",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3879,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "a delivery configuration outage hides unknown totals and offers a working retry",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4234,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "refund dialog explains the full remaining amount and restores keyboard focus",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4067,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "refund retry preserves its request after a lost response (provider fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3714,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "a stale refund requires closing and refreshing the order (provider fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3496,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/orders (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3323,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/products (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3145,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /admin/reviews (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3597,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/orders (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3259,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "large page counts remain usable at 320 px on /profile/loyalty (pagination fixture)",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3137,
+      "verifiedIn": "targeted-regression",
+      "executionsAcrossRuns": 2
+    },
+    {
+      "file": "launch.spec.ts",
+      "title": "French refund confirmation is accessible and fits 320 px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4921,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1401,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1257,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1998,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 924,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 999,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1042,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2313,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1356,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1901,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 944,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1030,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1438,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1853,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1748,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2398,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1321,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1320,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1632,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 949,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1265,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 904,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1272,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1272,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1707,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 869,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1517,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1577,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 673,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1108,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1753,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1720,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 926,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1091,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1870,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1818,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1186,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1428,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2287,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1996,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2131,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1698,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1441,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1878,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2136,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1120,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1549,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2650,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2259,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2195,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2123,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1747,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2452,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2702,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1169,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "loads filter facets once for both desktop and mobile controls",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1863,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "delayed facets do not move or resize the product grid on desktop or mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2396,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "debounces prices and keeps the existing cards mounted while refreshing",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2183,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "cancels stale catalogue requests and never replaces the newest category",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2317,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "browser history restores both filter controls and matching products",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2177,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "failed refresh preserves the catalogue and retry recovers",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2123,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "large catalogue pagination stays bounded, accessible and usable at 320px",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1966,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "view all clears category and advanced filters together after an empty result",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2638,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "performance.spec.ts",
+      "title": "product and stock requests start independently, without a network waterfall",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1739,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1144,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1254,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1209,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1126,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1655,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1737,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4187,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4394,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3319,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3231,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1654,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1916,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2104,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2165,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1703,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4391,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3612,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3025,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3161,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4446,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5453,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3907,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3015,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1984,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2230,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2067,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2077,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1838,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5983,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5370,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6128,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3372,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4391,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4619,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3649,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3111,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2046,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2102,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2152,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2249,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1934,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4132,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3332,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3474,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3496,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1614,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1629,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1574,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1815,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1953,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1055,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1836,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1480,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1621,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2540,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1849,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1104,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1786,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1823,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1906,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2261,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2114,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1573,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1312,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4688,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2928,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2683,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1004,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2442,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2779,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2759,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 774,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2951,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2524,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2512,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2469,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2456,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2472,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2429,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2465,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2756,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1368,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4845,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3538,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5602,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1366,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2856,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2948,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2766,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 967,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6734,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4086,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3667,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5993,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3104,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4227,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7215,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3750,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6493,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1669,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4648,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3257,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3252,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1447,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2931,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3138,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3118,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1072,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3574,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3418,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3118,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3227,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3161,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3337,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3293,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3441,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3254,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16843,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6669,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6460,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5344,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5154,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 8012,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1816,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2108,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3693,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1642,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2203,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6313,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4640,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5411,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6096,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3870,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4362,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 20305,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6784,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 8105,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7498,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7466,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9947,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3697,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2590,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5403,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3111,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3027,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 14928,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 16007,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 12035,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 15135,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7417,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "firefox",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 10443,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 17110,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6460,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6041,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5201,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5733,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 9372,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2316,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2324,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3985,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2637,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2965,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6905,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6213,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6028,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6562,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4203,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "webkit",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6019,
+      "verifiedIn": "full-matrix",
+      "executionsAcrossRuns": 1
+    }
+  ]
+}

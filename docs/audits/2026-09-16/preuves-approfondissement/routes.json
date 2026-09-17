@@ -1,0 +1,1496 @@
+[
+  {
+    "findings": [
+      {
+        "route": "/admin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/new",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6/edit",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/reviews",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-admin-routes-and-accessibility-at-1440px-chromium"
+  },
+  {
+    "findings": [
+      {
+        "route": "/admin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/new",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6/edit",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/reviews",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-admin-routes-and-accessibility-at-1440px-firefox"
+  },
+  {
+    "findings": [
+      {
+        "route": "/admin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/new",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6/edit",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/reviews",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-admin-routes-and-accessibility-at-1440px-webkit"
+  },
+  {
+    "findings": [
+      {
+        "route": "/admin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/new",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6/edit",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/reviews",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-admin-routes-and-accessibility-at-390px-chromium"
+  },
+  {
+    "findings": [
+      {
+        "route": "/admin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/new",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6/edit",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/reviews",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-admin-routes-and-accessibility-at-390px-firefox"
+  },
+  {
+    "findings": [
+      {
+        "route": "/admin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/new",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6/edit",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/admin/reviews",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-admin-routes-and-accessibility-at-390px-webkit"
+  },
+  {
+    "findings": [
+      {
+        "route": "/profile",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders/34f64f74-be9a-4374-81b6-8b8f5185badd",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/addresses",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/payment-methods",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/email-preferences",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/loyalty",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/wishlist",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-member-routes-and-accessibility-at-1440px-chromium"
+  },
+  {
+    "findings": [
+      {
+        "route": "/profile",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders/778e17de-a91b-41b2-86a3-739603c7ac4a",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/addresses",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/payment-methods",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/email-preferences",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/loyalty",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/wishlist",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-member-routes-and-accessibility-at-1440px-firefox"
+  },
+  {
+    "findings": [
+      {
+        "route": "/profile",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders/e00592e6-9002-4c47-a944-b44350801923",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/addresses",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/payment-methods",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/email-preferences",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/loyalty",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/wishlist",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-member-routes-and-accessibility-at-1440px-webkit"
+  },
+  {
+    "findings": [
+      {
+        "route": "/profile",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders/4d2ce7b2-37ae-4561-a41d-dacdc8d7984e",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/addresses",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/payment-methods",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/email-preferences",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/loyalty",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/wishlist",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-member-routes-and-accessibility-at-390px-chromium"
+  },
+  {
+    "findings": [
+      {
+        "route": "/profile",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders/eb961e69-2491-4c3a-a97c-f765d79963b1",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/addresses",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/payment-methods",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/email-preferences",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/loyalty",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/wishlist",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-member-routes-and-accessibility-at-390px-firefox"
+  },
+  {
+    "findings": [
+      {
+        "route": "/profile",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/orders/22e8ca08-bec7-41b2-8471-48f3a803fa05",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/addresses",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/payment-methods",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/email-preferences",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/profile/loyalty",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/wishlist",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-member-routes-and-accessibility-at-390px-webkit"
+  },
+  {
+    "findings": [
+      {
+        "route": "/",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/shop",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/search?q=Hoodie",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/compare",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signup",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/forgot-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/reset-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/verify-email",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/newsletter/confirm",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/order-status",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/contact",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/terms",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/return-policy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/privacy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/legal-notice",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/unknown-ui-page",
+        "status": 404,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-public-routes-images-and-accessibility-at-1440px-chromium"
+  },
+  {
+    "findings": [
+      {
+        "route": "/",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/shop",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/search?q=Hoodie",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/compare",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signup",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/forgot-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/reset-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/verify-email",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/newsletter/confirm",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/order-status",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/contact",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/terms",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/return-policy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/privacy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/legal-notice",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/unknown-ui-page",
+        "status": 404,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-public-routes-images-and-accessibility-at-1440px-firefox"
+  },
+  {
+    "findings": [
+      {
+        "route": "/",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/shop",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/search?q=Hoodie",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/compare",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signup",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/forgot-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/reset-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/verify-email",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/newsletter/confirm",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/order-status",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/contact",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/terms",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/return-policy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/privacy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/legal-notice",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/unknown-ui-page",
+        "status": 404,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-public-routes-images-and-accessibility-at-1440px-webkit"
+  },
+  {
+    "findings": [
+      {
+        "route": "/",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/shop",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/search?q=Hoodie",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/compare",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signup",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/forgot-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/reset-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/verify-email",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/newsletter/confirm",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/order-status",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/contact",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/terms",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/return-policy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/privacy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/legal-notice",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/unknown-ui-page",
+        "status": 404,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-public-routes-images-and-accessibility-at-390px-chromium"
+  },
+  {
+    "findings": [
+      {
+        "route": "/",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/shop",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/search?q=Hoodie",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/compare",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signup",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/forgot-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/reset-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/verify-email",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/newsletter/confirm",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/order-status",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/contact",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/terms",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/return-policy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/privacy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/legal-notice",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/unknown-ui-page",
+        "status": 404,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-public-routes-images-and-accessibility-at-390px-firefox"
+  },
+  {
+    "findings": [
+      {
+        "route": "/",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/shop",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/products/dcf50e7d-1519-4c9c-8432-0b0ed07b24c6",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/search?q=Hoodie",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/compare",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signin",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/signup",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/forgot-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/reset-password",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/verify-email",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/newsletter/confirm",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/order-status",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/contact",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/terms",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/return-policy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/privacy",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/legal-notice",
+        "status": 200,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      },
+      {
+        "route": "/unknown-ui-page",
+        "status": 404,
+        "overflow": 0,
+        "brokenImages": [],
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "scenario": "interface-public-routes-images-and-accessibility-at-390px-webkit"
+  }
+]

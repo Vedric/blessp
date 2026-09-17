@@ -1,0 +1,785 @@
+{
+  "generatedAt": "2026-09-16T22:01:55.660831+00:00",
+  "playwright": "1.58.2",
+  "browser": "145.0.7632.6",
+  "headed": true,
+  "stats": {
+    "startTime": "2026-09-16T21:56:10.062Z",
+    "duration": 253533.739,
+    "expected": 96,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "routeVisits": 66,
+  "tests": [
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields on submit",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2491
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password strength indicator when typing",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1697
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "validates password strength requirements",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2041
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows password match confirmation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2081
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows mismatch error when passwords differ",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2344
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign in page via link",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2186
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "displays validation errors for empty fields",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2228
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows email validation error for invalid format",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2290
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "shows error message for invalid credentials",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2429
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to sign up page via link",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1838
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "navigates to forgot password page",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1961
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing profile unauthenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1411
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "redirects to sign in when accessing wishlist unauthenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 962
+    },
+    {
+      "file": "auth.spec.ts",
+      "title": "does not redirect checkout to sign in (guest checkout is public)",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1909
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest adds a product, reaches checkout, and sees the shipping estimate",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4412
+    },
+    {
+      "file": "checkout.spec.ts",
+      "title": "guest reaches /checkout without being redirected to sign in",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3774
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 69980
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 20995
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 1440px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 18602
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "public routes, images and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 49849
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "member routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 20370
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "admin routes and accessibility at 390px",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 17578
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "profile fields are labelled and edits persist after reload",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4632
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "email preferences have named switches and persist changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4631
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "search clears obsolete results and follows URL changes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4358
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "wishlist can be added, reloaded and removed through the interface",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4928
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "comparison of three products fits mobile and can be cleared",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3246
+    },
+    {
+      "file": "interface.spec.ts",
+      "title": "loyalty redemption produces a real coupon and consumes the correct balance",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3906
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "homepage loads with the brand name visible",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1738
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "header navigation links work",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1899
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "brand logo navigates to homepage",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2015
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer contains shop links",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 793
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "footer links navigate to correct pages",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1358
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "404 page displays for unknown routes",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1703
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "language switcher is visible on desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 984
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "clicking language switcher toggles language",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1692
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "hamburger menu opens and shows navigation links",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1360
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu close button works",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1892
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu link navigates and closes menu",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2199
+    },
+    {
+      "file": "navigation.spec.ts",
+      "title": "mobile menu shows sign in/up links when not authenticated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1215
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in English at /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1516
+    },
+    {
+      "file": "privacy.spec.ts",
+      "title": "renders in French at /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1670
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive reloads",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5300
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "saved addresses can be created through the form and reused at checkout",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4725
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "admin product creation persists stock and loads the product editor",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4108
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "member order list uses the authenticated endpoint and guest lookup verifies email",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2863
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "payment context is restored after reload and URL parameters cannot fabricate success",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1412
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 360px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1769
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 390px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1733
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "shop remains within the viewport at 768px and filter focus returns on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1790
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "refusing personalization prevents recently viewed storage and language updates document metadata",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1395
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /shop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3216
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /signin",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2734
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /privacy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2634
+    },
+    {
+      "file": "remediation.spec.ts",
+      "title": "accessibility checks on /order-status",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2583
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "shop page loads and displays the collection heading",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1329
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "displays products or empty state after loading",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1327
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "category filter buttons are visible on desktop",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1348
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "clicking a category updates the URL",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1367
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "product detail page loads when clicking a product",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1592
+    },
+    {
+      "file": "shop.spec.ts",
+      "title": "search page loads when navigating to /search",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 939
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "product sharing metadata is present without JavaScript and stays correct after navigation",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1113
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "search traps keyboard focus, restores it and discards stale responses",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3728
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "size guide works with keyboard, fits mobile and returns focus on Escape",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4056
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video can be paused and resumed",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2493
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "the first keyboard stop skips repeated navigation and focuses the main content",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 956
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2461
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in reduced-motion",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2546
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "background video does not download in save-data",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2591
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "unknown routes return 404 and remain excluded from indexing after rendering",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 733
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2627
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /contact",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2494
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /signup",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2506
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /forgot-password",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2473
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /reset-password",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2401
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /compare",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2483
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /terms",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2440
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /return-policy",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2488
+    },
+    {
+      "file": "storefront.spec.ts",
+      "title": "WCAG 2.2 AA checks on /missing-page",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2426
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "MFA enrollment, authenticator login and single-use recovery code work in the browser",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 17987
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password changes revoke the session and the new password signs in",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7496
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "password reset uses the locally captured email and rejects token reuse",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6238
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "account deletion requires credentials, records deletion and prevents login",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 6000
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved addresses support edit, default selection and deletion on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5363
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "customer reviews can be created, edited and deleted with keyboard-accessible dialogs",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7313
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "contact validates the form and stores a real message without external delivery",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1831
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "order summary separates shipping from the discount and marks paid progress",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 2148
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin fulfills an order through each allowed status and persists history",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3721
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "search ignores stale network responses and offers retry on failure",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 1827
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "newsletter requires consent, confirms locally and supports unsubscribe",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 4015
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin product editing and deletion persist and confirmation restores focus",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7098
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "cart quantities, valid and invalid coupons, and separate billing work on mobile",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 7035
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "saved card controls and deletion dialog work with explicit provider fixtures",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5330
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "admin moderates a review on mobile with a labelled confirmation dialog",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 5971
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "French account security controls and dialog labels are translated",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3540
+    },
+    {
+      "file": "workflows.spec.ts",
+      "title": "shop combines filters, handles empty price ranges, sorts and converts currency",
+      "project": "chromium",
+      "status": "expected",
+      "attempts": 1,
+      "durationMs": 3755
+    }
+  ]
+}

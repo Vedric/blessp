@@ -1,0 +1,18 @@
+{
+  "video-repeat.json": {
+    "startTime": "2026-09-17T00:01:31.992Z",
+    "duration": 83393.674,
+    "expected": 45,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cookie-repeat.json": {
+    "startTime": "2026-09-17T00:07:24.492Z",
+    "duration": 19229.965,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

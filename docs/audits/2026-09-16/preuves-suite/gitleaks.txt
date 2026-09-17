@@ -1,0 +1,9 @@
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+2:38PM INF scan completed in 79.5ms
+2:38PM WRN leaks found: 1

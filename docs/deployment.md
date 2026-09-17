@@ -1,274 +1,72 @@
-# Deployment Runbook
+# Déploiement
 
-## Summary
+Le guide décrit une procédure ; il ne certifie pas qu’une production existante est correctement configurée. Voir [les prérequis de validation](PRODUCTION_READINESS.md).
 
-This document covers the full deployment lifecycle for Blessp: server setup, database provisioning, application deployment, and troubleshooting.
+## Configuration
 
-## Prerequisites
+Node 22, PostgreSQL 16, Redis facultatif, reverse proxy TLS. Les ports PostgreSQL/Redis de la composition de production restent internes ; l’application est publiée sur `127.0.0.1:3000` pour le proxy local.
 
-- A Linux server (Ubuntu 22.04+ or Debian 12+ recommended)
-- PHP 8.2+ with extensions: `pgsql`, `pdo_pgsql`, `mbstring`, `curl`, `xml`
-- PostgreSQL 14+
-- Apache with `mod_rewrite` or Nginx
-- Composer (for dev dependencies only, not required in production)
-- SSH access to the target server
+| Valeur | Usage |
+|---|---|
+| `DATABASE_URL` | PostgreSQL ; compte applicatif et connexion TLS selon hébergement |
+| `JWT_PRIVATE_KEY_BASE64`, `JWT_PUBLIC_KEY_BASE64` | Paire RSA propre à l’environnement |
+| `MFA_ENCRYPTION_KEY` | 32 octets aléatoires encodés en base64, persistants et indépendants des clés JWT |
+| `CLIENT_URL` | URL HTTPS publique, utilisée pour les liens email, URL canoniques et sitemaps |
+| `CORS_ALLOWED_ORIGINS` | Liste séparée par virgules des origines du storefront |
+| `TRUST_PROXY` | IP/CIDR explicites du proxy ; vide signifie aucun proxy de confiance |
+| `METRICS_TOKEN` | Secret d’au moins 32 caractères pour `Authorization: Bearer` sur `/metrics` |
+| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | Secrets Stripe du même environnement ; endpoint `/api/v1/payments/webhook` |
+| `EMAIL_FROM`, `RESEND_API_KEY` ou `POSTMARK_API_KEY` | Expéditeur vérifié et fournisseur transactionnel |
+| `SUPPORT_EMAIL` | Boîte de réception des notifications contact, obligatoire en production |
+| `SHIPPING_RATES_JSON` | Pays servis et tarifs en centimes CAD, obligatoires en production ; voir le [guide](runbooks/012-launch-configuration.md) |
+| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_WEBHOOK_ID`, `PAYPAL_ENVIRONMENT` | PayPal distinct : les trois identifiants ensemble ; environnement `sandbox` en recette, `live` en production ; webhook `/api/v1/payments/paypal/webhook` |
+| `REDIS_URL` | Cache et quotas partagés ; absence/panne ne bloque pas le catalogue |
+| `GOOGLE_CLIENT_ID`, `APPLE_CLIENT_ID` | Audiences OAuth correspondant aux identifiants publics du client |
+| `OTEL_ENABLED`, `OTEL_EXPORTER_OTLP_ENDPOINT` | Traces facultatives, activées seulement avec configuration explicite |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Seulement pour la création explicite du premier administrateur |
 
-## Server Setup
+Ne jamais journaliser ou intégrer les clés privées au bundle. Les fichiers `.env` doivent être protégés et non suivis dans Git. La production refuse de démarrer sans clés MFA, métriques, URL publique, configuration Stripe, fournisseur email, boîte support et tarifs de livraison explicites.
 
-### 1. Install PHP and extensions
+`VITE_STRIPE_PUBLISHABLE_KEY`, `VITE_GOOGLE_CLIENT_ID`, `VITE_APPLE_CLIENT_ID` sont publics et fournis **à la compilation**. Un changement nécessite une nouvelle image. `VCS_REF` donne la révision exposée par la readiness.
 
-```bash
-sudo apt update
-sudo apt install php8.2 php8.2-pgsql php8.2-mbstring php8.2-curl php8.2-xml
-```
+## Pages publiques et référencement
 
-### 2. Install and configure PostgreSQL
+Servir les pages via Express, comme dans l’image Docker : le serveur insère les métadonnées des produits actifs dans le HTML initial et génère `/robots.txt`, `/sitemap.xml` et ses sous-sitemaps. Leur domaine provient de `CLIENT_URL`, jamais de l’en-tête Host. Les pages de compte et de transaction portent `noindex` ; les routes et produits absents retournent 404. Conserver ces statuts et en-têtes au niveau du reverse proxy.
 
-```bash
-sudo apt install postgresql postgresql-client
-sudo -u postgres createuser --pwprompt blessp_user
-sudo -u postgres createdb -O blessp_user blessp
-```
+Le contenu React reste rendu côté navigateur : il ne s’agit pas d’un rendu serveur complet. Un hébergement du seul répertoire `client/dist` ou `vite preview` ne fournit pas ces réponses dynamiques. Éviter de remplacer les erreurs 404 par une réécriture globale vers `index.html` ou de conserver une ancienne copie HTML dans le CDN. Le HTML et les sitemaps exigent une revalidation (`Cache-Control: no-cache`) ; seuls les assets versionnés sont immuables.
 
-### 3. Configure the web server
+## Image et migration
 
-**Apache:**
-
-```apache
-<VirtualHost *:443>
-    ServerName shop.example.com
-    DocumentRoot /var/www/blessp
-
-    <Directory /var/www/blessp>
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    SSLEngine on
-    SSLCertificateFile /etc/letsencrypt/live/shop.example.com/fullchain.pem
-    SSLCertificateKeyFile /etc/letsencrypt/live/shop.example.com/privkey.pem
-
-    # Security headers
-    Header always set X-Content-Type-Options "nosniff"
-    Header always set X-Frame-Options "DENY"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
-</VirtualHost>
-```
-
-**Nginx:**
-
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name shop.example.com;
-    root /var/www/blessp;
-    index index.html home.php;
-
-    ssl_certificate /etc/letsencrypt/live/shop.example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/shop.example.com/privkey.pem;
-
-    # Security headers
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-Frame-Options "DENY" always;
-    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains" always;
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-
-    # Deny access to sensitive files
-    location ~ /\.(env|git) {
-        deny all;
-    }
-
-    location ~ /(config|logger|csrf|rate_limit|api_helper|authent|order|order_item)\.php$ {
-        deny all;
-    }
-}
-```
-
-## Application Deployment
-
-### 1. Deploy the code
+Construire avec Docker Buildx en fournissant les arguments publics et `VCS_REF`. Scanner l’image puis la publier une seule fois. Déployer sa référence immuable `registre/image@sha256:...`.
 
 ```bash
-# On the server
-cd /var/www/blessp
-git pull origin main
+# Le fichier protégé contient DATABASE_URL pour la base cible.
+docker run --rm --env-file /chemin/protege/migration.env IMAGE@sha256:DIGEST node_modules/prisma/build/index.js migrate deploy
+# Premier administrateur uniquement : aucun seed implicite au démarrage.
+docker run --rm --env-file /chemin/protege/production.env IMAGE@sha256:DIGEST prisma/seed.js
 ```
 
-### 2. Configure environment
+L’entrypoint de l’image est `node`. Il n’y a pas de npm/npx/tsx dans l’image d’exécution. Le seed compilé conserve les identifiants d’un administrateur existant ; en production il ne charge pas les produits de démonstration.
 
-```bash
-cp .env.example .env
-# Edit .env with production values:
-#   DB_DSN, DB_USER, DB_PASS
-#   COOKIE_SECURE=true
-#   PAYPAL_CLIENT_ID
-#   SMTP_* settings
-#   LOG_LEVEL=warn
-```
+La migration du 16 septembre change l’authentification et les invariants des commandes : [procédure obligatoire pour une base existante](runbooks/010-audit-remediation-migration.md). Éviter une coexistence d’anciennes et nouvelles instances pendant cette migration. Ne pas utiliser `db push`, `migrate reset` ou une suppression de volume en production.
 
-**Important:** Set `COOKIE_SECURE=true` in production (requires HTTPS).
+## Release GitHub
 
-### 3. Apply database schema and migrations
+La release est déclenchée manuellement (`workflow_dispatch`), uniquement depuis `main`. Une fusion déclenche la CI et ne déploie pas automatiquement.
 
-```bash
-# Initial setup (first deploy only)
-psql -U blessp_user -d blessp -f tests/schema.sql
+Le workflow exige une revue `config/launch.json` complétée et le succès de `node scripts/check-launch.cjs --static`. Ce contrôle bloque actuellement les mentions incomplètes et la revue absente. Il nécessite aussi un environnement `production`. Configurer ses secrets `PRODUCTION_DATABASE_URL`, `DEPLOY_WEBHOOK_URL`, `DEPLOY_WEBHOOK_TOKEN`, `VITE_STRIPE_PUBLISHABLE_KEY`, et, si utilisés, les identifiants publics OAuth. La variable `PRODUCTION_URL` est HTTPS. Les identifiants serveur restent injectés par la plateforme, pas par les arguments de build.
 
-# Apply migrations
-psql -U blessp_user -d blessp -f migrations/001_add_indexes.sql
-```
+La version de `server/package.json` ou `version_override` doit être une nouvelle version semver. Le workflow refuse une version déjà taguée. Il exécute : CI → précontrôles → build unique → scan → push/digest → attestation → migrations → webhook avec `{image, sha, ref}` → vérification de la readiness et de la révision → release GitHub.
 
-### 4. Set file permissions
+Le destinataire du webhook doit appliquer **le digest reçu**, gérer sa clé d’idempotence et retourner une erreur HTTP si la demande est refusée. Les secrets d’environnement sont accessibles aux jobs de précontrôle, construction et déploiement. Tester cette intégration en staging avant toute release réelle.
 
-```bash
-# Web server user (www-data on Debian/Ubuntu) needs read access
-chown -R www-data:www-data /var/www/blessp
-chmod -R 755 /var/www/blessp
+## Exploitation
 
-# Restrict .env file
-chmod 640 /var/www/blessp/.env
-```
+- `/health/live` : processus ; `/health/ready` : base PostgreSQL disponible et révision applicative.
+- `/metrics` : accès Bearer ; endpoint masqué sans token valide. Surveiller erreurs HTTP, latences et `email_outbox_pending` / ancienneté du plus vieux mail.
+- La maintenance périodique expire les réservations, traite l’outbox et anonymise les comptes supprimés après 30 jours. Une panne ne doit pas rester silencieuse : alertes à configurer côté plateforme.
+- Redis indisponible : cache contourné, quota local conservé. Les quotas partagés reprennent à la reconnexion. L’outbox financière/authentification est dans PostgreSQL.
+- Arrêt SIGTERM : arrêter les nouvelles requêtes, attendre les travaux en cours puis fermer les clients. La plateforme doit laisser le délai de grâce configuré au processus.
+- Sauvegarder PostgreSQL et la clé MFA ; vérifier une restauration sur une base isolée avant de considérer le dispositif opérationnel.
 
-### 5. Verify the deployment
-
-```bash
-# Check PHP can connect to the database
-php -r "require 'config.php'; \$c = getConfig(); new PDO(\$c['db_dsn'], \$c['db_user'], \$c['db_pass']); echo 'OK';"
-
-# Check the site responds
-curl -I https://shop.example.com/
-```
-
-## Verification Checklist
-
-After each deployment, verify:
-
-- [ ] Homepage loads without errors
-- [ ] Product listing displays correctly
-- [ ] User registration works
-- [ ] Login/logout flow works
-- [ ] Cart operations work (add, update quantity, clear)
-- [ ] Checkout flow completes with PayPal
-- [ ] Admin panel is accessible to admin users
-- [ ] CSRF tokens are being issued and validated
-- [ ] Rate limiting is active on login/register endpoints
-- [ ] Logs appear in stderr (check web server error log)
-
-## Rollback Procedure
-
-If a deployment introduces issues:
-
-```bash
-# Revert to the previous commit
-cd /var/www/blessp
-git log --oneline -5              # Identify the last good commit
-git checkout <last-good-sha>      # Revert to that commit
-
-# If a migration was applied and needs reversal,
-# write a compensating SQL script and apply it:
-psql -U blessp_user -d blessp -f migrations/NNN_rollback_description.sql
-```
-
-## Troubleshooting
-
-### Application returns 500 errors
-
-1. Check the web server error log for structured JSON log output:
-   ```bash
-   # Apache
-   tail -50 /var/log/apache2/error.log
-
-   # Nginx + PHP-FPM
-   tail -50 /var/log/php8.2-fpm.log
-   ```
-2. Verify `.env` exists and has valid database credentials.
-3. Test the database connection manually:
-   ```bash
-   psql -U blessp_user -h 127.0.0.1 -d blessp -c "SELECT 1;"
-   ```
-
-### CSRF errors on POST requests
-
-1. Ensure PHP sessions are working (check `session.save_path` permissions).
-2. Verify the frontend fetches `/csrf_token` before making POST requests.
-3. Check that the `X-CSRF-Token` header is being sent.
-
-### Rate limiting triggers unexpectedly
-
-Rate limit counters are stored in filesystem temp files under `/tmp/blessp_rate_limit/`. To clear:
-
-```bash
-rm -rf /tmp/blessp_rate_limit/
-```
-
-In a multi-server environment, replace the filesystem rate limiter with a Redis-backed solution.
-
-### Session cookies not being set
-
-1. Verify `COOKIE_SECURE=true` is set only when serving over HTTPS.
-2. Check that the `SameSite=Strict` policy is not blocking cross-origin requests.
-3. Confirm the cookie domain matches the request domain.
-
-### Database connection pool exhaustion
-
-PHP uses short-lived connections by default (one per request). If you see "too many connections" errors:
-
-1. Check `max_connections` in `postgresql.conf` (default: 100).
-2. Monitor active connections: `SELECT count(*) FROM pg_stat_activity;`
-3. Consider using PgBouncer as a connection pooler for high-traffic deployments.
-
-## Monitoring
-
-### Log output
-
-The application writes structured JSON logs to stderr. Each log entry includes:
-
-```json
-{
-  "timestamp": "2025-01-15T14:30:00Z",
-  "level": "error",
-  "message": "Unhandled exception",
-  "requestId": "a1b2c3d4e5f6",
-  "method": "POST",
-  "path": "/api/orders.php",
-  "context": { "exception": "..." }
-}
-```
-
-Sensitive fields (passwords, tokens, API keys) are automatically redacted.
-
-Set the `LOG_LEVEL` environment variable to control verbosity:
-- `error`: production default, only failures
-- `warn`: includes degraded behavior
-- `info`: includes business events
-- `debug`: verbose, for investigation only
-
-### Health checks
-
-No dedicated health endpoint exists yet. Monitor via:
-
-```bash
-# HTTP check
-curl -sf https://shop.example.com/ > /dev/null && echo "UP" || echo "DOWN"
-
-# Database check
-psql -U blessp_user -h 127.0.0.1 -d blessp -c "SELECT 1;" > /dev/null 2>&1 && echo "DB OK" || echo "DB DOWN"
-```
-
-## Release Process
-
-Releases are automated via GitHub Actions (`.github/workflows/release.yml`):
-
-1. Merge `develop` into `main` via pull request.
-2. The release pipeline reads the version from `config.php` (`$config['version']`).
-3. A GitHub release is created with the version tag and auto-generated changelog.
-4. Deploy the new `main` to the production server.
-
-To bump the version, update the `'version'` value in `config.php` before merging to main.
+En cas d’échec de migration, conserver la base et examiner `_prisma_migrations`. Ne pas réexécuter une ancienne image sur le nouveau schéma sans vérification de compatibilité. Restaurer une sauvegarde entraîne une perte des écritures postérieures : décider du rollback avec le responsable de l’exploitation.

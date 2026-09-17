@@ -1,0 +1,17 @@
+{
+  "image": "blessp:launch-audit-20260917",
+  "checks": {
+    "missingCommerceConfigurationRejected": true,
+    "externalNetworkDisabled": true,
+    "migrationsApplied": true,
+    "readyRevision": true,
+    "explicitShippingRates": true,
+    "privateAdminDocumentsRecognized": true,
+    "supportRequiresAuthentication": true,
+    "storefrontAndAssetServed": true,
+    "nonRootRuntime": true,
+    "authenticatedMetrics": true,
+    "cleanShutdown": true
+  },
+  "passed": true
+}

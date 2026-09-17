@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-09-16T22:37:34.813954+00:00",
+  "baseURL": "http://127.0.0.1:3107",
+  "health": {
+    "status": "ready",
+    "revision": "development",
+    "checks": {
+      "database": "fulfilled"
+    }
+  },
+  "entry": "/assets/index-h9x0dpvQ.js",
+  "servedEntryMatchesBuild": true,
+  "entrySha256": "887a92bdbce25eb2c3f22d4d85e49e6bdd6025e1eaebe553e9d348a33a01e54f",
+  "localCSP": "default-src 'self'; script-src 'self' https://js.stripe.com https://accounts.google.com https://appleid.cdn-apple.com; frame-src https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://appleid.apple.com; connect-src 'self' https://api.stripe.com https://oauth2.googleapis.com https://www.googleapis.com https://appleid.apple.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+  "localHSTS": null,
+  "productionTransportHeaders": "Verified separately by three server tests."
+}

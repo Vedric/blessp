@@ -1,0 +1,10 @@
+[
+  {
+    "file": "docker-compose.yml",
+    "exitCode": 0
+  },
+  {
+    "file": "docker-compose.dev.yml",
+    "exitCode": 0
+  }
+]

@@ -1,0 +1,126 @@
+[
+  {
+    "name": "refresh_token_accepted_as_access_without_database_record",
+    "http": 200,
+    "profileReturned": true
+  },
+  {
+    "name": "mfa_refuse_disables_enabled_factor_without_code",
+    "http": 200,
+    "enabled": false
+  },
+  {
+    "name": "mfa_setup_replaces_enabled_factor_without_code",
+    "http": 201,
+    "enabled": false,
+    "newSecretReturned": true
+  },
+  {
+    "name": "oauth_service_bypasses_enabled_mfa",
+    "issuedTokens": true,
+    "mfaEnabled": true,
+    "verification": "service boundary; no real provider call"
+  },
+  {
+    "name": "concurrent_refresh_reuses_same_token",
+    "successfulRefreshes": 2,
+    "total": 2
+  },
+  {
+    "name": "duplicate_guest_lines_oversell_one_available_unit",
+    "http": 201,
+    "quantityOrdered": 2,
+    "stockAfter": -1
+  },
+  {
+    "name": "guest_order_without_variant_bypasses_sold_out_stock",
+    "http": 201,
+    "stockBefore": -1,
+    "orderStatus": "pending"
+  },
+  {
+    "name": "guest_consumes_another_users_private_coupon",
+    "http": 201,
+    "discount": 1000,
+    "usesAfter": 1,
+    "orderStatus": "pending"
+  },
+  {
+    "name": "loyalty_redemption_debits_points_without_reward",
+    "http": 201,
+    "balanceAfter": 0,
+    "couponsCreated": 0,
+    "responseKeys": [
+      "id",
+      "points",
+      "type",
+      "description",
+      "orderId",
+      "createdAt"
+    ]
+  },
+  {
+    "name": "cart_null_variant_upsert_creates_duplicate_rows",
+    "statuses": [
+      201,
+      201
+    ],
+    "rows": 2
+  },
+  {
+    "name": "authenticated_checkout_retry_after_order_creation",
+    "firstHttp": 201,
+    "retryHttp": 422,
+    "retryMessage": "Cannot create an order with an empty cart.",
+    "emailTo": [
+      "guest-audit@example.invalid",
+      "guest-audit@example.invalid",
+      "different-guest@example.invalid",
+      ""
+    ]
+  },
+  {
+    "name": "webhook_accepts_unbound_payment_intent",
+    "http": 200,
+    "storedIntent": "pi_expected_audit",
+    "eventIntent": "pi_unrelated_audit",
+    "orderAfter": "paid",
+    "verification": "locally signed fixture, no real charge"
+  },
+  {
+    "name": "partial_refund_marks_entire_order_refunded",
+    "http": 200,
+    "amountRefunded": 1,
+    "total": 10995,
+    "orderAfter": "refunded"
+  },
+  {
+    "name": "concurrent_payment_intent_creation",
+    "createdIntents": 2,
+    "distinctIds": 2,
+    "requestOptions": [
+      null,
+      null
+    ],
+    "verification": "Stripe adapter stub, real database"
+  },
+  {
+    "name": "revenue_includes_unpaid_and_refunded_orders",
+    "reportedRevenue": 60990,
+    "paidOrders": 0,
+    "pendingOrders": 3
+  },
+  {
+    "name": "email_change_without_reauthentication_or_verification",
+    "http": 200,
+    "emailImmediatelyChanged": true
+  },
+  {
+    "name": "deleted_account_retains_pii_and_bearer_access",
+    "deletionHttp": 204,
+    "cartAfterDeleteHttp": 200,
+    "emailRetained": true,
+    "passwordHashRetained": true,
+    "mfaRetained": true
+  }
+]

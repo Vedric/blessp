@@ -1,0 +1,38 @@
+[
+  {
+    "page": "home-desktop",
+    "performance": 99,
+    "accessibility": 100,
+    "best-practices": 96,
+    "seo": 100,
+    "lcpMs": 778,
+    "cls": 0.01262872427983539
+  },
+  {
+    "page": "shop-desktop",
+    "performance": 92,
+    "accessibility": 100,
+    "best-practices": 96,
+    "seo": 100,
+    "lcpMs": 1918,
+    "cls": 0
+  },
+  {
+    "page": "signin-desktop",
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 96,
+    "seo": 66,
+    "lcpMs": 715,
+    "cls": 0
+  },
+  {
+    "page": "home-mobile",
+    "performance": 86,
+    "accessibility": 100,
+    "best-practices": 96,
+    "seo": 100,
+    "lcpMs": 3867,
+    "cls": 0
+  }
+]

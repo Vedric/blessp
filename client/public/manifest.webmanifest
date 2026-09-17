@@ -1,0 +1,21 @@
+{
+  "name": "BLE$$ P",
+  "short_name": "BLESSP",
+  "description": "Luxury streetwear crafted for intention.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#171717",
+  "icons": [
+    {
+      "src": "/img/logo_blessp_blk.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/img/logo_blessp_blk.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

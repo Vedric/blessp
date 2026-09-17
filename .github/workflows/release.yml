@@ -1,94 +1,156 @@
-# Release Pipeline
-# Automatically creates a GitHub release when code is pushed to main.
-# Extracts the version from config.php and generates a changelog.
-
+# Build once, scan that artifact, publish its immutable digest, migrate and
+# verify the deployed revision before creating a release.
 name: Release
-
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       version_override:
-        description: "Version override (e.g. 1.2.0). Leave empty to read from config.php."
+        description: 'Semver version; empty reads server/package.json.'
         required: false
         type: string
-
+permissions:
+  contents: read
+concurrency:
+  group: release-production
+  cancel-in-progress: false
 jobs:
-  release:
-    name: Create Release
+  ci:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+  preflight:
+    needs: ci
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Full history for changelog generation
-
-      # ── Determine Version ─────────────────────────────────────
-      - name: Extract version
-        id: version
-        run: |
-          if [ -n "${{ github.event.inputs.version_override }}" ]; then
-            VERSION="${{ github.event.inputs.version_override }}"
-          else
-            VERSION=$(php -r "
-              require 'config.php';
-              \$c = getConfig();
-              echo \$c['version'] ?? '0.0.0';
-            ")
-          fi
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
-          echo "📦 Releasing version: $VERSION"
-
-      # ── Check if tag already exists ───────────────────────────
-      - name: Check existing tag
-        id: tag_check
-        run: |
-          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "⚠️  Tag v${{ steps.version.outputs.version }} already exists, skipping release."
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      # ── Generate Changelog ────────────────────────────────────
-      - name: Generate changelog
-        if: steps.tag_check.outputs.exists == 'false'
-        id: changelog
-        run: |
-          # Find the previous tag (if any)
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-
-          if [ -n "$PREVIOUS_TAG" ]; then
-            echo "📝 Generating changelog since $PREVIOUS_TAG..."
-            CHANGES=$(git log "$PREVIOUS_TAG"..HEAD --pretty=format:"- %s (%h)" --no-merges)
-          else
-            echo "📝 Generating changelog from all commits..."
-            CHANGES=$(git log --pretty=format:"- %s (%h)" --no-merges -50)
-          fi
-
-          # Write to file to preserve multiline content
-          {
-            echo "## What's Changed"
-            echo ""
-            echo "$CHANGES"
-            echo ""
-            echo "---"
-            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG:-initial}...v${{ steps.version.outputs.version }}"
-          } > release_notes.md
-
-      # ── Create Release ────────────────────────────────────────
-      - name: Create GitHub Release
-        if: steps.tag_check.outputs.exists == 'false'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          name: "Blessp ${{ steps.version.outputs.tag }}"
-          body_path: release_notes.md
-          draft: false
-          prerelease: false
-          generate_release_notes: true
+      - uses: actions/checkout@v4
+      - name: Require reviewed launch configuration
+        run: node scripts/check-launch.cjs --static
+      - name: Require deployment configuration
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+          DEPLOY_WEBHOOK_TOKEN: ${{ secrets.DEPLOY_WEBHOOK_TOKEN }}
+          PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+        run: |
+          for key in DATABASE_URL DEPLOY_WEBHOOK_URL DEPLOY_WEBHOOK_TOKEN PRODUCTION_URL VITE_STRIPE_PUBLISHABLE_KEY; do
+            if [ -z "${!key}" ]; then echo "::error::Missing required configuration: $key"; exit 1; fi
+          done
+          [[ "$PRODUCTION_URL" == https://* && "$DEPLOY_WEBHOOK_URL" == https://* ]]
+  image:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    outputs:
+      reference: ${{ steps.push.outputs.reference }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate version and compute image name
+        id: version
+        env:
+          VERSION_OVERRIDE: ${{ inputs.version_override }}
+        run: |
+          VERSION="${VERSION_OVERRIDE:-$(node -p "require('./server/package.json').version")}"
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || { echo '::error::Invalid version'; exit 1; }
+          if git rev-parse --verify "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo '::error::Version already released. Increment the package version before releasing.'; exit 1
+          fi
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:$GITHUB_SHA" >> "$GITHUB_ENV"
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: false
+          tags: ${{ env.IMAGE }}
+          build-args: |
+            VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+            VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+            VITE_APPLE_CLIENT_ID=${{ secrets.VITE_APPLE_CLIENT_ID }}
+            VCS_REF=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: aquasecurity/trivy-action@0.35.0
+        with:
+          image-ref: ${{ env.IMAGE }}
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+          ignore-unfixed: true
+      - name: Push the scanned image without rebuilding
+        id: push
+        run: |
+          docker push "$IMAGE"
+          REFERENCE=$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE")
+          [[ "$REFERENCE" == *@sha256:* ]]
+          {
+            echo "reference=$REFERENCE"
+            echo "digest=${REFERENCE##*@}"
+            echo "name=${REFERENCE%@*}"
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ steps.push.outputs.name }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+  deploy:
+    needs: image
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: read
+    env:
+      IMAGE: ${{ needs.image.outputs.reference }}
+      DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+      DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+      DEPLOY_WEBHOOK_TOKEN: ${{ secrets.DEPLOY_WEBHOOK_TOKEN }}
+      PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Migrate with the exact release artifact
+        run: docker run --rm -e DATABASE_URL "$IMAGE" node_modules/prisma/build/index.js migrate deploy
+      - name: Deploy immutable image
+        run: |
+          node -e 'require("fs").writeFileSync("deploy.json", JSON.stringify({image:process.env.IMAGE,sha:process.env.GITHUB_SHA,ref:process.env.GITHUB_REF}))'
+          curl --fail --silent --show-error --max-time 60 -X POST \
+            -H "Authorization: Bearer $DEPLOY_WEBHOOK_TOKEN" -H "Content-Type: application/json" \
+            -H "Idempotency-Key: $GITHUB_SHA" --data-binary @deploy.json "$DEPLOY_WEBHOOK_URL" --output deploy-response.txt
+      - name: Verify readiness and deployed revision
+        run: |
+          for _ in $(seq 1 30); do
+            if curl --fail --silent --max-time 5 "${PRODUCTION_URL%/}/health/ready" --output health.json && \
+              node -e 'const h=JSON.parse(require("fs").readFileSync("health.json")); process.exit(h.status==="ready" && h.revision===process.env.GITHUB_SHA ? 0 : 1)'; then exit 0; fi
+            sleep 5
+          done
+          echo '::error::Deployed revision did not become ready'; exit 1
+  release:
+    needs: [image, deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish verified release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ needs.image.outputs.tag }}
+        run: gh release create "$RELEASE_TAG" --target "$GITHUB_SHA" --generate-notes

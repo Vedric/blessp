@@ -1,0 +1,31 @@
+{
+  "ready": false,
+  "scope": "live-config",
+  "blockers": [
+    "Create and complete config/launch.json from config/launch.example.json.",
+    "Unfinished public legal information in en.",
+    "Unfinished public legal information in fr.",
+    "Environment value missing: DATABASE_URL.",
+    "Environment value missing: JWT_PRIVATE_KEY_BASE64.",
+    "Environment value missing: JWT_PUBLIC_KEY_BASE64.",
+    "Environment value missing: MFA_ENCRYPTION_KEY.",
+    "Environment value missing: METRICS_TOKEN.",
+    "Environment value missing: CLIENT_URL.",
+    "Environment value missing: CORS_ALLOWED_ORIGINS.",
+    "Environment value missing: SUPPORT_EMAIL.",
+    "Environment value missing: EMAIL_FROM.",
+    "Environment value missing: SHIPPING_RATES_JSON.",
+    "Environment value missing: STRIPE_SECRET_KEY.",
+    "Environment value missing: STRIPE_WEBHOOK_SECRET.",
+    "Environment value missing: VITE_STRIPE_PUBLISHABLE_KEY.",
+    "Configure an outbound email provider.",
+    "CLIENT_URL must identify the real HTTPS storefront.",
+    "Review CORS origins: HTTPS storefront origins are required.",
+    "Use matching Stripe live secret/public key modes.",
+    "JWT RSA keys could not be validated.",
+    "MFA encryption key must encode 32 bytes.",
+    "Metrics token is too short.",
+    "Shipping rates are missing or invalid."
+  ],
+  "note": "This check does not prove provider delivery, tax correctness, infrastructure security or production availability."
+}

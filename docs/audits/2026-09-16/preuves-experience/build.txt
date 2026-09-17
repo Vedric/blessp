@@ -1,0 +1,101 @@
+
+> blessp@3.0.0 build:test
+> node scripts/build-e2e.cjs
+
+
+> blessp@3.0.0 build
+> npm run build:server && npm run build:client
+
+
+> blessp@3.0.0 build:server
+> cd server && npm run build
+
+
+> blessp-server@3.0.0 build
+> tsc
+
+
+> blessp@3.0.0 build:client
+> cd client && npm run build
+
+
+> blessp-client@3.0.0 build
+> tsc -b && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 2137 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                       2.36 kB │ gzip:   0.83 kB
+dist/assets/playfair-display-vietnamese-wght-normal-Cabi7G8-.woff2    9.11 kB
+dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2              10.25 kB
+dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2               11.23 kB
+dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2                18.75 kB
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2                   19.00 kB
+dist/assets/playfair-display-latin-ext-wght-normal-CT1r92Rl.woff2    21.14 kB
+dist/assets/playfair-display-cyrillic-wght-normal-5WvUvBgz.woff2     21.15 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2            25.96 kB
+dist/assets/playfair-display-latin-wght-normal-BOwq7MWX.woff2        38.40 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2                   48.26 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2               85.07 kB
+dist/assets/index-CkWkzbNS.css                                       61.46 kB │ gzip:  10.88 kB
+dist/assets/stripe-DfXV90nk.js                                        0.19 kB │ gzip:   0.18 kB
+dist/assets/chevron-left-C0jl-vzD.js                                  0.30 kB │ gzip:   0.25 kB
+dist/assets/chevron-right-DMKqud5L.js                                 0.30 kB │ gzip:   0.25 kB
+dist/assets/arrow-left-DbBnBxS5.js                                    0.34 kB │ gzip:   0.27 kB
+dist/assets/arrow-down-right-rSYg0Wtb.js                              0.34 kB │ gzip:   0.27 kB
+dist/assets/circle-check-wk2-GgCz.js                                  0.35 kB │ gzip:   0.27 kB
+dist/assets/clock-DuNnA5Sy.js                                         0.35 kB │ gzip:   0.27 kB
+dist/assets/rotate-ccw-B82nc-gd.js                                    0.37 kB │ gzip:   0.29 kB
+dist/assets/credit-card-DVdjHcqr.js                                   0.38 kB │ gzip:   0.29 kB
+dist/assets/circle-alert-0mNvj7Uf.js                                  0.42 kB │ gzip:   0.29 kB
+dist/assets/map-pin-C2pHsyl7.js                                       0.43 kB │ gzip:   0.33 kB
+dist/assets/pencil-HeoAquho.js                                        0.45 kB │ gzip:   0.33 kB
+dist/assets/file-text-BXP-TNFX.js                                     0.51 kB │ gzip:   0.32 kB
+dist/assets/crown-BiB-a7bV.js                                         0.54 kB │ gzip:   0.37 kB
+dist/assets/truck-DQFBoQKy.js                                         0.57 kB │ gzip:   0.37 kB
+dist/assets/trophy-DZvCSOrN.js                                        0.64 kB │ gzip:   0.39 kB
+dist/assets/star-BU4Msc_x.js                                          0.65 kB │ gzip:   0.40 kB
+dist/assets/sparkles-B45JxR6J.js                                      0.68 kB │ gzip:   0.40 kB
+dist/assets/Breadcrumbs-BdXg9LfA.js                                   0.82 kB │ gzip:   0.45 kB
+dist/assets/SocialLoginButtons-Cu7t6C5F.js                            0.91 kB │ gzip:   0.50 kB
+dist/assets/eye-DBDdT7Zt.js                                           0.98 kB │ gzip:   0.46 kB
+dist/assets/NewsletterConfirmationPage-jwz3DX1h.js                    1.09 kB │ gzip:   0.67 kB
+dist/assets/Pagination-9VRx7S55.js                                    1.62 kB │ gzip:   0.92 kB
+dist/assets/VerifyEmailPage-COM2LALQ.js                               1.90 kB │ gzip:   1.08 kB
+dist/assets/ForgotPasswordPage-B1-5IK5r.js                            2.84 kB │ gzip:   1.07 kB
+dist/assets/TermsPage-BZnJcKRe.js                                     3.61 kB │ gzip:   1.24 kB
+dist/assets/PrivacyPolicyPage-ClWfAH9o.js                             3.64 kB │ gzip:   1.26 kB
+dist/assets/NotFoundPage-ZLgZwj6I.js                                  3.77 kB │ gzip:   1.46 kB
+dist/assets/WishlistPage-DXGkAQ0t.js                                  4.21 kB │ gzip:   1.50 kB
+dist/assets/SearchPage-Cnrxd6jr.js                                    4.94 kB │ gzip:   1.88 kB
+dist/assets/ResetPasswordPage-B2ryR1s2.js                             5.16 kB │ gzip:   1.44 kB
+dist/assets/GuestOrderPage-DHlVr1Ok.js                                5.20 kB │ gzip:   1.85 kB
+dist/assets/EmailPreferencesPage-C9i8AAVo.js                          5.23 kB │ gzip:   1.98 kB
+dist/assets/ReturnPolicyPage-D_Gw6q-o.js                              5.27 kB │ gzip:   1.59 kB
+dist/assets/LegalNoticePage-CLTLPFu3.js                               5.74 kB │ gzip:   1.59 kB
+dist/assets/OrdersPage-Bzg1eG0B.js                                    5.86 kB │ gzip:   1.93 kB
+dist/assets/AdminProductsPage-40BiY35S.js                             5.88 kB │ gzip:   2.04 kB
+dist/assets/SignInPage-CH8gNmbi.js                                    6.58 kB │ gzip:   2.29 kB
+dist/assets/AdminOrdersPage-B-r4vlZy.js                               7.05 kB │ gzip:   2.48 kB
+dist/assets/ComparePage-C22rklqV.js                                   7.14 kB │ gzip:   2.12 kB
+dist/assets/AdminReviewsPage-DnUYMR08.js                              8.53 kB │ gzip:   2.44 kB
+dist/assets/AdminProductEditPage-ZkuS_ieQ.js                          8.80 kB │ gzip:   2.76 kB
+dist/assets/PaymentMethodsPage-RacW_WhT.js                            9.41 kB │ gzip:   2.93 kB
+dist/assets/LoyaltyPage-DrH9vFxS.js                                   9.93 kB │ gzip:   2.87 kB
+dist/assets/AddressesPage-9XpKREMw.js                                10.91 kB │ gzip:   2.83 kB
+dist/assets/OrderDetailPage-CuqwHXcs.js                              11.31 kB │ gzip:   3.29 kB
+dist/assets/SignUpPage-BEFLL5pp.js                                   12.02 kB │ gzip:   3.24 kB
+dist/assets/stripe-FB043Trj.js                                       12.44 kB │ gzip:   4.77 kB
+dist/assets/AdminDashboardPage-BY-Em7oj.js                           14.78 kB │ gzip:   3.73 kB
+dist/assets/ContactPage-qDLiVxUY.js                                  15.37 kB │ gzip:   4.16 kB
+dist/assets/ProfilePage-BzUyIFOv.js                                  15.43 kB │ gzip:   4.28 kB
+dist/assets/ShopPage-BN86_q3q.js                                     16.56 kB │ gzip:   5.05 kB
+dist/assets/CheckoutPage-CDe4jsrM.js                                 31.15 kB │ gzip:   7.19 kB
+dist/assets/ProductPage-BgfAVwkn.js                                  33.81 kB │ gzip:   9.78 kB
+dist/assets/router-BmtGjpV_.js                                       43.55 kB │ gzip:  15.58 kB
+dist/assets/i18n-DNx8bjc7.js                                         51.09 kB │ gzip:  16.74 kB
+dist/assets/motion-By6r1sYE.js                                      135.86 kB │ gzip:  45.03 kB
+dist/assets/index-DuHq_cIN.js                                       415.55 kB │ gzip: 127.53 kB
+✓ built in 3.38s

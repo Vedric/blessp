@@ -1,0 +1,22 @@
+{
+  "company": {
+    "country": "CA",
+    "province": "",
+    "legalName": "",
+    "registration": "",
+    "address": "",
+    "supportEmail": ""
+  },
+  "publicUrl": "",
+  "reviews": {
+    "taxTreatmentImplementedAndValidated": false,
+    "shippingDestinationsAndRatesApproved": false,
+    "returnsPolicyMatchesOperations": false,
+    "legalAndPrivacyContentApproved": false,
+    "commercialCatalogueAndStockVerified": false,
+    "providerTestsPassedInStaging": false,
+    "backupRestorationTested": false,
+    "monitoringAlertsReceived": false,
+    "physicalDeviceAndLoadTestsPassed": false
+  }
+}

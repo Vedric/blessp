@@ -1,0 +1,215 @@
+
+> blessp-server@3.0.0 test:coverage
+> jest --coverage --maxWorkers=2
+
+[2026-09-16 14:37:06.849 +0200] ERROR: Email delivery failed; durable retry scheduled
+    service: "blessp-api"
+    version: "3.0.0"
+    env: "test"
+    outboxId: "test-outbox"
+    attempts: 1
+PASS tests/integration/customer-admin.api.test.ts (8.342 s)
+[2026-09-16 14:37:07.214 +0200] ERROR: Unhandled error
+    service: "blessp-api"
+    version: "3.0.0"
+    env: "test"
+    errorType: "Error"
+    requestId: "3648d71d-4cd6-4960-adc1-e4c378ef2e87"
+[2026-09-16 14:37:08.409 +0200] ERROR: Stripe binding, amount or currency mismatch
+    service: "blessp-api"
+    version: "3.0.0"
+    env: "test"
+    orderId: "c37475d7-4e72-45d4-a37b-f925efae554f"
+    eventId: "evt_d60afe7b-793e-4117-89a1-163a1fa4dfd2"
+[2026-09-16 14:37:08.479 +0200] ERROR: Stripe binding, amount or currency mismatch
+    service: "blessp-api"
+    version: "3.0.0"
+    env: "test"
+    orderId: "9a0bba6f-bd1a-4bf0-900c-0d467cfd7670"
+    eventId: "evt_584952b2-195c-43b1-8f68-65dd0ee29176"
+[2026-09-16 14:37:08.551 +0200] ERROR: Stripe binding, amount or currency mismatch
+    service: "blessp-api"
+    version: "3.0.0"
+    env: "test"
+    orderId: "221ec818-a863-41ad-8f0b-9abba4e39005"
+    eventId: "evt_5ffae2a4-42e9-4569-98ed-26ab97a9bc5a"
+[2026-09-16 14:37:08.609 +0200] ERROR: Stripe binding, amount or currency mismatch
+    service: "blessp-api"
+    version: "3.0.0"
+    env: "test"
+    orderId: "1dfd050a-5da3-412a-b07b-8dd2ed352c5c"
+    eventId: "evt_a1b8e329-c2c1-43df-bbd8-034a2ec5c2b7"
+PASS tests/integration/security-commerce.api.test.ts (12.035 s)
+PASS tests/integration/orders.api.test.ts
+PASS tests/integration/auth.api.test.ts
+PASS tests/integration/cart.api.test.ts
+PASS tests/integration/users.api.test.ts
+PASS tests/integration/products.api.test.ts
+PASS tests/integration/storefront.http.test.ts
+PASS tests/unit/products.service.test.ts
+PASS tests/unit/delivery-config.test.ts
+PASS tests/integration/contact.api.test.ts
+PASS tests/unit/cache.service.test.ts
+PASS tests/unit/auth.service.test.ts
+PASS tests/unit/payments.service.test.ts
+PASS tests/unit/secrets.test.ts
+PASS tests/unit/users.service.test.ts
+PASS tests/unit/email.producer.test.ts
+PASS tests/unit/mfa.service.test.ts
+PASS tests/unit/reviews.service.test.ts
+PASS tests/unit/coupons.service.test.ts
+PASS tests/unit/loyalty.service.test.ts
+PASS tests/unit/wishlist.service.test.ts
+PASS tests/unit/oauth.service.test.ts
+PASS tests/unit/orders.service.test.ts
+PASS tests/unit/cart.service.test.ts
+PASS tests/unit/analytics.service.test.ts
+PASS tests/unit/newsletter.service.test.ts
+PASS tests/unit/currency.service.test.ts
+PASS tests/unit/contact.service.test.ts
+--------------------------------|---------|----------|---------|---------|----------------------------------------------------
+File                            | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                  
+--------------------------------|---------|----------|---------|---------|----------------------------------------------------
+All files                       |   86.34 |    73.14 |   82.38 |   87.64 |                                                    
+ src                            |   89.39 |    76.19 |      80 |   93.22 |                                                    
+  app.ts                        |   89.39 |    76.19 |      80 |   93.22 | 35,54,72,90                                        
+ src/core                       |   57.14 |        0 |      25 |   63.26 |                                                    
+  maintenance.ts                |   57.14 |        0 |      25 |   63.26 | 36-55                                              
+ src/core/cache                 |   68.18 |       80 |   54.54 |   67.24 |                                                    
+  cache.service.ts              |     100 |      100 |     100 |     100 |                                                    
+  redis.client.ts               |   32.25 |    28.57 |   16.66 |   32.14 | 10-15,19-42,46-50                                  
+ src/core/config                |     100 |      100 |     100 |     100 |                                                    
+  env.ts                        |     100 |      100 |     100 |     100 |                                                    
+ src/core/database              |     100 |     62.5 |     100 |     100 |                                                    
+  client.ts                     |     100 |       75 |     100 |     100 | 9                                                  
+  transaction.ts                |     100 |       50 |     100 |     100 | 14                                                 
+ src/core/email                 |   97.82 |    84.21 |     100 |   97.77 |                                                    
+  email.service.ts              |   96.55 |    81.25 |     100 |   96.55 | 40                                                 
+  html.ts                       |     100 |      100 |     100 |     100 |                                                    
+  outbox.ts                     |     100 |      100 |     100 |     100 |                                                    
+ src/core/errors                |   75.51 |       20 |   63.63 |   75.51 |                                                    
+  app.error.ts                  |     100 |      100 |     100 |     100 |                                                    
+  domain.errors.ts              |   47.05 |        0 |      25 |   47.05 | 4-8,22-26,31-35                                    
+  http.errors.ts                |   88.46 |       25 |   83.33 |   88.46 | 52-56                                              
+ src/core/middleware            |   69.01 |    59.01 |   43.47 |   71.11 |                                                    
+  authenticate.ts               |   94.73 |     87.5 |     100 |   94.73 | 24                                                 
+  authorize.ts                  |      80 |       50 |     100 |      80 | 17-18                                              
+  error.handler.ts              |   93.93 |    70.83 |     100 |   93.93 | 23-24                                              
+  metrics.middleware.ts         |     100 |       80 |     100 |     100 | 33                                                 
+  rate.limit.ts                 |   33.33 |    17.64 |   11.11 |   36.36 | 26-57,65-98                                        
+  request.id.ts                 |     100 |      100 |     100 |     100 |                                                    
+  security.headers.ts           |     100 |      100 |     100 |     100 |                                                    
+  validate.ts                   |       0 |        0 |       0 |       0 | 10-31                                              
+ src/core/observability         |   68.29 |    30.76 |      25 |      70 |                                                    
+  logger.ts                     |   77.77 |    72.72 |     100 |   77.77 | 49-50                                              
+  metrics.ts                    |     100 |      100 |     100 |     100 |                                                    
+  tracer.ts                     |   52.17 |        0 |       0 |   54.54 | 25-48,55-56,64                                     
+ src/core/queue                 |   21.15 |    16.66 |   11.11 |   21.56 |                                                    
+  email.producer.ts             |   84.61 |      100 |      50 |   84.61 | 46-50                                              
+  email.worker.ts               |       0 |        0 |       0 |       0 | 1-52                                               
+  queue.client.ts               |       0 |        0 |       0 |       0 | 1-30                                               
+ src/core/security              |      90 |    63.63 |     100 |   90.47 |                                                    
+  hash.service.ts               |     100 |      100 |     100 |     100 |                                                    
+  secrets.ts                    |   89.28 |       80 |     100 |   90.47 | 9-10                                               
+  token.service.ts              |   89.47 |       50 |     100 |   89.47 | 84,101-104                                         
+ src/core/storefront            |   98.82 |    94.54 |     100 |   98.64 |                                                    
+  router.ts                     |   98.82 |    94.54 |     100 |   98.64 | 29                                                 
+ src/core/types                 |   41.37 |       10 |   66.66 |   46.15 |                                                    
+  pagination.ts                 |       0 |        0 |       0 |       0 | 18-54                                              
+  response.ts                   |     100 |      100 |     100 |     100 |                                                    
+ src/features/addresses         |   98.03 |     87.5 |    87.5 |   97.77 |                                                    
+  addresses.router.ts           |   98.03 |     87.5 |    87.5 |   97.77 | 20                                                 
+ src/features/analytics         |   92.85 |    67.64 |   94.11 |   92.63 |                                                    
+  analytics.controller.ts       |   86.66 |    71.42 |     100 |   86.66 | 17,40,51,62                                        
+  analytics.repository.ts       |   92.68 |       64 |   85.71 |    92.1 | 109-110,122                                        
+  analytics.router.ts           |     100 |      100 |     100 |     100 |                                                    
+  analytics.service.ts          |     100 |      100 |     100 |     100 |                                                    
+ src/features/auth              |   86.63 |    71.75 |   81.92 |   87.99 |                                                    
+  auth.controller.ts            |      75 |    33.33 |      75 |      75 | 96,107,131-135,146,151-170,175-194                 
+  auth.emails.ts                |   44.44 |        0 |       0 |   44.44 | 18-117,125-202                                     
+  auth.repository.ts            |   74.28 |       60 |   64.28 |   78.12 | 38,54-63,97-104                                    
+  auth.router.ts                |     100 |      100 |     100 |     100 |                                                    
+  auth.schema.ts                |     100 |      100 |     100 |     100 |                                                    
+  auth.service.ts               |   92.48 |    75.67 |   94.11 |    93.6 | 63,79,93-98,182                                    
+  email-verification.service.ts |   88.88 |       60 |      80 |   93.93 | 23-24                                              
+  mfa.controller.ts             |   57.77 |      100 |   57.14 |   57.77 | 45-46,56-62,67-73,88-93                            
+  mfa.service.ts                |   96.57 |    86.36 |     100 |   99.35 | 47                                                 
+  oauth.service.ts              |   84.61 |    73.91 |     100 |    87.5 | 37,79,96-97,122,130                                
+ src/features/cart              |   90.19 |    92.85 |    90.9 |      90 |                                                    
+  cart.controller.ts            |   78.94 |      100 |   83.33 |   78.94 | 20,45,57,62-68                                     
+  cart.repository.ts            |    87.5 |      100 |   83.33 |    87.5 | 100                                                
+  cart.router.ts                |     100 |      100 |     100 |     100 |                                                    
+  cart.schema.ts                |     100 |      100 |     100 |     100 |                                                    
+  cart.service.ts               |   97.05 |    83.33 |     100 |   96.87 | 57                                                 
+ src/features/contact           |     100 |       50 |     100 |     100 |                                                    
+  contact.controller.ts         |     100 |      100 |     100 |     100 |                                                    
+  contact.router.ts             |     100 |       50 |     100 |     100 | 13                                                 
+  contact.schema.ts             |     100 |      100 |     100 |     100 |                                                    
+  contact.service.ts            |     100 |      100 |     100 |     100 |                                                    
+ src/features/coupons           |   95.57 |    91.66 |   95.23 |   95.45 |                                                    
+  coupons.controller.ts         |   88.23 |      100 |     100 |   88.23 | 21,34,55,67                                        
+  coupons.repository.ts         |    87.5 |       50 |   83.33 |    87.5 | 54                                                 
+  coupons.router.ts             |     100 |      100 |     100 |     100 |                                                    
+  coupons.schema.ts             |     100 |      100 |     100 |     100 |                                                    
+  coupons.service.ts            |     100 |      100 |     100 |     100 |                                                    
+ src/features/currency          |      84 |      100 |      75 |   83.33 |                                                    
+  currency.controller.ts        |      50 |      100 |      50 |      50 | 9-14                                               
+  currency.router.ts            |     100 |      100 |     100 |     100 |                                                    
+  currency.service.ts           |     100 |      100 |     100 |     100 |                                                    
+ src/features/loyalty           |   88.23 |       50 |      85 |   88.88 |                                                    
+  loyalty.controller.ts         |   91.66 |      100 |     100 |   91.66 | 20,32                                              
+  loyalty.repository.ts         |   63.33 |    13.33 |   57.14 |   64.28 | 64-102                                             
+  loyalty.router.ts             |     100 |      100 |     100 |     100 |                                                    
+  loyalty.schema.ts             |     100 |      100 |     100 |     100 |                                                    
+  loyalty.service.ts            |   97.72 |      100 |     100 |   97.72 | 136                                                
+  loyalty.types.ts              |     100 |      100 |     100 |     100 |                                                    
+ src/features/newsletter        |   89.61 |       50 |   71.42 |   94.28 |                                                    
+  newsletter.controller.ts      |   95.45 |      100 |     100 |     100 |                                                    
+  newsletter.repository.ts      |   33.33 |      100 |       0 |   33.33 | 5-24                                               
+  newsletter.router.ts          |     100 |      100 |     100 |     100 |                                                    
+  newsletter.schema.ts          |     100 |      100 |     100 |     100 |                                                    
+  newsletter.service.ts         |    90.9 |       50 |     100 |     100 | 19-36                                              
+ src/features/orders            |   90.83 |    68.33 |   79.06 |   94.21 |                                                    
+  order.emails.ts               |   93.33 |       40 |      75 |   93.33 | 208                                                
+  orders.controller.ts          |   94.73 |      100 |     100 |   94.73 | 77,88,104                                          
+  orders.repository.ts          |   78.78 |    16.66 |      50 |   78.78 | 49-80,168-183                                      
+  orders.router.ts              |     100 |      100 |     100 |     100 |                                                    
+  orders.schema.ts              |     100 |      100 |     100 |     100 |                                                    
+  orders.service.ts             |   89.25 |    81.52 |   88.88 |   97.02 | 174-175,177                                        
+ src/features/payments          |   79.74 |    72.48 |   79.41 |   82.41 |                                                    
+  payments.controller.ts        |    36.5 |        0 |      30 |    36.5 | 19-28,52,59-68,73-85,90-99,104-113,118-124,129-149 
+  payments.router.ts            |   94.59 |    55.55 |     100 |     100 | 19-26                                              
+  payments.schema.ts            |     100 |      100 |     100 |     100 |                                                    
+  payments.service.ts           |   89.57 |     74.1 |     100 |   94.17 | 31-32,38,174,266,322,368-370,380-381               
+ src/features/products          |   93.82 |    87.91 |   93.44 |   93.39 |                                                    
+  products.controller.ts        |   82.75 |      100 |    90.9 |   82.75 | 16,36,41-46,68,77,87,97                            
+  products.repository.ts        |   91.66 |     77.5 |   92.85 |   90.62 | 56,144-145                                         
+  products.router.ts            |     100 |      100 |     100 |     100 |                                                    
+  products.schema.ts            |     100 |    33.33 |     100 |     100 | 3                                                  
+  products.service.ts           |     100 |      100 |     100 |     100 |                                                    
+  variants.repository.ts        |   71.42 |      100 |      60 |   71.42 | 19,54                                              
+ src/features/reviews           |    97.1 |    91.66 |     100 |    97.1 |                                                    
+  reviews.controller.ts         |   92.15 |       50 |     100 |   92.15 | 31,42,84,95                                        
+  reviews.repository.ts         |     100 |      100 |     100 |     100 |                                                    
+  reviews.router.ts             |     100 |      100 |     100 |     100 |                                                    
+  reviews.schema.ts             |     100 |      100 |     100 |     100 |                                                    
+  reviews.service.ts            |     100 |      100 |     100 |     100 |                                                    
+ src/features/users             |   95.34 |    84.44 |   96.15 |    96.4 |                                                    
+  users.controller.ts           |   88.63 |      100 |     100 |   88.63 | 25,49,61,72,84                                     
+  users.repository.ts           |   88.88 |    83.33 |   85.71 |   88.88 | 29                                                 
+  users.router.ts               |     100 |      100 |     100 |     100 |                                                    
+  users.schema.ts               |     100 |      100 |     100 |     100 |                                                    
+  users.service.ts              |   97.77 |    84.61 |     100 |     100 | 102,185-186                                        
+ src/features/wishlist          |   97.22 |      100 |     100 |   97.18 |                                                    
+  wishlist.controller.ts        |   91.66 |      100 |     100 |   91.66 | 20,44                                              
+  wishlist.repository.ts        |     100 |      100 |     100 |     100 |                                                    
+  wishlist.router.ts            |     100 |      100 |     100 |     100 |                                                    
+  wishlist.schema.ts            |     100 |      100 |     100 |     100 |                                                    
+  wishlist.service.ts           |     100 |      100 |     100 |     100 |                                                    
+--------------------------------|---------|----------|---------|---------|----------------------------------------------------
+
+Test Suites: 29 passed, 29 total
+Tests:       418 passed, 418 total
+Snapshots:   0 total
+Time:        22.348 s
+Ran all test suites.

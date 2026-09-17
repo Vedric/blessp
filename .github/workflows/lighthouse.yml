@@ -1,0 +1,49 @@
+name: Lighthouse
+on:
+  pull_request:
+    branches: [main, develop]
+    paths: ['client/**', 'server/**', 'scripts/**', 'package*.json', '.github/workflows/lighthouse.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: blessp_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: [5432:5432]
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s --health-timeout=5s --health-retries=10
+    env:
+      TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/blessp_test
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/blessp_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            client/package-lock.json
+            server/package-lock.json
+      - run: npm ci && npm --prefix client ci && npm --prefix server ci
+      - run: npm --prefix server run db:generate && npm run build:test
+      - run: cd client && npx --no-install playwright install --with-deps chromium
+      - run: node scripts/test-env.cjs node scripts/lighthouse.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: artifacts/lighthouse/
+          retention-days: 14

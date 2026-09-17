@@ -1,0 +1,253 @@
+{
+  "method": "Three sequential Lighthouse 13.4.1 runs per route, same final compiled application, isolated PostgreSQL and no concurrent tests or scans. Local lab simulation, not field data.",
+  "runs": [
+    [
+      {
+        "page": "home-desktop",
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 705,
+        "cls": 0
+      },
+      {
+        "page": "shop-desktop",
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 1917,
+        "cls": 0.08483034410296822
+      },
+      {
+        "page": "signin-desktop",
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 66,
+        "lcpMs": 680,
+        "cls": 0
+      },
+      {
+        "page": "home-mobile",
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 3364,
+        "cls": 0
+      }
+    ],
+    [
+      {
+        "page": "home-desktop",
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 706,
+        "cls": 0
+      },
+      {
+        "page": "shop-desktop",
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 1908,
+        "cls": 0.08453490149724192
+      },
+      {
+        "page": "signin-desktop",
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 66,
+        "lcpMs": 686,
+        "cls": 0
+      },
+      {
+        "page": "home-mobile",
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 3355,
+        "cls": 0
+      }
+    ],
+    [
+      {
+        "page": "home-desktop",
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 704,
+        "cls": 0
+      },
+      {
+        "page": "shop-desktop",
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 1914,
+        "cls": 0.08483034410296822
+      },
+      {
+        "page": "signin-desktop",
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 66,
+        "lcpMs": 1167,
+        "cls": 0
+      },
+      {
+        "page": "home-mobile",
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100,
+        "lcpMs": 3368,
+        "cls": 0
+      }
+    ]
+  ],
+  "statistics": [
+    {
+      "page": "home-desktop",
+      "performance": {
+        "median": 99,
+        "min": 99,
+        "max": 99
+      },
+      "accessibility": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "best-practices": {
+        "median": 96,
+        "min": 96,
+        "max": 96
+      },
+      "seo": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "lcpMs": {
+        "median": 705,
+        "min": 704,
+        "max": 706
+      },
+      "cls": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "page": "shop-desktop",
+      "performance": {
+        "median": 90,
+        "min": 90,
+        "max": 90
+      },
+      "accessibility": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "best-practices": {
+        "median": 96,
+        "min": 96,
+        "max": 96
+      },
+      "seo": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "lcpMs": {
+        "median": 1914,
+        "min": 1908,
+        "max": 1917
+      },
+      "cls": {
+        "median": 0.08483034410296822,
+        "min": 0.08453490149724192,
+        "max": 0.08483034410296822
+      }
+    },
+    {
+      "page": "signin-desktop",
+      "performance": {
+        "median": 100,
+        "min": 97,
+        "max": 100
+      },
+      "accessibility": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "best-practices": {
+        "median": 96,
+        "min": 96,
+        "max": 96
+      },
+      "seo": {
+        "median": 66,
+        "min": 66,
+        "max": 66
+      },
+      "lcpMs": {
+        "median": 686,
+        "min": 680,
+        "max": 1167
+      },
+      "cls": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "page": "home-mobile",
+      "performance": {
+        "median": 90,
+        "min": 90,
+        "max": 90
+      },
+      "accessibility": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "best-practices": {
+        "median": 96,
+        "min": 96,
+        "max": 96
+      },
+      "seo": {
+        "median": 100,
+        "min": 100,
+        "max": 100
+      },
+      "lcpMs": {
+        "median": 3364,
+        "min": 3355,
+        "max": 3368
+      },
+      "cls": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      }
+    }
+  ]
+}
