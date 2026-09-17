@@ -26,6 +26,7 @@ export default function HomePage() {
   const reducedMotion = useReducedMotion();
   const [playHero, setPlayHero] = useState(false);
   const [heroPlaying, setHeroPlaying] = useState(false);
+  const [heroUnavailable, setHeroUnavailable] = useState(false);
   const heroVideo = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -45,11 +46,14 @@ export default function HomePage() {
   useEffect(() => {
     const video = heroVideo.current;
     if (!video) return;
+    let active = true;
+    setHeroUnavailable(false);
     // A dynamically inserted <source> is not reliably reselected by browsers.
     // Loading explicitly also releases the old media when mobile mode removes it.
     video.load();
-    if (playHero) void video.play().catch(() => setHeroPlaying(false));
+    if (playHero) void video.play().catch(() => { if (active) setHeroPlaying(false); });
     else video.pause();
+    return () => { active = false; };
   }, [playHero]);
 
   useDocumentMeta({ description: t('home.editorial.description') });
@@ -67,7 +71,14 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#fcfbf8]">
       <section className="campaign-hero">
         <video ref={heroVideo} autoPlay={playHero} onPlay={() => setHeroPlaying(true)} onPause={() => setHeroPlaying(false)} preload="none" poster="/img/blessp_story.jpeg" aria-hidden="true" muted loop playsInline className="absolute inset-0 h-full w-full object-cover">
-          {playHero && <source src="/video/blessp_video.mp4" type="video/mp4" />}
+          {playHero && <>
+            <source src="/video/blessp_video.webm" type="video/webm" />
+            <source src="/video/blessp_video.mp4" type="video/mp4" onError={() => {
+              heroVideo.current?.pause();
+              setHeroPlaying(false);
+              setHeroUnavailable(true);
+            }} />
+          </>}
         </video>
         <div className="campaign-shade absolute inset-0" />
         <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-between px-6 py-10 sm:px-10 md:py-14 lg:px-16">
@@ -85,7 +96,7 @@ export default function HomePage() {
           </div>
           <div className="flex items-end justify-between gap-4 border-t border-white/30 pt-5">
             <p className="max-w-[70%] text-[10px] uppercase leading-relaxed tracking-[0.2em] text-white">{t('home.editorial.footer')}</p>
-            {playHero && <button type="button" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/70 bg-black/40 text-white hover:bg-black/70" aria-label={heroPlaying ? t('home.pauseVideo') : t('home.playVideo')} onClick={() => {
+            {playHero && !heroUnavailable && <button type="button" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/70 bg-black/40 text-white hover:bg-black/70" aria-label={heroPlaying ? t('home.pauseVideo') : t('home.playVideo')} onClick={() => {
               const video = heroVideo.current; if (!video) return;
               if (video.paused) void video.play().catch(() => setHeroPlaying(false)); else video.pause();
             }}>{heroPlaying ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}</button>}

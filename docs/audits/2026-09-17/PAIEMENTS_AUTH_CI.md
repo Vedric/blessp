@@ -27,11 +27,11 @@ Les fournisseurs sont simulés aux limites des tests. Les routes applicatives, s
 
 ## CI/CD et Git
 
-Les contrôles ordinaires exécutent la suite navigateur complète dans trois jobs parallèles, avec une base et un processus applicatif isolés pour chaque moteur. Un test qui ne réussit qu’à la reprise automatique fait échouer la CI ; la reprise conserve seulement les éléments de diagnostic. Un job distinct construit avec des identifiants OAuth synthétiques et exécute les contrats fournisseurs sur trois navigateurs, sans secret externe. Les preuves sont conservées en artifacts. Le simulateur est limité au lanceur de recette et exclu du contexte Docker.
+Les contrôles ordinaires exécutent la suite navigateur complète dans quatre jobs parallèles, avec une base et un processus applicatif isolés : Chromium, Firefox et deux partitions WebKit. Chaque partition WebKit utilise un seul worker sur sa propre machine afin de limiter la contention pendant les inspections lourdes. Un test qui ne réussit qu’à la reprise automatique fait échouer la CI ; la reprise conserve seulement les éléments de diagnostic. Un job distinct construit avec des identifiants OAuth synthétiques et exécute les contrats fournisseurs sur trois navigateurs, sans secret externe. Les preuves sont conservées en artifacts. Le simulateur est limité au lanceur de recette et exclu du contexte Docker.
 
 La release commerciale devient manuelle, uniquement depuis `main`, avec la revue de lancement obligatoire. Fusionner les correctifs ne déploie donc pas une boutique non configurée. La détection de secrets conserve les règles par défaut, avec exclusions ciblées des manifestes SHA-256 et des exemples historiques documentés ; les fichiers source restent inspectés.
 
-La protection de `main` impose dix contrôles liés à leurs applications GitHub, une branche à jour, les conversations résolues et un historique linéaire. Les poussées forcées et suppressions sont interdites, y compris pour les administrateurs. Lighthouse reste conditionnel aux modifications applicatives afin de ne pas bloquer les PR de documentation seules.
+La protection de `main` impose onze contrôles liés à leurs applications GitHub, une branche à jour, les conversations résolues et un historique linéaire. Les poussées forcées et suppressions sont interdites, y compris pour les administrateurs. Lighthouse reste conditionnel aux modifications applicatives afin de ne pas bloquer les PR de documentation seules.
 
 Les résultats distants de CI, scans d’image et Lighthouse doivent être consultés sur la [PR #67](https://github.com/Vedric/blessp/pull/67) et sa révision publiée. Les résultats locaux ci-dessus ne sont pas une attestation de leur succès.
 
@@ -42,6 +42,25 @@ GitGuardian a signalé deux valeurs de test dans l’historique de la branche : 
 ## Nettoyage après revue
 
 Le worker et le producteur BullMQ inutilisés, leur connexion Redis dédiée et leur dépendance ont été retirés. Les emails critiques restent envoyés par l’outbox PostgreSQL et la maintenance existante. Trois tests unitaires portaient uniquement sur ce producteur supprimé ; les tests de paiement, notification et reprise de l’outbox sont conservés. La suite finale comporte 513 tests et 36 suites. Le DTO de paiement ne déclare plus de devise client. L’animation Skeleton utilise le nom déclaré dans Tailwind et respecte explicitement la réduction des animations.
+
+## Reprise après la première CI parallèle
+
+Sur `f7ce2fe`, Chromium réussit ses 172 cas. Firefox réussit 171 cas et échoue deux fois sur la reprise de la vidéo ; WebKit réussit 171 cas directement et un cas après reprise, ce qui bloque volontairement la CI. Les rapports de ce lancement restent dans [GitHub Actions](https://github.com/Vedric/blessp/actions/runs/35197878099).
+
+La reproduction Firefox locale échoue six fois avant correction : le fichier MP4 est chargé, mais le moteur reste sans source décodable faute de bibliothèque système H.264. Firefox peut utiliser WebM/VP9 indépendamment de cette bibliothèque, comme le précise la [documentation Mozilla](https://support.mozilla.org/en-US/kb/audio-and-video-firefox). Une version WebM sans piste audio du fichier existant est désormais proposée avant le MP4. L'échec des deux sources conserve le poster et retire le contrôle de lecture inutilisable ; une ancienne promesse de lecture interrompue ne modifie plus l'état de la lecture suivante.
+
+La conversion a utilisé FFmpeg dans un conteneur Debian jetable, sans installation privilégiée sur le poste :
+
+```sh
+ffmpeg -i blessp_video.mp4 -an -c:v libvpx-vp9 -b:v 0 -crf 34 \
+  -row-mt 1 -threads 2 -deadline good -cpu-used 2 blessp_video.webm
+```
+
+L'assertion de lecture conserve le contrôle du temps vidéo réellement écoulé et le vérifie aussi avant redimensionnement. Un scénario supplémentaire exerce l'indisponibilité des deux formats. La matrice générale comporte désormais 173 scénarios par moteur, soit 519 cas, auxquels s'ajoutent les 39 cas fournisseurs.
+
+Le délai WebKit concernait la navigation initiale, sans réponse HTTP enregistrée dans la trace ; aucun défaut applicatif spécifique n'est établi par ce seul constat. Les deux partitions à un worker réduisent la contention, et tout nouvel échec ou reprise instable reste bloquant. Les résultats du dernier commit doivent être lus sur la PR avant fusion.
+
+La vérification média locale valide les six scénarios, répétés trois fois sur chaque moteur : 36 réussites Chromium/Firefox, puis 18 réussites WebKit sans reprise automatique. Les premiers lancements WebKit étaient indisponibles faute de bibliothèques configurées ; les bibliothèques déjà extraites dans le dossier d’audit ont été chargées via `LD_LIBRARY_PATH`/`GST_PLUGIN_PATH`. Le contrôle du cache système `ldconfig`, incompatible avec cette installation sans privilèges, a été désactivé uniquement pour ce lancement local ; les navigateurs et toutes les assertions ont réellement été exécutés. La CI installe normalement les dépendances et conserve cette vérification système.
 
 ## Restant avant ouverture complète
 

@@ -1,0 +1,1049 @@
+
+> blessp-client@3.0.0 test:e2e
+> playwright test --grep hero playback|unavailable hero|background video --repeat-each=3 --retries=0 --workers=2
+
+
+Running 54 tests using 2 workers
+
+(node:447190) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:447216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:447190) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:447216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (2.3s)
+  ✓   1 [chromium] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (4.5s)
+  ✓   3 [chromium] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.4s)
+  ✓   4 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.4s)
+  ✓   5 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.6s)
+(node:448142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:448142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.5s)
+(node:448388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:448388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [chromium] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (4.3s)
+  ✓   8 [chromium] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (2.3s)
+  ✓  10 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.4s)
+  ✓   9 [chromium] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.4s)
+  ✓  11 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.5s)
+  ✓  12 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.5s)
+(node:449233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:449239) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:449233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:449239) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 [chromium] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (2.3s)
+  ✓  13 [chromium] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (4.4s)
+  ✓  15 [chromium] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.4s)
+  ✓  16 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.4s)
+  ✓  17 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.5s)
+(node:450300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:450300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [chromium] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.5s)
+(node:450609) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:450609) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [firefox] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (5.0s)
+  ✓  20 [firefox] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (3.3s)
+  ✓  21 [firefox] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.6s)
+  ✓  22 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.5s)
+  ✓  23 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.5s)
+  ✓  24 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.6s)
+(node:451802) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:451819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:451802) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:451819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [firefox] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (3.2s)
+  ✓  25 [firefox] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (5.1s)
+  ✓  27 [firefox] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.6s)
+  ✓  28 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.5s)
+  ✓  29 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.5s)
+(node:453226) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:453226) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  30 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.5s)
+(node:453408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:453408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  32 [firefox] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (3.1s)
+  ✓  31 [firefox] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (5.2s)
+  ✓  33 [firefox] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.6s)
+  ✓  34 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.6s)
+  ✓  35 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.6s)
+(node:459540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  36 [firefox] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.5s)
+(node:459540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:459607) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  37 [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (1ms)
+(node:460178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:459607) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:460178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  38 [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (1ms)
+(node:460709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  39 [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (1ms)
+(node:461200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:460709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:461200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  40 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (1ms)
+(node:461688) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  41 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (1ms)
+(node:462177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:461688) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  42 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (1ms)
+(node:462177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:462724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  43 [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (1ms)
+(node:463294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:462724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  44 [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (1ms)
+(node:463294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:463780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  45 [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (1ms)
+(node:464269) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:463780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:464269) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  46 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (1ms)
+(node:464795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  47 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (1ms)
+(node:465282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:464795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  48 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (1ms)
+(node:465282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  49 [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (1ms)
+(node:466338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  50 [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (1ms)
+(node:466338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:466824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  51 [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (1ms)
+(node:467313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:466824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  52 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (1ms)
+(node:467313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:467799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  53 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (1ms)
+(node:467799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  54 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (1ms)
+
+
+  1) [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/experience-hero-playback-s-4500f-starts-when-desktop-returns-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/experience-hero-playback-s-4500f-starts-when-desktop-returns-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/experience-unavailable-her-c24e4-t-a-broken-playback-control-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/experience-unavailable-her-c24e4-t-a-broken-playback-control-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/experience-hero-playback-s-4500f-starts-when-desktop-returns-webkit-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/experience-hero-playback-s-4500f-starts-when-desktop-returns-webkit-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/experience-unavailable-her-c24e4-t-a-broken-playback-control-webkit-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/experience-unavailable-her-c24e4-t-a-broken-playback-control-webkit-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/experience-hero-playback-s-4500f-starts-when-desktop-returns-webkit-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/experience-hero-playback-s-4500f-starts-when-desktop-returns-webkit-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/experience-unavailable-her-c24e4-t-a-broken-playback-control-webkit-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/experience-unavailable-her-c24e4-t-a-broken-playback-control-webkit-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed ─────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-can-be-paused-and-resumed-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-can-be-paused-and-resumed-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile ───
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-does-not-download-in-mobile-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-does-not-download-in-mobile-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-vide-c45d1--download-in-reduced-motion-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-vide-c45d1--download-in-reduced-motion-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-does-not-download-in-save-data-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-does-not-download-in-save-data-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed ────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-can-be-paused-and-resumed-webkit-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-can-be-paused-and-resumed-webkit-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile ──
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-does-not-download-in-mobile-webkit-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-does-not-download-in-mobile-webkit-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-vide-c45d1--download-in-reduced-motion-webkit-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-vide-c45d1--download-in-reduced-motion-webkit-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-does-not-download-in-save-data-webkit-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-does-not-download-in-save-data-webkit-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed ────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-can-be-paused-and-resumed-webkit-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-can-be-paused-and-resumed-webkit-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile ──
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-does-not-download-in-mobile-webkit-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-does-not-download-in-mobile-webkit-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-vide-c45d1--download-in-reduced-motion-webkit-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-vide-c45d1--download-in-reduced-motion-webkit-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libopus.so.0                                     ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libavif.so.16                                    ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libhyphen.so.0                                   ║
+    ║     libwoff2dec.so.1.0.2                             ║
+    ║     libx264.so                                       ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/storefront-background-video-does-not-download-in-save-data-webkit-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/storefront-background-video-does-not-download-in-save-data-webkit-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18 failed
+    [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns 
+    [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control 
+    [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns 
+    [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control 
+    [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns 
+    [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control 
+    [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed ──────
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile ────
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion 
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data ─
+    [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed ──────
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile ────
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion 
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data ─
+    [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed ──────
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile ────
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion 
+    [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data ─
+  36 passed (1.2m)

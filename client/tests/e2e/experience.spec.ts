@@ -48,12 +48,28 @@ test('hero playback stops on mobile resize and restarts when desktop returns', a
   await page.setViewportSize({ width: 1440, height: 900 }); await page.goto('/');
   const video = page.locator('video');
   await expect(page.getByRole('button', { name: 'Pause background video' })).toBeVisible({ timeout: 15000 });
+  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(video.locator('source')).toHaveCount(0);
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(page.getByRole('button', { name: 'Pause background video' })).toBeVisible({ timeout: 15000 });
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
+});
+
+test('unavailable hero formats retain the poster and shopping navigation without a broken playback control', async ({ page }) => {
+  let mediaRequests = 0;
+  await page.route('**/video/*', route => {
+    mediaRequests++;
+    return route.fulfill({ status: 404, body: '' });
+  });
+  await page.goto('/');
+  await expect.poll(() => mediaRequests).toBeGreaterThan(0);
+  await expect(page.getByRole('button', { name: /^(Pause|Play) background video$/ })).toHaveCount(0);
+  await expect(page.locator('video')).toHaveAttribute('poster', '/img/blessp_story.jpeg');
+  await page.getByRole('link', { name: 'Shop Collection', exact: true }).click();
+  await expect(page).toHaveURL(/\/shop$/);
+  await expect(page.getByRole('article').first()).toBeVisible();
 });
 
 test('newsletter reports errors, retains input and prevents duplicate in-flight submissions', async ({ page }) => {

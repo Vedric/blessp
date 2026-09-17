@@ -1,0 +1,42 @@
+
+> blessp-client@3.0.0 test:e2e
+> playwright test --project=webkit --grep hero playback|unavailable hero|background video --repeat-each=3 --retries=0 --workers=1
+
+
+Running 18 tests using 1 worker
+
+(node:497524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:497524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   1 [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (4.8s)
+  ✓   2 [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (2.6s)
+  ✓   3 [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.9s)
+  ✓   4 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.7s)
+  ✓   5 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (3.0s)
+  ✓   6 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.9s)
+(node:499647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:499647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   7 [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (4.9s)
+  ✓   8 [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (2.8s)
+  ✓   9 [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.9s)
+  ✓  10 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.7s)
+  ✓  11 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.9s)
+  ✓  12 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.9s)
+(node:501842) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:501842) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓  13 [webkit] › tests/e2e/experience.spec.ts:47:1 › hero playback stops on mobile resize and restarts when desktop returns (4.9s)
+  ✓  14 [webkit] › tests/e2e/experience.spec.ts:60:1 › unavailable hero formats retain the poster and shopping navigation without a broken playback control (2.8s)
+  ✓  15 [webkit] › tests/e2e/storefront.spec.ts:76:1 › background video can be paused and resumed (2.9s)
+  ✓  16 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in mobile (2.7s)
+  ✓  17 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in reduced-motion (2.9s)
+  ✓  18 [webkit] › tests/e2e/storefront.spec.ts:97:3 › background video does not download in save-data (2.9s)
+
+  18 passed (1.0m)
