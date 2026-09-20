@@ -8,7 +8,7 @@ export function Pagination({ page, totalPages, onChange, label }: { label?: stri
   return <nav aria-label={label ?? t('common.pagination')} className="mt-12 flex flex-wrap items-center justify-center gap-1">
     {pages.map((value, index) => <span key={value} className="flex items-center gap-1">
       {index > 0 && value > pages[index - 1] + 1 && <span aria-hidden="true" className="px-1 text-neutral-500">…</span>}
-      <button onClick={() => onChange(value)} aria-label={t('shop.pageNumber', { page: value })} aria-current={value === page ? 'page' : undefined} className={cn('flex h-11 min-w-11 items-center justify-center px-2 text-sm tabular-nums transition-colors', value === page ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-100')}>{value}</button>
+      <button onClick={() => onChange(value)} aria-label={t('shop.pageNumber', { page: value })} aria-current={value === page ? 'page' : undefined} className={cn('flex h-11 min-w-11 items-center justify-center px-2 text-sm tabular-nums', value === page ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-100')}>{value}</button>
     </span>)}
   </nav>;
 }

@@ -33,7 +33,7 @@ async function tokenFor(email: string) {
 }
 async function confirm(page: Page, token: string) {
   // Email opens a fresh document, as a mail client's link does.
-  await page.goto('/'); await page.goto(`/verify-email#token=${token}`);
+  await page.goto('about:blank'); await page.goto(`/verify-email#token=${token}`);
   await page.getByRole('button', { name: /Confirm my email|Confirmer mon adresse/ }).click();
 }
 async function credentials(page: Page, email: string, secret = password) {

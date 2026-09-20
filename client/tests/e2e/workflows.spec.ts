@@ -68,7 +68,7 @@ test('password reset uses the locally captured email and rejects token reuse', a
   const sent = page.waitForResponse(r => r.url().endsWith('/auth/forgot-password') && r.request().method() === 'POST'); await page.locator('main form button[type=submit]').click(); expect((await sent).ok()).toBe(true);
   const mail = await db.emailOutbox.findFirstOrThrow({ where: { payload: { path: ['to'], equals: user.email } }, orderBy: { createdAt: 'desc' } });
   const token = mail.payload.html.match(/token=([a-f0-9]{64})/)[1];
-  async function reset() { await page.goto('/forgot-password'); await page.goto(`/reset-password#token=${token}`); await page.getByLabel('New Password', { exact: true }).fill('ResetWorkflow123!'); await page.getByLabel('Confirm Password', { exact: true }).fill('ResetWorkflow123!'); await page.locator('main form button[type=submit]').click(); }
+  async function reset() { await page.goto('about:blank'); await page.goto(`/reset-password#token=${token}`); await page.getByLabel('New Password', { exact: true }).fill('ResetWorkflow123!'); await page.getByLabel('Confirm Password', { exact: true }).fill('ResetWorkflow123!'); await page.locator('main form button[type=submit]').click(); }
   await reset(); await expect(page.locator('main')).toContainText(/password has been reset/i);
   await reset(); await expect(page.locator('main')).toContainText(/invalid|expired/i);
   await login(page, user.email, 'ResetWorkflow123!');

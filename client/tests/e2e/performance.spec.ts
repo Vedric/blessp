@@ -54,13 +54,43 @@ test('debounces prices and keeps the existing cards mounted while refreshing', a
   const cards = page.getByRole('region', { name: 'Collection' }).locator('a[href^="/products/"]');
   await expect(cards.first()).toBeVisible();
   await cards.first().evaluate(element => element.setAttribute('data-retained-card', 'yes'));
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
   try {
-    await page.getByRole('spinbutton', { name: 'Minimum price' }).pressSequentially('123', { delay: 60 });
+    const minimum = page.getByRole('spinbutton', { name: 'Minimum price' });
+    for (const value of ['1', '12', '123']) {
+      await minimum.fill(value);
+      await expect(minimum).toHaveValue(value);
+      await expect(page).toHaveURL(new RegExp(`minPrice=${Number(value) * 100}(?:&|$)`));
+      await page.clock.runFor(100);
+    }
+    expect(prices).toEqual([]);
+    await page.clock.runFor(201);
     await expect.poll(() => prices).toEqual(['12300']);
     await expect(cards.first()).toHaveAttribute('data-retained-card', 'yes');
     await expect(page.getByRole('region', { name: 'Collection' })).toHaveAttribute('aria-busy', 'true');
-  } finally { release(); }
+  } finally { release(); await page.clock.resume(); }
   await expect(page.getByRole('region', { name: 'Collection' })).toHaveAttribute('aria-busy', 'false');
+});
+
+test('price filters preserve fast keystrokes and browser history restores their values', async ({ page }) => {
+  await page.goto('/shop');
+  const minimum = page.getByRole('spinbutton', { name: 'Minimum price' });
+  const maximum = page.getByRole('spinbutton', { name: 'Maximum price' });
+  await minimum.pressSequentially('123');
+  await expect(minimum).toHaveValue('123');
+  await expect(page).toHaveURL(/minPrice=12300/);
+  await maximum.pressSequentially('456');
+  await expect(maximum).toHaveValue('456');
+  await expect(page).toHaveURL(/maxPrice=45600/);
+  await page.getByRole('button', { name: 'Black', exact: true }).click();
+  await minimum.fill('12');
+  await expect(page).toHaveURL(/minPrice=1200/);
+  await page.goBack();
+  await expect(minimum).toHaveValue('123');
+  await expect(maximum).toHaveValue('456');
+  await page.goForward();
+  await expect(minimum).toHaveValue('12');
 });
 
 test('cancels stale catalogue requests and never replaces the newest category', async ({ page }) => {

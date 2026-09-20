@@ -22,8 +22,11 @@ async function member(admin = false) {
 }
 async function login(page: Page, email: string, secret = password) {
   await page.goto('/signin'); await page.locator('#email').fill(email); await page.locator('#password').fill(secret);
+  const featured = page.waitForResponse(r => r.url().endsWith('/products/featured'));
   await page.locator('form').filter({ has: page.locator('#email') }).locator('button[type=submit]').click();
   await expect(page).not.toHaveURL(/\/signin/);
+  await expect(page.locator('main h1')).toHaveText('BLE$$ P');
+  await featured;
   // Finish the login landing page before auditing a different document; WebKit
   // reports requests interrupted by a full navigation as page errors.
   await page.waitForLoadState('networkidle');
