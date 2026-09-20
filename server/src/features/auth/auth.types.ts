@@ -1,4 +1,5 @@
 export interface RegisterDto {
+  locale?: 'en' | 'fr';
   email: string;
   password: string;
   firstName: string;
@@ -32,6 +33,7 @@ export interface AuthUserResponse {
 }
 
 export interface OAuthLoginDto {
+  locale?: 'en' | 'fr';
   provider: 'google' | 'apple';
   mfaToken?: string;
   providerAccountId: string;

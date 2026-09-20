@@ -15,3 +15,27 @@ for (const locale of ['fr', 'en'] as const) {
     await page.screenshot({ path: testInfo.outputPath(`order-email-mobile-${locale}.png`), fullPage: true });
   });
 }
+
+const { verificationEmailPayload, passwordResetEmailPayload, welcomeEmailPayload, emailChangedPayload } = require('../../../server/dist/features/auth/auth.emails');
+for (const locale of ['fr', 'en'] as const) {
+  for (const kind of ['verification', 'reset', 'welcome', 'email-change'] as const) {
+    test(`account email ${kind} is localized, inert and accessible at 320 px (${locale})`, async ({ page }, testInfo) => {
+      const recipient = { email: 'preview@example.invalid', locale };
+      const firstName = '<script>alert(1)</script>' + 'VeryLongCustomerName'.repeat(5);
+      const payload = kind === 'verification' ? verificationEmailPayload({ ...recipient, token: 'a'.repeat(64) })
+        : kind === 'reset' ? passwordResetEmailPayload({ ...recipient, firstName, token: 'b'.repeat(64) })
+        : kind === 'welcome' ? welcomeEmailPayload({ ...recipient, firstName, welcomeCouponCode: '<img src=x onerror=alert(1)>' + 'LONGCODE'.repeat(8) })
+        : emailChangedPayload(recipient);
+      await page.setViewportSize({ width: 320, height: 740 }); await page.setContent(payload.html);
+      await expect(page.locator('html')).toHaveAttribute('lang', locale);
+      await expect(page.locator('script, img')).toHaveCount(0);
+      if (kind === 'reset' || kind === 'welcome') await expect(page.locator('main')).toContainText(firstName);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+      const link = new URL((await page.getByRole('link').getAttribute('href'))!);
+      expect(link.searchParams.get('lng')).toBe(locale); expect(link.searchParams.has('token')).toBe(false);
+      if (kind === 'verification' || kind === 'reset') expect(link.hash).toMatch(/^#token=[ab]{64}$/);
+      expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()).violations).toEqual([]);
+      await page.screenshot({ path: testInfo.outputPath(`account-${kind}-${locale}.png`), fullPage: true });
+    });
+  }
+}

@@ -16,7 +16,7 @@ jest.mock('@core/database/client', () => {
     create: jest.fn(),
   };
   return {
-    prisma: { user: mockUser, oAuthAccount: mockOAuthAccount },
+    prisma: { user: mockUser, oAuthAccount: mockOAuthAccount, emailOutbox: { upsert: jest.fn().mockResolvedValue({}) }, $transaction: jest.fn(async work => work({ user: mockUser, emailOutbox: { upsert: jest.fn().mockResolvedValue({}) } })) },
     getPrismaClient: jest.fn(),
   };
 });
@@ -28,11 +28,6 @@ jest.mock('@core/observability/logger', () => ({
     warn: jest.fn(),
     error: jest.fn(),
   },
-}));
-
-jest.mock('@features/auth/auth.emails', () => ({
-  sendWelcomeEmail: jest.fn().mockResolvedValue(undefined),
-  sendPasswordResetEmail: jest.fn().mockResolvedValue(undefined),
 }));
 
 // Import after mock registration so the mock is in place
@@ -253,7 +248,7 @@ describe('AuthService', () => {
         user.id,
         expect.any(String),
         expect.any(Date),
-        expect.objectContaining({ to: user.email, html: expect.stringContaining('/reset-password#token=') }),
+        expect.objectContaining({ to: user.email, html: expect.stringContaining('/reset-password?lng=en#token=') }),
       );
     });
 

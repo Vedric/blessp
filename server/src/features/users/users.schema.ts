@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const UpdateUserSchema = z.object({
+  locale: z.enum(['en', 'fr']).optional(),
   currentPassword: z.string().max(128).optional(),
   mfaToken: z.string().min(6).max(20).optional(),
   firstName: z.string().min(1).max(100).trim().optional(),

@@ -52,7 +52,7 @@ export class UsersService {
 
     if (dto.email && dto.email !== user.email) {
       await this.requireReauthentication(userId, user.passwordHash, dto.currentPassword, dto.mfaToken);
-      await new EmailVerificationService().request(userId, dto.email);
+      await new EmailVerificationService().request(userId, dto.email, dto.locale);
     }
     const updated = await this.usersRepository.update(userId, { firstName: dto.firstName, lastName: dto.lastName });
 

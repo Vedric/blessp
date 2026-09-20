@@ -2574,6 +2574,10 @@ paths:
             schema:
               type: object
               properties:
+                locale:
+                  type: string
+                  enum: [en, fr]
+                  default: en
                 email:
                   type: string
                   format: email
@@ -2581,7 +2585,7 @@ paths:
               - email
               additionalProperties: false
       responses:
-        '202':
+        '200':
           description: Request processed
           content:
             application/json:
@@ -3715,6 +3719,11 @@ components:
       - firstName
       - lastName
       properties:
+        locale:
+          type: string
+          enum: [en, fr]
+          default: en
+          description: Language of account emails for this action and its confirmation link.
         email:
           type: string
           format: email
@@ -3773,6 +3782,11 @@ components:
       required:
       - idToken
       properties:
+        locale:
+          type: string
+          enum: [en, fr]
+          default: en
+          description: Language of account emails for this action and its confirmation link.
         mfaToken:
           type: string
           minLength: 6
@@ -3794,6 +3808,11 @@ components:
       required:
       - idToken
       properties:
+        locale:
+          type: string
+          enum: [en, fr]
+          default: en
+          description: Language of account emails for this action and its confirmation link.
         mfaToken:
           type: string
           minLength: 6
@@ -3862,6 +3881,11 @@ components:
       required:
       - email
       properties:
+        locale:
+          type: string
+          enum: [en, fr]
+          default: en
+          description: Language of account emails for this action and its confirmation link.
         email:
           type: string
           format: email
@@ -3937,6 +3961,11 @@ components:
     UpdateUserRequest:
       type: object
       properties:
+        locale:
+          type: string
+          enum: [en, fr]
+          default: en
+          description: Language of account emails for this action and its confirmation link.
         firstName:
           type: string
           minLength: 1

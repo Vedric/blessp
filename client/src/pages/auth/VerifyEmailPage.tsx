@@ -21,7 +21,7 @@ export default function VerifyEmailPage() {
   const submit = async (event: FormEvent) => {
     event.preventDefault(); setBusy(true); setMessage('');
     try {
-      await api.post(token ? '/auth/verify-email' : '/auth/resend-verification', token ? { token } : { email });
+      await api.post(token ? '/auth/verify-email' : '/auth/resend-verification', token ? { token } : { email, locale: fr ? 'fr' : 'en' });
       if (activeToken.current !== token) return;
       setVerified(!!token);
       if (token) void navigate('/verify-email', { replace: true });

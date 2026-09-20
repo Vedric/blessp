@@ -1,6 +1,6 @@
 # Lancer BLE$$ P en partant de zéro
 
-Guide mis à jour le 18 septembre 2026. L’établissement prévu est à Montréal, au Québec, Canada, selon la confirmation du porteur du projet. Aucun budget n’est prévu pour l’instant ; aucun domaine, hébergement, compte Stripe ou service email n’est encore disponible. L’entreprise n’est pas encore créée ; les produits sont déjà disponibles. La livraison sera limitée au Canada au lancement. L’identité juridique future, l’adresse exacte et les inscriptions fiscales restent à préciser. Les étapes ci-dessous sont à réaliser ; elles ne constituent pas une validation de production.
+Guide mis à jour le 20 septembre 2026. L’établissement prévu est à Montréal, au Québec, Canada, selon la confirmation du porteur du projet. Aucun budget n’est prévu pour l’instant ; aucun domaine, hébergement, compte Stripe ou service email n’est encore disponible. L’entreprise n’est pas encore créée ; les produits sont déjà disponibles. La livraison sera limitée au Canada au lancement. L’identité juridique future, l’adresse exacte et les inscriptions fiscales restent à préciser. Les étapes ci-dessous sont à réaliser ; elles ne constituent pas une validation de production.
 
 Nous avancerons une étape à la fois. Tu fournis les décisions commerciales et ouvres les comptes à ton nom ; je prépare la configuration, les modifications du projet et les vérifications. Les achats et l’ouverture publique auront lieu après choix explicite du service et du coût. Aucun abonnement n’est nécessaire pour commencer à préciser le projet.
 
@@ -9,7 +9,7 @@ Nous avancerons une étape à la fois. Tu fournis les décisions commerciales et
 À préparer, même si certaines réponses sont encore « à décider » :
 
 - Entreprise encore en projet à Montréal (Québec) : préparer l’identité et les coordonnées qui pourront figurer sur le site.
-- Livraison au Canada uniquement au lancement ; confirmer la devise souhaitée. Le code utilise actuellement CAD ; changer de devise demanderait une adaptation et une recette.
+- Livraison au Canada uniquement et encaissement en CAD confirmés pour le lancement.
 - Reprendre les photos et les huit fiches recensées dans [le catalogue existant](CATALOGUE_EXISTANT.md), puis valider prix, stock physique, dimensions/poids des colis et adresse de départ des expéditions.
 - Conditions souhaitées de livraison et de retour : tarifs, délais, frais de retour, échanges et remboursement de la livraison.
 - Budget mensuel maximal pour les services, en précisant la devise du budget, et ordre de grandeur des commandes attendues.
@@ -50,7 +50,7 @@ Stripe sera d’abord relié en environnement de test, avec clés publiques, pri
 
 Pour les emails, nous ajouterons les enregistrements DNS fournis par le prestataire et attendrons sa validation du domaine. Avec Resend, cette vérification est décrite dans la [documentation des domaines](https://resend.com/docs/dashboard/domains/introduction). La boîte de réception du support et le service d’envoi automatique remplissent deux fonctions différentes : configurer l’envoi ne crée pas, à lui seul, une boîte de travail pour répondre aux clients.
 
-**Résultat attendu :** paiement de test rapproché de la commande, notification reçue, inscription vérifiée par email et récupération de compte réussie. Nous vérifierons également les refus, remboursements, événements retardés et reprises d’email. Les emails d’authentification restent à adapter au français si les deux langues sont proposées au lancement.
+**Résultat attendu :** paiement de test rapproché de la commande, notification reçue, inscription vérifiée par email et récupération de compte réussie. Nous vérifierons également les refus, remboursements, événements retardés et reprises d’email. Les emails d’authentification sont maintenant disponibles en français et en anglais ; leur langue suit celle choisie au moment de la demande et reste portée par le lien de confirmation. Leur réception chez les vrais destinataires reste à vérifier.
 
 ## 5. Finaliser les règles et le catalogue
 
