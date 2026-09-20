@@ -1,5 +1,7 @@
 # Reste à faire avant ouverture commerciale — 18 septembre 2026
 
+Mise à jour du 20 septembre : [correctifs du catalogue, des liens de vérification et de la navigation au clavier, avec leurs preuves ciblées](audits/2026-09-20/CATALOGUE_ET_STABILITE.md). Les résultats antérieurs ci-dessous restent des points de référence datés.
+
 **Statut : code audité et publié en revue, ouverture commerciale non validée.** La dernière passe locale couvre 513 tests serveur et 39 cas fournisseurs sur Chromium, Firefox et WebKit, avec 102 cas de régression ciblés ; voir [PAIEMENTS_AUTH_CI.md](audits/2026-09-17/PAIEMENTS_AUTH_CI.md). La matrice générale précédente et ses reprises sont documentées dans [LANCEMENT.md](audits/2026-09-16/LANCEMENT.md). Les résultats distants et la révision testée sont consultables dans la [PR #67](https://github.com/Vedric/blessp/pull/67). Ces résultats ne valident ni les décisions commerciales, ni les prestataires réels, ni une production déployée. Cette revue du code complète [PRODUCTION_READINESS.md](PRODUCTION_READINESS.md) et [la recette des stocks](audits/2026-09-16/STOCKS.md).
 
 ## Points à fermer avant lancement
