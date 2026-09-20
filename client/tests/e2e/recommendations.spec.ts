@@ -24,13 +24,14 @@ async function pair() {
   } });
   ids.push(suggested.id);
   // A neighbouring catalogue entry must not expand the mobile related grid.
+  const relatedColor = `#${crypto.randomBytes(3).toString('hex')}`;
   const related = await db.product.create({ data: {
     name: `LongProductReference${crypto.randomBytes(24).toString('hex')}`, category: 'hoodies', price: 10000,
-    picture: '/img/blue_hoody_1.jpeg', colors: ['White'], sizes: ['M'],
-    variants: { create: { size: 'M', color: 'White', stock: 5 } },
+    picture: '/img/blue_hoody_1.jpeg', colors: [relatedColor], sizes: ['M'],
+    variants: { create: { size: 'M', color: relatedColor, stock: 5 } },
   } });
   ids.push(related.id);
-  return { source, suggested };
+  return { source, suggested, related };
 }
 test.afterAll(async () => {
   await db.product.deleteMany({ where: { id: { in: ids } } });
@@ -87,4 +88,22 @@ test('a recommendation outage leaves the product and its purchase flow usable', 
   await page.getByRole('button', { name: 'M', exact: true }).click();
   await page.getByRole('button', { name: 'Add to Cart', exact: true }).first().click();
   await expect(page.getByText(/added to cart/i).first()).toBeVisible();
+});
+
+test('long catalogue names fit mobile shop and search cards', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('preferred_language', 'en'); localStorage.setItem('blessp_cookie_consent', 'rejected');
+  });
+  await page.setViewportSize({ width: 320, height: 740 });
+  const { related } = await pair();
+  for (const route of [`/shop?colors=${encodeURIComponent(related.colors[0])}`, `/search?q=${encodeURIComponent(related.name)}`]) {
+    await page.goto(route);
+    const heading = page.getByRole('heading', { name: related.name, exact: true });
+    await expect(heading).toBeVisible();
+    await heading.scrollIntoViewIfNeeded();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+  }
+  await page.goto(`/search?q=Missing${encodeURIComponent(related.name)}`);
+  await expect(page.getByRole('heading', { name: /^No results for/ })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });

@@ -8,7 +8,7 @@
 - Les fenêtres prennent le focus avant leur affichage et le rendent après la mise à jour du DOM. La galerie ne perd plus sa première flèche ; le menu mobile rend le focus au bouton d’ouverture.
 - La vérification d’e-mail lit le jeton du lien courant, même lorsque cette page est déjà ouverte. Les parcours attendent la fin de la vérification avant la connexion ; les liens invalidés, expirés et réutilisés restent refusés.
 - Les recommandations affichent les prix individuels de l’API. La remise d’ensemble de 10 % auparavant annoncée sans calcul serveur et l’ajout implicite d’une première variante ont été retirés. Le client ouvre la fiche recommandée pour choisir ses options et ajouter l’article.
-- Les titres longs, le fil d’Ariane et les cartes associées restent dans la largeur d’un écran de 320 pixels, y compris sous Firefox.
+- Les titres longs, le fil d’Ariane et les cartes associées restent dans la largeur d’un écran de 320 pixels, y compris sous Firefox. Les cartes de boutique et les messages de recherche, avec ou sans résultat, traitent aussi les mots très longs ; un test a reproduit un débordement de 251 pixels avant correction.
 
 ## Vérifications locales
 
@@ -18,6 +18,7 @@
 | Focus de la galerie, menus mobiles, filtres, recherche et guide des tailles | 54 exécutions, dont répétitions, réussies sur Chromium, Firefox et WebKit |
 | Inscription FR/EN, liens de vérification, isolation des comptes, MFA, adresses et dialogues administratifs | 45 cas réussis sur trois navigateurs après les correctifs du focus et des liens |
 | Recommandations, prix, taille indisponible, panier, checkout et panne de recommandation | 9 cas réussis, puis 9 à nouveau après intégration des correctifs précédents |
+| Extension aux cartes de boutique et à la recherche avec des noms très longs | 12 cas du catalogue réussis sur trois navigateurs, incluant les 9 précédents |
 | Compilation et analyse statique | Réussies ; aucune reprise automatique dans les campagnes locales ci-dessus |
 
 Les 54 et 45 exécutions ciblées portent sur les modifications de `d67fa2b`. La recette combinée du catalogue porte sur `5836d0b`. Ces nombres ne désignent pas autant de scénarios distincts : les répétitions et les navigateurs multiplient les exécutions. Les rapports locaux figurent dans `artifacts/dialog-focus-20260920/`, `artifacts/dialog-auth-20260920/` et `artifacts/catalogue-integrated-20260920/` ; ces répertoires générés ne sont pas versionnés. Les navigateurs et le serveur de recette ont été fermés après les campagnes.
