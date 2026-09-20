@@ -22,7 +22,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
               <ChevronRight className="h-3 w-3 shrink-0 text-neutral-300" />
             )}
             {isLast || !item.href ? (
-              <span className="break-words text-xs font-medium tracking-wider text-neutral-900 uppercase">
+              <span className="min-w-0 text-xs font-medium tracking-wider text-neutral-900 uppercase [overflow-wrap:anywhere]">
                 {item.label}
               </span>
             ) : (

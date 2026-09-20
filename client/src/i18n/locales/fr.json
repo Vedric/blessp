@@ -687,9 +687,9 @@
   },
   "completeLook": {
     "title": "Complétez le look",
-    "shopTheSet": "Découvrir l'ensemble",
-    "save": "Économisez {{amount}}",
-    "addBoth": "Ajouter les deux au panier"
+    "description": "Découvrez les pièces à associer à votre sélection. Choisissez la taille et la couleur sur chaque fiche produit.",
+    "chooseOptions": "Choisir les options",
+    "chooseOptionsFor": "Choisir les options pour {{name}}"
   },
   "orderTimeline": {
     "title": "Suivi de la commande",

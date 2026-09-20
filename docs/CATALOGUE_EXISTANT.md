@@ -69,3 +69,9 @@ Les 13 photos produit ont été ouvertes et examinées visuellement. Tous les fi
 - Rapprocher les fiches avec les produits réellement vendus, puis les enregistrer par le parcours administratif. Ne pas lancer le seed de démonstration pour remplir la production.
 
 Les médias locaux sont livrés avec l’application ; un service externe de stockage d’images n’est pas nécessaire pour exploiter ce catalogue existant.
+
+## Parcours des recommandations (20 septembre 2026)
+
+La section « Compléter le look » présente désormais le prix de chaque article et un lien vers sa fiche pour sélectionner taille et couleur. Elle ne promet plus une réduction de 10 % absente du calcul serveur et n’ajoute plus silencieusement deux premières variantes au panier. Une panne de recommandations ne bloque pas la fiche principale. Les noms longs reviennent à la ligne sur mobile, y compris dans les produits associés.
+
+Cette correction ne crée pas de stock partagé pour les ensembles et ne valide ni leurs prix ni leurs quantités physiques.
