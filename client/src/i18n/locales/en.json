@@ -687,9 +687,9 @@
   },
   "completeLook": {
     "title": "Complete the Look",
-    "shopTheSet": "Shop the Set",
-    "save": "Save {{amount}}",
-    "addBoth": "Add Both to Cart"
+    "description": "Discover pieces to pair with your selection. Choose the size and colour on each product page.",
+    "chooseOptions": "Choose options",
+    "chooseOptionsFor": "Choose options for {{name}}"
   },
   "orderTimeline": {
     "title": "Order Timeline",

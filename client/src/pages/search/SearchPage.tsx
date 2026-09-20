@@ -87,7 +87,7 @@ export default function SearchPage() {
             />
           </div>
           {hasSearched && !isLoading && (
-            <p className="mt-4 text-sm text-neutral-600">
+            <p className="mt-4 text-sm text-neutral-600 [overflow-wrap:anywhere]">
               {t('search.resultsCount', { count: totalItems, query })}
             </p>
           )}
@@ -138,7 +138,7 @@ export default function SearchPage() {
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50">
               <PackageOpen className="h-8 w-8 text-neutral-300" strokeWidth={1.5} />
             </div>
-            <h3 className="mt-6 font-display text-lg font-medium text-neutral-900">
+            <h3 className="mt-6 max-w-full font-display text-lg font-medium text-neutral-900 [overflow-wrap:anywhere]">
               {t('search.noResults', { query })}
             </h3>
             <p className="mt-2 max-w-sm text-sm text-neutral-500">

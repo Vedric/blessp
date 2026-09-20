@@ -228,7 +228,7 @@ export default function ProductPage() {
         animate="visible"
       >
         {/* Images */}
-        <motion.div variants={fadeIn}>
+        <motion.div className="min-w-0" variants={fadeIn}>
           <div className="relative">
             {product && <WishlistButton productId={product.id} />}
             {product && <CompareButton productId={product.id} />}
@@ -237,8 +237,8 @@ export default function ProductPage() {
         </motion.div>
 
         {/* Product Info */}
-        <motion.div className="lg:sticky lg:top-32 lg:self-start" variants={fadeIn}>
-          <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900 md:text-4xl">
+        <motion.div className="min-w-0 lg:sticky lg:top-32 lg:self-start" variants={fadeIn}>
+          <h1 className="font-display text-3xl font-light tracking-tight text-neutral-900 [overflow-wrap:anywhere] md:text-4xl">
             {product.name}
           </h1>
           <p className="mt-3 text-xl text-neutral-700">
@@ -487,7 +487,7 @@ export default function ProductPage() {
 
       {/* Complete the Look */}
       {productId && product && (
-        <CompleteLook productId={productId} currentProduct={product} />
+        <CompleteLook productId={productId} />
       )}
 
       {/* You May Also Like */}
@@ -516,7 +516,7 @@ export default function ProductPage() {
             }}
           >
             {relatedProducts.map((related) => (
-              <motion.div key={related.id} variants={slideUp} className="relative">
+              <motion.div key={related.id} variants={slideUp} className="relative min-w-0">
                 <WishlistButton productId={related.id} />
                 <Link to={`/products/${related.id}`} className="group block">
                   <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
@@ -527,7 +527,7 @@ export default function ProductPage() {
                     />
                   </div>
                   <div className="mt-4">
-                    <h3 className="text-sm font-medium text-neutral-900">
+                    <h3 className="text-sm font-medium text-neutral-900 [overflow-wrap:anywhere]">
                       {related.name}
                     </h3>
                     <p className="mt-1 text-sm text-neutral-500">
