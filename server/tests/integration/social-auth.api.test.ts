@@ -74,3 +74,21 @@ test('social sign-in enforces MFA and refuses a deactivated account', async () =
   await prisma.user.update({ where: { id: first.body.data.user.id }, data: { deletedAt: new Date() } });
   await request(app).post('/api/v1/auth/google').send({ idToken: 'synthetic' }).expect(401);
 });
+
+test.each(['google', 'apple'] as const)('%s queues one localized welcome and rolls back the account if queueing fails', async provider => {
+  google();
+  const { emailService } = await import('../../src/core/email/email.service');
+  const outbox = await import('../../src/core/email/outbox');
+  const send = jest.spyOn(emailService, 'send');
+  const queue = jest.spyOn(outbox, 'enqueueEmail').mockRejectedValueOnce(new Error('Synthetic queue failure'));
+  const payload = { idToken: provider === 'google' ? 'synthetic' : apple(), firstName: 'New', lastName: 'Customer', locale: 'fr' };
+  await request(app).post(`/api/v1/auth/${provider}`).send(payload).expect(500);
+  expect(await prisma.user.count()).toBe(0); expect(await prisma.oAuthAccount.count()).toBe(0); expect(await prisma.emailOutbox.count()).toBe(0);
+  queue.mockRestore();
+  await request(app).post(`/api/v1/auth/${provider}`).send(payload).expect(200);
+  await request(app).post(`/api/v1/auth/${provider}`).send({ ...payload, locale: 'en' }).expect(200);
+  const rows = await prisma.emailOutbox.findMany(); expect(rows).toHaveLength(1);
+  expect(rows[0].payload).toMatchObject({ subject: 'BLE$$ P: Bienvenue chez BLE$$ P', html: expect.stringContaining('<html lang="fr">') });
+  expect((rows[0].payload as { html: string }).html).not.toContain('10 %');
+  expect(await prisma.coupon.count()).toBe(0); expect(send).not.toHaveBeenCalled();
+});

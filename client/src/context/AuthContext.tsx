@@ -6,6 +6,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
+import i18n from '@/i18n';
 import { api, setAccessToken, clearTokens, getAccessToken, refreshSession, settleSessionRefresh } from '@/lib/api';
 import { mergeGuestCartIntoServerCart } from '@/lib/guestCart';
 import type { User } from '@/lib/types';
@@ -98,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(
     async (data: { email: string; password: string; firstName: string; lastName: string }) => {
-      await api.post('/auth/register', data);
+      await api.post('/auth/register', { ...data, locale: i18n.resolvedLanguage === 'fr' ? 'fr' : 'en' });
     },
     [],
   );
@@ -106,7 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithGoogle = useCallback(async (idToken: string, mfaToken?: string, profile?: { firstName: string; lastName: string }) => {
     const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
       '/auth/google',
-      { idToken, mfaToken, ...profile },
+      { idToken, mfaToken, ...profile, locale: i18n.resolvedLanguage === 'fr' ? 'fr' : 'en' },
     );
     setAccessToken(data.tokens.accessToken);
     await mergeGuestCartIntoServerCart();
@@ -116,7 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithApple = useCallback(async (idToken: string, firstName?: string, lastName?: string, mfaToken?: string) => {
     const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
       '/auth/apple',
-      { idToken, firstName, lastName, mfaToken },
+      { idToken, firstName, lastName, mfaToken, locale: i18n.resolvedLanguage === 'fr' ? 'fr' : 'en' },
     );
     setAccessToken(data.tokens.accessToken);
     await mergeGuestCartIntoServerCart();

@@ -117,7 +117,14 @@ test('unknown routes return 404 and remain excluded from indexing after renderin
 
 for (const path of ['/', '/contact', '/signup', '/forgot-password', '/reset-password', '/compare', '/terms', '/return-policy', '/missing-page']) {
   test(`WCAG 2.2 AA checks on ${path}`, async ({ page }) => {
-    await page.goto(path); await page.waitForLoadState('networkidle'); await page.waitForTimeout(1000);
+    await page.goto(path);
+    if (path === '/') {
+      // A streaming hero can keep the network busy after the page is usable.
+      await expect(page.locator('main h1')).toBeVisible();
+      await expect(page.locator('main a[href^="/products/"]').first()).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+    } else await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     expect(result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, reason: n.failureSummary })) }))).toEqual([]);
   });

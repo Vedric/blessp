@@ -1,9 +1,7 @@
-import { escapeHtml } from '../../core/email/html';
 import crypto from 'crypto';
 import { Prisma } from '@prisma/client';
 import { transaction, lockResource } from '../../core/database/transaction';
 import { hashToken } from '../../core/security/secrets';
-import { Env } from '../../core/config/env';
 import { EmailVerificationService } from './email-verification.service';
 import { v4 as uuidv4 } from 'uuid';
 import { prisma } from '../../core/database/client';
@@ -31,7 +29,8 @@ import { RegisterDto, LoginDto, TokenPair, AuthUserResponse, OAuthLoginDto } fro
 import { HashService } from '../../core/security/hash.service';
 import { TokenService, refreshLifetimeMs } from '../../core/security/token.service';
 import { logger } from '../../core/observability/logger';
-import { sendWelcomeEmail } from './auth.emails';
+import { passwordResetEmailPayload, welcomeEmailPayload, type AccountLocale } from './auth.emails';
+import { enqueueEmail } from '../../core/email/outbox';
 import { MfaService } from './mfa.service';
 
 export type RegisterResult = { created: boolean };
@@ -51,14 +50,14 @@ export class AuthService {
 
     if (existing) {
       if (!existing.deletedAt && !existing.emailVerifiedAt) {
-        await new EmailVerificationService().request(existing.id, existing.email);
+        await new EmailVerificationService().request(existing.id, existing.email, dto.locale);
       }
       return { created: false };
     }
     const passwordHash = await this.hashService.hash(dto.password);
     try {
       const user = await prisma.user.create({ data: { email: dto.email, passwordHash, firstName: dto.firstName, lastName: dto.lastName } });
-      await new EmailVerificationService().request(user.id, user.email);
+      await new EmailVerificationService().request(user.id, user.email, dto.locale);
     } catch (error) {
       if (!(error instanceof Prisma.PrismaClientKnownRequestError) || error.code !== 'P2002') throw error;
     }
@@ -158,29 +157,27 @@ export class AuthService {
       throw new ProfileRequiredError();
     }
 
-    const user = await prisma.user.create({
-      data: {
-        email: dto.email,
-        emailVerifiedAt: new Date(),
-        firstName: dto.firstName,
-        lastName: dto.lastName,
-        oauthAccounts: {
-          create: {
-            provider: dto.provider,
-            providerAccountId: dto.providerAccountId,
+    const { firstName, lastName } = dto;
+    const user = await transaction(async tx => {
+      const created = await tx.user.create({
+        data: {
+          email: dto.email,
+          emailVerifiedAt: new Date(),
+          firstName,
+          lastName,
+          oauthAccounts: {
+            create: { provider: dto.provider, providerAccountId: dto.providerAccountId },
           },
         },
-      },
+      });
+      await enqueueEmail(tx, welcomeEmailPayload({ email: created.email, firstName: created.firstName, locale: dto.locale }));
+      return created;
     });
 
     logger.info(
       { userId: user.id, provider: dto.provider },
       'New user registered via OAuth',
     );
-
-    sendWelcomeEmail({ email: user.email, firstName: user.firstName }).catch((err) => {
-      logger.error({ err, userId: user.id }, 'Failed to send welcome email');
-    });
 
     const tokens = await this.issueTokenPair(user.id, user.email, user.isAdmin, undefined, user.sessionVersion);
 
@@ -232,7 +229,7 @@ export class AuthService {
     return this.toAuthUserResponse(user);
   }
 
-  async forgotPassword(email: string): Promise<void> {
+  async forgotPassword(email: string, locale: AccountLocale = 'en'): Promise<void> {
     const user = await prisma.user.findUnique({
       where: { email, deletedAt: null },
     });
@@ -246,11 +243,8 @@ export class AuthService {
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + 30);
 
-    const resetUrl = `${Env.CLIENT_URL}/reset-password#token=${token}`;
-    await this.authRepository.createPasswordResetToken(user.id, token, expiresAt, {
-      to: user.email, subject: 'BLE$$ P: Reset Your Password',
-      html: `<p>Hello ${escapeHtml(user.firstName)},</p><p><a href="${escapeHtml(resetUrl)}">Reset your password</a>. This link expires in 30 minutes. If you did not request it, ignore this email.</p>`,
-    });
+    await this.authRepository.createPasswordResetToken(user.id, token, expiresAt,
+      passwordResetEmailPayload({ email: user.email, firstName: user.firstName, token, locale }));
     logger.info({ userId: user.id }, 'Password reset requested');
   }
 

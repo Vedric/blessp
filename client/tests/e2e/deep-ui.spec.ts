@@ -28,7 +28,7 @@ async function registration(page: Page, email: string) {
   const user = await db.user.findUniqueOrThrow({ where: { email } }); expect(user.emailVerifiedAt).toBeNull(); return user;
 }
 async function tokenFor(email: string) {
-  const mail = await db.emailOutbox.findFirstOrThrow({ where: { AND: [{ payload: { path: ['to'], equals: email } }, { payload: { path: ['subject'], string_contains: 'Verify your email' } }] }, orderBy: { createdAt: 'desc' } });
+  const mail = await db.emailOutbox.findFirstOrThrow({ where: { AND: [{ payload: { path: ['to'], equals: email } }, { payload: { path: ['html'], string_contains: '/verify-email' } }] }, orderBy: { createdAt: 'desc' } });
   return mail.payload.html.match(/token=([a-f0-9]{64})/)[1];
 }
 async function confirm(page: Page, token: string) {

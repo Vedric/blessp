@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const RegisterSchema = z.object({
+  locale: z.enum(['en', 'fr']).optional(),
   email: z.string().email('A valid email address is required.').max(254).toLowerCase().trim(),
   password: z
     .string()
@@ -29,6 +30,7 @@ export const LogoutSchema = z.object({
 });
 
 export const ForgotPasswordSchema = z.object({
+  locale: z.enum(['en', 'fr']).optional(),
   email: z.string().email('A valid email address is required.').toLowerCase().trim(),
 });
 
@@ -45,6 +47,7 @@ export const ResetPasswordSchema = z.object({
 export const EmailTokenSchema = z.object({ token: z.string().regex(/^[a-f0-9]{64}$/) }).strict();
 
 export const GoogleOAuthSchema = z.object({
+  locale: z.enum(['en', 'fr']).optional(),
   firstName: z.string().trim().min(1).max(100).optional(),
   lastName: z.string().trim().min(1).max(100).optional(),
   mfaToken: z.string().min(6).max(20).optional(),
@@ -52,6 +55,7 @@ export const GoogleOAuthSchema = z.object({
 }).strict();
 
 export const AppleOAuthSchema = z.object({
+  locale: z.enum(['en', 'fr']).optional(),
   mfaToken: z.string().min(6).max(20).optional(),
   idToken: z.string().min(1, 'Apple ID token is required.').max(16384),
   firstName: z.string().max(100).trim().optional(),

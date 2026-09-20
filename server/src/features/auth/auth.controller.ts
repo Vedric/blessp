@@ -99,8 +99,8 @@ export class AuthController {
 
   forgotPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { email } = ForgotPasswordSchema.parse(req.body);
-      await this.authService.forgotPassword(email);
+      const { email, locale } = ForgotPasswordSchema.parse(req.body);
+      await this.authService.forgotPassword(email, locale);
 
       sendSuccess(res, req, { message: 'If an account with that email exists, a password reset link has been sent.' });
     } catch (error) {
@@ -129,8 +129,8 @@ export class AuthController {
 
   resendVerification = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { email } = ForgotPasswordSchema.parse(req.body);
-      await new EmailVerificationService().resend(email);
+      const { email, locale } = ForgotPasswordSchema.parse(req.body);
+      await new EmailVerificationService().resend(email, locale);
       sendSuccess(res, req, { message: 'If verification is needed, an email will be sent.' });
     } catch (error) { next(error); }
   };
@@ -149,11 +149,11 @@ export class AuthController {
 
   googleLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { idToken, mfaToken, firstName, lastName } = GoogleOAuthSchema.parse(req.body);
+      const { idToken, mfaToken, firstName, lastName, locale } = GoogleOAuthSchema.parse(req.body);
       const oauthUser = await this.oauthService.verifyGoogleToken(idToken);
 
       const result = await this.authService.oauthLogin({
-        provider: 'google', mfaToken,
+        provider: 'google', mfaToken, locale,
         providerAccountId: oauthUser.providerAccountId,
         email: oauthUser.email,
         firstName: oauthUser.firstName || firstName,
@@ -173,11 +173,11 @@ export class AuthController {
 
   appleLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { idToken, firstName, lastName, mfaToken } = AppleOAuthSchema.parse(req.body);
+      const { idToken, firstName, lastName, mfaToken, locale } = AppleOAuthSchema.parse(req.body);
       const oauthUser = await this.oauthService.verifyAppleToken(idToken);
 
       const result = await this.authService.oauthLogin({
-        provider: 'apple', mfaToken,
+        provider: 'apple', mfaToken, locale,
         providerAccountId: oauthUser.providerAccountId,
         email: oauthUser.email,
         firstName: firstName ?? oauthUser.firstName,

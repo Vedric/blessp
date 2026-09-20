@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 
 export default function ForgotPasswordPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -17,7 +17,7 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
 
     try {
-      await api.post('/auth/forgot-password', { email });
+      await api.post('/auth/forgot-password', { email, locale: i18n.resolvedLanguage === 'fr' ? 'fr' : 'en' });
       setIsSubmitted(true);
     } catch (err: unknown) {
       const apiErr = err as { message?: string };

@@ -9,6 +9,7 @@ export interface UserResponse {
 }
 
 export interface UpdateUserDto {
+  locale?: 'en' | 'fr';
   currentPassword?: string;
   mfaToken?: string;
   firstName?: string;
