@@ -1,4 +1,4 @@
-import { useEffect, useRef, type RefObject } from 'react';
+import { useLayoutEffect, useRef, type RefObject } from 'react';
 import { useScrollLock } from './useScrollLock';
 
 const activeDialogs: HTMLElement[] = [];
@@ -7,7 +7,7 @@ export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement | null>
   const closeRef = useRef(close);
   closeRef.current = close;
   useScrollLock(open);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return;
     const panel = ref.current;
     if (!panel) return;
@@ -16,8 +16,7 @@ export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement | null>
     const isTop = () => activeDialogs.at(-1) === panel;
     const focusable = () => [...panel.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]')]
       .filter(node => node.tabIndex >= 0 && !node.closest('[inert]') && node.getClientRects().length > 0);
-    const focusFirst = () => (panel.querySelector<HTMLElement>('[data-dialog-initial-focus]') ?? focusable()[0] ?? panel).focus();
-    const timer = window.setTimeout(() => { if (isTop()) focusFirst(); }, 0);
+    const focusFirst = () => (panel.querySelector<HTMLElement>('[data-dialog-initial-focus]') ?? focusable()[0] ?? panel).focus({ preventScroll: true });
     const handle = (event: KeyboardEvent) => {
       if (!isTop()) return;
       if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); closeRef.current(); return; }
@@ -32,13 +31,20 @@ export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement | null>
     };
     document.addEventListener('keydown', handle);
     document.addEventListener('focusin', containFocus);
+    // Focus must enter before the dialog is painted. A deferred timer can lose
+    // the first keyboard action while focus still belongs to the opener.
+    focusFirst();
     return () => {
       const wasTop = isTop();
       activeDialogs.splice(activeDialogs.indexOf(panel), 1);
-      clearTimeout(timer);
       document.removeEventListener('keydown', handle);
       document.removeEventListener('focusin', containFocus);
-      if (wasTop && previous?.isConnected && !panel.contains(previous)) previous.focus();
+      // React restores selection during the commit. Return focus afterwards so
+      // it cannot be moved back into an overlay that is animating out.
+      if (wasTop && previous && !panel.contains(previous)) queueMicrotask(() => {
+        const current = activeDialogs.at(-1);
+        if (previous.isConnected && (!current || current.contains(previous))) previous.focus({ preventScroll: true });
+      });
     };
   }, [open, ref]);
 }

@@ -47,7 +47,10 @@ test('MFA enrollment, authenticator login and single-use recovery code work in t
   await signout(page); await credentials(page, user.email); await page.locator('#mfa-token').fill(backup.toLowerCase());
   await page.locator('main form button[type=submit]').click(); await expect(page).not.toHaveURL(/\/signin/);
   expect((await db.mfaSetup.findUniqueOrThrow({ where: { userId: user.id } })).backupCodes).toHaveLength(9);
-  await signout(page); await credentials(page, user.email); await page.locator('#mfa-token').fill(backup); await page.locator('main form button[type=submit]').click();
+  await signout(page); await credentials(page, user.email); await page.locator('#mfa-token').fill(backup);
+  const rejectedRecovery = page.waitForResponse(r => r.url().endsWith('/auth/login') && r.request().method() === 'POST');
+  await page.locator('main form button[type=submit]').click();
+  expect((await rejectedRecovery).status()).toBe(401);
   await expect(page.locator('main')).toContainText(/code did not match/i); await expect(page).toHaveURL(/\/signin/);
   await page.locator('#mfa-token').fill(totp(secret)); await page.locator('main form button[type=submit]').click(); await expect(page).not.toHaveURL(/\/signin/);
   await page.goto('/profile'); await page.locator('#mfa-disable-code').fill(totp(secret));
