@@ -26,6 +26,14 @@ Le contrôle post-fusion de la révision précédente (`35526611683`) a révél�
 
 La CI exécute aussi la matrice complète de parcours, les contrats fournisseurs, les audits de dépendances et la construction/analyse de l’image. Son résultat sur la révision finale fait foi pour la fusion.
 
+## Exercices locaux d’exploitation
+
+Sur le même code applicatif, une sauvegarde PostgreSQL au format personnalisé du schéma synthétique `e2e` a été restaurée dans une base temporaire distincte. Les nombres de lignes et empreintes de contenu ont été comparés table par table : 27 tables, 142 lignes identiques. La base temporaire a été supprimée après contrôle ; l’archive de test est conservée avec droits restreints. Preuve : `artifacts/account-emails-20260920/restore-drill.json`.
+
+Une sonde en lecture seule du catalogue a exécuté trois paliers de 15 secondes, avec 1, 5 et 20 clients concurrents et une pause de 50 ms entre requêtes. Résultat : 7 195 réponses HTTP 200, aucune erreur ; p95 maximal observé de 6,52 ms. Ce résultat porte sur huit produits synthétiques, en boucle locale, en mode test et sans Redis ni services externes. Il ne mesure ni la capacité d’un hébergement, ni les écritures concurrentes, ni le comportement des quotas de production. Script et mesures : `artifacts/account-emails-20260920/catalogue-load-probe.cjs` et `catalogue-load.json`.
+
+Ces exercices ne ferment pas les validations de sauvegarde/charge du futur environnement commercial.
+
 ## Limites avant ouverture
 
 Les boîtes et transports fournisseurs réels ne sont pas configurés. La recette locale ne prouve pas la réception Gmail/Outlook/Apple Mail, le rendu dans leurs logiciels, la délivrabilité, les DNS ni le bon fonctionnement du domaine public. Tester ces points sur la préproduction, avec le worker d’outbox actif, puis vérifier une panne/reprise et un message effectivement reçu. Les clés et domaines Google/Apple réels restent également à provisionner et à recetter.

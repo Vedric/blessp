@@ -2591,8 +2591,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
-        '401':
-          description: Invalid or expired token
+        '429':
+          description: Too many verification requests
         '422':
           description: Validation failed
   /auth/mfa/setup:

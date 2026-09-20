@@ -13,7 +13,7 @@
 | 5. Exploitation | Identifier qui traite commandes, support, alertes et incidents. | Restaurer une sauvegarde, recevoir une alerte, vérifier reprise après redémarrage et mesurer une charge convenue. |
 | 6. Ouverture | Valider les textes, le catalogue et le résultat de recette sur la version candidate. | CI verte sur la révision finale, contrôles de lancement réussis, base commerciale propre, déploiement identifié, contrôle immédiat du site et suivi des premières commandes. |
 
-Les étapes 1 à 3 peuvent avancer en parallèle. Les étapes 4 à 6 dépendent de leurs résultats. Le code et les tests locaux peuvent continuer sans abonnement ; une ouverture complète avec tous les prestataires demandés dépend de leurs comptes, de leur disponibilité et de leur validation. Ne pas présenter un moyen de paiement ou une connexion comme opérationnel avant sa recette réelle.
+Les étapes 1 à 3 peuvent avancer en parallèle. Les étapes 4 à 6 dépendent de leurs résultats. Le code et les tests locaux peuvent continuer sans abonnement ; une ouverture complète avec tous les prestataires demandés dépend de leurs comptes, de leur disponibilité et de leur validation. La connexion Apple comporte notamment un prérequis développeur payant à prévoir ; voir les sources et la configuration dans le [guide pas à pas](GUIDE_LANCEMENT.md). Ne pas présenter un moyen de paiement ou une connexion comme opérationnel avant sa recette réelle.
 
 ## Première action à préparer
 

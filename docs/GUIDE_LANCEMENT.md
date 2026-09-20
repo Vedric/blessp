@@ -32,6 +32,8 @@ La liste à prévoir est courte :
 | PayPal | Ouvrir le compte de l’exploitant et préparer une application sandbox | Intégration distincte pour le Canada, notifications, capture, annulation et remboursement |
 | Médias | Fournir photos et contenus dont tu disposes des droits | URLs durables, formats/poids et contrôle d’affichage du catalogue |
 
+La connexion Apple demande un Services ID associé à un App ID principal activé pour cette capacité, selon la [configuration officielle pour le web](https://developer.apple.com/help/account/capabilities/configure-sign-in-with-apple-for-the-web). L’[adhésion Apple Developer](https://developer.apple.com/help/account/membership/program-enrollment) est annoncée à 99 USD par an, avec prix local éventuel, au 20 septembre 2026. Prévoir ce poste et la configuration développeur pour activer la connexion demandée. Le paiement Apple Pay possède sa [configuration propre chez Stripe](https://docs.stripe.com/apple-pay?platform=web), notamment l’enregistrement du domaine pour Elements.
+
 Conserve la propriété des comptes, active leur authentification renforcée et conserve leurs moyens de récupération. Les clés privées seront installées dans les paramètres protégés de l’hébergement, jamais collées dans une conversation ou un fichier Git. Pour chaque console choisie, je pourrai ensuite indiquer précisément les écrans et champs à renseigner.
 
 **Résultat attendu :** services choisis, coût initial et récurrent compris, accès disponibles. Google/Apple pour la connexion et les outils marketing peuvent rester désactivés au lancement.
