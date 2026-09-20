@@ -47,7 +47,10 @@ test('MFA enrollment, authenticator login and single-use recovery code work in t
   await signout(page); await credentials(page, user.email); await page.locator('#mfa-token').fill(backup.toLowerCase());
   await page.locator('main form button[type=submit]').click(); await expect(page).not.toHaveURL(/\/signin/);
   expect((await db.mfaSetup.findUniqueOrThrow({ where: { userId: user.id } })).backupCodes).toHaveLength(9);
-  await signout(page); await credentials(page, user.email); await page.locator('#mfa-token').fill(backup); await page.locator('main form button[type=submit]').click();
+  await signout(page); await credentials(page, user.email); await page.locator('#mfa-token').fill(backup);
+  const rejectedRecovery = page.waitForResponse(r => r.url().endsWith('/auth/login') && r.request().method() === 'POST');
+  await page.locator('main form button[type=submit]').click();
+  expect((await rejectedRecovery).status()).toBe(401);
   await expect(page.locator('main')).toContainText(/code did not match/i); await expect(page).toHaveURL(/\/signin/);
   await page.locator('#mfa-token').fill(totp(secret)); await page.locator('main form button[type=submit]').click(); await expect(page).not.toHaveURL(/\/signin/);
   await page.goto('/profile'); await page.locator('#mfa-disable-code').fill(totp(secret));
@@ -68,7 +71,7 @@ test('password reset uses the locally captured email and rejects token reuse', a
   const sent = page.waitForResponse(r => r.url().endsWith('/auth/forgot-password') && r.request().method() === 'POST'); await page.locator('main form button[type=submit]').click(); expect((await sent).ok()).toBe(true);
   const mail = await db.emailOutbox.findFirstOrThrow({ where: { payload: { path: ['to'], equals: user.email } }, orderBy: { createdAt: 'desc' } });
   const token = mail.payload.html.match(/token=([a-f0-9]{64})/)[1];
-  async function reset() { await page.goto('/forgot-password'); await page.goto(`/reset-password#token=${token}`); await page.getByLabel('New Password', { exact: true }).fill('ResetWorkflow123!'); await page.getByLabel('Confirm Password', { exact: true }).fill('ResetWorkflow123!'); await page.locator('main form button[type=submit]').click(); }
+  async function reset() { await page.goto('about:blank'); await page.goto(`/reset-password#token=${token}`); await page.getByLabel('New Password', { exact: true }).fill('ResetWorkflow123!'); await page.getByLabel('Confirm Password', { exact: true }).fill('ResetWorkflow123!'); await page.locator('main form button[type=submit]').click(); }
   await reset(); await expect(page.locator('main')).toContainText(/password has been reset/i);
   await reset(); await expect(page.locator('main')).toContainText(/invalid|expired/i);
   await login(page, user.email, 'ResetWorkflow123!');

@@ -32,9 +32,9 @@ describe('OrdersService', () => {
     lastName: 'Dupont',
     phone: '+33612345678',
     addressLine1: '12 Rue de Paris',
-    city: 'Paris',
-    postalCode: '75001',
-    country: 'FR',
+    city: 'Montreal',
+    postalCode: 'H2X 1Y4',
+    country: 'CA',
   };
 
   function makeCartItem(overrides: Record<string, unknown> = {}) {
@@ -67,7 +67,7 @@ describe('OrdersService', () => {
       couponCode: null,
       status: 'pending',
       transactionKey: null,
-      shippingAddress: { firstName: 'Alice', lastName: 'Dupont', city: 'Paris' },
+      shippingAddress: { firstName: 'Alice', lastName: 'Dupont', city: 'Montreal' },
       billingAddress: null,
       items: [
         {

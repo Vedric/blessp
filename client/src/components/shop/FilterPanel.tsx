@@ -1,6 +1,6 @@
 import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { createPortal } from 'react-dom';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useOptimistic, startTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, SlidersHorizontal } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +46,13 @@ interface FilterPanelProps {
   onFiltersChange: (filters: ActiveFilters, options?: { replace?: boolean }) => void;
 }
 
-export function FilterPanel({ filters, filtersData, onFiltersChange, mode = 'desktop' }: FilterPanelProps) {
+export function FilterPanel({ filters: committedFilters, filtersData, onFiltersChange: commitFilters, mode = 'desktop' }: FilterPanelProps) {
+  // Router updates are transitions; controlled fields must reflect each keystroke
+  // immediately while the URL catches up, including when rendering is busy.
+  const [filters, showFilters] = useOptimistic(committedFilters);
+  const onFiltersChange: FilterPanelProps['onFiltersChange'] = (next, options) => {
+    startTransition(() => { showFilters(next); commitFilters(next, options); });
+  };
   const { t } = useTranslation();
   const { formatPrice } = useCurrency();
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -4,6 +4,14 @@ import { quoteShipping } from '../../src/features/commerce/commerce.service';
 import { orderConfirmationPayload } from '../../src/features/orders/order.emails';
 const original = Env.SHIPPING_RATES_JSON;
 afterEach(() => { Env.SHIPPING_RATES_JSON = original; });
+it('limits default delivery to Canada while keeping demonstration rates', () => {
+  Env.SHIPPING_RATES_JSON = undefined;
+  expect(quoteShipping('CA', 9999)).toBe(995);
+  expect(quoteShipping('CA', 10000)).toBe(0);
+  for (const country of ['US', 'FR', 'GB']) {
+    expect(() => quoteShipping(country, 10000)).toThrow('destination');
+  }
+});
 it('quotes each destination using post-discount subtotals and nullable free thresholds', () => {
   Env.SHIPPING_RATES_JSON = [{ country: 'CA', feeCents: 750, freeThresholdCents: 10000 }, { country: 'FR', feeCents: 2400, freeThresholdCents: null }];
   expect(quoteShipping('CA', 9999)).toBe(750); expect(quoteShipping('CA', 10000)).toBe(0);

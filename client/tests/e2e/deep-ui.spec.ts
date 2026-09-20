@@ -32,9 +32,11 @@ async function tokenFor(email: string) {
   return mail.payload.html.match(/token=([a-f0-9]{64})/)[1];
 }
 async function confirm(page: Page, token: string) {
-  // Email opens a fresh document, as a mail client's link does.
-  await page.goto('/'); await page.goto(`/verify-email#token=${token}`);
+  await page.goto(`/verify-email#token=${token}`);
+  const verification = page.waitForResponse(r => r.url().endsWith('/auth/verify-email') && r.request().method() === 'POST');
   await page.getByRole('button', { name: /Confirm my email|Confirmer mon adresse/ }).click();
+  await verification;
+  await expect(page.getByRole('status')).not.toBeEmpty();
 }
 async function credentials(page: Page, email: string, secret = password) {
   await page.goto('/signin'); await page.locator('#email').fill(email); await page.locator('#password').fill(secret); await submit(page);
