@@ -1,6 +1,6 @@
 # Plan de finalisation avant ouverture
 
-État du 20 septembre 2026. Objectif demandé : terminer et ouvrir cette semaine. La date cible exacte reste à fixer. Aucun domaine, hébergement ni compte fournisseur disponible n’a été confirmé ; le budget annoncé reste nul. Ce plan ne constitue pas une promesse d’ouverture à une date donnée, car les validations externes et les décisions commerciales restent nécessaires.
+État du 26 septembre 2026. Objectif demandé : terminer et ouvrir cette semaine. La date cible exacte reste à fixer. Aucun domaine, hébergement ni compte fournisseur disponible n’a été confirmé ; le budget annoncé reste nul. Ce plan ne constitue pas une promesse d’ouverture à une date donnée, car les validations externes et les décisions commerciales restent nécessaires.
 
 ## Chemin de réalisation
 
@@ -17,6 +17,6 @@ Les étapes 1 à 3 peuvent avancer en parallèle. Les étapes 4 à 6 dépendent 
 
 ## Première action à préparer
 
-Renseigner les prix et le stock physique dans le tableau local `artifacts/catalogue-a-renseigner-20260920.csv`. Ce fichier est un document de préparation, pas un import automatique. Les [photos et fiches existantes](CATALOGUE_EXISTANT.md) servent de référence. Décider explicitement si un ensemble consomme les mêmes pièces que les ventes à l’unité avant d’inscrire les quantités disponibles.
+Renseigner les prix et le stock physique dans le tableau local `artifacts/catalogue-a-renseigner-20260920.csv`, ou une copie du modèle versionné `config/catalogue.example.csv`. Vérifier la saisie avec `npm run catalogue:check -- chemin-du-tableau.csv`. Ce fichier est un document de préparation, pas un import automatique. Les [photos, fiches existantes et instructions de saisie](CATALOGUE_EXISTANT.md) servent de référence. Décider explicitement si un ensemble consomme les mêmes pièces que les ventes à l’unité avant d’inscrire les quantités disponibles. Le contrôle refuse les ensembles partagés tant que la déduction de leurs composants n’est pas implémentée.
 
 Le [guide pas à pas](GUIDE_LANCEMENT.md) décrit les services à ouvrir et l’ordre de configuration. La [checklist de lancement](LAUNCH_CHECKLIST.md) conserve les points ouverts et les critères de validation. Ne remplir les attestations de `config/launch.json` qu’après vérification réelle.

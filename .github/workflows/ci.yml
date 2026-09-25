@@ -42,6 +42,7 @@ jobs:
       - run: npm ci && npm --prefix server ci && npm --prefix client ci
       - run: npm --prefix server run db:generate
       - run: npm run lint
+      - run: npm run test:scripts
       - run: npm run build:test
       - run: node scripts/test-env.cjs node scripts/verify-legacy-migration.cjs
       # All source files count. Real integration tests supplement unit coverage.

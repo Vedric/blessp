@@ -42,6 +42,8 @@ test('delayed facets do not move or resize the product grid on desktop or mobile
 });
 
 test('debounces prices and keeps the existing cards mounted while refreshing', async ({ page }) => {
+  // Install before application timers; fixed instants avoid host/browser clock drift.
+  await page.clock.install({ time: new Date('2026-01-01T08:00:00Z') });
   const prices: string[] = [];
   let release!: () => void;
   const held = new Promise<void>(resolve => { release = resolve; });
@@ -54,9 +56,8 @@ test('debounces prices and keeps the existing cards mounted while refreshing', a
   const cards = page.getByRole('region', { name: 'Collection' }).locator('a[href^="/products/"]');
   await expect(cards.first()).toBeVisible();
   await cards.first().evaluate(element => element.setAttribute('data-retained-card', 'yes'));
-  await page.clock.install();
-  await page.clock.pauseAt(new Date(Date.now() + 1000));
   try {
+    await page.clock.pauseAt(new Date('2026-01-01T10:00:00Z'));
     const minimum = page.getByRole('spinbutton', { name: 'Minimum price' });
     for (const value of ['1', '12', '123']) {
       await minimum.fill(value);
