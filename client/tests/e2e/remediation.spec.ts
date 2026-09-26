@@ -35,7 +35,7 @@ test('email confirmation, sign-in, refresh-cookie bootstrap and sign-out survive
   await expect(page.getByText(/email verified/i)).toBeVisible();
   await signIn(page, user.email);
   await page.goto('/profile'); await expect(page.locator('main')).toContainText(user.email);
-  await page.reload(); await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(user.email);
+  await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(user.email);
   await page.getByRole('button', { name: /sign out/i }).first().click();
   await page.goto('/profile'); await expect(page).toHaveURL(/\/signin/);
 });
@@ -51,7 +51,7 @@ test('saved addresses can be created through the form and reused at checkout', a
   await page.locator('main form button[type=submit]').click();
   await expect(page.locator('main')).toContainText('123 Browser Street');
   const stored = await db.address.findMany({ where: { user: { email: user.email } } }); expect(stored).toHaveLength(1);
-  await page.reload(); await expect(page.locator('main')).toContainText('123 Browser Street');
+  await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page.locator('main')).toContainText('123 Browser Street');
 });
 
 test('admin product creation persists stock and loads the product editor', async ({ page }) => {
@@ -88,7 +88,7 @@ test('payment context is restored after reload and URL parameters cannot fabrica
   await page.goto('/checkout?redirect_status=succeeded'); await expect(page).toHaveURL(/\/checkout/);
   await expect(page.locator('main')).toContainText('123 Pending St');
   await expect(page.getByRole('heading', { name: /thank you|order confirmed/i })).toHaveCount(0);
-  await page.reload(); await expect(page.locator('main')).toContainText('123 Pending St');
+  await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page.locator('main')).toContainText('123 Pending St');
   expect(await page.evaluate(() => Boolean(sessionStorage.getItem('blessp_checkout_pending')))).toBe(true);
 });
 
@@ -104,7 +104,7 @@ test('refusing personalization prevents recently viewed storage and language upd
   const list = await (await request.get('/api/v1/products')).json(); const id = list.data[0].id;
   await page.goto(`/products/${id}`); await page.waitForLoadState('networkidle');
   expect(await page.evaluate(() => localStorage.getItem('recentlyViewed'))).toBeNull();
-  await page.evaluate(() => localStorage.setItem('preferred_language', 'fr')); await page.reload();
+  await page.evaluate(() => localStorage.setItem('preferred_language', 'fr')); await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
 });
 

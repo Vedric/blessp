@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -51,7 +52,7 @@ export function CompareDrawer() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur-md"
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-200 bg-white/95 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur-md"
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
@@ -78,7 +79,7 @@ export function CompareDrawer() {
                     >
                       <div className="h-14 w-14 overflow-hidden border border-neutral-200 bg-neutral-100 sm:h-16 sm:w-16">
                         {product && (
-                          <img
+                          <ProductImage compact
                             src={product.picture || product.images?.[0]}
                             alt={product.name}
                             className="h-full w-full object-cover"

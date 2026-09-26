@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useEffect, useState, useRef, type FormEvent } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -54,6 +55,7 @@ export default function AdminProductEditPage() {
   const [isLoading, setIsLoading] = useState(!isNew);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const displayedImages = [...new Set([form.picture, ...form.images].filter(Boolean))];
 
   useEffect(() => {
     const controller = new AbortController();
@@ -71,7 +73,7 @@ export default function AdminProductEditPage() {
           details: data.details || '',
           price: data.price,
           category: data.category,
-          picture: data.picture || '',
+          picture: data.picture || data.images[0] || '',
           images: data.images,
           sizes: data.sizes,
           colors: data.colors,
@@ -106,17 +108,17 @@ export default function AdminProductEditPage() {
 
   const addImage = () => {
     const trimmed = imageInput.trim();
-    if (trimmed && !form.images.includes(trimmed)) {
-      setForm((prev) => ({ ...prev, images: [...prev.images, trimmed] }));
+    if (trimmed && !displayedImages.includes(trimmed)) {
+      setForm((prev) => ({ ...prev, picture: prev.picture || trimmed, images: [...prev.images, trimmed] }));
       setImageInput('');
     }
   };
 
-  const removeImage = (idx: number) => {
-    setForm((prev) => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== idx),
-    }));
+  const removeImage = (image: string) => {
+    setForm((prev) => {
+      const images = prev.images.filter((value) => value !== image);
+      return { ...prev, images, picture: prev.picture === image ? images[0] || '' : prev.picture };
+    });
   };
 
   const handlePriceChange = (val: string) => {
@@ -134,7 +136,7 @@ export default function AdminProductEditPage() {
     setError('');
     setIsSaving(true);
     try {
-      const payload = { ...form, picture: form.picture || undefined };
+      const payload = { ...form, picture: form.picture || (savedProductId.current ? null : undefined) };
       const product = savedProductId.current ? await api.patch<Product>(`/admin/products/${savedProductId.current}`, payload) : await api.post<Product>('/admin/products', payload);
       savedProductId.current = product.id;
       const variants = (form.sizes.length ? form.sizes : ['']).flatMap((size) => (form.colors.length ? form.colors : ['']).map((color) => ({ size, color, stock: stocks[JSON.stringify([size, color])] ?? 0, expectedStock: originalStocks.current[JSON.stringify([size, color])] })));
@@ -320,11 +322,11 @@ export default function AdminProductEditPage() {
 
             {/* Images */}
             <div>
-              <label className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
+              <label htmlFor="field-image-url" className="block text-xs font-medium tracking-widest text-neutral-500 uppercase">
                 {t('admin.productEdit.images')}
               </label>
               <div className="mt-3 flex gap-2">
-                <input
+                <input id="field-image-url"
                   value={imageInput}
                   onChange={(e) => setImageInput(e.target.value)}
                   className={cn(inputClass, 'flex-1')}
@@ -344,22 +346,23 @@ export default function AdminProductEditPage() {
                   {t('common.add')}
                 </button>
               </div>
-              {form.images.length > 0 && (
+              {displayedImages.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {form.images.map((img, i) => (
+                  {displayedImages.map((img, i) => (
                     <div
-                      key={i}
+                      key={img}
                       className="group relative h-20 w-20 bg-neutral-50"
                     >
-                      <img
+                      <ProductImage compact
                         src={img}
                         alt={`Product image ${i + 1}`}
                         className="h-full w-full object-cover"
                       />
+                      {img === form.picture && <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-white/95 px-1 py-1 text-center text-[10px] text-neutral-900">{t('admin.productEdit.primaryImage')}</span>}
                       <button
                         type="button"
                         aria-label={`${t('common.delete')} ${t('admin.productEdit.images')} ${i + 1}`}
-                        onClick={() => removeImage(i)}
+                        onClick={() => removeImage(img)}
                         className="absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center bg-red-600 text-white transition-opacity"
                       >
                         <X className="h-3 w-3" />
@@ -386,7 +389,7 @@ export default function AdminProductEditPage() {
             </label>
 
             {/* Actions */}
-            <div className="flex gap-4 border-t border-neutral-100 pt-8">
+            <div className="flex flex-col gap-4 border-t border-neutral-100 pt-8 sm:flex-row">
               <button
                 type="submit"
                 disabled={isSaving}

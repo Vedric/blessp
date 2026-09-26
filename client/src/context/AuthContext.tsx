@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from 'react';
 import i18n from '@/i18n';
-import { api, setAccessToken, clearTokens, getAccessToken, refreshSession, settleSessionRefresh } from '@/lib/api';
+import { api, acceptSessionLogin, beginSessionLogout, clearTokens, getAccessToken, prepareSessionLogin, refreshSession, revokeSession, settleSessionRefresh, subscribeToSessionLogout } from '@/lib/api';
 import { mergeGuestCartIntoServerCart } from '@/lib/guestCart';
 import type { User } from '@/lib/types';
 
@@ -27,9 +27,19 @@ interface AuthState {
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
+async function prepareLogin(): Promise<void> {
+  if (!await prepareSessionLogin()) throw new Error(i18n.t('auth.signIn.signOutPending'));
+}
+
+function clearCheckoutSession(): void {
+  try { sessionStorage.removeItem('blessp_checkout_pending'); sessionStorage.removeItem('blessp_checkout_attempt'); } catch { /* Storage can be unavailable. */ }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => subscribeToSessionLogout(() => { clearCheckoutSession(); setUser(null); }), []);
 
   const fetchUser = useCallback(async () => {
     const startedWithToken = getAccessToken();
@@ -73,11 +83,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const login = useCallback(async (email: string, password: string) => {
+    await prepareLogin();
     const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
       '/auth/login',
       { email, password },
     );
-    setAccessToken(data.tokens.accessToken);
+    acceptSessionLogin(data.tokens.accessToken);
     // Merge any guest cart before exposing the user so CartContext fetches
     // the already-merged server cart when the auth state flips
     await mergeGuestCartIntoServerCart();
@@ -86,11 +97,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginWithMfa = useCallback(
     async (email: string, password: string, mfaToken: string) => {
+      await prepareLogin();
       const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
         '/auth/login',
         { email, password, mfaToken },
       );
-      setAccessToken(data.tokens.accessToken);
+      acceptSessionLogin(data.tokens.accessToken);
       await mergeGuestCartIntoServerCart();
       setUser(data.user);
     },
@@ -105,35 +117,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const loginWithGoogle = useCallback(async (idToken: string, mfaToken?: string, profile?: { firstName: string; lastName: string }) => {
+    await prepareLogin();
     const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
       '/auth/google',
       { idToken, mfaToken, ...profile, locale: i18n.resolvedLanguage === 'fr' ? 'fr' : 'en' },
     );
-    setAccessToken(data.tokens.accessToken);
+    acceptSessionLogin(data.tokens.accessToken);
     await mergeGuestCartIntoServerCart();
     setUser(data.user);
   }, []);
 
   const loginWithApple = useCallback(async (idToken: string, firstName?: string, lastName?: string, mfaToken?: string) => {
+    await prepareLogin();
     const data = await api.post<{ tokens: { accessToken: string }; user: User }>(
       '/auth/apple',
       { idToken, firstName, lastName, mfaToken, locale: i18n.resolvedLanguage === 'fr' ? 'fr' : 'en' },
     );
-    setAccessToken(data.tokens.accessToken);
+    acceptSessionLogin(data.tokens.accessToken);
     await mergeGuestCartIntoServerCart();
     setUser(data.user);
   }, []);
 
   const logout = useCallback(async () => {
-    clearTokens();
+    beginSessionLogout();
     setUser(null);
-    try { sessionStorage.removeItem('blessp_checkout_pending'); sessionStorage.removeItem('blessp_checkout_attempt'); } catch { /* Storage can be unavailable. */ }
+    clearCheckoutSession();
     await settleSessionRefresh();
-    try {
-      await api.post('/auth/logout');
-    } catch {
-      // Clear local state even if the server call fails
-    }
+    await revokeSession();
     clearTokens();
     setUser(null);
   }, []);

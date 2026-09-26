@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { Pagination } from '@/components/common/Pagination';
 import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { useEffect, useState, useCallback, useRef } from 'react';
@@ -186,32 +187,30 @@ export default function AdminProductsPage() {
                   initial="hidden"
                   animate="visible"
                   className={cn(
-                    'flex items-center gap-4 border border-neutral-100 p-4 transition-colors',
+                    'grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-4 border border-neutral-100 p-4 transition-colors sm:flex',
                     !product.isActive && 'opacity-60',
                   )}
                 >
                   <div className="h-16 w-16 flex-shrink-0 bg-neutral-50">
-                    {product.picture && (
-                      <img
-                        src={product.picture}
-                        alt={product.name}
-                        className="h-full w-full object-cover"
-                      />
-                    )}
+                    <ProductImage compact
+                      src={product.picture}
+                      alt={product.name}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <p className="truncate text-sm font-medium text-neutral-900">
                       {product.name}
                     </p>
-                    <div className="mt-1 flex items-center gap-3 text-sm text-neutral-500">
-                      <span>{formatPrice(product.price)}</span>
-                      <span className="text-neutral-300">|</span>
-                      <span>{product.category}</span>
+                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-neutral-500">
+                      <span className="max-w-full [overflow-wrap:anywhere]">{formatPrice(product.price)}</span>
+                      <span aria-hidden="true" className="hidden text-neutral-300 sm:inline">|</span>
+                      <span className="min-w-0 max-w-full [overflow-wrap:anywhere]">{product.category}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="col-span-2 flex items-center justify-end gap-2 sm:shrink-0">
                     <button
                       onClick={() => toggleActive(product)}
                       className={cn(

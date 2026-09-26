@@ -189,7 +189,7 @@ test('cart quantities, valid and invalid coupons, and separate billing work on m
   await page.getByRole('button', { name: 'Increase quantity', exact: true }).click(); await page.getByRole('button', { name: 'Add to Cart', exact: true }).first().click();
   await expect(page.getByText(/added to cart/i).first()).toBeVisible(); await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' })); await expect(page.getByRole('button', { name: 'Cart', exact: true })).toBeInViewport(); await page.getByRole('button', { name: 'Cart', exact: true }).click();
   const cart = page.getByRole('dialog'); await expect(cart).toContainText('179.98'); await cart.getByRole('button', { name: 'Decrease quantity', exact: true }).click(); await expect(cart).toContainText('89.99');
-  await page.keyboard.press('Escape'); await page.reload(); await page.goto('/checkout');
+  await page.keyboard.press('Escape'); await page.reload({ waitUntil: 'domcontentloaded' }); await page.goto('/checkout');
   await page.getByRole('button', { name: /have.*promo/i }).click(); const code = page.getByPlaceholder(/enter.*code/i); await code.fill('INVALID-UI-CODE');
   await page.getByRole('button', { name: 'Apply', exact: true }).click(); await expect(page.locator('main')).toContainText(/invalid|not found/i);
   await code.fill(coupon.code); await page.getByRole('button', { name: 'Apply', exact: true }).click(); await expect(page.getByText(coupon.code, { exact: true })).toBeVisible();

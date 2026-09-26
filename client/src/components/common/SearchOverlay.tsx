@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { useState, useEffect, useRef, useCallback, useId } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -142,7 +143,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                             className="flex items-center gap-4 rounded px-2 py-3 transition-colors hover:bg-neutral-50"
                           >
                             <div className="h-16 w-16 flex-shrink-0 overflow-hidden bg-neutral-100">
-                              <img
+                              <ProductImage compact
                                 src={product.picture || product.images?.[0]}
                                 alt={product.name}
                                 className="h-full w-full object-cover"

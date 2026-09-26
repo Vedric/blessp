@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useRef } from 'react';
 import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { Link } from 'react-router-dom';
@@ -85,13 +86,11 @@ export function CartDrawer() {
                       <li key={item.id} className="flex gap-4 py-5">
                         {/* Image */}
                         <div className="h-24 w-20 flex-shrink-0 overflow-hidden bg-neutral-100">
-                          {item.product.picture && (
-                            <img
-                              src={item.product.picture}
-                              alt={item.product.name}
-                              className="h-full w-full object-cover"
-                            />
-                          )}
+                        <ProductImage compact
+                          src={item.product.picture}
+                          alt={item.product.name}
+                          className="h-full w-full object-cover"
+                        />
                         </div>
 
                         {/* Details */}

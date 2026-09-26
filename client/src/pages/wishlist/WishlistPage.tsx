@@ -6,6 +6,7 @@ import { useWishlist } from '@/context/WishlistContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { WishlistButton } from '@/components/common/WishlistButton';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
+import { ProductImage } from '@/components/common/ProductImage';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -110,13 +111,13 @@ export default function WishlistPage() {
                 <div className="group relative">
                   <Link to={`/products/${item.product.id}`} className="block">
                     <div className="relative aspect-[3/4] overflow-hidden bg-neutral-50">
-                      <img
+                      <ProductImage
                         src={item.product.picture || item.product.images?.[0]}
                         alt={item.product.name}
                         className="h-full w-full scale-[1.02] object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.07]"
                       />
                       <div className="absolute inset-0 flex items-end justify-center bg-black/0 transition-all duration-500 group-hover:bg-black/10">
-                        <span className="mb-6 translate-y-4 text-xs font-medium tracking-[0.2em] text-white uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                        <span className="mb-6 translate-y-4 bg-white/95 px-3 py-2 text-xs font-medium tracking-[0.2em] text-neutral-900 uppercase opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                           {t('shop.viewProduct')}
                         </span>
                       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ProductImage } from '@/components/common/ProductImage';
 import { ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
@@ -37,8 +38,8 @@ export function CompleteLook({ productId }: { productId: string }) {
             <article key={product.id} className="group min-w-0">
               <Link to={`/products/${product.id}`} className="block">
                 <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
-                  {picture && <img src={picture} alt={product.name} loading="lazy" decoding="async" width={600} height={800}
-                    className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]" />}
+                  <ProductImage src={picture} alt={product.name} width={600} height={800}
+                    className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]" />
                 </div>
                 <h3 className="mt-4 break-words text-sm font-medium text-neutral-900">{product.name}</h3>
                 <p className="mt-1 text-sm text-neutral-600">{formatPrice(product.price)}</p>

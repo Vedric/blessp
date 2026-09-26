@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -96,7 +97,7 @@ export default function ComparePage() {
       render: (product) => (
         <Link to={`/products/${product.id}`} className="block">
           <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
-            <img
+            <ProductImage
               src={product.picture || product.images?.[0]}
               alt={product.name}
               className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"

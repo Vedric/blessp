@@ -59,7 +59,7 @@ test('contact submission reaches the durable outbox and the admin inbox, with pe
   const card = page.locator('main article'); await expect(card).toHaveCount(1); await card.getByText('Read message', { exact: true }).click(); await expect(card).toContainText('<script>window.compromised=true</script>'); expect(await card.locator('script').count()).toBe(0);
   await expect(card.getByRole('link', { name: 'Reply by email' })).toHaveAttribute('href', /^mailto:launch-.*%40example.com\?subject=Re/);
   await card.getByRole('button', { name: 'Mark as read', exact: true }).click(); await expect(card).toHaveCount(0);
-  await page.locator('#support-status').selectOption('read'); await expect(card).toHaveCount(1); await page.reload(); await page.locator('#support-status').selectOption('read'); await page.locator('#support-search').fill(user.email); await expect(card).toHaveCount(1);
+  await page.locator('#support-status').selectOption('read'); await expect(card).toHaveCount(1); await page.reload({ waitUntil: 'domcontentloaded' }); await page.locator('#support-status').selectOption('read'); await page.locator('#support-search').fill(user.email); await expect(card).toHaveCount(1);
   await card.getByRole('button', { name: 'Mark as unread', exact: true }).click(); await expect(card).toHaveCount(0); expect((await db.contactMessage.findUniqueOrThrow({ where: { id: row.id } })).readAt).toBeNull();
 });
 
@@ -163,7 +163,7 @@ for (const [view, endpoint] of [
 
 test('French refund confirmation is accessible and fits 320 px', async ({ page }, testInfo) => {
   const { order } = await refund(page); await page.keyboard.press('Escape');
-  await page.evaluate(() => localStorage.setItem('preferred_language', 'fr')); await page.setViewportSize({ width: 320, height: 740 }); await page.reload();
+  await page.evaluate(() => localStorage.setItem('preferred_language', 'fr')); await page.setViewportSize({ width: 320, height: 740 }); await page.reload({ waitUntil: 'domcontentloaded' });
   await page.getByRole('button', { name: new RegExp(order.orderNumber) }).click();
   await page.getByRole('button', { name: 'Rembourser le solde restant', exact: true }).click();
   const dialog = page.getByRole('dialog'); await expect(dialog).toContainText('frais de livraison');
