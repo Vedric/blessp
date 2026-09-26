@@ -142,3 +142,60 @@ for (const language of ['en', 'fr']) test(`missing media remains usable in searc
     throw error;
   });
 });
+
+for (const language of ['en', 'fr']) test(`product editor keeps the primary image consistent when adding and removing photos (${language})`, async ({ page }) => {
+  const primary = '/img/blue_hoody_1.jpeg', secondary = '/img/black_hoody_1.jpeg';
+  const product = await db.product.create({ data: { name: `Media editor ${crypto.randomUUID().slice(0, 8)}`, category: 'hoodies', price: 10000, picture: primary, images: [secondary], sizes: ['M'], colors: ['Black'], variants: { create: { size: 'M', color: 'Black', stock: 2 } } } });
+  productIds.push(product.id);
+  const user = await db.user.create({ data: { email: `media-editor-${crypto.randomUUID()}@example.com`, passwordHash: await passwordHash, firstName: 'Media', lastName: 'Editor', emailVerifiedAt: new Date(), isAdmin: true } });
+  userIds.push(user.id);
+  await page.addInitScript(language => {
+    localStorage.setItem('preferred_language', language);
+    localStorage.setItem('blessp_cookie_consent', 'accepted');
+    localStorage.setItem('blessp_mfa_reminded_at', String(Date.now()));
+  }, language);
+  await page.setViewportSize({ width: 320, height: 740 });
+  expect((await page.request.post('/api/v1/auth/login', { data: { email: user.email, password } })).status()).toBe(200);
+  const open = () => page.goto(`/admin/products/${product.id}/edit`, { waitUntil: 'domcontentloaded' });
+  const save = async () => {
+    await page.locator('main form button[type=submit]').click();
+    await expect(page).toHaveURL(/\/admin\/products$/);
+  };
+  const remove = async (src: string) => {
+    const image = page.locator(`main img[src="${src}"]`);
+    await expect(image).toHaveCount(1);
+    await image.locator('..').getByRole('button').click();
+  };
+  const add = async () => {
+    await page.getByPlaceholder(language === 'fr' ? "URL de l'image (ex. /img/black_hoody_1.jpeg)" : 'Image URL (e.g. /img/black_hoody_1.jpeg)').fill(primary);
+    await page.getByRole('button', { name: language === 'fr' ? 'Ajouter' : 'Add', exact: true }).click();
+  };
+  await open();
+  await add(); await save();
+  expect((await db.product.findUniqueOrThrow({ where: { id: product.id } })).images).toEqual([secondary]);
+  await open();
+  // Legacy records can have a primary picture absent from their gallery array.
+  await remove(primary);
+  await save();
+  let stored = await db.product.findUniqueOrThrow({ where: { id: product.id } });
+  expect(stored.picture).toBe(secondary); expect(stored.images).toEqual([secondary]);
+  await open(); await remove(secondary); await save();
+  stored = await db.product.findUniqueOrThrow({ where: { id: product.id } });
+  expect(stored.picture).toBeNull(); expect(stored.images).toEqual([]);
+  await page.goto(`/products/${product.id}`);
+  await expect(page.locator('main')).toContainText(language === 'fr' ? 'Image indisponible' : 'Image unavailable');
+  await open();
+  await add(); await save();
+  stored = await db.product.findUniqueOrThrow({ where: { id: product.id } });
+  expect(stored.picture).toBe(primary); expect(stored.images).toEqual([primary]);
+  await open(); await expect(page.locator(`main img[src="${primary}"]`)).toHaveCount(1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+
+  await page.goto('/admin/products/new');
+  const name = `Media new ${crypto.randomUUID().slice(0, 8)}`;
+  await page.locator('#field-name').fill(name); await page.locator('#field-price').fill('35');
+  await page.getByRole('spinbutton', { name: /^Stock/ }).fill('2');
+  await add(); await save();
+  const created = await db.product.findFirstOrThrow({ where: { name } }); productIds.push(created.id);
+  expect(created.picture).toBe(primary); expect(created.images).toEqual([primary]);
+});

@@ -792,6 +792,7 @@
       "sizes": "Tailles",
       "colors": "Couleurs",
       "images": "Images",
+      "primaryImage": "Image principale",
       "imageUrlPlaceholder": "URL de l'image (ex. /img/black_hoody_1.jpeg)",
       "productNamePlaceholder": "ex. Sweat à capuche noir premium",
       "descriptionPlaceholder": "Description du produit...",
