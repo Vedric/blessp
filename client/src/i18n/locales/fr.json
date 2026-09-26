@@ -185,6 +185,7 @@
       "emailInvalid": "Veuillez entrer un courriel valide.",
       "passwordRequired": "Le mot de passe est requis.",
       "invalidCredentials": "Courriel ou mot de passe invalide.",
+      "signOutPending": "La déconnexion précédente n’a pas pu être terminée. Vérifiez votre connexion et réessayez.",
       "emailPlaceholder": "vous@exemple.com",
       "passwordPlaceholder": "Entrez votre mot de passe",
       "mfaLabel": "Code d’authentification ou de secours (si activé)",

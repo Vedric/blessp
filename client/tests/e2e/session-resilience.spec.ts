@@ -34,8 +34,11 @@ test('three tabs can renew the shared session concurrently and reloads after log
     for (const tab of [page, second, third]) { await expect(tab).toHaveURL(/\/profile$/); await expect(tab.locator('main')).toContainText(user.email); }
     await Promise.all([page, second, third].map(tab => tab.reload({ waitUntil: 'domcontentloaded' })));
     for (const tab of [page, second, third]) await expect(tab.locator('main')).toContainText(user.email);
+    for (const tab of [second, third]) await tab.evaluate(() => { sessionStorage.setItem('blessp_checkout_pending', 'synthetic'); sessionStorage.setItem('blessp_checkout_attempt', 'synthetic'); });
     const signedOut = page.waitForResponse(response => response.url().endsWith('/auth/logout') && response.request().method() === 'POST');
     await page.getByRole('button', { name: /sign out/i }).first().click(); expect((await signedOut).ok()).toBe(true);
+    for (const tab of [second, third]) { await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
+    for (const tab of [second, third]) expect(await tab.evaluate(() => [sessionStorage.getItem('blessp_checkout_pending'), sessionStorage.getItem('blessp_checkout_attempt')])).toEqual([null, null]);
     await Promise.all([second, third].map(tab => tab.reload({ waitUntil: 'domcontentloaded' })));
     for (const tab of [second, third]) { await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
     expect(await db.refreshToken.count({ where: { userId: user.id } })).toBe(0);
@@ -48,4 +51,45 @@ test('a transient refresh network failure hides private content and a later navi
   await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/signin/); await expect(page.locator('main')).not.toContainText(user.email);
   await page.unroute('**/api/v1/auth/refresh');
   await page.goto('/profile', { waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(user.email);
+});
+
+for (const failure of ['network abort', 'lost logout response', 'logout server error'] as const) test(`${failure}: a failed logout remains anonymous after reloading and reconnecting`, async ({ page }) => {
+  const user = await login(page);
+  let faultInjected = false;
+  await page.route('**/api/v1/auth/logout', async route => {
+    if (failure === 'logout server error') await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { message: 'Synthetic outage' } }) });
+    else {
+      if (failure === 'lost logout response') await route.fetch();
+      await route.abort('failed');
+    }
+    faultInjected = true;
+  });
+  await page.getByRole('button', { name: /sign out/i }).first().click();
+  await expect(page).toHaveURL(/\/signin/);
+  await expect.poll(() => faultInjected).toBe(true);
+  await page.unroute('**/api/v1/auth/logout');
+  await page.goto('/profile', { waitUntil: 'domcontentloaded' });
+  await expect(page).toHaveURL(/\/signin/);
+  await expect(page.locator('main')).not.toContainText(user.email);
+  expect(await db.refreshToken.count({ where: { userId: user.id } })).toBe(0);
+});
+
+test('an ongoing logout outage blocks refresh and sign-in, then a deliberate login recovers', async ({ page, context }) => {
+  const user = await login(page);
+  const refreshes: string[] = [];
+  context.on('request', request => { if (request.url().endsWith('/auth/refresh')) refreshes.push(request.url()); });
+  await context.route('**/api/v1/auth/logout', route => route.abort('failed'));
+  await page.getByRole('button', { name: /sign out/i }).first().click();
+  await expect(page).toHaveURL(/\/signin/);
+  await page.goto('/profile', { waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/signin/);
+  await expect(page.locator('main')).not.toContainText(user.email);
+  await page.locator('#email').fill(user.email); await page.locator('#password').fill(password);
+  await page.locator('main form button[type=submit]').click();
+  await expect(page.locator('main')).toContainText('previous sign-out could not be completed');
+  expect(refreshes).toHaveLength(0);
+  await context.unroute('**/api/v1/auth/logout');
+  await page.locator('main form button[type=submit]').click();
+  await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(user.email);
+  await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page.locator('main')).toContainText(user.email);
+  expect(refreshes.length).toBeGreaterThan(0);
 });

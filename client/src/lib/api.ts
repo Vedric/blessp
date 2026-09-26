@@ -1,3 +1,5 @@
+import { getLogoutState, setLogoutState, subscribeToLogoutIntent } from './sessionState';
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 /* ── Token helpers ── */
@@ -23,6 +25,49 @@ export async function settleSessionRefresh(): Promise<void> {
   await refreshPromise;
 }
 
+export function beginSessionLogout(): void {
+  setLogoutState('pending');
+  clearTokens();
+}
+
+export function acceptSessionLogin(token: string): void {
+  setLogoutState(null);
+  setAccessToken(token);
+}
+
+export function subscribeToSessionLogout(onLogout: () => void): () => void {
+  return subscribeToLogoutIntent(() => { clearTokens(); onLogout(); });
+}
+
+let logoutPromise: Promise<boolean> | null = null;
+
+async function completePendingLogout(): Promise<boolean> {
+  if (getLogoutState() !== 'pending') return true;
+  if (logoutPromise) return logoutPromise;
+  logoutPromise = (async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/logout`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', signal: AbortSignal.timeout(10000),
+      });
+      if (!response.ok) return false;
+      if (getLogoutState() === 'pending') setLogoutState('complete');
+      return true;
+    } catch { return false; }
+  })().finally(() => { logoutPromise = null; });
+  return logoutPromise;
+}
+
+export async function revokeSession(): Promise<boolean> {
+  if (navigator.locks) return navigator.locks.request('blessp-refresh', completePendingLogout);
+  return completePendingLogout();
+}
+
+export async function prepareSessionLogin(): Promise<boolean> {
+  await settleSessionRefresh();
+  return revokeSession();
+}
+
 export type RequestOptions = Pick<RequestInit, 'signal'>;
 
 /* ── Internal fetch wrapper ── */
@@ -35,6 +80,12 @@ function isAuthPath(path: string): boolean {
 }
 
 async function attemptTokenRefresh(): Promise<boolean> {
+  // A failed logout must never silently turn into a new authenticated session.
+  if (getLogoutState()) {
+    clearTokens();
+    await completePendingLogout();
+    return false;
+  }
   const generation = sessionGeneration;
   try {
     const res = await fetch(`${BASE_URL}/auth/refresh`, {
