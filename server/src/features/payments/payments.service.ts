@@ -25,6 +25,8 @@ const STORE_CURRENCY = 'cad';
 export class PaymentsService {
   readonly paypal = new PaypalService((tx, order, refund) => this.recordPayment(tx, order, refund));
   private readonly stripe: Stripe | null;
+  private expirationCutoff: Date | null = null;
+  private expirationCursor: { expiresAt: Date; id: string } | null = null;
 
   constructor(private readonly ordersRepository: OrdersRepository) {
     if (Env.STRIPE_SECRET_KEY) {
@@ -270,10 +272,23 @@ export class PaymentsService {
   }
 
   async expireReservations(): Promise<void> {
-    const expired = await prisma.order.findMany({ where: { status: 'pending', paymentStatus: 'pending', expiresAt: { lte: new Date() } }, select: { id: true }, take: 25, orderBy: { expiresAt: 'asc' } });
+    // Visit every due reservation before retrying failed provider reconciliations.
+    // Freeze the sweep boundary so incoming orders cannot prevent a retry cycle.
+    this.expirationCutoff ??= new Date();
+    const after = this.expirationCursor;
+    const expired = await prisma.order.findMany({
+      where: {
+        status: 'pending', paymentStatus: 'pending', expiresAt: { lte: this.expirationCutoff },
+        ...(after ? { OR: [{ expiresAt: { gt: after.expiresAt } }, { expiresAt: after.expiresAt, id: { gt: after.id } }] } : {}),
+      },
+      select: { id: true, expiresAt: true }, take: 25, orderBy: [{ expiresAt: 'asc' }, { id: 'asc' }],
+    });
+    const last = expired.at(-1);
+    this.expirationCursor = expired.length === 25 && last?.expiresAt ? { id: last.id, expiresAt: last.expiresAt } : null;
+    if (!this.expirationCursor) this.expirationCutoff = null;
     for (const order of expired) {
       try { await this.cancelPendingOrder(order.id); }
-      catch { logger.warn({ orderId: order.id }, 'Reservation could not be cancelled; inventory retained for retry'); }
+      catch (error) { logger.warn({ orderId: order.id, errorType: error instanceof Error ? error.name : 'Unknown' }, 'Reservation could not be cancelled; inventory retained for retry'); }
     }
   }
 

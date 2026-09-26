@@ -8,6 +8,7 @@ import { CouponsService } from '../coupons/coupons.service';
 import { VariantsRepository } from '../products/variants.repository';
 import { OrderResponse, OrderItemResponse, CreateOrderDto, OrderQueryParams } from './orders.types';
 import { transaction, lockResource } from '../../core/database/transaction';
+import { MAX_AMOUNT_CENTS } from '../../core/types/money';
 
 interface GuestOrderDto extends CreateOrderDto {
   email: string;
@@ -84,6 +85,7 @@ export class OrdersService {
         items.push({ ...line, productKey: product.id, productName: product.name, unitPriceCents: product.price });
       }
       const subtotal = items.reduce((sum, i) => sum + i.quantity * i.unitPriceCents, 0);
+      if (!Number.isSafeInteger(subtotal) || subtotal > MAX_AMOUNT_CENTS) throw new ValidationError('Order subtotal exceeds the supported amount.');
       let discountCents = 0;
       let couponCode: string | null = null;
       if (dto.couponCode) {
@@ -95,11 +97,13 @@ export class OrdersService {
         await tx.coupon.update({ where: { id: coupon.id }, data: { currentUses: { increment: 1 } } });
       }
       const shippingCents = quoteShipping(dto.country, subtotal - discountCents);
+      const totalCents = subtotal - discountCents + shippingCents;
+      if (!Number.isSafeInteger(totalCents) || totalCents > MAX_AMOUNT_CENTS) throw new ValidationError('Order total exceeds the supported amount.');
       const { firstName, lastName, phone, addressLine1, addressLine2, city, postalCode, province, country } = dto;
       return tx.order.create({ data: {
         locale: dto.locale ?? 'en',
         userId, guestEmail: userId ? null : (dto as GuestOrderDto).email.toLowerCase(),
-        checkoutKey, requestHash, orderNumber: generateOrderNumber(), totalCents: subtotal - discountCents + shippingCents,
+        checkoutKey, requestHash, orderNumber: generateOrderNumber(), totalCents,
         discountCents, shippingCents, couponCode, couponReserved: !!couponCode, expiresAt: new Date(Date.now() + 30 * 60000),
         shippingAddress: { firstName, lastName, phone, addressLine1, addressLine2, city, postalCode, province, country },
         billingAddress: dto.billingAddress ?? Prisma.JsonNull,

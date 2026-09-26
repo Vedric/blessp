@@ -1,6 +1,15 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+const { PrismaClient } = require('../../../server/node_modules/@prisma/client');
+const database = new URL(process.env.DATABASE_URL!);
+if (!/_(test|audit|ci)$/.test(database.pathname)) throw new Error('Provider tests require an isolated database.');
+database.searchParams.set('schema', 'e2e');
+const db = new PrismaClient({ datasources: { db: { url: database.toString() } } });
+const ownProducts: string[] = [];
+test.afterAll(async () => { await db.product.deleteMany({ where: { id: { in: ownProducts } } }); await db.$disconnect(); });
 
 // Real browser + app + database, simulated SDK/provider boundaries. This does
 // not certify a Google/Apple/PayPal account, wallet device or external charge.
@@ -57,15 +66,21 @@ test('blocked Google popup shows an actionable error and allows another attempt'
   await button.click(); await expect(button).toBeEnabled(); await expect(page.getByText(/Google sign-in failed/i)).toBeVisible();
 });
 
-async function checkout(page: Page) {
+async function prepareCheckout(page: Page, product?: { id: string }) {
   await sdk(page);
-  const response = await page.request.get('/api/v1/products?search=Classic%20Black%20Hoodie');
-  const product = (await response.json()).data.find((p: { name: string }) => p.name === 'Classic Black Hoodie');
+  if (!product) {
+    const response = await page.request.get('/api/v1/products?search=Classic%20Black%20Hoodie');
+    product = (await response.json()).data.find((p: { name: string }) => p.name === 'Classic Black Hoodie');
+  }
+  if (!product) throw new Error('Checkout fixture missing');
   await page.goto(`/products/${product.id}`); await page.getByRole('button', { name: 'M', exact: true }).click();
   await page.getByRole('button', { name: 'Add to Cart', exact: true }).first().click(); await expect(page.getByText(/added to cart/i).first()).toBeVisible();
   await page.goto('/checkout'); await page.locator('#guest-email').fill(`paypal-browser-${crypto.randomUUID()}@example.com`);
   for (const [key, value] of Object.entries({ firstName: 'PayPal', lastName: 'Browser', addressLine1: '1 Test St', city: 'Ottawa', province: 'ON', postalCode: 'K1A 0B1' })) await page.locator(`#shipping-${key}`).fill(value);
   await page.getByRole('radio', { name: 'PayPal', exact: true }).check();
+}
+async function checkout(page: Page) {
+  await prepareCheckout(page);
   await page.getByRole('button', { name: 'Continue to Payment', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Continue with PayPal', exact: true })).toBeVisible();
 }
@@ -92,4 +107,34 @@ test('a forged PayPal return does not mark an unapproved order paid', async ({ p
   await checkout(page); await page.goto('/checkout?paypal=return&token=forged&PayerID=forged');
   await expect(page.getByRole('alert')).toBeVisible(); await expect(page.getByText(/order confirmed/i)).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Check my payment', exact: true })).toBeEnabled();
+});
+
+for (const boundary of ['order', 'provider']) test(`lost ${boundary} response retries one checkout and cancellation restores stock`, async ({ page }) => {
+  const product = await db.product.create({ data: { name: `Recovery ${crypto.randomUUID()}`, price: 5000, sizes: ['M'], colors: ['Black'], variants: { create: { size: 'M', color: 'Black', stock: 10 } } } });
+  ownProducts.push(product.id);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await prepareCheckout(page, product);
+  const email = await page.locator('#guest-email').inputValue();
+  const keys: string[] = [];
+  page.on('request', req => { if (req.url().endsWith('/api/v1/orders/guest') && req.method() === 'POST') keys.push(req.postDataJSON().checkoutKey); });
+  let dropped = false;
+  await page.route(boundary === 'order' ? '**/api/v1/orders/guest' : '**/api/v1/payments/paypal/create', async route => {
+    if (dropped) return route.continue();
+    // Let the real application commit, then lose only the response to the browser.
+    const response = await route.fetch(); expect(response.ok()).toBe(true);
+    dropped = true; await route.abort('failed');
+  });
+  const proceed = page.getByRole('button', { name: 'Continue to Payment', exact: true });
+  await proceed.click(); await expect.poll(() => dropped).toBe(true); await expect(proceed).toBeEnabled();
+  expect(await db.order.count({ where: { guestEmail: email } })).toBe(1);
+  await proceed.click(); await expect(page.getByRole('button', { name: 'Continue with PayPal', exact: true })).toBeVisible();
+  expect(keys).toHaveLength(2); expect(new Set(keys).size).toBe(1);
+  expect(await db.order.count({ where: { guestEmail: email } })).toBe(1);
+  const variant = await db.productVariant.findFirstOrThrow({ where: { productId: product.id } }); expect(variant.stock).toBe(9);
+  const pending = await page.evaluate(() => JSON.parse(sessionStorage.getItem('blessp_checkout_pending')!));
+  const order = await db.order.findFirstOrThrow({ where: { guestEmail: email } }); expect(pending.orderId).toBe(order.id);
+  await page.getByRole('button', { name: 'Back', exact: true }).click(); await expect(page.locator('#shipping-firstName')).toBeVisible();
+  expect((await db.productVariant.findUniqueOrThrow({ where: { id: variant.id } })).stock).toBe(10);
+  expect((await db.order.findUniqueOrThrow({ where: { id: order.id } })).status).toBe('cancelled');
+  expect(await db.orderStatusHistory.count({ where: { orderId: order.id, status: 'cancelled' } })).toBe(1);
 });

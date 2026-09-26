@@ -16,6 +16,8 @@ Ouvrir **Administration → Gestion des stocks** (`/admin/inventory`). Recherche
 
 Pour un comptage physique, déduire les unités déjà réservées et encore présentes en entrepôt. Pour un retour, réintégrer uniquement les articles reçus, contrôlés et revendables. Un remboursement financier ne prouve pas qu’un article est revenu. L’expiration ou l’annulation autorisée d’une commande restitue automatiquement sa réservation une seule fois ; ne pas la remettre manuellement une seconde fois.
 
+La maintenance traite les réservations expirées par lots de 25, avec un parcours stable de tous les lots avant une nouvelle tentative sur les paiements bloqués. Une date limite fixée au début du cycle empêche les nouvelles expirations de prolonger indéfiniment ce cycle. Un redémarrage reprend le parcours depuis le début sans restituer deux fois le stock. Le message `Reservation could not be cancelled; inventory retained for retry` indique un paiement à réconcilier : examiner son état chez le prestataire avant toute correction manuelle.
+
 Les produits sans aucune variante sont signalés. Configurer leurs tailles/couleurs et quantités dans **Produits**. Une combinaison absente reste indisponible dans la boutique. Les modifications de description/prix seules préservent les ventes survenues depuis l’ouverture de l’éditeur. Si un enregistrement échoue sur le stock, les métadonnées du produit peuvent déjà être sauvegardées ; consulter le message et recharger avant de poursuivre.
 
 ## Périmètre
