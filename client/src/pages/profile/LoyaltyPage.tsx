@@ -104,7 +104,7 @@ export default function LoyaltyPage() {
       const reward = await api.post<{ couponCode: string }>('/loyalty/redeem', { points: redeemablePoints });
       const discountValue = ((redeemablePoints / 100) * 5).toFixed(2);
       setRedeemSuccess(
-        `${t('loyalty.redeemSuccess', { points: redeemablePoints, value: discountValue })} — ${reward.couponCode}`,
+        `${t('loyalty.redeemSuccess', { points: redeemablePoints, value: discountValue })} (${reward.couponCode})`,
       );
       await fetchData();
     } catch (err: unknown) {

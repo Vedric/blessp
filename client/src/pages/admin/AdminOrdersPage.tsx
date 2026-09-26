@@ -231,7 +231,7 @@ export default function AdminOrdersPage() {
                           {order.shippingAddress.postalCode}
                         </div>
 
-                        <p className="mt-4 text-sm">{t(`orders.paymentStatus.${order.paymentStatus}`)} — {t('orders.refundedAmount', { defaultValue: 'Refunded' })}: {formatPrice(order.refundedCents)}</p>
+                        <p className="mt-4 text-sm">{t(`orders.paymentStatus.${order.paymentStatus}`)} · {t('orders.refundedAmount', { defaultValue: 'Refunded' })}: {formatPrice(order.refundedCents)}</p>
                         {/* Update status */}
                         <div className="mt-4 flex flex-wrap items-center gap-3">
                           <span className="text-xs font-medium tracking-widest text-neutral-500 uppercase">

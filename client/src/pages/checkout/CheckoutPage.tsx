@@ -1396,7 +1396,7 @@ export default function CheckoutPage() {
                     <div className="flex justify-between text-sm">
                       <span className="text-neutral-500">{t('common.shipping')}</span>
                       <span className="text-neutral-900">
-                        {!pricingKnown ? '—' : shippingCents === 0 ? t('common.free') : formatPrice(shippingCents)}
+                        {!pricingKnown ? t('common.notAvailable') : shippingCents === 0 ? t('common.free') : formatPrice(shippingCents)}
                       </span>
                     </div>
                     <p className="text-[11px] leading-relaxed text-neutral-500">
@@ -1413,7 +1413,7 @@ export default function CheckoutPage() {
                     <div className="flex justify-between border-t border-neutral-100 pt-2 text-sm font-medium">
                       <span className="text-neutral-900">{t('common.total')}</span>
                       <span className="text-neutral-900">
-                        {pricingKnown ? formatPrice(grandTotal) : '—'}
+                        {pricingKnown ? formatPrice(grandTotal) : t('common.notAvailable')}
                       </span>
                     </div>
                   </div>

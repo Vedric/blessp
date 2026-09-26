@@ -176,7 +176,7 @@ export default function OrderDetailPage() {
 
           {/* Order Timeline */}
           <motion.div className="mt-6" variants={fadeUp}>
-            <p className="mb-4 text-sm">{t(`orders.paymentStatus.${order.paymentStatus}`)}{order.refundedCents > 0 && ` — ${formatPrice(order.refundedCents)} ${t('orders.refundedAmount')}`}</p>
+            <p className="mb-4 text-sm">{t(`orders.paymentStatus.${order.paymentStatus}`)}{order.refundedCents > 0 && `, ${formatPrice(order.refundedCents)} ${t('orders.refundedAmount')}`}</p>
             <OrderTimeline orderId={order.id} currentStatus={order.status} />
           </motion.div>
 

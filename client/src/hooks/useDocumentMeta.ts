@@ -14,7 +14,7 @@ interface DocumentMetaOptions {
 export function useDocumentMeta({ title, description, image, price, pending, noIndex }: DocumentMetaOptions): void {
   useEffect(() => {
     if (pending) return;
-    const fullTitle = title ? (title.includes('BLE$$') ? title : `${title} — BLE$$ P`) : SITE_TITLE;
+    const fullTitle = title ? (title.includes('BLE$$') ? title : `${title} | BLE$$ P`) : SITE_TITLE;
     setPageMetadata(fullTitle, description, image, price);
     if (noIndex) setMeta('robots', 'noindex, follow');
     return () => setPageMetadata();

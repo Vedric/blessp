@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'BLE$$ P — Luxury Streetwear';
+export const SITE_TITLE = 'BLE$$ P | Luxury Streetwear';
 export const SITE_DESCRIPTION = 'BLE$$ P is luxury streetwear crafted for intention. Hoodies, tracksuits and limited editions, designed and produced with meticulous care.';
 
 export function siteOrigin(): string {

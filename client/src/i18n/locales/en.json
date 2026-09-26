@@ -58,6 +58,7 @@
     "dontShowAgain": "Don't show this again"
   },
   "common": {
+    "notAvailable": "N/A",
     "home": "Home",
     "shop": "Shop",
     "contact": "Contact",
@@ -746,7 +747,7 @@
     "newsletterConsent": "I agree to receive marketing emails from BLE$$ P and understand I can unsubscribe at any time using the link in every message. See our",
     "newsletterConsentRequired": "Please confirm your consent before subscribing.",
     "trackOrder": "Track an order",
-    "subscribeFailed": "We could not process your subscription. Your email is still here — please try again.",
+    "subscribeFailed": "We could not process your subscription. Your email is still here. Please try again.",
     "checkoutMethods": "Available payment methods shown at checkout"
   },
   "countries": {

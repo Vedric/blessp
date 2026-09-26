@@ -21,7 +21,7 @@ export class NewsletterService {
       const data = { isActive: false, consentVersion: '2026-09-16', consentAt: new Date(), tokenHash: hashToken(token), tokenExpiresAt: new Date(Date.now() + 86400000) };
       await tx.newsletterSubscription.upsert({ where: { email }, create: { email, ...data }, update: data });
       const url = `${Env.CLIENT_URL}/newsletter/confirm#token=${token}`;
-      await enqueueEmail(tx, { to: email, subject: 'BLE$$ P — Confirm newsletter subscription / Confirmez votre abonnement', html: `<p><a href="${escapeHtml(url)}">Confirm subscription / Confirmer l’abonnement</a></p><p>Ignore this message if you did not request it. / Ignorez ce message si vous n’êtes pas à l’origine de la demande.</p>` });
+      await enqueueEmail(tx, { to: email, subject: 'BLE$$ P: Confirm newsletter subscription / Confirmez votre abonnement', html: `<p><a href="${escapeHtml(url)}">Confirm subscription / Confirmer l’abonnement</a></p><p>Ignore this message if you did not request it. / Ignorez ce message si vous n’êtes pas à l’origine de la demande.</p>` });
     });
     return { alreadySubscribed: false };
   }
@@ -35,7 +35,7 @@ export class NewsletterService {
       const changed = await tx.newsletterSubscription.updateMany({ where: { id: existing.id, tokenHash: hashToken(token) }, data: { isActive: true, confirmedAt: new Date(), revokedAt: null, tokenHash: null, tokenExpiresAt: null, unsubscribeHash: hashToken(unsubscribeToken) } });
       if (!changed.count) throw new ValidationError('Confirmation link already used.');
       const url = `${Env.CLIENT_URL}/newsletter/confirm#unsubscribe=${unsubscribeToken}`;
-      await enqueueEmail(tx, { to: existing.email, subject: 'BLE$$ P — Subscription confirmed / Abonnement confirmé', html: `<p>Your subscription is active. / Votre abonnement est actif.</p><p><a href="${escapeHtml(url)}">Unsubscribe / Se désabonner</a></p>` });
+      await enqueueEmail(tx, { to: existing.email, subject: 'BLE$$ P: Subscription confirmed / Abonnement confirmé', html: `<p>Your subscription is active. / Votre abonnement est actif.</p><p><a href="${escapeHtml(url)}">Unsubscribe / Se désabonner</a></p>` });
     });
   }
 

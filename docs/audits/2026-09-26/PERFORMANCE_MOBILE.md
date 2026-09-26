@@ -83,12 +83,12 @@ navigateur ne tourne pendant ces mesures.
 
 | Mesure mobile | Référence | Final 1 | Final 2 | Final 3 |
 | --- | ---: | ---: | ---: | ---: |
-| Performance | 78 | 85 | 85 | 84 |
-| LCP | 5 255 ms | 3 918 ms | 3 921 ms | 4 110 ms |
-| Octets transférés | 1 245 227 | 1 163 015 | 1 163 015 | 1 163 015 |
+| Performance | 78 | 85 | 85 | 85 |
+| LCP | 5 255 ms | 3 916 ms | 3 922 ms | 3 924 ms |
+| Octets transférés | 1 245 227 | 1 162 922 | 1 162 922 | 1 162 922 |
 | Décalage visuel CLS | 0 | 0 | 0 | 0 |
 
-Le LCP médian final est de 3 921 ms, soit une baisse de 25,4 % par rapport
+Le LCP médian final est de 3 922 ms, soit une baisse de 25,4 % par rapport
 à cette référence. Le transfert total de la page baisse de 6,6 %. Les trois
 passages finaux sont publiés ; le résultat intermédiaire à 90 ne décrit pas
 le code livré. Il reste une marge de progression pour le chargement mobile.
@@ -103,6 +103,38 @@ modification de l’accueil.
 Les journaux, captures et diagnostics sont conservés dans
 `artifacts/performance-mobile-20260926/`. Les essais intermédiaires en échec
 restent disponibles avec leur explication dans `DIAGNOSTIC.md`.
+
+## Contrôle de la révision en CI
+
+La première CI de `ed69253` bloque une intermittence du parcours d’édition des
+photos dans WebKit. Le login, le premier renouvellement de session et la
+sauvegarde répondent 200. Le test ouvre ensuite directement l’éditeur dès le
+changement d’URL, avant l’affichage de la liste. Deux polices signalent une
+erreur interne WebKit. Le renouvellement suivant répond 401 car sa requête ne
+contient aucun cookie. La capture montre alors le formulaire de connexion.
+La relance du cas réussit, mais la CI reste rouge grâce à `failOnFlakyTests`.
+
+Dix passages locaux du test original ne reproduisent pas la perte du cookie.
+Sa cause précise reste indéterminée. Le parcours attend désormais la fiche
+dans la liste et utilise son lien Modifier. Il recharge ensuite réellement
+l’éditeur et exige une réponse 200 au renouvellement de session, le nom du
+produit et la bonne langue. Les contrôles de sauvegarde, d’ordre des photos
+et de suppression restent présents. Aucun délai ni nombre de retries n’est
+augmenté. Le test ne réinjecte pas de cookie et ne reconnecte pas l’utilisateur.
+Ce parcours renforcé réussit ensuite cinq fois par langue et par moteur,
+soit 30 exécutions sans retry. Les 543 tests serveur passent de nouveau après
+les modifications des textes et des métadonnées.
+
+Les règles de rédaction sont aussi appliquées aux textes de l’interface,
+aux titres HTML et aux sujets de newsletter. Les intervalles de prix utilisent
+« à » ou « to ». Les valeurs manquantes affichent « N/D » ou « N/A ».
+Le message promotionnel de la bibliothèque de traduction est désactivé par
+son option prévue à cet effet. Les erreurs de console restent visibles.
+Les cinq derniers parcours Chromium avec une fenêtre visible passent. Leurs
+traces ne contiennent plus le message promotionnel. Le contrôle des fichiers
+suivis dans `client`, `server`, `scripts` et `config` ne trouve plus de tiret
+cadratin. Les titres de partage, les changements de langue à 320 et 1 440 px,
+la newsletter et la photo d’accueil sont vérifiés dans cette session.
 
 Les mesures locales servent à comparer les versions. Elles ne remplacent pas
 les mesures sur le domaine déployé et sur des téléphones physiques.

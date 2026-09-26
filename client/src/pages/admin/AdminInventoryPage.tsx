@@ -109,8 +109,8 @@ export default function AdminInventoryPage() {
       <Link to="/admin/products" className="inline-flex min-h-11 items-center underline underline-offset-4">{t('admin.products.title')}</Link>
     </div>
     <div className="mt-8 grid gap-4 sm:grid-cols-3">
-      <div className="border border-neutral-200 bg-[#f3f1eb] p-5"><p className="text-sm text-neutral-600">{t('inventory.matches')}</p><p className="mt-2 text-3xl tabular-nums">{data?.pagination.totalItems ?? '—'}</p></div>
-      <div className="border border-neutral-200 bg-[#f3f1eb] p-5"><p className="text-sm text-neutral-600">{t('inventory.availableTotal')}</p><p className="mt-2 text-3xl tabular-nums">{data?.available ?? '—'}</p></div>
+      <div className="border border-neutral-200 bg-[#f3f1eb] p-5"><p className="text-sm text-neutral-600">{t('inventory.matches')}</p><p className="mt-2 text-3xl tabular-nums">{data?.pagination.totalItems ?? t('common.notAvailable')}</p></div>
+      <div className="border border-neutral-200 bg-[#f3f1eb] p-5"><p className="text-sm text-neutral-600">{t('inventory.availableTotal')}</p><p className="mt-2 text-3xl tabular-nums">{data?.available ?? t('common.notAvailable')}</p></div>
       <div className="border border-neutral-200 p-5"><Package className="h-5 w-5" aria-hidden="true" /><p className="mt-3 text-sm text-neutral-600">{t('inventory.lowHelp')}</p></div>
     </div>
     {!!data?.unconfiguredProducts && <p className="mt-5 border-l-2 border-amber-700 bg-amber-50 p-4 text-sm text-amber-900">{t('inventory.unconfigured', { count: data.unconfiguredProducts })} <Link className="underline" to="/admin/products">{t('admin.products.title')}</Link></p>}
@@ -127,7 +127,7 @@ export default function AdminInventoryPage() {
       {data?.items.map(row => {
         const selectable = (row.product.sizes.length ? row.product.sizes : ['']).includes(row.size) && (row.product.colors.length ? row.product.colors : ['']).includes(row.color);
         return <article key={row.id} className="grid min-w-0 gap-4 border border-neutral-200 p-4 sm:grid-cols-[1fr_auto] sm:p-5">
-          <div className="min-w-0"><h2 className="break-words font-medium text-neutral-900"><Link to={`/admin/products/${row.productId}/edit`} className="underline underline-offset-4">{row.product.name}</Link></h2><p className="mt-2 break-words text-sm text-neutral-600">{row.size || '—'} / {row.color || '—'} · SKU : {row.sku || '—'}</p>{(!row.product.isActive || !selectable) && <p className="mt-2 text-xs text-amber-800">{t('inventory.notOffered')}</p>}</div>
+          <div className="min-w-0"><h2 className="break-words font-medium text-neutral-900"><Link to={`/admin/products/${row.productId}/edit`} className="underline underline-offset-4">{row.product.name}</Link></h2><p className="mt-2 break-words text-sm text-neutral-600">{row.size || t('common.notAvailable')} / {row.color || t('common.notAvailable')} · SKU : {row.sku || t('common.notAvailable')}</p>{(!row.product.isActive || !selectable) && <p className="mt-2 text-xs text-amber-800">{t('inventory.notOffered')}</p>}</div>
           <div className="flex flex-wrap items-center gap-4"><div className="min-w-20"><p className="text-2xl font-medium tabular-nums text-neutral-900">{row.stock}</p><p className={`text-xs ${row.stock === 0 ? 'text-red-800' : row.stock <= 5 ? 'text-amber-800' : 'text-neutral-600'}`}>{t(`inventory.states.${row.stock === 0 ? 'out' : row.stock <= 5 ? 'low' : 'available'}`)}</p></div><button disabled={loading} onClick={() => open(row, 'adjust')} className="min-h-11 border border-neutral-900 bg-neutral-900 px-4 text-sm text-white disabled:opacity-50">{t('inventory.adjust')}</button><button disabled={loading} onClick={() => open(row, 'history')} className="min-h-11 px-2 text-sm underline underline-offset-4 disabled:opacity-50">{t('inventory.history')}</button></div>
         </article>;
       })}
@@ -135,7 +135,7 @@ export default function AdminInventoryPage() {
     {data && <Pagination page={page} totalPages={data.pagination.totalPages} onChange={setPage} />}
     {selected && <dialog ref={panel} aria-modal="true" aria-labelledby="inventory-dialog-title" tabIndex={-1} className="fixed inset-0 m-auto max-h-[90svh] w-[calc(100%-24px)] max-w-xl overflow-y-auto border-0 bg-white p-5 text-neutral-900 backdrop:bg-black/60 sm:p-8">
         <div className="flex items-start justify-between gap-3"><h2 id="inventory-dialog-title" className="font-display text-2xl">{t(mode === 'adjust' ? 'inventory.adjust' : 'inventory.history')}</h2><button disabled={saving} onClick={() => setSelected(null)} aria-label={t('common.close')} className="flex h-11 w-11 shrink-0 items-center justify-center"><X className="h-5 w-5" aria-hidden="true" /></button></div>
-        <p className="mt-3 break-words text-sm text-neutral-600">{selected.product.name} · {selected.size || '—'} / {selected.color || '—'}</p>
+        <p className="mt-3 break-words text-sm text-neutral-600">{selected.product.name} · {selected.size || t('common.notAvailable')} / {selected.color || t('common.notAvailable')}</p>
         {dialogError && <p role="alert" className="mt-5 text-sm text-red-800">{dialogError}</p>}
         {mode === 'adjust' ? <form onSubmit={save} className="mt-6 space-y-5">
           <p className="text-sm">{t('inventory.current')} : <strong>{selected.stock}</strong></p>

@@ -58,6 +58,7 @@
     "dontShowAgain": "Ne plus afficher"
   },
   "common": {
+    "notAvailable": "N/D",
     "home": "Accueil",
     "shop": "Boutique",
     "contact": "Contact",

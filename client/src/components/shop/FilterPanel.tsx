@@ -138,7 +138,7 @@ export function FilterPanel({ filters: committedFilters, filtersData, onFiltersC
         {(filters.minPrice !== undefined || filters.maxPrice !== undefined) && (
           <p className="mt-2 text-xs text-neutral-500">
             {filters.minPrice !== undefined ? formatPrice(filters.minPrice) : '$0'}
-            {' '}—{' '}
+            {' '}{t('filters.to')}{' '}
             {filters.maxPrice !== undefined ? formatPrice(filters.maxPrice) : formatPrice(filtersData.priceRange.max)}
           </p>
         )}
