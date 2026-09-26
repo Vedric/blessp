@@ -514,12 +514,14 @@ paths:
         schema:
           type: integer
           minimum: 0
+          maximum: 2147483647
         description: Minimum price filter (in cents)
       - name: maxPrice
         in: query
         schema:
           type: integer
           minimum: 0
+          maximum: 2147483647
         description: Maximum price filter (in cents)
       - name: colors
         in: query
@@ -2906,12 +2908,14 @@ paths:
         schema:
           type: integer
           minimum: 0
+          maximum: 2147483647
         description: Minimum price filter (in cents)
       - name: maxPrice
         in: query
         schema:
           type: integer
           minimum: 0
+          maximum: 2147483647
         description: Maximum price filter (in cents)
       - name: colors
         in: query
@@ -4136,11 +4140,13 @@ components:
       properties:
         name:
           type: string
+          description: Leading and trailing whitespace is removed before validation.
           minLength: 1
           maxLength: 200
         price:
           type: integer
           minimum: 1
+          maximum: 2147483647
           description: Price in cents
         description:
           type: string
@@ -4177,17 +4183,20 @@ components:
         onfrontOrder:
           type: integer
           minimum: 0
+          maximum: 2147483647
       additionalProperties: false
     UpdateProductRequest:
       type: object
       properties:
         name:
           type: string
+          description: Leading and trailing whitespace is removed before validation.
           minLength: 1
           maxLength: 200
         price:
           type: integer
           minimum: 1
+          maximum: 2147483647
           description: Price in cents
         description:
           type: string
@@ -4228,6 +4237,7 @@ components:
         onfrontOrder:
           type: integer
           minimum: 0
+          maximum: 2147483647
           nullable: true
       additionalProperties: false
     ProductFilters:

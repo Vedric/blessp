@@ -1,10 +1,11 @@
 import { z } from 'zod';
+import { MAX_AMOUNT_CENTS } from '../../core/types/money';
 
 const ImageUrl = z.string().max(2048).refine((value) => /^\/(?![/\\])[^\\]*$/.test(value) || /^https:\/\//.test(value) && z.string().url().safeParse(value).success, 'Use an HTTPS URL or a local image path.');
 
 export const CreateProductSchema = z.object({
-  name: z.string().min(1, 'Product name is required.').max(200).trim(),
-  price: z.number().int('Price must be an integer (in cents).').positive('Price must be positive.'),
+  name: z.string().trim().min(1, 'Product name is required.').max(200),
+  price: z.number().int('Price must be an integer (in cents).').positive('Price must be positive.').max(MAX_AMOUNT_CENTS),
   description: z.string().max(2000).trim().optional(),
   details: z.string().max(5000).trim().optional(),
   picture: ImageUrl.optional(),
@@ -13,12 +14,12 @@ export const CreateProductSchema = z.object({
   colors: z.array(z.string().max(50).trim()).max(30).optional(),
   sizes: z.array(z.string().max(20).trim()).max(20).optional(),
   isActive: z.boolean().optional(),
-  onfrontOrder: z.number().int().nonnegative().optional(),
+  onfrontOrder: z.number().int().nonnegative().max(2147483647).optional(),
 }).strict();
 
 export const UpdateProductSchema = z.object({
-  name: z.string().min(1).max(200).trim().optional(),
-  price: z.number().int('Price must be an integer (in cents).').positive('Price must be positive.').optional(),
+  name: z.string().trim().min(1).max(200).optional(),
+  price: z.number().int('Price must be an integer (in cents).').positive('Price must be positive.').max(MAX_AMOUNT_CENTS).optional(),
   description: z.string().max(2000).trim().nullable().optional(),
   details: z.string().max(5000).trim().nullable().optional(),
   picture: ImageUrl.nullable().optional(),
@@ -27,7 +28,7 @@ export const UpdateProductSchema = z.object({
   colors: z.array(z.string().max(50).trim()).max(30).optional(),
   sizes: z.array(z.string().max(20).trim()).max(20).optional(),
   isActive: z.boolean().optional(),
-  onfrontOrder: z.number().int().nonnegative().nullable().optional(),
+  onfrontOrder: z.number().int().nonnegative().max(2147483647).nullable().optional(),
 }).strict();
 
 export const ProductQuerySchema = z.object({
@@ -40,8 +41,8 @@ export const ProductQuerySchema = z.object({
     .enum(['true', 'false'])
     .transform((val) => val === 'true')
     .optional(),
-  minPrice: z.coerce.number().int().nonnegative().optional(),
-  maxPrice: z.coerce.number().int().nonnegative().optional(),
+  minPrice: z.coerce.number().int().nonnegative().max(MAX_AMOUNT_CENTS).optional(),
+  maxPrice: z.coerce.number().int().nonnegative().max(MAX_AMOUNT_CENTS).optional(),
   colors: z.string().max(500).transform((val) => val.split(',').map((c) => c.trim()).filter(Boolean)).optional(),
   sizes: z.string().max(200).transform((val) => val.split(',').map((s) => s.trim()).filter(Boolean)).optional(),
 });

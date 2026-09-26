@@ -21,7 +21,8 @@
     "build:test": "node scripts/build-e2e.cjs",
     "check:launch": "node scripts/check-launch.cjs",
     "catalogue:check": "node scripts/check-catalogue.cjs",
-    "test:scripts": "node --test scripts/tests/*.test.cjs"
+    "test:scripts": "node --test scripts/tests/*.test.cjs",
+    "test:load": "node scripts/load-commerce.cjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
