@@ -1,5 +1,7 @@
 # Reste à faire avant ouverture commerciale
 
+Le [contrôle visuel du 26 septembre](audits/2026-09-26/EXPLORATION_INTERFACE.md) couvre les parcours avec une fenêtre Chromium visible. Le [bilan du chargement mobile](audits/2026-09-26/PERFORMANCE_MOBILE.md) détaille ensuite l’optimisation de la photo d’accueil, les mesures et les essais sur trois navigateurs. Ces contrôles complètent la recette locale.
+
 Mise à jour du 26 septembre : la [campagne de résistance](TESTS_RESILIENCE.md) ajoute des répétitions des 540 tests serveur, des scénarios de concurrence, de panne réseau et de reprise de session, ainsi qu'une charge locale reproductible. La [PR #72](https://github.com/Vedric/blessp/pull/72) conserve les contrôles de cette révision. La [PR #73](https://github.com/Vedric/blessp/pull/73) complète la déconnexion après panne réseau et les parcours mobiles avec photos absentes ou indisponibles. Les résultats datés ci-dessous décrivent les campagnes précédentes. Les critères d'ouverture restent applicables, notamment les taxes, la recette des prestataires et la validation de l'hébergement.
 
 Mise à jour du 20 septembre : [correctifs du catalogue, des liens de vérification et de la navigation au clavier, avec leurs preuves ciblées](audits/2026-09-20/CATALOGUE_ET_STABILITE.md). Voir aussi [les emails de compte FR/EN et leurs tests](audits/2026-09-20/EMAILS_COMPTE.md). Les résultats antérieurs ci-dessous restent des points de référence datés.

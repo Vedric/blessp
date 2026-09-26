@@ -156,10 +156,23 @@ for (const language of ['en', 'fr']) test(`product editor keeps the primary imag
   }, language);
   await page.setViewportSize({ width: 320, height: 740 });
   expect((await page.request.post('/api/v1/auth/login', { data: { email: user.email, password } })).status()).toBe(200);
-  const open = () => page.goto(`/admin/products/${product.id}/edit`, { waitUntil: 'domcontentloaded' });
-  const save = async () => {
+  const editLink = (name: string) => page.getByRole('link', { name: `${language === 'fr' ? 'Modifier' : 'Edit'} ${name}`, exact: true });
+  const open = async () => {
+    // Finish the list transition before opening its editor. Reload separately
+    // so session restoration and persisted data remain part of this journey.
+    if (new URL(page.url()).pathname === '/admin/products') await editLink(product.name).click();
+    else await page.goto(`/admin/products/${product.id}/edit`, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#field-name')).toHaveValue(product.name);
+    const refreshed = page.waitForResponse(response => response.url().endsWith('/auth/refresh') && response.request().method() === 'POST');
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    expect((await refreshed).status()).toBe(200);
+    await expect(page.locator('#field-name')).toHaveValue(product.name);
+    await expect(page.locator('html')).toHaveAttribute('lang', language);
+  };
+  const save = async (name = product.name) => {
     await page.locator('main form button[type=submit]').click();
     await expect(page).toHaveURL(/\/admin\/products$/);
+    await expect(editLink(name)).toBeVisible();
   };
   const remove = async (src: string) => {
     const image = page.locator(`main img[src="${src}"]`);
@@ -195,7 +208,7 @@ for (const language of ['en', 'fr']) test(`product editor keeps the primary imag
   const name = `Media new ${crypto.randomUUID().slice(0, 8)}`;
   await page.locator('#field-name').fill(name); await page.locator('#field-price').fill('35');
   await page.getByRole('spinbutton', { name: /^Stock/ }).fill('2');
-  await add(); await save();
+  await add(); await save(name);
   const created = await db.product.findFirstOrThrow({ where: { name } }); productIds.push(created.id);
   expect(created.picture).toBe(primary); expect(created.images).toEqual([primary]);
 });

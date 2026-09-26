@@ -27,6 +27,8 @@ export default function HomePage() {
   const [playHero, setPlayHero] = useState(false);
   const [heroPlaying, setHeroPlaying] = useState(false);
   const [heroUnavailable, setHeroUnavailable] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
+  const [useOriginalCover, setUseOriginalCover] = useState(false);
   const heroVideo = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function HomePage() {
     if (!video) return;
     let active = true;
     setHeroUnavailable(false);
+    setHeroReady(false);
     // A dynamically inserted <source> is not reliably reselected by browsers.
     // Loading explicitly also releases the old media when mobile mode removes it.
     video.load();
@@ -70,12 +73,14 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#fcfbf8]">
       <section className="campaign-hero">
-        <video ref={heroVideo} autoPlay={playHero} onPlay={() => setHeroPlaying(true)} onPause={() => setHeroPlaying(false)} preload="none" poster="/img/blessp_story.jpeg" aria-hidden="true" muted loop playsInline className="absolute inset-0 h-full w-full object-cover">
+        <img src={useOriginalCover ? '/img/blessp_story.jpeg' : '/img/blessp_story-cover.webp'} alt="" aria-hidden="true" width={2048} height={1574} fetchPriority="high" decoding="async" onError={() => setUseOriginalCover(true)} className="absolute inset-0 h-full w-full object-cover" />
+        <video ref={heroVideo} autoPlay={playHero} onPlay={() => setHeroPlaying(true)} onPlaying={() => setHeroReady(true)} onPause={() => setHeroPlaying(false)} preload="none" aria-hidden="true" muted loop playsInline style={{ opacity: heroReady ? 1 : 0 }} className="absolute inset-0 h-full w-full object-cover">
           {playHero && <>
             <source src="/video/blessp_video.webm" type="video/webm" />
             <source src="/video/blessp_video.mp4" type="video/mp4" onError={() => {
               heroVideo.current?.pause();
               setHeroPlaying(false);
+              setHeroReady(false);
               setHeroUnavailable(true);
             }} />
           </>}
@@ -137,7 +142,8 @@ export default function HomePage() {
 
       <section className="bg-[#eae5db]">
         <div className="mx-auto grid max-w-[1440px] lg:grid-cols-2">
-          <div className="relative min-h-80 overflow-hidden lg:min-h-[600px]"><img src="/img/blessp_story.jpeg" alt={t('home.brandStoryImageAlt')} loading="lazy" decoding="async" width={2048} height={1536} className="h-full min-h-80 w-full object-cover" /><span aria-hidden="true" className="absolute bottom-7 left-7 font-display text-5xl italic text-white [text-shadow:0_2px_12px_rgba(0,0,0,.8)]">BLE$$ P</span></div>
+          {/* The hero already loads this photo. Lazy loading it again makes WebKit request it twice. */}
+          <div className="relative min-h-80 overflow-hidden lg:min-h-[600px]"><img src={useOriginalCover ? '/img/blessp_story.jpeg' : '/img/blessp_story-cover.webp'} alt={t('home.brandStoryImageAlt')} decoding="async" onError={() => setUseOriginalCover(true)} width={2048} height={1574} className="h-full min-h-80 w-full object-cover" /><span aria-hidden="true" className="absolute bottom-7 left-7 font-display text-5xl italic text-white [text-shadow:0_2px_12px_rgba(0,0,0,.8)]">BLE$$ P</span></div>
           <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-16"><p className="editorial-eyebrow">03 / {t('home.editorial.identity')}</p><h2 className="editorial-title mt-5">{t('home.editorial.storyTitle')}</h2><p className="mt-7 max-w-lg text-base leading-relaxed text-neutral-700">{t('home.editorial.storyBody')}</p><Link to="/shop" className="editorial-link mt-9 self-start">{t('home.exploreCollection')}<ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link></div>
         </div>
       </section>

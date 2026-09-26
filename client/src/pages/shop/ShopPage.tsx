@@ -146,7 +146,7 @@ export default function ShopPage() {
     const min = advancedFilters.minPrice !== undefined ? formatPrice(advancedFilters.minPrice) : '$0';
     const max = advancedFilters.maxPrice !== undefined ? formatPrice(advancedFilters.maxPrice) : '...';
     activeFilterTags.push({
-      label: `${min} — ${max}`,
+      label: `${min} ${t('filters.to')} ${max}`,
       onRemove: () => handleFiltersChange({ ...advancedFilters, minPrice: undefined, maxPrice: undefined }),
     });
   }

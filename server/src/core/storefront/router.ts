@@ -11,13 +11,13 @@ const HERO_IMAGE = '/img/blessp_story.jpeg';
 const PAGE_SIZE = 1000;
 const PRODUCT_ID = /^\/products\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/i;
 const PUBLIC_PAGES: Record<string, string> = {
-  '/': `${BRAND} — Luxury Streetwear`,
-  '/shop': `Collection — ${BRAND}`,
-  '/contact': `Contact — ${BRAND}`,
-  '/terms': `Terms & Conditions — ${BRAND}`,
-  '/return-policy': `Shipping & Returns — ${BRAND}`,
-  '/privacy': `Privacy Policy — ${BRAND}`,
-  '/legal-notice': `Legal Notice — ${BRAND}`,
+  '/': `${BRAND} | Luxury Streetwear`,
+  '/shop': `Collection | ${BRAND}`,
+  '/contact': `Contact | ${BRAND}`,
+  '/terms': `Terms & Conditions | ${BRAND}`,
+  '/return-policy': `Shipping & Returns | ${BRAND}`,
+  '/privacy': `Privacy Policy | ${BRAND}`,
+  '/legal-notice': `Legal Notice | ${BRAND}`,
 };
 const PRIVATE_PAGE = /^\/(?:signin|signup|forgot-password|reset-password|verify-email|checkout|order-status|newsletter\/confirm|search|compare|wishlist|profile(?:\/(?:orders(?:\/[^/]+)?|addresses|loyalty|payment-methods|email-preferences))?|admin(?:\/(?:products(?:\/(?:new|[^/]+\/edit))?|orders|reviews|inventory|contact))?)\/?$/;
 
@@ -90,7 +90,7 @@ export function storefrontRouter(publicPath: string): Router {
     }
     const pathname = req.path.replace(/\/$/, '') || '/';
     const match = pathname.match(PRODUCT_ID);
-    let title = PUBLIC_PAGES[pathname] ?? `Page not found — ${BRAND}`;
+    let title = PUBLIC_PAGES[pathname] ?? `Page not found | ${BRAND}`;
     let description = DESCRIPTION;
     let image = origin + HERO_IMAGE;
     let status = PUBLIC_PAGES[pathname] || PRIVATE_PAGE.test(pathname) ? 200 : 404;
@@ -104,13 +104,13 @@ export function storefrontRouter(publicPath: string): Router {
       });
       if (product) {
         status = 200; indexable = true;
-        title = `${product.name} — ${BRAND}`;
+        title = `${product.name} | ${BRAND}`;
         description = (product.description || product.name).replace(/\s+/g, ' ').slice(0, 180);
         image = absoluteUrl(product.picture || product.images[0] || HERO_IMAGE, origin) ?? image;
         productPrice = (product.price / 100).toFixed(2);
       }
     } else if (status === 200 && !indexable) {
-      title = `Your account and shopping — ${BRAND}`;
+      title = `Your account and shopping | ${BRAND}`;
     }
 
     // Search/filter URLs are not separate landing pages. Keep paginated shop
@@ -120,6 +120,9 @@ export function storefrontRouter(publicPath: string): Router {
     if (pathname === '/shop' && Object.keys(req.query).some((key) => !['page', 'utm_source', 'utm_medium', 'utm_campaign'].includes(key))) indexable = false;
     const robots = indexable ? 'index, follow' : 'noindex, follow';
     const metadata = [
+      // The cover is the home page's largest visible element. Discover
+      // it with the HTML, without fetching it on unrelated landing pages.
+      ...(pathname === '/' ? ['<link rel="preload" as="image" href="/img/blessp_story-cover.webp" type="image/webp" fetchpriority="high">'] : []),
       `<title>${escapeHtml(title)}</title>`,
       `<meta name="description" content="${escapeHtml(description)}">`,
       `<meta name="robots" content="${robots}">`,

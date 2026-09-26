@@ -203,7 +203,7 @@ export default function AdminProductEditPage() {
             )}
 
             <fieldset className="border p-4"><legend>{t('admin.productEdit.stock', { defaultValue: 'Available stock by variant' })}</legend>
-              {(form.sizes.length ? form.sizes : ['']).flatMap((size) => (form.colors.length ? form.colors : ['']).map((color) => { const key = JSON.stringify([size, color]); return <label key={key} className="mt-3 flex items-center justify-between gap-4"><span>{size || '—'} / {color || '—'}</span><input aria-label={`Stock ${size} ${color}`} type="number" min="0" max="1000000" step="1" required className="w-24 border p-2" value={stocks[key] ?? 0} onChange={(e) => setStocks((prev) => ({ ...prev, [key]: Number(e.target.value) }))} /></label>; }))}
+              {(form.sizes.length ? form.sizes : ['']).flatMap((size) => (form.colors.length ? form.colors : ['']).map((color) => { const key = JSON.stringify([size, color]); return <label key={key} className="mt-3 flex items-center justify-between gap-4"><span>{size || t('common.notAvailable')} / {color || t('common.notAvailable')}</span><input aria-label={`Stock ${size} ${color}`} type="number" min="0" max="1000000" step="1" required className="w-24 border p-2" value={stocks[key] ?? 0} onChange={(e) => setStocks((prev) => ({ ...prev, [key]: Number(e.target.value) }))} /></label>; }))}
             </fieldset>
             {/* Name */}
             <div>

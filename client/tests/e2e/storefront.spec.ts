@@ -21,11 +21,11 @@ test('product sharing metadata is present without JavaScript and stays correct a
   expect(response.status()).toBe(200);
   const html = await response.text();
   // Parse an inert document: HTML entities must be decoded, scripts must not run.
-  expect(await page.evaluate(markup => new DOMParser().parseFromString(markup, 'text/html').title, html)).toBe(`${product.name} — BLE$$ P`);
+  expect(await page.evaluate(markup => new DOMParser().parseFromString(markup, 'text/html').title, html)).toBe(`${product.name} | BLE$$ P`);
   expect(html).toContain('property="product:price:currency" content="CAD"');
   await page.goto(`/products/${product.id}`);
-  await expect(page).toHaveTitle(`${product.name} — BLE$$ P`);
-  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', `${product.name} — BLE$$ P`);
+  await expect(page).toHaveTitle(`${product.name} | BLE$$ P`);
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', `${product.name} | BLE$$ P`);
   await page.getByRole('link', { name: 'Shop', exact: true }).first().click();
   await expect(page).toHaveURL(/\/shop$/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/shop$/);
@@ -78,6 +78,7 @@ test('background video can be paused and resumed', async ({ page }) => {
   const video = page.locator('video');
   const pause = page.getByRole('button', { name: 'Pause background video' });
   await expect(pause).toBeVisible({ timeout: 15000 });
+  await expect(video).toHaveCSS('opacity', '1');
   await pause.click();
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
   await page.getByRole('button', { name: 'Play background video' }).click();
@@ -104,6 +105,8 @@ for (const mode of ['mobile', 'reduced-motion', 'save-data']) {
     await expect(page.getByRole('heading', { name: 'BLE$$ P', exact: true })).toBeVisible();
     await page.waitForTimeout(2000);
     await expect(page.locator('video source')).toHaveCount(0);
+    await expect(page.locator('video')).toHaveCSS('opacity', '0');
+    await expect(page.locator('.campaign-hero > img')).toBeVisible();
     expect(videos).toEqual([]);
   });
 }
@@ -111,7 +114,7 @@ for (const mode of ['mobile', 'reduced-motion', 'save-data']) {
 test('unknown routes return 404 and remain excluded from indexing after rendering', async ({ page }) => {
   const response = await page.goto('/missing-page');
   expect(response?.status()).toBe(404);
-  await expect(page).toHaveTitle('Page Not Found — BLE$$ P');
+  await expect(page).toHaveTitle('Page Not Found | BLE$$ P');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
 });
 

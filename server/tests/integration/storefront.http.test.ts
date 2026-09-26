@@ -31,6 +31,17 @@ async function product(data = {}) {
   return prisma.product.create({ data: { name: 'Public hoodie', price: 5995, description: 'Premium cotton & comfort', picture: '/img/black_hoody_1.jpeg', ...data } });
 }
 
+it('makes the home cover discoverable before JavaScript without preloading it on other routes', async () => {
+  const home = await request(app).get('/?utm_source=campaign').expect(200);
+  const imagePreloads = (html: string) => (html.match(/<link\b[^>]*>/g) || []).filter(tag => /rel="preload"/.test(tag) && /as="image"/.test(tag));
+  expect(imagePreloads(home.text)).toEqual(['<link rel="preload" as="image" href="/img/blessp_story-cover.webp" type="image/webp" fetchpriority="high">']);
+  const item = await product();
+  for (const route of ['/shop', '/signin', `/products/${item.id}`, '/missing-page']) {
+    const response = await request(app).get(route).expect(route === '/missing-page' ? 404 : 200);
+    expect(imagePreloads(response.text)).toEqual([]);
+  }
+});
+
 it.each(['/shop', '/assets/cache-check.js'])('preserves cache variants when revalidating compressed %s', async (route) => {
   const initial = await request(compressedApp).get(route).set('Accept-Encoding', 'gzip').expect(200);
   expect(initial.headers['content-encoding']).toBe('gzip');
@@ -55,7 +66,7 @@ it.each(['/shop', '/assets/cache-check.js'])('preserves cache variants when reva
 it('sends product-specific title, description, price and absolute sharing URLs before JavaScript', async () => {
   const item = await product();
   const res = await request(app).get(`/products/${item.id}?utm_campaign=test`).set('Host', 'attacker.example').set('X-Forwarded-Host', 'attacker.example').expect(200);
-  expect(res.text).toContain('<title>Public hoodie — BLE$$ P</title>');
+  expect(res.text).toContain('<title>Public hoodie | BLE$$ P</title>');
   expect(res.text).toContain(`rel="canonical" href="${origin}/products/${item.id}"`);
   expect(res.text).toContain('property="product:price:amount" content="59.95"');
   expect(res.text).toContain(`property="og:image" content="${origin}/img/black_hoody_1.jpeg"`);
@@ -90,8 +101,8 @@ it.each(['/products/not-an-id', `/products/${crypto.randomUUID()}`, '/unknown-pa
 it('serves public HTML, preserves HEAD semantics and canonicalizes the index path', async () => {
   const home = await request(app).get('/').expect(200);
   const shop = await request(app).get('/shop').expect(200);
-  expect(home.text).toContain('<title>BLE$$ P — Luxury Streetwear</title>');
-  expect(shop.text).toContain('<title>Collection — BLE$$ P</title>');
+  expect(home.text).toContain('<title>BLE$$ P | Luxury Streetwear</title>');
+  expect(shop.text).toContain('<title>Collection | BLE$$ P</title>');
   await request(app).head('/').expect(200).expect('Content-Type', /html/);
   await request(app).get('/index.html').expect(308).expect('Location', '/');
 });
