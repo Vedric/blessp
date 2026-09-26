@@ -199,3 +199,33 @@ for (const language of ['en', 'fr']) test(`product editor keeps the primary imag
   const created = await db.product.findFirstOrThrow({ where: { name } }); productIds.push(created.id);
   expect(created.picture).toBe(primary); expect(created.images).toEqual([primary]);
 });
+
+for (const language of ['en', 'fr']) test(`admin product rows keep long valid metadata and actions inside the viewport (${language})`, async ({ page }, info) => {
+  const name = `Maximum ${crypto.randomUUID()} ${'N'.repeat(160)}`.slice(0, 200);
+  const category = 'C'.repeat(100);
+  const product = await db.product.create({ data: { name, category, price: 2147483647, picture: '/img/blue_hoody_1.jpeg' } });
+  productIds.push(product.id);
+  const user = await db.user.create({ data: { email: `media-layout-${crypto.randomUUID()}@example.com`, passwordHash: await passwordHash, firstName: 'Media', lastName: 'Layout', emailVerifiedAt: new Date(), isAdmin: true } });
+  userIds.push(user.id);
+  await page.addInitScript(language => {
+    localStorage.setItem('preferred_language', language);
+    localStorage.setItem('blessp_cookie_consent', 'accepted');
+    localStorage.setItem('blessp_mfa_reminded_at', String(Date.now()));
+  }, language);
+  await page.setViewportSize({ width: 320, height: 740 });
+  expect((await page.request.post('/api/v1/auth/login', { data: { email: user.email, password } })).status()).toBe(200);
+  await page.goto('/admin/products');
+  const edit = page.getByRole('link', { name: `${language === 'fr' ? 'Modifier' : 'Edit'} ${name}`, exact: true });
+  const row = edit.locator('../..');
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await row.scrollIntoViewIfNeeded();
+    await expect(row).toContainText(category);
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+    await expect(edit).toBeInViewport();
+    await expect(row.getByRole('button', { name: `${language === 'fr' ? 'Supprimer' : 'Delete'} ${name}`, exact: true })).toBeInViewport();
+  }
+  await page.setViewportSize({ width: 320, height: 740 });
+  await row.screenshot({ path: info.outputPath('admin-product-long-metadata.png') });
+  await edit.click(); await expect(page.locator('#field-name')).toHaveValue(name);
+});
