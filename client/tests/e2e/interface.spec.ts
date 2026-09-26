@@ -113,7 +113,7 @@ test('profile fields are labelled and edits persist after reload', async ({ page
   await page.getByLabel('First Name', { exact: true }).fill('Updated');
   await page.getByLabel('Last Name', { exact: true }).fill('Customer');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Updated Customer' })).toBeVisible(); await page.reload();
+  await expect(page.getByRole('heading', { name: 'Updated Customer' })).toBeVisible(); await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.getByRole('heading', { name: 'Updated Customer' })).toBeVisible();
   expect((await db.user.findUniqueOrThrow({ where: { id: user.id } })).firstName).toBe('Updated');
 });
@@ -122,7 +122,7 @@ test('email preferences have named switches and persist changes', async ({ page 
   const user = await member(); await login(page, user.email); await page.goto('/profile/email-preferences');
   await page.getByRole('switch', { name: 'Promotions', exact: true }).click();
   await page.getByRole('button', { name: 'Save Preferences' }).click();
-  await expect(page.getByText('Preferences saved successfully.')).toBeVisible(); await page.reload();
+  await expect(page.getByText('Preferences saved successfully.')).toBeVisible(); await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.getByRole('switch', { name: 'Promotions', exact: true })).toBeChecked();
 });
 
@@ -142,7 +142,7 @@ test('wishlist can be added, reloaded and removed through the interface', async 
   const user = await member(); const p = await catalogue(); await login(page, user.email); await page.goto(`/products/${p.id}`);
   await page.getByRole('button', { name: 'Add to wishlist' }).first().click();
   await expect(page.getByRole('button', { name: 'Remove from wishlist' }).first()).toBeVisible();
-  await page.goto('/wishlist'); await expect(page.getByRole('heading', { name: p.name })).toBeVisible(); await page.reload();
+  await page.goto('/wishlist'); await expect(page.getByRole('heading', { name: p.name })).toBeVisible(); await page.reload({ waitUntil: 'domcontentloaded' });
   await page.getByRole('button', { name: 'Remove from wishlist' }).click();
   await expect(page.getByRole('heading', { name: /wishlist is empty/i })).toBeVisible();
   expect(await db.wishlistItem.count({ where: { userId: user.id } })).toBe(0);

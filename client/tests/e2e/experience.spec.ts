@@ -192,7 +192,7 @@ test('missing inventory cannot be purchased and a stock outage can be retried', 
   await page.goto(`/products/${product.id}`);
   await expect(page.getByRole('button', { name: 'Out of Stock', exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: 'Increase quantity', exact: true })).toBeDisabled();
-  unavailable = true; await page.reload();
+  unavailable = true; await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.getByRole('alert')).toContainText('Unable to check availability');
   restored = true;
   await page.getByRole('button', { name: 'Try again', exact: true }).click();
@@ -246,7 +246,7 @@ test('sign-in returns to the protected page originally requested', async ({ page
 test('sign-in refuses an external destination in router history', async ({ page }) => {
   await page.goto('/signin');
   await page.evaluate(() => history.replaceState({ ...history.state, usr: { from: { pathname: '//127.0.0.1:49999' } } }, ''));
-  await page.reload();
+  await page.reload({ waitUntil: 'domcontentloaded' });
   await page.locator('#email').fill('e2e-admin@example.com'); await page.locator('#password').fill('E2EAdminPassword123!');
   await page.locator('main form button[type=submit]').click(); await expect(page).toHaveURL('http://127.0.0.1:3107/');
 });

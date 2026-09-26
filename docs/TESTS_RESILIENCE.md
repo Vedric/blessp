@@ -37,6 +37,8 @@ node scripts/test-env.cjs npm --prefix server run test:coverage -- --maxWorkers=
 
 Les graines rendent l’ordre des tests reproductible. Conserver le premier échec, ses logs et sa graine avant de corriger ; une répétition verte n’efface pas un échec précédent. La CI principale garde `failOnFlakyTests` pour les navigateurs et ne rend pas un scénario intermittent vert grâce à une relance.
 
+Les rechargements navigateur attendent `domcontentloaded`, puis les assertions explicites de route, de données ou de commandes accessibles propres au scénario. Des traces Firefox montrent le profil rendu et toutes ses requêtes réussies alors que l’attente de `load` ne se termine pas. L’état métier attendu reste obligatoire ; les inspections d’images contrôlent aussi le chargement et le décodage des ressources.
+
 Les scénarios navigateur sont exécutés contre les assets optimisés. Préparer `npm run build:test` pour la matrice normale. Pour les contrats fournisseurs, utiliser `node scripts/build-e2e.cjs --providers`, puis `E2E_SIMULATE_PROVIDERS=1` avec `playwright.providers.config.ts`. Attendre l’arrêt du serveur avant de reconstruire les assets. Les instructions générales figurent dans le [README](../README.md).
 
 Le workflow [Resilience](../.github/workflows/resilience.yml) exécute les trois graines puis la charge sur les PR touchant le serveur ou le script, chaque mardi, et sur déclenchement manuel. Les rapports sont conservés 14 jours. Les campagnes navigateur et leurs captures restent dans la CI principale.

@@ -71,7 +71,7 @@ test('registration refuses a missing password confirmation without creating an a
 
 for (const language of ['en', 'fr']) test(`complete UI signup, verification, cart merge and login lifecycle (${language})`, async ({ page, context }) => {
   test.setTimeout(90000); await preferences(page, language); if (language === 'fr') await page.setViewportSize({ width: 320, height: 740 });
-  const email = uniqueEmail(); const item = await addProduct(page); await page.reload();
+  const email = uniqueEmail(); const item = await addProduct(page); await page.reload({ waitUntil: 'domcontentloaded' });
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('blessp_guest_cart')!)[0].quantity)).toBe(1);
   const user = await registration(page, email); const token = await tokenFor(email);
   await credentials(page, email); await expect(page).toHaveURL(/\/signin/); await expect(page.locator('.bg-red-50')).toContainText(/verif/i);

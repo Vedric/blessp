@@ -52,7 +52,7 @@ test('admin adjusts available stock, filters by SKU and sees the recorded histor
   expect(await dialog.locator('script').count()).toBe(0);
   await page.keyboard.press('Escape'); await expect(dialog).toHaveCount(0);
   await expect(row.getByRole('button', { name: 'Manual history', exact: true })).toBeFocused();
-  await page.reload(); await page.locator('#inventory-search').fill(product.name); await expect(row).toContainText('Low stock');
+  await page.reload({ waitUntil: 'domcontentloaded' }); await page.locator('#inventory-search').fill(product.name); await expect(row).toContainText('Low stock');
 });
 
 test('a stale count is refused and explicitly refreshed before a new adjustment', async ({ page }) => {

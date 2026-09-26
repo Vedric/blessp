@@ -32,7 +32,7 @@ for (const provider of ['Google', 'Apple']) {
     await page.getByRole('button', { name: `Continue with ${provider}`, exact: true }).click();
     await expect(page).toHaveURL(/\/profile\/orders$/);
     await expect(page.getByRole('heading', { name: 'My Orders', exact: true })).toBeVisible();
-    await page.reload(); await expect(page.getByRole('heading', { name: 'My Orders', exact: true })).toBeVisible();
+    await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page.getByRole('heading', { name: 'My Orders', exact: true })).toBeVisible();
   });
   test(`${provider}: missing names can be completed on a mobile screen`, async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 }); await sdk(page, 'profile'); await page.goto('/signin');
