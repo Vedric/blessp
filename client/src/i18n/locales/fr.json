@@ -120,7 +120,9 @@
     "retry": "Réessayer",
     "tryAgain": "Réessayer",
     "loadError": "Impossible de charger les produits. Veuillez réessayer.",
-    "pagination": "Pagination"
+    "pagination": "Pagination",
+    "breadcrumb": "Fil d’Ariane",
+    "scrollToTop": "Retour en haut"
   },
   "nav": {
     "myProfile": "Mon profil",
@@ -130,7 +132,9 @@
     "profile": "Profil",
     "orders": "Commandes",
     "searchProducts": "Rechercher des produits...",
-    "menu": "Menu"
+    "menu": "Menu",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
   },
   "home": {
     "pauseVideo": "Mettre en pause la vidéo de fond",
@@ -626,7 +630,8 @@
     "updateError": "Impossible de mettre à jour le panier. Veuillez réessayer.",
     "mergeError": "Certains articles n'ont pas pu être transférés dans votre panier.",
     "increaseQuantity": "Augmenter la quantité",
-    "decreaseQuantity": "Diminuer la quantité"
+    "decreaseQuantity": "Diminuer la quantité",
+    "close": "Fermer le panier"
   },
   "cookie": {
     "message": "Le stockage essentiel permet de conserver votre session et votre panier. La personnalisation facultative, dont les produits récemment consultés, est activée uniquement si vous acceptez.",
@@ -639,7 +644,8 @@
     "title": "Rechercher",
     "placeholder": "Que recherchez-vous ?",
     "viewAllResults": "Voir tous les résultats",
-    "noResults": "Aucun résultat pour « {{query}} »"
+    "noResults": "Aucun résultat pour « {{query}} »",
+    "close": "Fermer la recherche"
   },
   "sizeGuide": {
     "title": "Guide des tailles",
@@ -655,7 +661,8 @@
     "chestDesc": "Mesurez autour de la partie la plus large de votre poitrine, en gardant le ruban à niveau.",
     "waistDesc": "Mesurez autour de votre taille naturelle, juste au-dessus de l'os de la hanche.",
     "hipsDesc": "Tenez-vous debout, pieds joints, et mesurez autour de la partie la plus large de vos hanches.",
-    "inseamDesc": "Mesurez de la couture de l'entrejambe jusqu'au bas de la jambe."
+    "inseamDesc": "Mesurez de la couture de l'entrejambe jusqu'au bas de la jambe.",
+    "close": "Fermer le guide des tailles"
   },
   "compareDrawer": {
     "compare": "Comparer ({{count}}/3)",
@@ -684,7 +691,9 @@
     "noReviews": "Aucun avis pour le moment. Soyez le premier à partager votre expérience.",
     "loadMore": "Charger plus d'avis",
     "review": "avis",
-    "reviewPlural": "avis"
+    "reviewPlural": "avis",
+    "star_one": "{{count}} étoile",
+    "star_other": "{{count}} étoiles"
   },
   "completeLook": {
     "title": "Complétez le look",
@@ -712,7 +721,8 @@
     "showResults": "Afficher les résultats",
     "minPrice": "Prix minimum",
     "maxPrice": "Prix maximum",
-    "remove": "Retirer le filtre : {{label}}"
+    "remove": "Retirer le filtre : {{label}}",
+    "to": "à"
   },
   "footer": {
     "brandDesc": "Streetwear de luxe pour ceux qui avancent avec intention. Chaque pièce est confectionnée à partir de matières d'exception, conçue pour sublimer votre quotidien.",
@@ -1087,7 +1097,8 @@
   },
   "language": {
     "en": "English",
-    "fr": "Français"
+    "fr": "Français",
+    "select": "Choisir la langue"
   },
   "gallery": {
     "open": "Agrandir les photos de {{name}}",
@@ -1187,5 +1198,15 @@
     "failed": "La demande de remboursement a échoué. Vérifiez l’état de la commande avant de réessayer.",
     "pending": "La demande a été envoyée. Le prestataire de paiement confirmera l’état du remboursement.",
     "stock": "Cette action ne remet pas les articles retournés en stock. Contrôlez-les avant d’ajuster l’inventaire."
+  },
+  "currency": {
+    "select": "Choisir la devise"
+  },
+  "socialShare": {
+    "label": "Partager",
+    "text": "Découvrez {{name}} chez BLE$$ P",
+    "platform": "Partager sur {{platform}}",
+    "copyLink": "Copier le lien",
+    "copied": "Copié !"
   }
 }

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Facebook, Link2, Check } from 'lucide-react';
@@ -25,10 +26,11 @@ function PinterestIcon({ size = 16 }: { size?: number }) {
 }
 
 export function SocialShare({ productName, className }: SocialShareProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   const shareUrl = window.location.href;
-  const shareText = `Check out ${productName} from BLE$$ P`;
+  const shareText = t('socialShare.text', { name: productName });
 
   const handleShare = async (platform: string) => {
     // Try native share on mobile first
@@ -82,7 +84,7 @@ export function SocialShare({ productName, className }: SocialShareProps) {
   return (
     <div className={cn('flex items-center gap-3', className)}>
       <span className="text-[10px] font-medium tracking-[0.2em] text-neutral-500 uppercase">
-        Share
+        {t('socialShare.label')}
       </span>
       {buttons.map(({ id, icon, label }) => (
         <motion.button
@@ -91,8 +93,8 @@ export function SocialShare({ productName, className }: SocialShareProps) {
           className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 transition-colors hover:border-[#a07a52] hover:text-[#80603c]"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          title={`Share on ${label}`}
-          aria-label={`Share on ${label}`}
+          title={t('socialShare.platform', { platform: label })}
+          aria-label={t('socialShare.platform', { platform: label })}
         >
           {icon}
         </motion.button>
@@ -107,8 +109,8 @@ export function SocialShare({ productName, className }: SocialShareProps) {
         )}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        title={copied ? 'Copied!' : 'Copy link'}
-        aria-label="Copy link"
+        title={copied ? t('socialShare.copied') : t('socialShare.copyLink')}
+        aria-label={t('socialShare.copyLink')}
       >
         {copied ? <Check size={14} /> : <Link2 size={14} />}
       </motion.button>
@@ -119,7 +121,7 @@ export function SocialShare({ productName, className }: SocialShareProps) {
           exit={{ opacity: 0 }}
           className="text-xs text-[#80603c]"
         >
-          Copied!
+          {t('socialShare.copied')}
         </motion.span>
       )}
     </div>

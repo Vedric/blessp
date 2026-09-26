@@ -196,7 +196,7 @@ export default function SignInPage() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-1 top-1/2 mt-1 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-neutral-500 transition-colors hover:text-neutral-600"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>

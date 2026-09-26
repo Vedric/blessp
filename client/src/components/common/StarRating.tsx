@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -18,6 +19,7 @@ export function StarRating({
   onChange,
   className,
 }: StarRatingProps) {
+  const { t } = useTranslation();
   const handleClick = (starIndex: number) => {
     if (interactive && onChange) {
       onChange(starIndex + 1);
@@ -42,7 +44,7 @@ export function StarRating({
               interactive && 'cursor-pointer transition-transform hover:scale-110',
               !interactive && 'cursor-default',
             )}
-            aria-label={`${i + 1} star${i === 0 ? '' : 's'}`}
+            aria-label={t('reviews.star', { count: i + 1 })}
           >
             {/* Empty star (background) */}
             <Star

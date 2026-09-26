@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useRef, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -17,6 +18,7 @@ const currencies: CurrencyOption[] = [
 ];
 
 export function CurrencySelector({ placement = 'below' }: { placement?: 'above' | 'below' }) {
+  const { t } = useTranslation();
   const { currency, setCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,7 +48,7 @@ export function CurrencySelector({ placement = 'below' }: { placement?: 'above' 
         aria-controls={isOpen ? optionsId : undefined}
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-5 items-center gap-1 text-[13px] font-medium tracking-wider text-neutral-600 transition-colors hover:text-neutral-900"
-        aria-label="Select currency"
+        aria-label={t('currency.select')}
       >
         <span>{current.code}</span>
         <ChevronDown

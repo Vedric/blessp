@@ -116,7 +116,7 @@ export function FilterPanel({ filters: committedFilters, filtersData, onFiltersC
               className="w-full border border-neutral-200 py-2 pl-7 pr-2 text-sm text-neutral-900 focus:border-[#a07a52] focus:outline-none"
             />
           </div>
-          <span className="text-xs text-neutral-500">to</span>
+          <span className="text-xs text-neutral-500">{t('filters.to')}</span>
           <div className="relative flex-1">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-neutral-500">$</span>
             <input

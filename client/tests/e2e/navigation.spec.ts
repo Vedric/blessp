@@ -63,14 +63,14 @@ test.describe('Navigation', () => {
       await page.goto('/');
 
       // The language button should show current language (EN or FR)
-      const langButton = page.locator('button[aria-label="Select language"]');
+      const langButton = page.getByRole('button', { name: /^(Select language|Choisir la langue)$/ });
       await expect(langButton).toBeVisible();
     });
 
     test('clicking language switcher toggles language', async ({ page }) => {
       await page.goto('/');
 
-      const langButton = page.locator('button[aria-label="Select language"]');
+      const langButton = page.getByRole('button', { name: /^(Select language|Choisir la langue)$/ });
       const currentLang = await langButton.textContent();
 
       // Open the dropdown

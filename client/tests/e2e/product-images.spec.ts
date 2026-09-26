@@ -110,7 +110,7 @@ for (const language of ['en', 'fr']) test(`missing media remains usable in searc
   await page.goto('/compare');
   for (const product of products) await unavailable(page.locator(`main a[href="/products/${product.id}"]`).filter({ has: page.getByRole('img') }), message);
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-  await page.getByRole('button', { name: 'Search', exact: true }).click();
+  await page.getByRole('button', { name: language === 'fr' ? 'Rechercher' : 'Search', exact: true }).click();
   const search = page.getByRole('dialog');
   await search.getByRole('textbox').fill(category.slice(6, 14));
   for (const product of products) await expect(search.getByRole('img', { name: `${product.name}: ${message}`, exact: true })).toBeVisible();
@@ -122,7 +122,7 @@ for (const language of ['en', 'fr']) test(`missing media remains usable in searc
     await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('blessp_guest_cart') || '[]').length)).toBe(products.indexOf(product) + 1);
   }
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-  await page.getByRole('button', { name: 'Cart', exact: true }).click();
+  await page.getByRole('button', { name: language === 'fr' ? 'Panier' : 'Cart', exact: true }).click();
   for (const product of products) await expect(page.getByRole('dialog').getByRole('img', { name: `${product.name}: ${message}`, exact: true })).toBeVisible();
   await page.getByRole('dialog').getByRole('link', { name: language === 'fr' ? 'Passer au paiement' : 'Checkout', exact: true }).click();
   await expect(page).toHaveURL(/\/checkout$/);
