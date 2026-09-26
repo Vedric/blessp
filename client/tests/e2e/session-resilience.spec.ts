@@ -18,9 +18,10 @@ test.afterAll(async () => { await db.user.deleteMany({ where: { id: { in: users 
 async function login(page: Page) {
   const user = await db.user.create({ data: { email: `session-${crypto.randomUUID()}@example.com`, passwordHash: await hash, firstName: 'Session', lastName: 'Tester', emailVerifiedAt: new Date() } });
   users.push(user.id);
-  await page.goto('/signin'); await page.locator('#email').fill(user.email); await page.locator('#password').fill(password);
-  await page.locator('main form button[type=submit]').click(); await expect(page).not.toHaveURL(/\/signin/);
-  await page.goto('/profile'); await expect(page.locator('main')).toContainText(user.email);
+  await page.goto('/profile', { waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/signin/);
+  await page.locator('#email').fill(user.email); await page.locator('#password').fill(password);
+  await page.locator('main form button[type=submit]').click(); await expect(page).toHaveURL(/\/profile$/);
+  await expect(page.locator('main')).toContainText(user.email);
   return user;
 }
 
@@ -28,12 +29,14 @@ test('three tabs can renew the shared session concurrently and reloads after log
   const user = await login(page);
   const second = await context.newPage(), third = await context.newPage();
   try {
-    await Promise.all([page.reload(), second.goto('/profile'), third.goto('/profile')]);
+    // Background tabs can delay the load event; assert the usable authenticated UI.
+    await Promise.all([page.reload({ waitUntil: 'domcontentloaded' }), second.goto('/profile', { waitUntil: 'domcontentloaded' }), third.goto('/profile', { waitUntil: 'domcontentloaded' })]);
     for (const tab of [page, second, third]) { await expect(tab).toHaveURL(/\/profile$/); await expect(tab.locator('main')).toContainText(user.email); }
-    await Promise.all([page.reload(), second.reload(), third.reload()]);
+    await Promise.all([page, second, third].map(tab => tab.reload({ waitUntil: 'domcontentloaded' })));
     for (const tab of [page, second, third]) await expect(tab.locator('main')).toContainText(user.email);
-    await page.getByRole('button', { name: /sign out/i }).first().click();
-    await Promise.all([second.reload(), third.reload()]);
+    const signedOut = page.waitForResponse(response => response.url().endsWith('/auth/logout') && response.request().method() === 'POST');
+    await page.getByRole('button', { name: /sign out/i }).first().click(); expect((await signedOut).ok()).toBe(true);
+    await Promise.all([second, third].map(tab => tab.reload({ waitUntil: 'domcontentloaded' })));
     for (const tab of [second, third]) { await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
     expect(await db.refreshToken.count({ where: { userId: user.id } })).toBe(0);
   } finally { await second.close(); await third.close(); }
@@ -42,7 +45,7 @@ test('three tabs can renew the shared session concurrently and reloads after log
 test('a transient refresh network failure hides private content and a later navigation recovers', async ({ page }) => {
   const user = await login(page);
   await page.route('**/api/v1/auth/refresh', route => route.abort('failed'));
-  await page.reload(); await expect(page).toHaveURL(/\/signin/); await expect(page.locator('main')).not.toContainText(user.email);
+  await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/signin/); await expect(page.locator('main')).not.toContainText(user.email);
   await page.unroute('**/api/v1/auth/refresh');
-  await page.goto('/profile'); await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(user.email);
+  await page.goto('/profile', { waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(user.email);
 });

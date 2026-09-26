@@ -50,5 +50,9 @@ for (const locale of ['fr', 'en']) test(`real signup, email link, reset and sign
   await submit(page); expect((await changed).ok()).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   await page.goto('/signin'); await page.locator('#email').fill(email); await page.locator('#password').fill(next); await submit(page);
-  await expect(page).not.toHaveURL(/\/signin/); await page.goto('/profile'); await expect(page.locator('main')).toContainText(email);
+  await expect(page).not.toHaveURL(/\/signin/);
+  // Follow the account link after login instead of interrupting the home transition.
+  await page.getByRole('button', { name: 'Account', exact: true }).click();
+  await page.getByRole('banner').locator('a[href="/profile"]:visible').click();
+  await expect(page).toHaveURL(/\/profile$/); await expect(page.locator('main')).toContainText(email);
 });

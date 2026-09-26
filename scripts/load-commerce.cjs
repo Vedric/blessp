@@ -42,8 +42,11 @@ async function phase(name, concurrency, work) {
   const times = [], statuses = {};
   const base = `http://127.0.0.1:${server.address().port}`;
   const send = async (route, body) => {
+    stopping.signal.throwIfAborted();
     const start = performance.now();
-    const response = await fetch(base + route, { method: body ? 'POST' : 'GET', headers: { 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.any([stopping.signal, AbortSignal.timeout(10000)]) });
+    // A shared composite signal accumulates dependent signals at load-test scale.
+    // Stop before each request; in-flight requests finish within their own timeout.
+    const response = await fetch(base + route, { method: body ? 'POST' : 'GET', headers: { 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(10000) });
     const data = response.status === 204 ? null : await response.json();
     times.push(performance.now() - start); statuses[response.status] = (statuses[response.status] || 0) + 1;
     return { status: response.status, data: data?.data ?? data };
