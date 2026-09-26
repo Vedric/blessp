@@ -1,4 +1,6 @@
-# Reste à faire avant ouverture commerciale — 18 septembre 2026
+# Reste à faire avant ouverture commerciale
+
+Mise à jour du 26 septembre : la [campagne de résistance](TESTS_RESILIENCE.md) ajoute des répétitions des 540 tests serveur, des scénarios de concurrence, de panne réseau et de reprise de session, ainsi qu'une charge locale reproductible. La [PR #72](https://github.com/Vedric/blessp/pull/72) conserve les contrôles de cette révision. Les résultats datés ci-dessous décrivent les campagnes précédentes. Les critères d'ouverture restent applicables, notamment les taxes, la recette des prestataires et la validation de l'hébergement.
 
 Mise à jour du 20 septembre : [correctifs du catalogue, des liens de vérification et de la navigation au clavier, avec leurs preuves ciblées](audits/2026-09-20/CATALOGUE_ET_STABILITE.md). Voir aussi [les emails de compte FR/EN et leurs tests](audits/2026-09-20/EMAILS_COMPTE.md). Les résultats antérieurs ci-dessous restent des points de référence datés.
 

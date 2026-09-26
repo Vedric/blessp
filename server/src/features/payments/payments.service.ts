@@ -288,7 +288,7 @@ export class PaymentsService {
     if (!this.expirationCursor) this.expirationCutoff = null;
     for (const order of expired) {
       try { await this.cancelPendingOrder(order.id); }
-      catch { logger.warn({ orderId: order.id }, 'Reservation could not be cancelled; inventory retained for retry'); }
+      catch (error) { logger.warn({ orderId: order.id, errorType: error instanceof Error ? error.name : 'Unknown' }, 'Reservation could not be cancelled; inventory retained for retry'); }
     }
   }
 
