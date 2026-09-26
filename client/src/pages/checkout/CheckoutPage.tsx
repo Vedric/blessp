@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -1176,7 +1177,7 @@ export default function CheckoutPage() {
                             {confirmedItems.map((item) => (
                               <div key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
                                 <div className="h-16 w-16 flex-shrink-0 bg-neutral-50">
-                                  <img
+                                  <ProductImage compact
                                     src={item.product.picture}
                                     alt={item.product.name}
                                     className="h-full w-full object-cover"
@@ -1299,7 +1300,7 @@ export default function CheckoutPage() {
                     {items.map((item) => (
                       <div key={item.id} className="flex gap-4">
                         <div className="h-16 w-16 flex-shrink-0 bg-neutral-50">
-                          <img
+                          <ProductImage compact
                             src={item.product.picture}
                             alt={item.product.name}
                             className="h-full w-full object-cover"

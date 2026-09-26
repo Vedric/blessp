@@ -75,6 +75,7 @@ for (const failure of ['network abort', 'lost logout response', 'logout server e
 });
 
 test('an ongoing logout outage blocks refresh and sign-in, then a deliberate login recovers', async ({ page, context }) => {
+  await context.addInitScript(() => Object.defineProperty(AbortSignal, 'timeout', { configurable: true, value: undefined }));
   const user = await login(page);
   const refreshes: string[] = [];
   context.on('request', request => { if (request.url().endsWith('/auth/refresh')) refreshes.push(request.url()); });

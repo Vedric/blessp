@@ -62,6 +62,14 @@ async function inspectRoutes(page: Page, info: TestInfo, routes: string[]) {
       scrollTo({ top: 0, behavior: 'instant' });
       await Promise.race([Promise.all(Array.from(document.images).filter(img => img.getBoundingClientRect().width > 0).map(img => img.decode().catch(() => undefined))), new Promise(resolve => setTimeout(resolve, 3000))]);
     });
+    // Delayed recommendations may add lazy images after the first scroll pass.
+    // Visit each rendered image and require a loaded resource before inspection.
+    for (const image of await page.locator('img:visible').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toHaveJSProperty('complete', true);
+      await expect.poll(() => image.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    }
+    await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
     await page.waitForTimeout(700);
     await expect(page.locator('main')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Something went wrong', exact: true })).toHaveCount(0);

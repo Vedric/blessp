@@ -45,15 +45,18 @@ async function completePendingLogout(): Promise<boolean> {
   if (getLogoutState() !== 'pending') return true;
   if (logoutPromise) return logoutPromise;
   logoutPromise = (async () => {
+    const controller = new AbortController();
+    const logoutTimeout = setTimeout(() => controller.abort(), 10000);
     try {
       const response = await fetch(`${BASE_URL}/auth/logout`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', signal: AbortSignal.timeout(10000),
+        credentials: 'include', signal: controller.signal,
       });
       if (!response.ok) return false;
       if (getLogoutState() === 'pending') setLogoutState('complete');
       return true;
     } catch { return false; }
+    finally { clearTimeout(logoutTimeout); }
   })().finally(() => { logoutPromise = null; });
   return logoutPromise;
 }

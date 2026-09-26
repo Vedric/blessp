@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { useEffect, useState, useRef, type FormEvent } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -351,7 +352,7 @@ export default function AdminProductEditPage() {
                       key={i}
                       className="group relative h-20 w-20 bg-neutral-50"
                     >
-                      <img
+                      <ProductImage compact
                         src={img}
                         alt={`Product image ${i + 1}`}
                         className="h-full w-full object-cover"
@@ -386,7 +387,7 @@ export default function AdminProductEditPage() {
             </label>
 
             {/* Actions */}
-            <div className="flex gap-4 border-t border-neutral-100 pt-8">
+            <div className="flex flex-col gap-4 border-t border-neutral-100 pt-8 sm:flex-row">
               <button
                 type="submit"
                 disabled={isSaving}

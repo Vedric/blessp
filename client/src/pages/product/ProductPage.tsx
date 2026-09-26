@@ -15,6 +15,7 @@ import { ReviewSection } from '@/components/product/ReviewSection';
 import { SocialShare } from '@/components/product/SocialShare';
 import { CompleteLook } from '@/components/product/CompleteLook';
 import { CompareButton } from '@/components/common/CompareButton';
+import { ProductImage } from '@/components/common/ProductImage';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import type { Product, ProductVariant, PaginatedResponse } from '@/lib/types';
@@ -520,7 +521,7 @@ export default function ProductPage() {
                 <WishlistButton productId={related.id} />
                 <Link to={`/products/${related.id}`} className="group block">
                   <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
-                    <img
+                    <ProductImage
                       src={related.picture || related.images?.[0]}
                       alt={related.name}
                       className="h-full w-full scale-[1.02] bg-neutral-100 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"

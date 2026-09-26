@@ -81,8 +81,8 @@ for (const language of ['en', 'fr']) test(`complete UI signup, verification, car
   expect(await page.evaluate(() => localStorage.getItem('blessp_guest_cart'))).toBeNull();
   expect(await db.coupon.count({ where: { userId: user.id, campaign: 'welcome' } })).toBe(1);
   const cookies = await context.cookies(); expect(cookies.some(c => c.httpOnly && c.sameSite === 'Strict')).toBe(true);
-  const sibling = await context.newPage(); await preferences(sibling, language); await sibling.goto('/profile'); await expect(sibling.locator('main')).toContainText(email); await sibling.close();
-  await page.reload(); await expect(page.locator('main')).toContainText(email);
+  const sibling = await context.newPage(); await preferences(sibling, language); await sibling.goto('/profile', { waitUntil: 'domcontentloaded' }); await expect(sibling.locator('main')).toContainText(email); await sibling.close();
+  await page.bringToFront(); await page.reload({ waitUntil: 'domcontentloaded' }); await expect(page.locator('main')).toContainText(email);
   await page.getByRole('button', { name: /sign out|déconnexion/i }).first().click(); await page.goto('/profile'); await expect(page).toHaveURL(/\/signin/);
   await page.goto('/checkout'); await expect(page).toHaveURL(/\/shop$/);
   await login(page, email); await page.goto('/checkout'); await expect(page).toHaveURL(/\/checkout$/); await expect(page.locator('main')).toContainText('Classic Black Hoodie');

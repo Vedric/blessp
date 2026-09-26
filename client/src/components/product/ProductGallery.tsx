@@ -1,4 +1,5 @@
 import { useId, useRef, useState } from 'react';
+import { ProductImage } from '@/components/common/ProductImage';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, ImageOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -18,11 +19,11 @@ export function ProductGallery({ name, images }: { name: string; images: string[
   if (!images.length) return <div className="flex aspect-[3/4] items-center justify-center gap-3 bg-neutral-100 text-neutral-600"><ImageOff aria-hidden="true" />{t('product.imageUnavailable')}</div>;
   return <>
     <button onClick={() => { setZoomed(false); setOpen(true); }} aria-label={t('gallery.open', { name })} className="group relative block aspect-[3/4] w-full overflow-hidden bg-[#efeee9] text-left">
-      <img src={images[selected]} alt={name} decoding="async" className="h-full w-full object-cover" />
+      <ProductImage src={images[selected]} alt={name} loading="eager" className="h-full w-full object-cover" />
       <span className="absolute bottom-4 right-4 flex min-h-11 items-center gap-2 rounded-full bg-white px-4 py-2 text-xs text-neutral-900 shadow-sm"><ZoomIn className="h-4 w-4" aria-hidden="true" />{t('gallery.enlarge')}</span>
     </button>
     {images.length > 1 && <div className="mt-4 flex flex-wrap gap-2" aria-label={t('gallery.views')}>
-      {images.map((src, index) => <button key={`${src}-${index}`} onClick={() => select(index)} aria-label={t('gallery.view', { number: index + 1 })} aria-pressed={selected === index} className={cn('h-16 w-16 overflow-hidden border-2 sm:h-20 sm:w-20', selected === index ? 'border-neutral-900' : 'border-transparent hover:border-neutral-400')}><img src={src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /></button>)}
+      {images.map((src, index) => <button key={`${src}-${index}`} onClick={() => select(index)} aria-label={t('gallery.view', { number: index + 1 })} aria-pressed={selected === index} className={cn('h-16 w-16 overflow-hidden border-2 sm:h-20 sm:w-20', selected === index ? 'border-neutral-900' : 'border-transparent hover:border-neutral-400')}><ProductImage src={src} alt="" className="h-full w-full object-cover" /></button>)}
     </div>}
     {open && createPortal(
       <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 p-2 sm:p-6" onClick={() => setOpen(false)}>
@@ -36,7 +37,7 @@ export function ProductGallery({ name, images }: { name: string; images: string[
             <button onClick={() => { setOpen(false); setZoomed(false); }} aria-label={t('gallery.close')} className="flex h-11 w-11 shrink-0 items-center justify-center"><X className="h-5 w-5" aria-hidden="true" /></button>
           </div>
           <div ref={viewport} role={zoomed ? 'region' : undefined} className="min-h-0 flex-1 overflow-auto bg-white" tabIndex={zoomed ? 0 : undefined} aria-label={zoomed ? t('gallery.pan') : undefined}>
-            <img src={images[selected]} alt={t('gallery.imageAlt', { name, number: selected + 1 })} className={zoomed ? 'mx-auto w-[160%] max-w-none' : 'mx-auto h-[65svh] max-h-[720px] w-full object-contain'} />
+            <ProductImage src={images[selected]} alt={t('gallery.imageAlt', { name, number: selected + 1 })} loading="eager" className={zoomed ? 'mx-auto w-[160%] max-w-none' : 'mx-auto h-[65svh] max-h-[720px] w-full object-contain'} />
           </div>
           <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-neutral-200 px-3 py-3 sm:px-6">
             <button onClick={() => setZoomed(value => !value)} aria-pressed={zoomed} className="flex min-h-11 items-center gap-2 px-2 text-xs text-neutral-900">{zoomed ? <ZoomOut className="h-4 w-4" aria-hidden="true" /> : <ZoomIn className="h-4 w-4" aria-hidden="true" />}{zoomed ? t('gallery.zoomOut') : t('gallery.zoomIn')}</button>

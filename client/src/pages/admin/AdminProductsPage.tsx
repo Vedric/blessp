@@ -1,3 +1,4 @@
+import { ProductImage } from '@/components/common/ProductImage';
 import { Pagination } from '@/components/common/Pagination';
 import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { useEffect, useState, useCallback, useRef } from 'react';
@@ -191,13 +192,11 @@ export default function AdminProductsPage() {
                   )}
                 >
                   <div className="h-16 w-16 flex-shrink-0 bg-neutral-50">
-                    {product.picture && (
-                      <img
-                        src={product.picture}
-                        alt={product.name}
-                        className="h-full w-full object-cover"
-                      />
-                    )}
+                    <ProductImage compact
+                      src={product.picture}
+                      alt={product.name}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
 
                   <div className="flex-1 min-w-0">

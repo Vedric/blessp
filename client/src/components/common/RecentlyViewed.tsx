@@ -6,6 +6,7 @@ import { api } from '@/lib/api';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import type { Product } from '@/lib/types';
+import { ProductImage } from './ProductImage';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -101,7 +102,7 @@ export function RecentlyViewed() {
             >
               <Link to={`/products/${product.id}`} className="group block">
                 <div className="aspect-[3/4] overflow-hidden bg-neutral-50">
-                  <img
+                  <ProductImage
                     src={product.picture || product.images?.[0]}
                     alt={product.name}
                     loading="lazy"
