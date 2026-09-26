@@ -100,6 +100,9 @@ export function createApp(): express.Application {
   app.use('/api/v1', globalRateLimiter, apiRouter);
 
   // Compress only public static responses; secrets in API responses stay uncompressed.
+  // A 304 has no Content-Type, so compression's filter skips it. Preserve the
+  // same cache variants as the original 200 response before that filter runs.
+  app.use((_req, res, next) => { res.vary('Accept-Encoding'); next(); });
   app.use(compression());
 
   // Serve client static files in production

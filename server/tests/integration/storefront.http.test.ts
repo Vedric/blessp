@@ -7,6 +7,7 @@ import express from 'express';
 import { prisma, setupTestDatabase, cleanDatabase, teardownTestDatabase } from '../helpers/test.setup';
 import { storefrontRouter } from '../../src/core/storefront/router';
 import { Env } from '../../src/core/config/env';
+import { createApp } from '../../src/app';
 
 const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'blessp-html-test-'));
 fs.writeFileSync(path.join(directory, 'index.html'), fs.readFileSync(path.resolve(__dirname, '../../../client/index.html'), 'utf8'));
@@ -14,6 +15,14 @@ fs.writeFileSync(path.join(directory, 'index.html'), fs.readFileSync(path.resolv
 const app = express();
 app.use(storefrontRouter(directory));
 app.use((_req, res) => res.sendStatus(404));
+// Exercise compression and CORS in the production middleware order as well.
+const previousStaticDir = process.env.STATIC_DIR;
+process.env.STATIC_DIR = directory;
+const compressedApp = createApp();
+if (previousStaticDir === undefined) delete process.env.STATIC_DIR;
+else process.env.STATIC_DIR = previousStaticDir;
+fs.mkdirSync(path.join(directory, 'assets'));
+fs.writeFileSync(path.join(directory, 'assets/cache-check.js'), '/* cache validation */\n'.repeat(200));
 const origin = new URL(Env.CLIENT_URL).origin;
 beforeAll(setupTestDatabase);
 afterEach(cleanDatabase);
@@ -21,6 +30,27 @@ afterAll(async () => { await teardownTestDatabase(); fs.rmSync(directory, { recu
 async function product(data = {}) {
   return prisma.product.create({ data: { name: 'Public hoodie', price: 5995, description: 'Premium cotton & comfort', picture: '/img/black_hoody_1.jpeg', ...data } });
 }
+
+it.each(['/shop', '/assets/cache-check.js'])('preserves cache variants when revalidating compressed %s', async (route) => {
+  const initial = await request(compressedApp).get(route).set('Accept-Encoding', 'gzip').expect(200);
+  expect(initial.headers['content-encoding']).toBe('gzip');
+  expect(initial.headers.vary).toMatch(/Accept-Encoding/i);
+  expect(initial.headers.vary).toMatch(/Origin/i);
+  expect(initial.headers.etag).toBeTruthy();
+
+  for (const method of ['get', 'head'] as const) {
+    const unchanged = await request(compressedApp)[method](route)
+      .set('Accept-Encoding', 'gzip').set('If-None-Match', initial.headers.etag).expect(304);
+    expect(unchanged.headers.vary).toBe(initial.headers.vary);
+    expect(unchanged.headers.etag).toBe(initial.headers.etag);
+    expect(unchanged.headers['cache-control']).toBe(initial.headers['cache-control']);
+    expect(unchanged.text || '').toBe('');
+  }
+
+  const fresh = await request(compressedApp).get(route).set('Accept-Encoding', 'identity').expect(200);
+  expect(fresh.headers['content-encoding']).toBeUndefined();
+  expect(fresh.text).toBe(initial.text);
+});
 
 it('sends product-specific title, description, price and absolute sharing URLs before JavaScript', async () => {
   const item = await product();
