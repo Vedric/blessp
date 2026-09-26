@@ -28,19 +28,35 @@ async function login(page: Page) {
 test('three tabs can renew the shared session concurrently and reloads after logout are anonymous', async ({ page, context }) => {
   const user = await login(page);
   const second = await context.newPage(), third = await context.newPage();
+  const tabs = [page, second, third];
+  const authenticatedResponses = () => tabs.map(async tab => {
+    const response = await tab.waitForResponse(response => response.url().endsWith('/auth/me'));
+    expect(response.ok()).toBe(true);
+    expect((await response.json()).data).toMatchObject({ id: user.id, email: user.email });
+  });
+  const inspectProfiles = async () => {
+    for (const tab of tabs) {
+      // Firefox may defer rendering in background tabs even after /auth/me
+      // succeeds. Activate each tab as a user would before inspecting its UI.
+      await tab.bringToFront();
+      await expect(tab).toHaveURL(/\/profile$/);
+      await expect(tab.locator('main')).toContainText(user.email);
+    }
+  };
   try {
-    // Background tabs can delay the load event; assert the usable authenticated UI.
-    await Promise.all([page.reload({ waitUntil: 'domcontentloaded' }), second.goto('/profile', { waitUntil: 'domcontentloaded' }), third.goto('/profile', { waitUntil: 'domcontentloaded' })]);
-    for (const tab of [page, second, third]) { await expect(tab).toHaveURL(/\/profile$/); await expect(tab.locator('main')).toContainText(user.email); }
-    await Promise.all([page, second, third].map(tab => tab.reload({ waitUntil: 'domcontentloaded' })));
-    for (const tab of [page, second, third]) await expect(tab.locator('main')).toContainText(user.email);
+    // Register response checks before starting all three navigations together.
+    await Promise.all([...authenticatedResponses(), page.reload({ waitUntil: 'domcontentloaded' }), second.goto('/profile', { waitUntil: 'domcontentloaded' }), third.goto('/profile', { waitUntil: 'domcontentloaded' })]);
+    await inspectProfiles();
+    await Promise.all([...authenticatedResponses(), ...tabs.map(tab => tab.reload({ waitUntil: 'domcontentloaded' }))]);
+    await inspectProfiles();
     for (const tab of [second, third]) await tab.evaluate(() => { sessionStorage.setItem('blessp_checkout_pending', 'synthetic'); sessionStorage.setItem('blessp_checkout_attempt', 'synthetic'); });
+    await page.bringToFront();
     const signedOut = page.waitForResponse(response => response.url().endsWith('/auth/logout') && response.request().method() === 'POST');
     await page.getByRole('button', { name: /sign out/i }).first().click(); expect((await signedOut).ok()).toBe(true);
-    for (const tab of [second, third]) { await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
+    for (const tab of [second, third]) { await tab.bringToFront(); await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
     for (const tab of [second, third]) expect(await tab.evaluate(() => [sessionStorage.getItem('blessp_checkout_pending'), sessionStorage.getItem('blessp_checkout_attempt')])).toEqual([null, null]);
     await Promise.all([second, third].map(tab => tab.reload({ waitUntil: 'domcontentloaded' })));
-    for (const tab of [second, third]) { await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
+    for (const tab of [second, third]) { await tab.bringToFront(); await expect(tab).toHaveURL(/\/signin/); await expect(tab.locator('main')).not.toContainText(user.email); }
     expect(await db.refreshToken.count({ where: { userId: user.id } })).toBe(0);
   } finally { await second.close(); await third.close(); }
 });
