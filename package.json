@@ -21,11 +21,13 @@
     "build:test": "node scripts/build-e2e.cjs",
     "check:launch": "node scripts/check-launch.cjs",
     "catalogue:check": "node scripts/check-catalogue.cjs",
+    "assets:home": "node scripts/optimize-home-media.cjs",
     "test:scripts": "node --test scripts/tests/*.test.cjs",
     "test:load": "node scripts/load-commerce.cjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
-    "lighthouse": "13.4.1"
+    "lighthouse": "13.4.1",
+    "sharp": "0.35.4"
   }
 }

@@ -120,6 +120,9 @@ export function storefrontRouter(publicPath: string): Router {
     if (pathname === '/shop' && Object.keys(req.query).some((key) => !['page', 'utm_source', 'utm_medium', 'utm_campaign'].includes(key))) indexable = false;
     const robots = indexable ? 'index, follow' : 'noindex, follow';
     const metadata = [
+      // The cover is the home page's largest visible element. Discover
+      // it with the HTML, without fetching it on unrelated landing pages.
+      ...(pathname === '/' ? ['<link rel="preload" as="image" href="/img/blessp_story-cover.webp" type="image/webp" fetchpriority="high">'] : []),
       `<title>${escapeHtml(title)}</title>`,
       `<meta name="description" content="${escapeHtml(description)}">`,
       `<meta name="robots" content="${robots}">`,

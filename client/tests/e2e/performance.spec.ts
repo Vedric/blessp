@@ -8,6 +8,56 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test('the mobile cover loads before JavaScript and is reused throughout the page', async ({ page, browser, baseURL }, testInfo) => {
+  const poster = '/img/blessp_story-cover.webp';
+  // Routing disables the HTTP cache. Use a separate script-free context to
+  // check early discovery, then inspect reuse with the normal browser cache.
+  const staticContext = await browser.newContext({ baseURL, javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  try {
+    const shell = await staticContext.newPage();
+    const coverResponse = shell.waitForResponse(response => new URL(response.url()).pathname === poster);
+    const [, response] = await Promise.all([shell.goto('/'), coverResponse]);
+    expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toContain('image/webp');
+    expect((await response.body()).length).toBeGreaterThan(0);
+    await expect(shell.locator('main')).toHaveCount(0);
+  } finally { await staticContext.close(); }
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const images: string[] = [];
+  page.on('request', request => {
+    const pathname = new URL(request.url()).pathname;
+    if (pathname.startsWith('/img/blessp_story')) images.push(pathname);
+  });
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'BLE$$ P', exact: true })).toBeVisible();
+  const cover = page.locator('.campaign-hero > img');
+  await expect(cover).toBeVisible();
+  await expect.poll(() => cover.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0 && new URL(image.currentSrc).pathname)).toBe(poster);
+  await expect(page.locator('video')).toHaveCSS('opacity', '0');
+  await expect(page.locator('video source')).toHaveCount(0);
+  await testInfo.attach('mobile-cover', { body: await page.screenshot(), contentType: 'image/png' });
+  const story = page.getByAltText('BLE$$ P community gathered at a brand showroom, wearing signature hoodies and tracksuits');
+  await story.scrollIntoViewIfNeeded();
+  await expect.poll(() => story.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0 && new URL(image.currentSrc).pathname)).toBe(poster);
+  expect(images).toEqual([poster]);
+});
+
+test('an unavailable optimized cover falls back to the original photo', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.route('**/img/blessp_story-cover.webp', route => route.fulfill({ status: 503, body: 'Synthetic image outage' }));
+  await page.goto('/');
+  const cover = page.locator('.campaign-hero > img');
+  await expect.poll(() => cover.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0 && new URL(image.currentSrc).pathname)).toBe('/img/blessp_story.jpeg');
+  await expect(page.locator('video')).toHaveCSS('opacity', '0');
+  const story = page.getByAltText('BLE$$ P community gathered at a brand showroom, wearing signature hoodies and tracksuits');
+  await story.scrollIntoViewIfNeeded();
+  await expect.poll(() => story.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0 && new URL(image.currentSrc).pathname)).toBe('/img/blessp_story.jpeg');
+  await page.getByRole('link', { name: 'Shop Collection', exact: true }).click();
+  await expect(page).toHaveURL(/\/shop$/);
+  await expect(page.getByRole('article').first()).toBeVisible();
+});
+
 test('loads filter facets once for both desktop and mobile controls', async ({ page }) => {
   let requests = 0;
   page.on('request', r => { if (r.url().endsWith('/products/filters')) requests++; });

@@ -31,6 +31,17 @@ async function product(data = {}) {
   return prisma.product.create({ data: { name: 'Public hoodie', price: 5995, description: 'Premium cotton & comfort', picture: '/img/black_hoody_1.jpeg', ...data } });
 }
 
+it('makes the home cover discoverable before JavaScript without preloading it on other routes', async () => {
+  const home = await request(app).get('/?utm_source=campaign').expect(200);
+  const imagePreloads = (html: string) => (html.match(/<link\b[^>]*>/g) || []).filter(tag => /rel="preload"/.test(tag) && /as="image"/.test(tag));
+  expect(imagePreloads(home.text)).toEqual(['<link rel="preload" as="image" href="/img/blessp_story-cover.webp" type="image/webp" fetchpriority="high">']);
+  const item = await product();
+  for (const route of ['/shop', '/signin', `/products/${item.id}`, '/missing-page']) {
+    const response = await request(app).get(route).expect(route === '/missing-page' ? 404 : 200);
+    expect(imagePreloads(response.text)).toEqual([]);
+  }
+});
+
 it.each(['/shop', '/assets/cache-check.js'])('preserves cache variants when revalidating compressed %s', async (route) => {
   const initial = await request(compressedApp).get(route).set('Accept-Encoding', 'gzip').expect(200);
   expect(initial.headers['content-encoding']).toBe('gzip');
