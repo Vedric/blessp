@@ -44,6 +44,10 @@ Cette photo déjà préchargée n’utilise donc plus `loading="lazy"`.
 Les autres images gardent leur chargement différé. Les en-têtes de cache et
 de sécurité restent inchangés.
 
+La revue relève aussi une ancienne hauteur déclarée de 1 536 pixels dans la
+section de présentation. Elle est corrigée à 1 574 pixels pour correspondre
+au fichier et réserver le bon rapport d’image avant son chargement.
+
 Le test de réutilisation laisse le cache natif actif. La découverte précoce est
 vérifiée dans un contexte distinct sans JavaScript. Cette séparation évite un
 biais du test : [l’interception des requêtes désactive le cache HTTP](https://playwright.dev/docs/api/class-page#page-route).
@@ -59,6 +63,9 @@ biais du test : [l’interception des requêtes désactive le cache HTTP](https:
   publiques. Les contrôles à 320, 390 et 1 440 px ne détectent ni débordement
   ni image cassée. Les audits axe des pages publiques ne signalent aucune
   violation. Les captures de l’accueil et du catalogue sont aussi inspectées.
+- Après la correction des dimensions, 12 contrôles supplémentaires réussissent
+  sur les trois moteurs. Ils couvrent les pages publiques à 390 et 1 440 px,
+  la réutilisation de la photo et son repli en cas de panne.
 - Une seule requête WebP et aucune requête JPEG exigées pour l’accueil sain,
   y compris après défilement vers la section de présentation.
 - Repli JPEG vérifié pour les deux emplacements avec une réponse WebP 503.
@@ -76,9 +83,9 @@ navigateur ne tourne pendant ces mesures.
 
 | Mesure mobile | Référence | Final 1 | Final 2 | Final 3 |
 | --- | ---: | ---: | ---: | ---: |
-| Performance | 78 | 85 | 85 | 85 |
-| LCP | 5 255 ms | 3 912 ms | 3 924 ms | 3 921 ms |
-| Octets transférés | 1 245 227 | 1 162 948 | 1 162 948 | 1 162 948 |
+| Performance | 78 | 85 | 85 | 84 |
+| LCP | 5 255 ms | 3 918 ms | 3 921 ms | 4 110 ms |
+| Octets transférés | 1 245 227 | 1 163 015 | 1 163 015 | 1 163 015 |
 | Décalage visuel CLS | 0 | 0 | 0 | 0 |
 
 Le LCP médian final est de 3 921 ms, soit une baisse de 25,4 % par rapport
