@@ -107,6 +107,26 @@ for (const width of [1440, 390]) {
   });
 }
 
+test('cached product documents keep rendering after repeat visits and reloads', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
+  const product = await catalogue();
+  const route = `/products/${product.id}`;
+  for (let visit = 0; visit < 4; visit++) {
+    const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
+    // Firefox exposes the 304 even when it successfully restores the cached body.
+    expect([200, 304]).toContain(response?.status());
+    expect(response?.headers().vary).toMatch(/Accept-Encoding/i);
+    await expect(page.getByRole('heading', { name: product.name, exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'M', exact: true }).click();
+    await expect(page.getByRole('button', { name: 'Add to Cart', exact: true }).first()).toBeEnabled();
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: product.name, exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'M', exact: true })).toBeVisible();
+    await page.goto('/compare', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: 'No products to compare', exact: true })).toBeVisible();
+  }
+});
+
 test('profile fields are labelled and edits persist after reload', async ({ page }) => {
   const user = await member(); await login(page, user.email); await page.goto('/profile');
   await page.getByRole('button', { name: 'Edit', exact: true }).click();

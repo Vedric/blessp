@@ -2,6 +2,9 @@ import { test, expect, type Page } from '@playwright/test';
 
 async function changeLanguage(page: Page, current: 'fr' | 'en', width: number) {
   const mobile = width < 768;
+  // The header hides when scrolling down. Reveal it before using its controls.
+  await page.mouse.wheel(0, -5000);
+  await expect(page.getByRole('banner')).toBeInViewport();
   if (mobile) await page.getByRole('button', { name: current === 'fr' ? 'Ouvrir le menu' : 'Open menu', exact: true }).click();
   const scope = mobile ? page.getByRole('dialog', { name: 'Menu', exact: true }) : page.getByRole('banner');
   await scope.getByRole('button', { name: current === 'fr' ? 'Choisir la langue' : 'Select language', exact: true }).click();
@@ -56,6 +59,8 @@ for (const width of [320, 1440]) test(`storefront controls follow language chang
   await password.fill('LocalizedPassword123!');
   await page.getByRole('button', { name: 'Show password', exact: true }).click();
   await expect(password).toHaveAttribute('type', 'text');
+  await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await expect(page.getByRole('banner')).not.toBeInViewport();
   await changeLanguage(page, 'en', width);
   await expect(password).toHaveValue('LocalizedPassword123!');
   await page.getByRole('button', { name: 'Masquer le mot de passe', exact: true }).click();
