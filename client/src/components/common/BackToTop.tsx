@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 
 export function BackToTop() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export function BackToTop() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.2 }}
-          aria-label="Scroll to top"
+          aria-label={t('common.scrollToTop')}
         >
           <ChevronUp className="h-5 w-5" />
         </motion.button>

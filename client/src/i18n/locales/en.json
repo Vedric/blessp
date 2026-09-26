@@ -120,7 +120,9 @@
     "retry": "Try again",
     "tryAgain": "Try again",
     "loadError": "Unable to load products. Please retry.",
-    "pagination": "Pagination"
+    "pagination": "Pagination",
+    "breadcrumb": "Breadcrumb",
+    "scrollToTop": "Scroll to top"
   },
   "nav": {
     "myProfile": "My Profile",
@@ -130,7 +132,9 @@
     "profile": "Profile",
     "orders": "Orders",
     "searchProducts": "Search products...",
-    "menu": "Menu"
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "home": {
     "pauseVideo": "Pause background video",
@@ -626,7 +630,8 @@
     "updateError": "Could not update your cart. Please try again.",
     "mergeError": "Some items could not be moved over to your cart.",
     "increaseQuantity": "Increase quantity",
-    "decreaseQuantity": "Decrease quantity"
+    "decreaseQuantity": "Decrease quantity",
+    "close": "Close cart"
   },
   "cookie": {
     "message": "Essential storage keeps your session and cart working. Optional personalization, including recently viewed products, is enabled only if you accept.",
@@ -639,7 +644,8 @@
     "title": "Search",
     "placeholder": "What are you looking for?",
     "viewAllResults": "View all results",
-    "noResults": "No results for \"{{query}}\""
+    "noResults": "No results for \"{{query}}\"",
+    "close": "Close search"
   },
   "sizeGuide": {
     "title": "Size Guide",
@@ -655,7 +661,8 @@
     "chestDesc": "Measure around the fullest part of your chest, keeping the tape level.",
     "waistDesc": "Measure around your natural waistline, just above the hip bone.",
     "hipsDesc": "Stand with feet together and measure around the fullest part of your hips.",
-    "inseamDesc": "Measure from the crotch seam to the bottom of the leg."
+    "inseamDesc": "Measure from the crotch seam to the bottom of the leg.",
+    "close": "Close size guide"
   },
   "compareDrawer": {
     "compare": "Compare ({{count}}/3)",
@@ -684,7 +691,9 @@
     "noReviews": "No reviews yet. Be the first to share your thoughts.",
     "loadMore": "Load More Reviews",
     "review": "review",
-    "reviewPlural": "reviews"
+    "reviewPlural": "reviews",
+    "star_one": "{{count}} star",
+    "star_other": "{{count}} stars"
   },
   "completeLook": {
     "title": "Complete the Look",
@@ -712,7 +721,8 @@
     "showResults": "Show Results",
     "minPrice": "Minimum price",
     "maxPrice": "Maximum price",
-    "remove": "Remove filter: {{label}}"
+    "remove": "Remove filter: {{label}}",
+    "to": "to"
   },
   "footer": {
     "brandDesc": "Luxury streetwear for those who move with purpose. Every piece is crafted from premium materials, designed to elevate your everyday.",
@@ -1087,7 +1097,8 @@
   },
   "language": {
     "en": "English",
-    "fr": "Francais"
+    "fr": "Francais",
+    "select": "Select language"
   },
   "gallery": {
     "open": "Enlarge photos of {{name}}",
@@ -1187,5 +1198,15 @@
     "failed": "The refund request failed. Check the order status before trying again.",
     "pending": "The request was sent. The payment provider will confirm the refund status.",
     "stock": "This action does not restock returned items. Inspect them before adjusting inventory."
+  },
+  "currency": {
+    "select": "Select currency"
+  },
+  "socialShare": {
+    "label": "Share",
+    "text": "Check out {{name}} from BLE$$ P",
+    "platform": "Share on {{platform}}",
+    "copyLink": "Copy link",
+    "copied": "Copied!"
   }
 }

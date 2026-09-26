@@ -73,7 +73,7 @@ export function SizeGuide({ isOpen, onClose }: SizeGuideProps) {
                 <button
                   onClick={onClose}
                   className="flex h-11 w-11 items-center justify-center text-neutral-500 transition-colors hover:text-neutral-900"
-                  aria-label="Close size guide"
+                  aria-label={t('sizeGuide.close')}
                 >
                   <X size={20} />
                 </button>

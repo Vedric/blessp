@@ -13,7 +13,7 @@ const languages: LanguageOption[] = [
 ];
 
 export function LanguageSwitcher({ placement = 'below' }: { placement?: 'above' | 'below' }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -43,7 +43,7 @@ export function LanguageSwitcher({ placement = 'below' }: { placement?: 'above' 
         aria-controls={isOpen ? optionsId : undefined}
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-5 items-center text-[13px] font-medium tracking-wider text-neutral-600 transition-colors hover:text-neutral-900"
-        aria-label="Select language"
+        aria-label={t('language.select')}
       >
         {current.label}
       </button>

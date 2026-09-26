@@ -92,7 +92,7 @@ export function Header() {
             <button
               onClick={() => setMobileMenuOpen(true)}
               className="text-neutral-700 transition-colors hover:text-neutral-900 md:hidden"
-              aria-label="Open menu"
+              aria-label={t('nav.openMenu')}
             >
               <Menu size={22} />
             </button>
@@ -131,7 +131,7 @@ export function Header() {
             <button
               onClick={() => setSearchOpen(true)}
               className="text-neutral-600 transition-colors hover:text-neutral-900"
-              aria-label="Search"
+              aria-label={t('common.search')}
             >
               <Search size={20} />
             </button>
@@ -145,7 +145,7 @@ export function Header() {
                     : navigate('/signin')
                 }
                 className="text-neutral-600 transition-colors hover:text-neutral-900"
-                aria-label="Account"
+                aria-label={t('common.account')}
               >
                 <User size={20} />
               </button>
@@ -211,7 +211,7 @@ export function Header() {
             <Link
               to={isAuthenticated ? '/wishlist' : '/signin'}
               className="relative text-neutral-600 transition-colors hover:text-neutral-900"
-              aria-label="Wishlist"
+              aria-label={t('common.wishlist')}
             >
               <Heart size={20} />
               {wishlistCount > 0 && (
@@ -225,7 +225,7 @@ export function Header() {
             <button
               onClick={openCart}
               className="relative text-neutral-600 transition-colors hover:text-neutral-900"
-              aria-label="Cart"
+              aria-label={t('common.cart')}
             >
               <ShoppingBag size={20} />
               {itemCount > 0 && (
@@ -264,7 +264,7 @@ export function Header() {
                 </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  aria-label="Close menu"
+                  aria-label={t('nav.closeMenu')}
                   className="text-neutral-500 hover:text-neutral-900"
                 >
                   <X size={22} />

@@ -96,7 +96,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 <button
                   onClick={onClose}
                   className="flex h-11 w-11 items-center justify-center text-neutral-500 transition-colors hover:text-neutral-900"
-                  aria-label="Close search"
+                  aria-label={t('searchOverlay.close')}
                 >
                   <X size={20} />
                 </button>

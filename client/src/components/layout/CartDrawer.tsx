@@ -54,7 +54,7 @@ export function CartDrawer() {
               <button
                 onClick={closeCart}
                 className="text-neutral-500 transition-colors duration-200 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07a52] focus-visible:ring-offset-2"
-                aria-label="Close cart"
+                aria-label={t('cart.close')}
               >
                 <X size={20} />
               </button>
@@ -114,7 +114,7 @@ export function CartDrawer() {
                                     : updateQuantity(item.id, item.quantity - 1)
                                 }
                                 className="flex h-7 w-7 items-center justify-center border border-neutral-200 text-neutral-600 transition-all duration-200 hover:border-neutral-400 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07a52]"
-                                aria-label="Decrease quantity"
+                                aria-label={t('cart.decreaseQuantity')}
                               >
                                 <Minus size={12} />
                               </button>
@@ -126,7 +126,7 @@ export function CartDrawer() {
                                   updateQuantity(item.id, item.quantity + 1)
                                 }
                                 className="flex h-7 w-7 items-center justify-center border border-neutral-200 text-neutral-600 transition-all duration-200 hover:border-neutral-400 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a07a52]"
-                                aria-label="Increase quantity"
+                                aria-label={t('cart.increaseQuantity')}
                               >
                                 <Plus size={12} />
                               </button>

@@ -89,7 +89,7 @@ export function CompareDrawer() {
                       <button
                         onClick={() => removeFromCompare(id)}
                         className="absolute -right-1.5 -top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-neutral-900 text-white transition-opacity"
-                        aria-label="Remove from comparison"
+                        aria-label={t('compare.remove')}
                       >
                         <X size={10} />
                       </button>
